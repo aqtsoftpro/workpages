@@ -46,11 +46,12 @@ class AdminCmsController extends Controller
     }
 
 
-    public function edit(Cms $cms)
+    public function edit($id)
     {
-        $this->authorize('update', Cms::class);
 
-        $record = $cms;
+        $record = Cms::findOrFail($id);
+        
+        $this->authorize('update', $record);
 
         return view('admin.cms.edit', compact('record'));
     }
