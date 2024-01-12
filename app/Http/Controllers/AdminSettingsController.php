@@ -39,7 +39,7 @@ class AdminSettingsController extends Controller
 
     public function update_main_settings(Request $request){
 
-        $this->authorize('update', SiteSettings::class);
+        $this->authorize('create', SiteSettings::class);
 
         $settings = $request->input('setting', []);
    
@@ -185,7 +185,7 @@ class AdminSettingsController extends Controller
 
     public function design_settings(){
 
-        $this->authorize('update', SiteSettings::class);
+        $this->authorize('create', SiteSettings::class);
 
         $settings = SiteSettings::select('meta_key', 'meta_val')->get()->keyBy('meta_key')->toArray();
 
@@ -194,7 +194,7 @@ class AdminSettingsController extends Controller
 
     public function social_media_settings()
     {
-        $this->authorize('update', SiteSettings::class);
+        $this->authorize('create', SiteSettings::class);
 
         $settings = SiteSettings::select('meta_key', 'meta_val')->get()->keyBy('meta_key')->toArray();
 
@@ -202,7 +202,7 @@ class AdminSettingsController extends Controller
     }
 
     public function payment_settings(){
-        $this->authorize('update', SiteSettings::class);
+        $this->authorize('create', SiteSettings::class);
 
         $settings = SiteSettings::select('meta_key', 'meta_val')->get()->keyBy('meta_key')->toArray();
 
@@ -211,7 +211,7 @@ class AdminSettingsController extends Controller
 
     
     public function notification_settings(){
-        $this->authorize('update', SiteSettings::class);
+        $this->authorize('create', SiteSettings::class);
 
         $settings = SiteSettings::select('meta_key', 'meta_val')->get()->keyBy('meta_key')->toArray();
 
@@ -252,19 +252,19 @@ class AdminSettingsController extends Controller
     }
 
     public function newsletter_settings(){
-        $this->authorize('update', SiteSettings::class);
+        $this->authorize('create', SiteSettings::class);
         $settings = SiteSettings::select('meta_key', 'meta_val')->get()->keyBy('meta_key')->toArray();
         return view('admin.settings.newsletter_settings',  compact('settings'));
     }
 
     public function sms_settings(){
-        $this->authorize('update', SiteSettings::class);
+        $this->authorize('create', SiteSettings::class);
         $settings = SiteSettings::select('meta_key', 'meta_val')->get()->keyBy('meta_key')->toArray();
         return view('admin.settings.sms_settings',  compact('settings'));
     }
 
     public function slider_settings(){
-        $this->authorize('update', SiteSettings::class);
+        $this->authorize('create', SiteSettings::class);
         $settings = SiteSettings::select('meta_key', 'meta_val')->get()->keyBy('meta_key')->toArray();
         return view('admin.settings.slider_settings',  compact('settings'));
     }
@@ -272,7 +272,7 @@ class AdminSettingsController extends Controller
 
     
     public function job_seeker_settings(){
-        $this->authorize('update', SiteSettings::class);
+        $this->authorize('create', SiteSettings::class);
         $settings = SiteSettings::select('meta_key', 'meta_val')->get()->keyBy('meta_key')->toArray();
         return view('admin.settings.job_seeker_settings',  compact('settings'));
     }

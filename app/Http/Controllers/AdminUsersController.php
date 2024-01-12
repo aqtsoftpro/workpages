@@ -11,23 +11,20 @@ use Spatie\Permission\Models\Role;
 class AdminUsersController extends Controller
 {
     public function index(){
-
+        $this->authorize('viewAny', User::class);
         $job_seekers =  Role::find(2)->users;
         return view('admin.users.index', compact('job_seekers'));
     }
 
     public function companies() {
-
+        $this->authorize('viewAny', User::class);
         $employers =  Role::find(3)->users()->with('company')->get();
         return view('admin.users.companies', compact('employers'));
     }
 
     public function admin_users() {
-
-
-
+        $this->authorize('viewAny', Role::class);
         $roles =  Role::get()->toArray();
-
         $admin_user = array();
         foreach($roles as $role)
         {
@@ -46,6 +43,7 @@ class AdminUsersController extends Controller
 
     public function create()
     {
+        $this->authorize('create', User::class);
 
         $roles = Role::get();
 
@@ -55,6 +53,7 @@ class AdminUsersController extends Controller
     public function store(Request $request)
 
     {
+        $this->authorize('create', User::class);
         $hased_passwoed = bcrypt($request['password']);
         $request['password'] = $hased_passwoed;
 
@@ -101,24 +100,22 @@ class AdminUsersController extends Controller
         }
     }
 
-    public function edit(string $id)
+    public function edit(User $user)
     {
-        $record = User::find($id);
+        $this->authorize('create', User::class);
+
+        $record = $user;
 
         $user_roles = Role::get();
 
-
-        $user = User::find($id);
-
-
-
+        $user = $user;
 
         return view('admin.users.edit', compact('record', 'user_roles'));
     }
 
-    public function update(Request $request, string $id)
+    public function update(Request $request, User $user)
     {
-        $update_user = User::find($id);
+        $update_user = $user;
 
         if($request['password'] != '')
         {
@@ -159,9 +156,9 @@ class AdminUsersController extends Controller
             }
     }
 
-    public function destroy(string $id)
+    public function destroy(User $user)
     {
-        $deleted_rec = User::find($id);
+        $deleted_rec = $user;
 
         if(User::destroy($id)) {
 

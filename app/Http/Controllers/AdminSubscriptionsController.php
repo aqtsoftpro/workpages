@@ -10,20 +10,23 @@ use Illuminate\Http\Request;
 class AdminSubscriptionsController extends Controller
 {
     public function index(){
-        
-        $records = Subscription::all();
-        
+        $this->authorize('viewAny', Package::class);
 
+        $records = Subscription::all();
         return  view('admin.subscriptions.index', compact('records'));
     }
 
     public function create()
     {
+        $this->authorize('create', Package::class);
+
         return view('admin.subscriptions.create');
     }
 
     public function store(Request $request)
     {
+        $this->authorize('create', Package::class);
+
         $added_rec = Package::create($request->all());
 
         if($added_rec)
@@ -38,15 +41,19 @@ class AdminSubscriptionsController extends Controller
         }
     }
 
-    public function edit(string $id)
+    public function edit(Package $package)
     {
-        $record = Package::find($id);
+        $this->authorize('update', $package);
+
+        $record = $package;
 
         return view('admin.subscriptions.edit', compact('record'));
     }
 
-    public function update(Request $request, string $id)
+    public function update(Request $request, Package $package)
     {
+        $this->authorize('update', Package::class);
+
         $location = Package::find($id);
 
         if($location->update($request->all()))
@@ -59,9 +66,9 @@ class AdminSubscriptionsController extends Controller
             }
     }
 
-    public function destroy(string $id)
+    public function destroy(Package $package)
     {
-        $deleted_rec = Package::find($id);
+        $deleted_rec = $package;
 
         if(Package::destroy($id)) {
 
