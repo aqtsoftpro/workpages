@@ -18,6 +18,7 @@ class AdminJobsController extends Controller
 
     public function index()
     {
+        $this->authorize('viewAny', Job::class);
         $records_closed = Job::whereDate('expiration', '<=' , Carbon::now()
                             ->format('Y-m-d'))
                             // ->where('status', 'inactive')
@@ -41,15 +42,19 @@ class AdminJobsController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit($id)
+    public function edit(Job $job)
     {
-        $record = Job::find($id);
+        $this->authorize('update', $job);
+
+        $record = $job;
 
         return view('admin.jobs.edit', compact('record'));
     }
 
-    public function update(Request $request, string $id)
+    public function update(Request $request, Job $job)
     {
+        $this->authorize('update', $job);
+
         $job =  Job::where('id', $id)
        ->update([
            'status' => $request->status
@@ -74,6 +79,9 @@ class AdminJobsController extends Controller
 
     public function change_status(Request $request){
         $job = Job::find($request->job_id);
+
+        $this->authorize('update', $job);
+        
         $job->status = $request->status;
         $job->save();
         return redirect()->back();

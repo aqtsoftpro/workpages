@@ -9,6 +9,8 @@ class AdminPackagesController extends Controller
 {
     public function index(){
 
+        $this->authorize('viewAny', Package::class);
+
         $records = Package::all();
 
         return  view('admin.packages.index', compact('records'));
@@ -16,11 +18,15 @@ class AdminPackagesController extends Controller
 
     public function create()
     {
+        $this->authorize('create', Package::class);
+
         return view('admin.packages.create');
     }
 
     public function store(Request $request)
     {
+        $this->authorize('create', Package::class);
+
         $added_rec = Package::create($request->all());
 
         if($added_rec)
@@ -35,16 +41,20 @@ class AdminPackagesController extends Controller
         }
     }
 
-    public function edit(string $id)
+    public function edit(Package $package)
     {
-        $record = Package::find($id);
+        $this->authorize('update', $package);
+
+        $record = $package;
 
         return view('admin.packages.edit', compact('record'));
     }
 
-    public function update(Request $request, string $id)
+    public function update(Request $request, Package $package)
     {
-        $location = Package::find($id);
+        $this->authorize('update', $package);
+
+        $location = $package;
 
         if($location->update($request->all()))
             {
@@ -56,9 +66,11 @@ class AdminPackagesController extends Controller
             }
     }
 
-    public function destroy(string $id)
+    public function destroy(Package $package)
     {
-        $deleted_rec = Package::find($id);
+        $this->authorize('delete', $package);
+
+        $deleted_rec = $package;
 
         if(Package::destroy($id)) {
 

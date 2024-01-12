@@ -12,9 +12,11 @@ use Illuminate\Support\Str;
 class AdminPermissionsController extends Controller
 {
     public function index(){
-        
+
+        $this->authorize('viewAny', Permission::class);
         // DB::enableQueryLog();
-        $records = Permission::all();
+        $records = Permission::with('permissionCategory')->get();
+        // dd($records);
         // $query = DB::getQueryLog();
         // dd($query);
         
@@ -33,6 +35,7 @@ class AdminPermissionsController extends Controller
 
     public function create()
     {
+        $this->authorize('create', Permission::class);
 
         $permission_categories = PermissionsCategories::all();
 
@@ -41,6 +44,7 @@ class AdminPermissionsController extends Controller
 
     public function store(Request $request)
     {   
+        $this->authorize('create', Permission::class);
 
         $added_rec = Permission::create([
             'name' => $request->name,
@@ -63,19 +67,22 @@ class AdminPermissionsController extends Controller
         }
     }
 
-    public function edit(string $id)
+    public function edit(Permission $permission)
     {
-        $record = Permission::find($id);
+        $this->authorize('update', $permission);
+
+        $record = $permission;
 
         $permission_categories = PermissionsCategories::all();
 
         return view('admin.permissions.edit', compact('record', 'permission_categories'));
     }
 
-    public function update(Request $request, string $id)
+    public function update(Request $request, Permission $permission)
     {
+        $this->authorize('update', $permission);
 
-        $permission = Permission::find($id);
+        // $permission = Permission::find($id);
 
         if($permission->update($request->all()))
             {
@@ -87,11 +94,13 @@ class AdminPermissionsController extends Controller
             }
     }
 
-    public function destroy(string $id)
+    public function destroy(Permission $permission)
     {
-        $deleted_rec = Permission::find($id);
+        $this->authorize('delete', $permission);
 
-        if(Permission::destroy($id)) {
+        $deleted_rec = $permission;
+
+        if(Permission::destroy($permission->id)) {
 
             return redirect()->route('permissions.index')
                         ->with('success',''.$deleted_rec->name.' Permission deleted successfully');

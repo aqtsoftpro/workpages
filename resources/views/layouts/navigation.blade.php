@@ -15,8 +15,8 @@
           <i class="bi bi-grid"></i><span>Dashboard</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
       </li><!-- End Components Nav -->
-
-      <li class="nav-item">
+      @if (auth()->user()->hasRole('Super Admin'))
+                <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
           <i class="bi bi-gear"></i><span>Settings</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
@@ -70,6 +70,8 @@
           
         </ul>
       </li><!-- End Components Nav -->
+      @endif
+
 
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#cms-nav" data-bs-toggle="collapse" href="#">

@@ -18,6 +18,7 @@ class CompanyController extends Controller
 {
     public function index(Request $request)
     {
+        $this->authorize('viewAny', Company::class);
 
         if(isset($request->suburb_id))
         {
@@ -36,23 +37,28 @@ class CompanyController extends Controller
 
     }
 
-    public function edit(string $id)
+    public function edit(Company $company)
     {
+        // dd($company);
         // $record = JobSeeker::find($id);
+        $this->authorize('update', $company);
 
         $record = DB::table('users')
         ->select('companies.name AS company_name', 'users.*')
-        ->where('users.id', $id)
-        ->join('companies', 'companies.owner', '=', 'users.id')
+        ->where('users.id', $company->owner_id)
+        ->join('companies', 'companies.owner_id', '=', 'users.id')
         ->first();
+
+        // dd($record);
    
         return view('admin.companies.edit', compact('record'));
     }
 
-    public function show(string $id)
+    public function show(Company $company)
     {
-        $record = Company::find($id);
-
+        $this->authorize('view', $company);
+        // $record = Company::find($id);
+        $record = $company;
         return view('admin.companies.show', compact('record'));
     }
 
@@ -80,6 +86,7 @@ class CompanyController extends Controller
 
     public function updateCompanyProfile(Company $company, Request $request, $id)
     {
+        $this->authorize('updateProfile', $comapny);
         $company_id = $id;
 
         // return response()->json([

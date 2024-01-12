@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 class AdminBlogCategoryController extends Controller
 {
     public function index(){
+        // $this->authorize('update', SiteSettings::class);
         $records = BlogCategory::orderBy('name', 'ASC')->get();
         return view('admin.blog_categories.index', compact('records'));
     }

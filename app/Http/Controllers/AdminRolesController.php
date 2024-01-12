@@ -14,6 +14,7 @@ class AdminRolesController extends Controller
 {
     public function index(){
 
+        $this->authorize('viewAny', Role::class);
         $records = Role::all();
 
         // foreach($records as $record)
@@ -27,6 +28,8 @@ class AdminRolesController extends Controller
 
     public function create()
     {
+        $this->authorize('create', Role::class);
+
         $permission_categories = PermissionsCategories::all()->toArray();
 
         $perm_cat = array();
@@ -42,6 +45,7 @@ class AdminRolesController extends Controller
 
     public function store(Request $request)
     {
+        $this->authorize('create', Role::class);
         
         $added_rec = Role::create([
             'name' => $request->name,
@@ -74,9 +78,11 @@ class AdminRolesController extends Controller
         }
     }
 
-    public function edit(string $id)
+    public function edit(Role $role)
     {
-        $record = Role::find($id);
+        $this->authorize('update', $role);
+
+        $record = $role;
 
         $permission_categories = PermissionsCategories::all()->toArray();
 
@@ -93,11 +99,12 @@ class AdminRolesController extends Controller
         return view('admin.roles.edit', compact('record', 'perm_cat', 'permissions'));
     }
 
-    public function update(Request $request, string $id)
+    public function update(Request $request, Role $role)
     {
-        $roles = Role::find($id);
+        $this->authorize('update', $role);
+        $roles = $role;
 
-        RoleHasPermission::where('role_id', '=', $id)->delete();
+        RoleHasPermission::where('role_id', '=', $role->id)->delete();
 
         foreach($request->role as $key => $permission)
         {
@@ -119,11 +126,13 @@ class AdminRolesController extends Controller
             }
     }
 
-    public function destroy(string $id)
+    public function destroy(Role $role)
     {
-        $deleted_rec = Role::find($id);
+        $this->authorize('delete', $role);
 
-        RoleHasPermission::where('role_id', '=', $id)->delete();
+        $deleted_rec = $role;
+
+        RoleHasPermission::where('role_id', '=', $role->id)->delete();
 
         if(Role::destroy($id)) {
 

@@ -22,7 +22,7 @@ use Illuminate\Support\Facades\Session;
 class AdminSettingsController extends Controller
 {
     public function index(){
-
+        $this->authorize('viewAny', SiteSettings::class);
         $languages = Language::all();
         $timezones = Timezone::all();
         $settings = SiteSettings::select('meta_key', 'meta_val')->get()->keyBy('meta_key')->toArray();
@@ -39,6 +39,7 @@ class AdminSettingsController extends Controller
 
     public function update_main_settings(Request $request){
 
+        $this->authorize('update', SiteSettings::class);
 
         $settings = $request->input('setting', []);
    
@@ -184,6 +185,8 @@ class AdminSettingsController extends Controller
 
     public function design_settings(){
 
+        $this->authorize('update', SiteSettings::class);
+
         $settings = SiteSettings::select('meta_key', 'meta_val')->get()->keyBy('meta_key')->toArray();
 
         return view('admin.settings.design_settings',  compact('settings'));
@@ -191,6 +194,7 @@ class AdminSettingsController extends Controller
 
     public function social_media_settings()
     {
+        $this->authorize('update', SiteSettings::class);
 
         $settings = SiteSettings::select('meta_key', 'meta_val')->get()->keyBy('meta_key')->toArray();
 
@@ -198,6 +202,7 @@ class AdminSettingsController extends Controller
     }
 
     public function payment_settings(){
+        $this->authorize('update', SiteSettings::class);
 
         $settings = SiteSettings::select('meta_key', 'meta_val')->get()->keyBy('meta_key')->toArray();
 
@@ -206,6 +211,7 @@ class AdminSettingsController extends Controller
 
     
     public function notification_settings(){
+        $this->authorize('update', SiteSettings::class);
 
         $settings = SiteSettings::select('meta_key', 'meta_val')->get()->keyBy('meta_key')->toArray();
 
@@ -213,7 +219,6 @@ class AdminSettingsController extends Controller
     }
 
     public function checkout(){
-
 
         $stripe = new \Stripe\StripeClient('sk_test_51NAG7cD44LmC2yIiYIvendXwdc5Ij7rj7jCIYLrNqz2zDScIFp0wMRQynR5o54FlCDnrMsljs5H3DgdzCzHmU7wx00H9HlmFws');
         $checkout_session = $stripe->checkout->sessions->create([
@@ -247,19 +252,19 @@ class AdminSettingsController extends Controller
     }
 
     public function newsletter_settings(){
-
+        $this->authorize('update', SiteSettings::class);
         $settings = SiteSettings::select('meta_key', 'meta_val')->get()->keyBy('meta_key')->toArray();
         return view('admin.settings.newsletter_settings',  compact('settings'));
     }
 
     public function sms_settings(){
-
+        $this->authorize('update', SiteSettings::class);
         $settings = SiteSettings::select('meta_key', 'meta_val')->get()->keyBy('meta_key')->toArray();
         return view('admin.settings.sms_settings',  compact('settings'));
     }
 
     public function slider_settings(){
-
+        $this->authorize('update', SiteSettings::class);
         $settings = SiteSettings::select('meta_key', 'meta_val')->get()->keyBy('meta_key')->toArray();
         return view('admin.settings.slider_settings',  compact('settings'));
     }
@@ -267,7 +272,7 @@ class AdminSettingsController extends Controller
 
     
     public function job_seeker_settings(){
-
+        $this->authorize('update', SiteSettings::class);
         $settings = SiteSettings::select('meta_key', 'meta_val')->get()->keyBy('meta_key')->toArray();
         return view('admin.settings.job_seeker_settings',  compact('settings'));
     }

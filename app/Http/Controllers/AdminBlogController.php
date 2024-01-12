@@ -12,7 +12,7 @@ use Illuminate\Support\Str;
 class AdminBlogController extends Controller
 {
     public function index(){
-
+        $this->authorize('viewAny', Blog::class);
         $records = Blog::orderBy('name', 'ASC')->get();
         $blog_cats = BlogCategory::orderBy('name', 'ASC')->get();
         return view('admin.blog.index', compact('records', 'blog_cats'));
@@ -20,6 +20,8 @@ class AdminBlogController extends Controller
 
     public function create()
     {
+        $this->authorize('create', Blog::class);
+
         $blog_cats = BlogCategory::orderBy('name', 'ASC')->get();
 
         return view('admin.blog.create', compact( 'blog_cats'));
@@ -27,6 +29,7 @@ class AdminBlogController extends Controller
 
     public function store(Request $request)
     {
+        $this->authorize('create', Blog::class);
 
         $post        = new Blog();
         $post->name  = $request->name;
@@ -73,9 +76,12 @@ class AdminBlogController extends Controller
     }
 
 
-    public function edit(string $id)
+    public function edit(Blog $blog)
     {
-        $record = Blog::find($id);
+        $this->authorize('update', $blog);
+
+        $record = Blog::findOrFail($blog->id);
+
         $blog_cats = BlogCategory::orderBy('name', 'ASC')->get();
 
         $blog_category_relation = BlogCategoryRelation::select('category_id')->where('post_id', $id)->get()->keyBy('category_id')->toArray();
@@ -83,15 +89,17 @@ class AdminBlogController extends Controller
         return view('admin.blog.edit', compact('record', 'blog_cats', 'blog_category_relation'));
     }
 
-    public function update(Request $request, string $id)
+    public function update(Request $request, Blog $blog)
     {
+        $this->authorize('update', $blog);
+
         print_r($request->all());
         $data =  array(
             'name' => $request->name,
             'desc' => addslashes($request->desc),
         );
        
-        $affectedRows = Blog::where('id', $id)->update($data);
+        $affectedRows = Blog::where('id', $blog->id)->update($data);
         
         DB::delete('delete from blog_categries_relation where post_id = ?',[$id]);
         if($request->blog_cat)
@@ -129,11 +137,13 @@ class AdminBlogController extends Controller
     
     }
 
-    public function destroy(string $id)
+    public function destroy(Blog $blog)
     {
-        $deleted_rec = Blog::find($id);
+        $this->authorize('delete', $blog);
 
-        if(Blog::destroy($id)) {
+        $deleted_rec = $blog;
+
+        if(Blog::destroy($blog->id)) {
 
             return redirect()->route('blog.index')
                         ->with('success',''.$deleted_rec->name.' blog deleted successfully');
@@ -146,7 +156,5 @@ class AdminBlogController extends Controller
     public function categories(){
         return view('admin.blog.categories');
     }
-
-
     
 }

@@ -10,18 +10,21 @@ use Illuminate\Support\Str;
 class AdminCmsController extends Controller
 {
     public function index(){
-
+        $this->authorize('viewAny', Cms::class);
         $records = Cms::orderBy('name', 'ASC')->get();
         return view('admin.cms.index', compact('records'));
     }
 
     public function create()
     {
+        $this->authorize('create', Cms::class);
         return view('admin.cms.create');
     }
 
     public function store(Request $request)
     {
+        $this->authorize('create', Cms::class);
+
         echo $request->name;
 
         $post        = new Cms();
@@ -43,16 +46,18 @@ class AdminCmsController extends Controller
     }
 
 
-    public function edit(string $id)
+    public function edit(Cms $cms)
     {
-        $record = Cms::find($id);
+        $this->authorize('update', Cms::class);
+
+        $record = $cms;
 
         return view('admin.cms.edit', compact('record'));
     }
 
-    public function update(Request $request, string $id)
+    public function update(Request $request, Cms $cms)
     {
- 
+        $this->authorize('update', $cms);
 
         $data =  array(
             'name' => $request->name,
@@ -74,9 +79,11 @@ class AdminCmsController extends Controller
 
 
 
-    public function destroy(string $id)
+    public function destroy(Cms $cms)
     {
-        $deleted_rec = Cms::find($id);
+        $this->authorize('update', $cms);
+
+        $deleted_rec = $cms;
 
         if(Cms::destroy($id)) {
 
@@ -91,7 +98,6 @@ class AdminCmsController extends Controller
 
     public function get_page(Request $request)
     {
-
         $page_content = Cms::where('slug', $request->page_slug)->first();
 
         return response()->json($page_content->desc);
