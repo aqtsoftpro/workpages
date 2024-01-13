@@ -55,7 +55,7 @@ class AdminJobsController extends Controller
     {
         $this->authorize('update', $job);
 
-        $job =  Job::where('id', $id)
+        $job =  Job::where('id', $job->id)
        ->update([
            'status' => $request->status
         ]);

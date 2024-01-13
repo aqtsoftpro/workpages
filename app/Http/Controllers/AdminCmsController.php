@@ -65,7 +65,7 @@ class AdminCmsController extends Controller
             'desc' => addslashes($request->desc),
         );
         print_r($data);
-        $affectedRows = Cms::where('id', $id)->update($data);
+        $affectedRows = Cms::where('id', $cms->id)->update($data);
 
         if($affectedRows)
             {
@@ -86,7 +86,7 @@ class AdminCmsController extends Controller
 
         $deleted_rec = $cms;
 
-        if(Cms::destroy($id)) {
+        if(Cms::destroy($cms->id)) {
 
             return redirect()->route('manage_pages.index')
                         ->with('success',''.$deleted_rec->name.' page deleted successfully');

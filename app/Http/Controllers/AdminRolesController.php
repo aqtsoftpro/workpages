@@ -94,7 +94,7 @@ class AdminRolesController extends Controller
             $perm_cat['permission'][$permission_category['id']] = $permission;
         }
         
-        $permissions = DB::table('role_has_permissions')->where('role_id', '=', $id)->get()->keyBy('permission_id')->toArray();
+        $permissions = DB::table('role_has_permissions')->where('role_id', '=', $role->id)->get()->keyBy('permission_id')->toArray();
 
         return view('admin.roles.edit', compact('record', 'perm_cat', 'permissions'));
     }
@@ -110,7 +110,7 @@ class AdminRolesController extends Controller
         {
             $data = [
                 'permission_id' => $key,
-                'role_id' => $id,
+                'role_id' => $role->id,
             ];
 
             $RoleHasPermission = RoleHasPermission::create($data);

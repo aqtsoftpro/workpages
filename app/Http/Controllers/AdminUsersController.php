@@ -140,7 +140,7 @@ class AdminUsersController extends Controller
             {
                 $adminUserRole = Role::find($role);
 
-                $user = User::find($id);
+                $user = User::find($user->id);
 
                 $user->syncRoles($adminUserRole);
             }
@@ -160,7 +160,7 @@ class AdminUsersController extends Controller
     {
         $deleted_rec = $user;
 
-        if(User::destroy($id)) {
+        if(User::destroy($user->id)) {
 
             return redirect()->route('admin_users')
                         ->with('success',''.$deleted_rec->name.' user deleted successfully');

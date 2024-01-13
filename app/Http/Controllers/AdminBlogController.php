@@ -84,7 +84,7 @@ class AdminBlogController extends Controller
 
         $blog_cats = BlogCategory::orderBy('name', 'ASC')->get();
 
-        $blog_category_relation = BlogCategoryRelation::select('category_id')->where('post_id', $id)->get()->keyBy('category_id')->toArray();
+        $blog_category_relation = BlogCategoryRelation::select('category_id')->where('post_id', $blog->id)->get()->keyBy('category_id')->toArray();
 
         return view('admin.blog.edit', compact('record', 'blog_cats', 'blog_category_relation'));
     }
@@ -101,14 +101,14 @@ class AdminBlogController extends Controller
        
         $affectedRows = Blog::where('id', $blog->id)->update($data);
         
-        DB::delete('delete from blog_categries_relation where post_id = ?',[$id]);
+        DB::delete('delete from blog_categries_relation where post_id = ?',[$blog->id]);
         if($request->blog_cat)
         {
           foreach($request->blog_cat as $cat)
             {
 
                 $post_cat_relation        = new BlogCategoryRelation();
-                $post_cat_relation->post_id  = $id;
+                $post_cat_relation->post_id  = $blog->id;
                 $post_cat_relation->category_id  = $cat;
                 $post_cat_relation->save();
             }  
@@ -123,7 +123,7 @@ class AdminBlogController extends Controller
                 'photo' => $blog_img_select,
             );
 
-            Blog::where('id', $id)->update($data);
+            Blog::where('id', $blog->id)->update($data);
         }
  
         if($affectedRows)

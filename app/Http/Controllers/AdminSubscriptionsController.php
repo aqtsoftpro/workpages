@@ -52,9 +52,9 @@ class AdminSubscriptionsController extends Controller
 
     public function update(Request $request, Package $package)
     {
-        $this->authorize('update', Package::class);
+        $this->authorize('update', $package);
 
-        $location = Package::find($id);
+        $location = $package;
 
         if($location->update($request->all()))
             {
@@ -70,7 +70,7 @@ class AdminSubscriptionsController extends Controller
     {
         $deleted_rec = $package;
 
-        if(Package::destroy($id)) {
+        if(Package::destroy($package->id)) {
 
             return redirect()->route('subscriptions.index')
                         ->with('success',''.$deleted_rec->name.' package deleted successfully');
