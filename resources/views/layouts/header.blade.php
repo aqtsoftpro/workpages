@@ -38,7 +38,7 @@
                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
                     <li class="dropdown-header">
                         You have {{ $headerData['notification_count'] }} new notifications
-                        <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
+                        <a href="{{ route('notification_job_alert') }}"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
                     </li>
                     <li>
                         <hr class="dropdown-divider">
@@ -46,7 +46,7 @@
 
                     {!! $headerData['notification_list'] !!}
 
-                    <li class="notification-item">
+                    {{-- <li class="notification-item">
                         <i class="bi bi-exclamation-circle text-warning"></i>
                         <div>
                             <h4>Lorem Ipsum</h4>
@@ -97,7 +97,7 @@
                     </li>
                     <li class="dropdown-footer">
                         <a href="#">Show all notifications</a>
-                    </li>
+                    </li> --}}
 
                 </ul><!-- End Notification Dropdown Items -->
 

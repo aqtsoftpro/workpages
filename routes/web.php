@@ -160,7 +160,7 @@ Route::middleware('auth')->prefix('admin')->group(function () {
    Route::resource('permissions', AdminPermissionsController::class);
    Route::resource('roles', AdminRolesController::class);
 
-   Route::get('notification_job_alert', [NotificationController::class, 'notification_job_alert']);
+   Route::get('notification_job_alert', [NotificationController::class, 'notification_job_alert'])->name('notification_job_alert');
    Route::get('notification_package_subscription', [NotificationController::class, 'notification_package_subscription']);
 
 

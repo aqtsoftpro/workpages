@@ -25,9 +25,6 @@ class GlobalDataServiceProvider extends ServiceProvider
     {
 
 
-
-
-
         View::composer('layouts.header', function ($view) {
 
             $notifi_arry = array();
