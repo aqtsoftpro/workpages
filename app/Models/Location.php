@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Location extends Model
 {
-    use HasFactory, Searchable;
+    use HasFactory;
 
     protected  $fillable = [
         'name',

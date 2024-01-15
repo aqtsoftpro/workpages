@@ -68,6 +68,15 @@ class Job extends Model
     public function applications(){
         return $this->hasMany(Application::class);
     }
+
+    public function toSearchableArray(): array
+    {
+        $array = $this->toArray();
+ 
+        // Customize the data array...
+ 
+        return $array;
+    }
 }
 
 

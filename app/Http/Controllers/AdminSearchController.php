@@ -21,18 +21,8 @@ class AdminSearchController extends Controller
      */
     public function search(Request $request)
     {
-    //    $applications = Application::search($request->keyword)->get();
-    //    $applications = Blog::search($request->keyword)->get();
-    //    $applications = BlogCategory::search($request->keyword)->get();
-    //    $applications = BookmarkJob::search($request->keyword)->get();
-    //    $applications = Category::search($request->keyword)->get();
-    //    $applications = Company::search($request->keyword)->get();
-    //    $applications = CompanyReview::search($request->keyword)->get();
-    //    $applications = Designation::search($request->keyword)->get();
-    //    $applications = JobCategory::search($request->keyword)->get();
 
        $searchResults = [];
-
         $searchModels = [
             Application::class,
             Blog::class,
@@ -54,9 +44,6 @@ class AdminSearchController extends Controller
         foreach ($searchModels as $model) {
             $searchResults[basename($model)] = $model::search($request->keyword)->get();
         }
-        // dd($searchResults);
-
-    //    $users = User::search($request->keyword)->get();
 
         return view('admin.search.index', compact('searchResults'));
     //    dd($jobCategories, $users);
