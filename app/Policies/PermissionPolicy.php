@@ -21,7 +21,7 @@ class PermissionPolicy
      */
     public function view(User $user, Permission $permission): bool
     {
-        return $user->hasPermissionTo('View Package') ? true : false;
+        return $user->hasPermissionTo('View Permission') ? true : false;
     }
 
     /**
@@ -29,7 +29,7 @@ class PermissionPolicy
      */
     public function create(User $user): bool
     {
-        return $user->hasPermissionTo('Add Package') ? true : false;
+        return $user->hasPermissionTo('Add Permission') ? true : false;
     }
 
     /**
@@ -37,7 +37,7 @@ class PermissionPolicy
      */
     public function update(User $user, Permission $permission): bool
     {
-        return $user->hasPermissionTo('Edit Package') ? true : false;
+        return $user->hasPermissionTo('Edit Permission') ? true : false;
     }
 
     /**
@@ -45,7 +45,7 @@ class PermissionPolicy
      */
     public function delete(User $user, Permission $permission): bool
     {
-        return $user->hasPermissionTo('Delete Package') ? true : false;
+        return $user->hasPermissionTo('Delete Permission') ? true : false;
     }
 
     /**
@@ -53,7 +53,7 @@ class PermissionPolicy
      */
     public function restore(User $user, Permission $permission): bool
     {
-        return $user->hasPermissionTo('Restore Package') ? true : false;
+        return $user->hasPermissionTo('Restore Permission') ? true : false;
     }
 
     /**

@@ -6,10 +6,11 @@ use App\Models\Job;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Laravel\Scout\Searchable;
 
 class BookmarkJob extends Model
 {
-    use HasFactory;
+    use HasFactory, Searchable;
 
     protected $fillable = [
         'user_id',
@@ -23,4 +24,15 @@ class BookmarkJob extends Model
     public function job(){
         return $this->belongsTo(Job::class);
     }
+
+    public function toSearchableArray(): array
+    {
+        $array = $this->toArray();
+ 
+        // Customize the data array...
+ 
+        return $array;
+    }
+
+
 }

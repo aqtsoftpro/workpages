@@ -10,8 +10,8 @@ class AdminPackagesController extends Controller
     public function index(){
 
         $this->authorize('viewAny', Package::class);
-
-        $records = Package::all();
+        
+        $records = Package::with('subscriptions')->get();
 
         return  view('admin.packages.index', compact('records'));
     }

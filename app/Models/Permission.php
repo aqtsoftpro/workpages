@@ -5,10 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Permission\Models\Permission as Spatiepermission;
+use Laravel\Scout\Searchable;
+
 
 class Permission extends Spatiepermission
 {
-    use HasFactory;
+    use HasFactory, Searchable;
 
 
 
@@ -22,6 +24,14 @@ class Permission extends Spatiepermission
         return $this->belongsTo(PermissionsCategories::class, 'permission_category_id', 'id');
     }
 
+    public function toSearchableArray(): array
+    {
+        $array = $this->toArray();
+ 
+        // Customize the data array...
+ 
+        return $array;
+    }
     
 
 }

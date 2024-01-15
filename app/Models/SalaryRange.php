@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class SalaryRange extends Model
 {
-    use HasFactory;
+    use HasFactory, Searchable;
 
     protected $table = 'salary_range';
 

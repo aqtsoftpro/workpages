@@ -215,6 +215,7 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'ExampleClass' => App\Example\ExampleClass::class,
+        'Algolia' => Laravel\Scout\EngineManager::class,
     ])->toArray(),
 
 ];

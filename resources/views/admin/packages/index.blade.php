@@ -50,7 +50,7 @@
               <tr>
                   <td scope="row">{{ $loop->iteration }}</td>
                   <td>{{ $record->name }}</td>
-                  <td></td>
+                  <td>{{ $record->subscriptions->count() }}</td>
                   <td>
                       <a class="mx-1 text-success" href="{{ route('subscriptions.edit', $record->id) }}"><i class="bi bi-pen"></i> </a>|
                       <a type="#" class="mx-1 text-danger"  data-bs-toggle="modal" data-bs-target="#deleteModel-{{ $record->id }}" ><i class="bi bi-trash"></i></a>

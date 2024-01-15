@@ -10,22 +10,23 @@ use Illuminate\Http\Request;
 class AdminSubscriptionsController extends Controller
 {
     public function index(){
-        $this->authorize('viewAny', Package::class);
+        $this->authorize('viewAny', Subscription::class);
 
-        $records = Subscription::all();
+        $records = Subscription::with('company')->get();
+        // dd($records);
         return  view('admin.subscriptions.index', compact('records'));
     }
 
     public function create()
     {
-        $this->authorize('create', Package::class);
+        $this->authorize('create', Subscription::class);
 
         return view('admin.subscriptions.create');
     }
 
     public function store(Request $request)
     {
-        $this->authorize('create', Package::class);
+        $this->authorize('create', Subscription::class);
 
         $added_rec = Package::create($request->all());
 
@@ -41,11 +42,11 @@ class AdminSubscriptionsController extends Controller
         }
     }
 
-    public function edit(Package $package)
+    public function edit($id)
     {
-        $this->authorize('update', $package);
+        $record = Package::findOrFail($id);
 
-        $record = $package;
+        $this->authorize('update', $record);
 
         return view('admin.subscriptions.edit', compact('record'));
     }

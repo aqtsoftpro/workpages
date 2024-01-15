@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class LocationStates extends Model
 {
-    use HasFactory;
+    use HasFactory, Searchable;
 
     protected $table = 'location_states';
 

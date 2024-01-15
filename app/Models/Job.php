@@ -10,10 +10,12 @@ use App\Models\Location;
 use App\Models\Application;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Laravel\Scout\Searchable;
+
 
 class Job extends Model
 {
-    use HasFactory;
+    use HasFactory, Searchable;
 
     protected $fillable = [
       'job_title',

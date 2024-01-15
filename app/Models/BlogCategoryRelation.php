@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class BlogCategoryRelation extends Model
 {
-    use HasFactory;
+    use HasFactory, Searchable;
     protected $table = 'blog_categries_relation';
     protected  $fillable = [
         'name',

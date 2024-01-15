@@ -57,7 +57,7 @@
               <tr>
                   <td scope="row">{{ $loop->iteration }}</td>
                   <td>{{ $record->user->name }}<br>
-                   <b>Company</b> {{ $record->company->name }}
+                   <b>Company</b> {{ $record->company->name ?? null }}
                   </td>
                   <td>{{ $record->package->name }}
                   

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class PermissionsCategories extends Model
 {
-    use HasFactory;
+    use HasFactory, Searchable;
 
     protected $fillable = [
         'name', 'slug'

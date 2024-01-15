@@ -31,7 +31,7 @@ use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\SuburbController;
 use App\Http\Controllers\EmailsController;
 use App\Http\Controllers\NotificationController;
-
+use App\Http\Controllers\AdminSearchController;
 
 
 /*
@@ -129,6 +129,7 @@ Route::middleware('auth')->prefix('admin')->group(function () {
       Route::get('/edit_technology/{technology_id}', [\App\Http\Controllers\AdminSettingsController::class, 'edit_technology']);
       Route::post('/edit_technology/{technology_id}', [\App\Http\Controllers\AdminSettingsController::class, 'update_technology']);
       Route::post('/delete_technology/{technology_id}', [\App\Http\Controllers\AdminSettingsController::class, 'delete_technology']);
+      Route::get('/search', [AdminSearchController::class, 'search'])->name('search-global');
    });
 
 

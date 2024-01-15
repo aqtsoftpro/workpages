@@ -14,11 +14,12 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Cashier\Billable;
+use Laravel\Scout\Searchable;
 
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, HasRoles, Billable;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles, Billable, Searchable;
 
     /**
      * The attributes that are mass assignable.
@@ -99,5 +100,14 @@ class User extends Authenticatable
 
     public function suburb(){
         return $this->hasOne(Suburb::class);
+    }
+
+    public function toSearchableArray(): array
+    {
+        $array = $this->toArray();
+ 
+        // Customize the data array...
+ 
+        return $array;
     }
 }
