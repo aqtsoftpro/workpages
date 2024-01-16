@@ -187,7 +187,8 @@ Route::post('emails/contactUs/', [EmailsController::class, 'contact_us']);
 Route::get('emails/contactUs/', [EmailsController::class, 'contact_us']);
 // Route::put('updateJob/{id}', JobController::class);
 Route::post('password/email', [ForgotPasswordController::class, 'forgot']);
-
+Route::get('reset-password/{token}', [ForgotPasswordController::class, 'getToken']);
+Route::post('password/reset', [ForgotPasswordController::class, 'reset']);
 Route::post('newletterEmail/', [NewsletterController::class, 'mailChimpEmailLog']);
 
 

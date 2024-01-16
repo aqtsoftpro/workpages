@@ -8,6 +8,8 @@ use App\Models\Company;
 use App\Models\UserSocial;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
+use Pusher\Pusher;
+use App\Events\SendDataToPusher;
 
 class UserController extends Controller
 {
@@ -37,6 +39,22 @@ class UserController extends Controller
             $role = $request->role_id;
             $newUser->assignRole($role);
 
+            $options = [
+                'cluster' => 'ap2',
+                'useTLS' => true
+            ];
+
+            $pusher = new Pusher(
+                env('PUSHER_APP_KEY'),
+                env('PUSHER_APP_SECRET'),
+                env('PUSHER_APP_ID'),
+                $options,
+            );
+
+            $data = ['from'=> $newUser->id];
+
+            $pusher->trigger('Rinzed', SendDataToPusher::class, $data);
+
             //send response with new user
             return response()->json([
                 'status' => 'success',
@@ -55,7 +73,8 @@ class UserController extends Controller
 
 
         try{
-            User::where('id', $user_id)
+            $id = auth()->id();
+            User::where('id', $id)
             ->update([
                 'password' => $userPassword
                 ]);

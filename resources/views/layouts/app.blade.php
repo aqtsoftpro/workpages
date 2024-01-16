@@ -63,6 +63,9 @@
   <script src="{{asset('NiceAdmin/assets/vendor/simple-datatables/simple-datatables.js') }}"></script>
   <script src="{{asset('NiceAdmin/assets/vendor/tinymce/tinymce.min.js') }}"></script>
   <script src="{{asset('NiceAdmin/assets/vendor/php-email-form/validate.js') }}"></script>
+    {{-- pusher cdn link --}}
+    <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.20.0/jquery.validate.min.js" crossorigin="anonymous" ></script>
 
   <!-- Template Main JS File -->
   <script src="{{asset('NiceAdmin/assets/js/main.js') }}"></script>
