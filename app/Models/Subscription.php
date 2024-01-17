@@ -12,8 +12,14 @@ class Subscription extends Model
     use HasFactory, Searchable;
 
     protected  $fillable= [
+        'user_id',
+        'package_id',
+        'company_id',
         'name',
-        'price'
+        'stripe_id',
+        'stripe_price',
+        'quantity',
+        'stripe_status',
     ];
 
     public function package()

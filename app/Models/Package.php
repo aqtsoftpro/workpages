@@ -13,7 +13,11 @@ class Package extends Model
 
     protected  $fillable= [
         'name',
-        'price'
+        'price',
+        'stripe_price_id',
+        'stripe_product_id',
+        'interval',
+        'interval_count'
     ];
 
     public function subscriptions()

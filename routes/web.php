@@ -152,6 +152,9 @@ Route::middleware('auth')->prefix('admin')->group(function () {
    Route::resource('users', AdminUsersController::class);
 
    Route::resource('packages', AdminPackagesController::class);
+
+   Route::post('/session', [AdminPackagesController::class, 'session'])->name("session");
+
    Route::resource('subscriptions', AdminSubscriptionsController::class);
    Route::get('jobs_list', [AdminJobsController::class, 'jobs_list']);
    Route::resource('jobs', AdminJobsController::class);
@@ -217,5 +220,7 @@ Route::get('/linkstorage', function () {
     
   
 });
+
+Route::get('/checkout/success/{package}/{session_id}', [AdminPackagesController::class, 'success'])->name('checkout.success');
 
 require __DIR__.'/auth.php';

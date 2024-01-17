@@ -44,22 +44,30 @@ class AdminSubscriptionsController extends Controller
 
     public function edit($id)
     {
-        $record = Package::findOrFail($id);
+
+        $record = Subscription::findOrFail($id);
+
+        $packages = Package::all();
 
         $this->authorize('update', $record);
 
-        return view('admin.subscriptions.edit', compact('record'));
+        return view('admin.subscriptions.edit', compact('record', 'packages'));
     }
 
-    public function update(Request $request, Package $package)
+    public function update(Request $request, Subscription $subscription)
     {
-        $this->authorize('update', $package);
+        $this->authorize('update', $subscription);
+        $inputs = $request->all();
+        // dd($inputs);
+        $package = Package::findOrFail($request->package_id);
 
-        $location = $package;
+        $inputs['name'] = $package->name;
 
-        if($location->update($request->all()))
+        $location = $subscription;
+
+        if($location->update($inputs))
             {
-                return redirect()->back()->with('success', ''.$request->name.' package updated successfully');
+                return redirect()->back()->with('success', ''.$package->name.' subscription updated successfully');
             }
             else
             {
@@ -67,14 +75,16 @@ class AdminSubscriptionsController extends Controller
             }
     }
 
-    public function destroy(Package $package)
+    public function destroy(Subscription $subscription)
     {
-        $deleted_rec = $package;
+        $this->authorize('delete', $subscription);
 
-        if(Package::destroy($package->id)) {
+        $deleted_rec = $subscription;
+
+        if($subscription->delete()) {
 
             return redirect()->route('subscriptions.index')
-                        ->with('success',''.$deleted_rec->name.' package deleted successfully');
+                        ->with('success',''.$deleted_rec->name.' subscription deleted successfully');
           } else {
             return redirect()->route('subscriptions.index')
                         ->with('error','Please try again!');

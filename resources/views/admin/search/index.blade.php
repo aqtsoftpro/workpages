@@ -32,7 +32,7 @@
                         <div class="row g-3">
                             <div class="col-md-12">
                                 <label for="name" class="form-label">Results</label><br>
-                                @if ($searchResults['App\Models\JobCategory'])
+                                {{-- @if ($searchResults['App\Models\JobCategory'])
                                     <div class="row">
                                         <h6 class="card-title">
                                             Job Category: Total ({{ $searchResults['App\Models\JobCategory']->count() }})
@@ -46,7 +46,7 @@
                                         @empty
                                         @endforelse
                                     </div>
-                                @endif
+                                @endif --}}
 
 
                                 @if ($searchResults['App\Models\User'])
@@ -98,7 +98,7 @@
                                     </div>
                                 @endif
 
-                                @if ($searchResults['App\Models\BlogCategory'])
+                                {{-- @if ($searchResults['App\Models\BlogCategory'])
                                     <div class="row">
                                         <h6 class="card-title">
                                             Blog Categories: Total ({{ $searchResults['App\Models\BlogCategory']->count() }})
@@ -112,9 +112,9 @@
                                         @empty
                                         @endforelse
                                     </div>
-                                @endif
+                                @endif --}}
 
-                                @if ($searchResults['App\Models\Category'])
+                                {{-- @if ($searchResults['App\Models\Category'])
                                     <div class="row">
                                         <h6 class="card-title">
                                             Categories: Total ({{ $searchResults['App\Models\Category']->count() }})
@@ -128,57 +128,7 @@
                                         @empty
                                         @endforelse
                                     </div>
-                                @endif
-
-                                {{-- @if ($searchResults['App\Models\CompanyReview'])
-                                    <div class="row">
-                                        <h6 class="card-title">
-                                            Company Reviews: Total ({{ $searchResults['App\Models\CompanyReview']->count() }})
-                                        </h6>
-                                        @forelse ($searchResults['App\Models\CompanyReview'] as $review)
-                                            <div class="col-md-6">
-                                                <a href="{{ route('job_categories.show', $review->id) }}">
-                                                    <span class="fw-bold">{{ $review->name }}</span>
-                                                </a>
-                                            </div>
-                                        @empty
-                                        @endforelse
-                                    </div>
                                 @endif --}}
-
-                                {{-- @if ($searchResults['App\Models\User'])
-                                    <div class="row">
-                                        <h6 class="card-title">
-                                            Users: Total ({{ $searchResults['App\Models\User']->count() }})
-                                        </h6>
-                                        @forelse ($searchResults['App\Models\User'] as $user)
-                                            <div class="col-md-6">
-                                                <a href="{{ route('job_categories.show', $user->id) }}">
-                                                    <span class="fw-bold">{{ $user->name }}</span>
-                                                </a>
-                                            </div>
-                                        @empty
-                                        @endforelse
-                                    </div>
-                                @endif --}}
-                                {{-- @foreach ($perm_cat['per_cat'] as $key => $record)
-                                    <b>{{ $record }}</b><br><br>
-
-                                    <div class="row">
-                                        @foreach ($perm_cat['permission'][$key] as $permission)
-                                            <div class="form-check col-md-4">
-                                                <input class="form-check-input" type="checkbox" id="permission"
-                                                    name="role[{{ $permission['id'] }}]"
-                                                    {{ isset($permissions[$permission['id']]) ? 'checked' : '' }}>
-                                                <label class="form-check-label" for="permission">
-                                                    {{ $permission['name'] }}
-                                                </label>
-                                            </div>
-                                        @endforeach
-                                    </div>
-
-                                    <hr>
-                                @endforeach --}}
                             </div>
                         </div>
                     </div>

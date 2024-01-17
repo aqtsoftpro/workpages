@@ -40,15 +40,29 @@
                   
                   @csrf
                   @method('PUT')
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                       <label for="name" class="form-label">Name</label>
-                      <input type="text" name="name" value="{{ $record->name }}" class="form-control" id="social_media_facebook">
+                      {{-- <input type="text" name="name" value="{{ $record->name }}" class="form-control" id="social_media_facebook"> --}}
+                      <select name="package_id" id="" class="form-select">
+                        @foreach ($packages as $package)
+                          <option value="{{ $package->id }}" @selected($record->name == $package->name )>{{ $package->name }}</option>
+                        @endforeach
+                      </select>
                     </div>
-                    <div class="col-md-12">
-                      <label for="price" class="form-label">Price</label>
-                      <input type="text" name="price" value="{{ $record->price }}" class="form-control" id="price" required>
+                    <div class="col-md-6">
+                      <label for="price" class="form-label">Stripe ID</label>
+                      <input type="text" name="stripe_id" value="{{ $record->stripe_id }}" class="form-control" id="price" required>
                     </div>
-  
+
+                    <div class="col-md-6">
+                      <label for="price" class="form-label">Stripe Price ID</label>
+                      <input type="text" name="stripe_price" value="{{ $record->stripe_price }}" class="form-control" id="price" required>
+                    </div>
+
+                    <div class="col-md-6">
+                      <label for="price" class="form-label">Quantity</label>
+                      <input type="text" name="quantity" value="{{ $record->quantity }}" class="form-control" id="price" required>
+                    </div>  
                     <div>
                       <button type="submit" class="btn btn-primary">Update</button>
                     </div>

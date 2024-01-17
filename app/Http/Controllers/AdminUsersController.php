@@ -11,7 +11,7 @@ use Spatie\Permission\Models\Role;
 class AdminUsersController extends Controller
 {
     public function index(){
-        $this->authorize('viewAny', User::class);
+        // $this->authorize('viewAny', User::class);
         $job_seekers =  Role::find(2)->users;
         return view('admin.users.index', compact('job_seekers'));
     }
@@ -23,7 +23,7 @@ class AdminUsersController extends Controller
     }
 
     public function admin_users() {
-        $this->authorize('viewAny', Role::class);
+        // $this->authorize('viewAny', Role::class);
         $roles =  Role::get()->toArray();
         $admin_user = array();
         foreach($roles as $role)

@@ -191,6 +191,10 @@ Route::get('reset-password/{token}', [ForgotPasswordController::class, 'getToken
 Route::post('password/reset', [ForgotPasswordController::class, 'reset']);
 Route::post('newletterEmail/', [NewsletterController::class, 'mailChimpEmailLog']);
 
+// Show all packages....
+
+Route::get('packages', [PackageController::class, 'index']);
+
 
 
 
