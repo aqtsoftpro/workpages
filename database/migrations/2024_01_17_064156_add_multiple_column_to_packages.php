@@ -16,6 +16,9 @@ return new class extends Migration
             $table->string('stripe_product_id')->nullable();
             $table->string('interval')->nullable();
             $table->integer('interval_count')->nullable();
+            $table->string('design')->nullable();
+            $table->integer('count')->default(0);
+            $table->longText('description')->nullable();
         });
     }
 

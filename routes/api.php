@@ -36,6 +36,8 @@ use App\Http\Controllers\GlobalVariableController;
 use App\Http\Controllers\LocationStatesController;
 use App\Http\Controllers\SuburbController;
 use App\Http\Controllers\NewsletterController;
+use App\Http\Controllers\PackageController;
+
 
 
 /*
@@ -123,7 +125,11 @@ Route::group(['middleware' => ['auth:sanctum', 'cors']], function () {
     Route::resource('jobType', JobTypeController::class);
     Route::resource('userSocial', UserSocialController::class);
 
+    Route::post('stripe/checkout', [PackageController::class, 'session']);
+
 });
+
+Route::get('stripe/success/{id}/{session}/{user}', [PackageController::class, 'success']);
 
 Route::post('updateUserPortfolio/{id}', [PortfolioController::class, 'updateUserPortfolio']);
 Route::get('getUserPortfolio/{id}', [PortfolioController::class, 'getUserPortfolio']);
@@ -194,6 +200,7 @@ Route::post('newletterEmail/', [NewsletterController::class, 'mailChimpEmailLog'
 // Show all packages....
 
 Route::get('packages', [PackageController::class, 'index']);
+
 
 
 

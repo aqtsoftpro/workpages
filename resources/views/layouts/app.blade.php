@@ -36,6 +36,9 @@
   * Author: BootstrapMade.com
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
+
+  <script src="assets/vendor/ckeditor5/build/ckeditor.js"></script>
+
 </head>
 
 <body>
@@ -72,7 +75,6 @@
 
   <!-- Custom -->
   <script src="{{asset('NiceAdmin/assets/js/custom.js') }}"></script>
-
 </body>
 
 </html>

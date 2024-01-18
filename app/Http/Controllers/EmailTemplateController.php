@@ -31,7 +31,7 @@ class EmailTemplateController extends Controller
 
         if($template = EmailTemplate::create($request->all()))
         {
-            return redirect('admin/email_templates/' . $template->id . '/edit')->with('success', ''.$request->name.' email template created successfully');
+            return redirect('admin/email_templates/' . $template->id . '/edit')->with('success', $request->name.' email template created successfully');
         }
         else
         {
@@ -47,6 +47,8 @@ class EmailTemplateController extends Controller
     public function edit(string $id)
     {
         $record = EmailTemplate::find($id);
+
+        // dd($record);
 
         return view('admin.email_templates.edit', compact('record'));
     }

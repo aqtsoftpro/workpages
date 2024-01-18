@@ -299,7 +299,7 @@ class CompanyController extends Controller
 
                     echo $originalContent;
 
-                    //$result = Mail::to($To)->send(new MultiPurposeEmail($subject, $originalContent));
+                    // $result = Mail::to($To)->send(new MultiPurposeEmail($subject, $originalContent));
 
 
                 }

@@ -49,8 +49,6 @@
                         if($record->tags)
                           {
                             $tags = explode(",",$record->tags);
-                            
-
                             foreach($tags as $tag)
                             { 
                               if (strpos($tag, '-') !== false) 
@@ -64,7 +62,8 @@
                               }
                               @endphp
                               <span class="badge bg-info text-dark tag">[{{trim($tag)}}]</span>  <small>{{$optional}}</small>
-                              @php      }
+                              @php      
+                            }
 
                           }
                       @endphp
@@ -73,8 +72,6 @@
                       <label for="name" class="form-label">Template Content</label>
                       <textarea class="form-control" id="email-content-area" name="desc" style="height: 200px">{{ $record->desc }}</textarea>
                     </div>
-                    
-  
                     <div>
                       <button type="submit" class="btn btn-primary">Update</button>
                     </div>

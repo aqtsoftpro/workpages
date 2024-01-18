@@ -10,6 +10,9 @@ use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use Pusher\Pusher;
 use App\Events\SendDataToPusher;
+use App\Mail\MultiPurposeEmail;
+use Illuminate\Support\Facades\Mail;
+
 
 class UserController extends Controller
 {
@@ -150,7 +153,7 @@ class UserController extends Controller
             }
 
             if(isset($uploadedPhoto)){
-                $uploadedPhoto = env('APP_URL') . '/storage/' . $fileName;
+                $uploadedPhoto = env('APP_URL') . 'storage/' . $fileName;
             }
             else
             {
@@ -182,22 +185,32 @@ class UserController extends Controller
             $jobSeekerRole = Role::find(2);
             $newUser->assignRole($jobSeekerRole);
 
-            // if(isset($request['data']['company_name'])){
-            //     //Assign Employer role to user
-            //     $employerRole = Role::find(3);
-            //     $newUser->assignRole($employerRole);
+            if ($newUser) {
 
-            //     Company::create([
-            //         'name' => $request['company_name'],
-            //         'owner' => $newUser->id,
-            //         'package_id' => 1,
-            //         'company_type_id' => $request['company_type_id']
-            //     ]);
-            // } else {;
-            //     //Assign Job Seeker role to user
-            //     $jobSeekerRole = Role::find(2);
-            //     $newUser->assignRole($jobSeekerRole);
-            // }
+                    $email_templates  = new EmailTemplateController();
+                    $get_template = $email_templates->get_template('job-seeker-registration');
+                    $originalContent = $get_template['desc'];
+
+                    // email=' . urlencode($userEmail) . '&token=' . $verificationToken;
+
+                    $email_variables = [
+                        '[Name]' => $request->first_name.' '.$request->last_name,
+                        // '[Account Verify Link]' => '<a href="'.env('FRONT_APP_URL').'account-verification/?email='. urlencode($request->email) .'&token='.$verificationToken.'" target="_blank">'.env('FRONT_APP_URL').'</a>',
+                    ];
+
+                    // echo $originalContent;
+
+                    foreach ($email_variables as $search => $replace) {
+                        $originalContent = str_replace($search, $replace, $originalContent);
+                    };
+
+                    $subject = "Welcome to join us!";
+                    $To = $request->email;
+
+                    echo $originalContent;
+
+                    $result = Mail::to($To)->send(new MultiPurposeEmail($subject, $originalContent));
+            }
 
             return response()->json([
                 'status' => 'success',

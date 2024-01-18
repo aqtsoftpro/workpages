@@ -18,6 +18,8 @@
         <div class="alert alert-danger">{{ Session::get('error') }}</div>
     @endif
 
+    {{-- <script src="https://cdn.ckeditor.com/ckeditor5/41.0.0/classic/ckeditor.js"></script> --}}
+
     <section class="section">
         <div class="row">
             <div class="col-lg-12">
@@ -37,15 +39,15 @@
 
                         <form method="POST" action="{{ route('packages.store') }}" class="row g-3">
                             @csrf
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <label for="name" class="form-label">Name</label>
-                                <input type="text" name="name" value="{{ old('name') }}" class="form-control" id="name"
-                                    required>
+                                <input type="text" name="name" value="{{ old('name') }}" class="form-control"
+                                    id="name" required>
                             </div>
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <label for="price" class="form-label">Price</label>
-                                <input type="text" name="price" value="{{ old('price') }}" class="form-control" id="price"
-                                    required>
+                                <input type="text" name="price" value="{{ old('price') }}" class="form-control"
+                                    id="price" required>
                             </div>
 
                             <div class="col-md-6">
@@ -63,15 +65,37 @@
                                     id="interval_count" required>
                             </div>
 
+                            <div class="col-md-6">
+                                <label for="design" class="form-label">Designation </label>
+                                <input type="text" name="design" value="{{ old('design') }}" class="form-control" placeholder="e.g. Job"
+                                    id="design" required>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="count" class="form-label">Count </label>
+                                <input type="number" name="count" value="" class="form-control" placeholder="e.g. count..."
+                                    id="count" required>
+                            </div>
+
+                            <div class="col-md-12">
+                                <label for="description" class="form-label">Description </label>
+                                <textarea name="description" id="editor" cols="30" rows="10"></textarea>
+                            </div>
+
                             <div>
                                 <button type="submit" class="btn btn-primary">Create</button>
                             </div>
-
                         </form>
                     </div>
                 </div>
-
             </div>
         </div>
     </section>
+    {{-- <script>
+        ClassicEditor
+            .create( document.querySelector( '#editor' ) )
+            .catch( error => {
+                console.error( error );
+            } );
+    </script> --}}
 @endsection
