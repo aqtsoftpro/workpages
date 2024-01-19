@@ -11,8 +11,9 @@ use Spatie\Permission\Models\Role;
 use Pusher\Pusher;
 use App\Events\SendDataToPusher;
 use App\Mail\MultiPurposeEmail;
-use Illuminate\Support\Facades\Mail;
+use App\Jobs\MultiPurposeEmailJob;
 
+use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
 {
@@ -204,12 +205,12 @@ class UserController extends Controller
                         $originalContent = str_replace($search, $replace, $originalContent);
                     };
 
-                    $subject = "Welcome to join us!";
+                    $subject = "Thank you for sign up";
                     $To = $request->email;
 
                     echo $originalContent;
 
-                    $result = Mail::to($To)->send(new MultiPurposeEmail($subject, $originalContent));
+                    MultiPurposeEmailJob::dispatch($To, $subject, $originalContent);
             }
 
             return response()->json([

@@ -34,7 +34,7 @@ class ApplicationController extends Controller
                 'user_id' => $request->user_id,
                 'company_id' => $request->company_id,
                 'status_id' => $request->status_id,
-                'cv' => env('APP_URL') . '/storage/' . $fileName,
+                'cv' => env('APP_URL') . 'storage/' . $fileName,
                 'job_id' => $request->job_id,
                 'experience' => $request->experience,
                 'salary' => $request->salary

@@ -5,20 +5,23 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Auth\Events\PasswordReset;
+use App\Http\Controllers\EmailTemplateController;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rules;
 use Illuminate\Support\Str;
-
+use App\Mail\MultiPurposeEmail;
+use App\Jobs\MultiPurposeEmailJob;
+use App\Models\User;
 
 
 class ForgotPasswordController extends Controller
 {
-    public function forgot() {
+    public function forgot() 
+    {
         $credentials = request()->validate(['email' => 'required|email']);
 
         Password::sendResetLink($credentials);
-
         return response()->json(["msg" => 'Reset password link sent on your email id.']);
     }
 

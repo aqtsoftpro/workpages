@@ -273,6 +273,11 @@
                 max-width: 100% !important;
                 width: 100% !important;
             }
+
+            .mybtn {
+                padding: 20px !important;
+                background-color: rgb(13, 13, 52) !important;
+            }
         }
 
         /* -------------------------------------
@@ -329,8 +334,55 @@
                         <!-- START MAIN CONTENT AREA -->
                         <tr>
                             <td class="wrapper">
-                                <p>Hi there</p>
-                                {{ $content }}
+                                {{-- <p>Hi there</p>
+                                {{ $content }} --}}
+
+
+                                {{-- Greeting --}}
+                                @if (!empty($greeting))
+                                    # {{ $greeting }}
+                                @else
+                                    @if ($level === 'error')
+                                        # @lang('Whoops!')
+                                    @else
+                                        # @lang('Hello!')
+                                    @endif
+                                @endif
+
+                                {{-- Intro Lines --}}
+                                @foreach ($introLines as $line)
+                                    {{ $line }}
+                                @endforeach
+
+                                {{-- Action Button --}}
+                                @isset($actionText)
+                                    <?php
+                                    $color = match ($level) {
+                                        'success', 'error' => $level,
+                                        default => 'primary',
+                                    };
+                                    ?>
+                                    {{-- <x-mail::button :url="$actionUrl" :color="$color"> --}}
+                                    <a class="mybtn" href="{{ $actionUrl }}" style="color: {{ $color }}">
+                                        {{ $actionText }}
+                                    </a>
+
+                                    {{-- </x-mail::button> --}}
+                                @endisset
+
+                                {{-- Outro Lines --}}
+                                @foreach ($outroLines as $line)
+                                    {{ $line }}
+                                @endforeach
+
+                                {{-- Salutation --}}
+                                @if (!empty($salutation))
+                                    {{ $salutation }}
+                                @else
+                                    @lang('Regards'),<br>
+                                    {{ config('app.name') }}
+                                @endif
+
                                 {{-- <p>Sometimes you just want to send a simple HTML email with a simple design and clear call to action. This is it.</p>
                                   <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="btn btn-primary">
                                     <tbody>
@@ -367,6 +419,16 @@
                             <tr>
                                 <td class="content-block powered-by">
                                     Powered by <a href="http://htmlemail.io">HTMLemail.io</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="content-block powered-by">
+                                    @isset($actionText)
+                                        @lang("If you're having trouble clicking the \":actionText\" button, copy and paste the URL below\n" . 'into your web browser:', [
+                                            'actionText' => $actionText,
+                                        ]) <span
+                                            class="break-all">[{{ $displayableActionUrl }}]({{ $actionUrl }})</span>
+                                    @endisset
                                 </td>
                             </tr>
                         </table>

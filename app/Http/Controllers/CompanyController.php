@@ -13,6 +13,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 use App\Http\Controllers\EmailTemplateController;
+use App\Jobs\MultiPurposeEmailJob;
 
 class CompanyController extends Controller
 {
@@ -232,91 +233,93 @@ class CompanyController extends Controller
         return response()->json(new CompanyResource($company));
     }
 
-        public function CompanyRegister(Company $company, Request $request)
-        {
-            
-            $hased_password = bcrypt($request->password);
-            $request['password'] = $hased_password;
+    public function CompanyRegister(Company $company, Request $request)
+    {
+        
+        $hased_password = bcrypt($request->password);
+        $request['password'] = $hased_password;
 
-            try{
-    
-                $email_exist = User::where('email', $request['email'])->first();
-    
-                if($email_exist)
-                {
-                    return response()->json([
-                        'status' => 'error',
-                        'message' => 'Email Already Exist!',
-                    ]);
-                } 
-                
-                $user = new User();
+        try{
 
-                $verificationToken = md5(uniqid(rand(), true));
-    
-                $newUser = $user->create([
-                    'name' => $request->first_name.' '.$request->last_name,
-                    'email' => $request->email,
-                    'password' => $request->password,
-                    'suburb_id' => $request->suburb_id,
-                    'email_verified_at' => $verificationToken
-                ]);
-    
-                if($newUser)
-                {
-                    //Assign Employer role to user
-                    $employerRole = Role::find(3);
-                    $newUser->assignRole($employerRole);
-    
-                    Company::create([
-                        'name' => $request->company_name,
-                        'owner_id' => $newUser->id,
-                        'package_id' => 1,
-                        'company_type_id' => $request->company_type_id,
-                        'suburb_id' => $request->suburb_id
-                        
-                    ]);
+            $email_exist = User::where('email', $request['email'])->first();
 
-                    $email_templates  = new EmailTemplateController();
-                    $get_template = $email_templates->get_template('company-account-verify');
-                    $originalContent = $get_template['desc'];
-
-                    // email=' . urlencode($userEmail) . '&token=' . $verificationToken;
-
-                    $email_variables = [
-                        '[Name]' => $request->first_name.' '.$request->last_name,
-                        '[Account Verify Link]' => '<a href="'.env('FRONT_APP_URL').'account-verification/?email='. urlencode($request->email) .'&token='.$verificationToken.'" target="_blank">'.env('FRONT_APP_URL').'</a>',
-                    ];
-
-                    echo $originalContent;
-
-                    foreach ($email_variables as $search => $replace) {
-                        $originalContent = str_replace($search, $replace, $originalContent);
-                    };
-
-                    $subject = "Account verification Email";
-                    $To = $request->email;
-
-                    echo $originalContent;
-
-                    // $result = Mail::to($To)->send(new MultiPurposeEmail($subject, $originalContent));
-
-
-                }
-    
-                return response()->json([
-                    'status' => 'success',
-                    'message' => 'Registration successful!',
-                    'user' => $newUser
-                ]);
-
-            }   
-                catch(Exception $e)
+            if($email_exist)
             {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Email Already Exist!',
+                ]);
+            } 
+            
+            $user = new User();
 
-                return $e->getMessage();
+            $verificationToken = md5(uniqid(rand(), true));
+
+            $newUser = $user->create([
+                'name' => $request->first_name.' '.$request->last_name,
+                'email' => $request->email,
+                'password' => $request->password,
+                'suburb_id' => $request->suburb_id,
+                'email_verified_at' => $verificationToken
+            ]);
+
+            if($newUser)
+            {
+                //Assign Employer role to user
+                $employerRole = Role::find(3);
+                $newUser->assignRole($employerRole);
+
+                Company::create([
+                    'name' => $request->company_name,
+                    'owner_id' => $newUser->id,
+                    'package_id' => 1,
+                    'company_type_id' => $request->company_type_id,
+                    'suburb_id' => $request->suburb_id
+                    
+                ]);
+
+                $email_templates  = new EmailTemplateController();
+                $get_template = $email_templates->get_template('company-account-verify');
+                $originalContent = $get_template['desc'];
+
+                // email=' . urlencode($userEmail) . '&token=' . $verificationToken;
+
+                $email_variables = [
+                    '[Name]' => $request->first_name.' '.$request->last_name,
+                    '[Account Verify Link]' => '<a href="'.env('FRONT_APP_URL').'account-verification/?email='. urlencode($request->email) .'&token='.$verificationToken.'" target="_blank">'.env('FRONT_APP_URL').'</a>',
+                ];
+
+                echo $originalContent;
+
+                foreach ($email_variables as $search => $replace) {
+                    $originalContent = str_replace($search, $replace, $originalContent);
+                };
+
+                $subject = "Account verification Email";
+                $To = $request->email;
+
+                echo $originalContent;
+
+                MultiPurposeEmailJob::dispatch($To, $subject, $originalContent);
+
+                // $result = Mail::to($To)->send(new MultiPurposeEmail($subject, $originalContent));
+
+
             }
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Registration successful!',
+                'user' => $newUser
+            ]);
+
+        }   
+            catch(Exception $e)
+        {
+
+            return $e->getMessage();
         }
+    }
 
 
     public function CompaniesListing(Request $request, Company $company){

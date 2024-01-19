@@ -39,7 +39,11 @@ class AuthServiceProvider extends ServiceProvider
     public function boot(): void
     {
         ResetPassword::createUrlUsing(function (User $user, string $token) {
-            return env('FRONT_APP_URL').'reset-password/'.$token.'?email='.$user->email;
+            if ($user->hasRole('Super Admin')) {
+                return env('APP_URL').'reset-password/'.$token.'?email='.$user->email;
+            } else {
+                return env('FRONT_APP_URL').'reset-password/'.$token.'?email='.$user->email;
+            }
         });    
     }
 }
