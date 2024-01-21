@@ -7,9 +7,9 @@
     <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
         <div class="container">
 
-            @if (Session::has('success'))
+            @if (Session::has('status'))
                 <div class="alert alert-success">
-                    {{ Session::get('success') }}
+                    {{ Session::get('status') }}
                     @php
                         Session::forget('success');
                     @endphp

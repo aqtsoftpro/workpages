@@ -28,7 +28,9 @@ class Company extends Model
         'pinterest',
         'dribble',
         'behance',
-        'suburb_id'
+        'suburb_id',
+        'comapny_verified_at',
+        'status'
     ];
 
     public function location(){

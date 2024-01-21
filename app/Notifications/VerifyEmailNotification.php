@@ -6,21 +6,17 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
-use Illuminate\Queue\SerializesModels;
 
-class ResetPasswordNotification extends Notification
+class VerifyEmailNotification extends Notification
 {
-    use Queueable, SerializesModels;
+    use Queueable;
 
-    public $subject;
-    public $content;
     /**
      * Create a new notification instance.
      */
-    public function __construct($subject, $content)
+    public function __construct()
     {
-        $this->subject = $subject;
-        $this->content = $content;
+        //
     }
 
     /**
@@ -38,9 +34,11 @@ class ResetPasswordNotification extends Notification
      */
     public function toMail(object $notifiable): MailMessage
     {
+        $verificationUrl = env('FRONT_APP_URL').'verify-email/'.$notifiable->getKey();
+
         return (new MailMessage)
                     ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
+                    ->action('Notification Action', $verificationUrl)
                     ->line('Thank you for using our application!');
     }
 

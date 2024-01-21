@@ -16,18 +16,19 @@ class MultiPurposeEmailJob implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     public $table = 'queue_jobs';
-
     protected $To;
     protected $subject;
     protected $originalContent;
+    protected $verificationUrl;
     /**
      * Create a new job instance.
      */
-    public function __construct($To, $subject, $originalContent)
+    public function __construct($To, $subject, $originalContent, $verificationUrl)
     {
         $this->To = $To;
         $this->subject = $subject;
         $this->originalContent = $originalContent;
+        $this->verificationUrl = $verificationUrl;
     }
 
     /**
@@ -35,7 +36,7 @@ class MultiPurposeEmailJob implements ShouldQueue
      */
     public function handle(): void
     {
-        $email = new MultiPurposeEmail($this->subject, $this->originalContent);
+        $email = new MultiPurposeEmail($this->subject, $this->originalContent, $this->verificationUrl);
 
         Mail::to($this->To)->send($email);
     }

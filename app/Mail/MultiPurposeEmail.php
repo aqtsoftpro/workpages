@@ -15,6 +15,7 @@ class MultiPurposeEmail extends Mailable
 
     public $subject;
     public $content;
+    public $url;
 
     /**
      * Create a new message instance.
@@ -22,10 +23,11 @@ class MultiPurposeEmail extends Mailable
      * @param string $subject
      * @param string $content
      */
-    public function __construct($subject, $content)
+    public function __construct($subject, $content, $url)
     {
         $this->subject = $subject;
         $this->content = $content;
+        $this->url = $url;
     }
 
     /**
@@ -40,6 +42,7 @@ class MultiPurposeEmail extends Mailable
             ->view('emails.workpages-template')
             ->with([
                 'content' => $this->content,
+                'url' => $this->url,
             ]);
     }
 }

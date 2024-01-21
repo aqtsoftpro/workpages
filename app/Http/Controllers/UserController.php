@@ -12,8 +12,10 @@ use Pusher\Pusher;
 use App\Events\SendDataToPusher;
 use App\Mail\MultiPurposeEmail;
 use App\Jobs\MultiPurposeEmailJob;
-
+use App\Jobs\NotificationEmailJob;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\URL;
+
 
 class UserController extends Controller
 {
@@ -183,20 +185,29 @@ class UserController extends Controller
             ]);
 
             //Assign Job Seeker role to user
-            $jobSeekerRole = Role::find(2);
+            $jobSeekerRole = Role::find(1);
             $newUser->assignRole($jobSeekerRole);
 
             if ($newUser) {
 
+                $customBaseUrl = 'http://localhost:8080';
+
+                    $linkurl = URL::temporarySignedRoute(
+                        'verification.verify',
+                        now()->addMinutes(60),
+                        ['id' => $newUser->id, 'hash' => sha1($newUser->email)],
+                        false // This parameter ensures that the base URL is not included
+                    );
+
+                    $verificationUrl = rtrim($customBaseUrl, '/') . '/' . ltrim($linkurl, '/');
+
                     $email_templates  = new EmailTemplateController();
-                    $get_template = $email_templates->get_template('job-seeker-registration');
+                    $get_template = $email_templates->get_template('job-seeker-verify-email');
                     $originalContent = $get_template['desc'];
-
-                    // email=' . urlencode($userEmail) . '&token=' . $verificationToken;
-
+                    
                     $email_variables = [
                         '[Name]' => $request->first_name.' '.$request->last_name,
-                        // '[Account Verify Link]' => '<a href="'.env('FRONT_APP_URL').'account-verification/?email='. urlencode($request->email) .'&token='.$verificationToken.'" target="_blank">'.env('FRONT_APP_URL').'</a>',
+                        '[Account Verify Link]' => '<a href="'.$verificationUrl.'" target="_blank">'.env('FRONT_APP_URL').'</a>',
                     ];
 
                     // echo $originalContent;
@@ -205,18 +216,17 @@ class UserController extends Controller
                         $originalContent = str_replace($search, $replace, $originalContent);
                     };
 
-                    $subject = "Thank you for sign up";
+                    $subject = "Verify Email Address";
                     $To = $request->email;
 
-                    echo $originalContent;
-
-                    MultiPurposeEmailJob::dispatch($To, $subject, $originalContent);
+                    MultiPurposeEmailJob::dispatch($To, $subject, $originalContent, $verificationUrl);
             }
 
             return response()->json([
                 'status' => 'success',
                 'message' => 'Registration successful!',
-                'user' => $newUser
+                'user' => $newUser,
+                'token' => $newUser->createToken($request->device_name)->plainTextToken
             ]);
         }   catch(Exception $e){
             return $e->getMessage();

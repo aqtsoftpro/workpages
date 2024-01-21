@@ -37,6 +37,8 @@ use App\Http\Controllers\LocationStatesController;
 use App\Http\Controllers\SuburbController;
 use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\PackageController;
+use App\Http\Controllers\Auth\VerifyEmailController;
+
 
 
 
@@ -100,6 +102,8 @@ Route::post('/workpages/getUser', function (Request $request) {
 
 
 Route::group(['middleware' => ['auth:sanctum', 'cors']], function () {
+
+    Route::get('verify-email/{id}/{hash}', VerifyEmailController::class)->middleware(['signed', 'throttle:6,1']);
 
     Route::put('updatePassword/{user_id}', [UserController::class, 'updatePassword']);
     Route::resource('user', UserController::class);

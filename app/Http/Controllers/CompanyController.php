@@ -275,7 +275,6 @@ class CompanyController extends Controller
                     'package_id' => 1,
                     'company_type_id' => $request->company_type_id,
                     'suburb_id' => $request->suburb_id
-                    
                 ]);
 
                 $email_templates  = new EmailTemplateController();
