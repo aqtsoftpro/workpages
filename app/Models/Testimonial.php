@@ -8,7 +8,7 @@ use Laravel\Scout\Searchable;
 
 class Testimonial extends Model
 {
-    use HasFactory, Searchable;
+    use HasFactory;
     protected $table = 'testimonials';
 
     protected $fillable = [

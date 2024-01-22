@@ -21,15 +21,15 @@ class PermissionSeeder extends Seeder
         $category = PermissionsCategories::where('name', 'Admin Panel')->first();
         $role = Role::where('name', 'Super Admin')->first();
         $adminpermissions = [
-
-            'List Application',
-            'View Application',
-            'Edit Application',
-            'Delete Application',
-            'Restore Application',
-            'Delete Permanent Application',
+            // 'Add Application',
+            // 'View Application',
+            // 'Edit Application',
+            // 'Delete Application',
+            // 'Restore Application',
+            // 'Delete Permanent Application',
 
             'List Blog',
+            'Add Blog',
             'View Blog',
             'Edit Blog',
             'Delete Blog',
@@ -37,6 +37,7 @@ class PermissionSeeder extends Seeder
             'Delete Permanent Blog',
 
             'List Cms',
+            'Add Cms',
             'View Cms',
             'Edit Cms',
             'Delete Cms',
@@ -44,6 +45,7 @@ class PermissionSeeder extends Seeder
             'Delete Permanent Cms',
 
             'List Company',
+            'Add Company',
             'View Company',
             'Edit Company',
             'Delete Company',
@@ -51,6 +53,7 @@ class PermissionSeeder extends Seeder
             'Delete Permanent Company',
 
             'List Currency',
+            'Add Currency',
             'View Currency',
             'Edit Currency',
             'Delete Currency',
@@ -58,6 +61,7 @@ class PermissionSeeder extends Seeder
             'Delete Permanent Currency',
 
             'List Designation',
+            'Add Designation',
             'View Designation',
             'Edit Designation',
             'Delete Designation',
@@ -65,6 +69,7 @@ class PermissionSeeder extends Seeder
             'Delete Permanent Designation',
 
             'List Job',
+            'Add Job',
             'View Job',
             'Edit Job',
             'Delete Job',
@@ -72,6 +77,7 @@ class PermissionSeeder extends Seeder
             'Delete Permanent Job',
 
             'List Notification',
+            'Add Notification',
             'View Notification',
             'Edit Notification',
             'Delete Notification',
@@ -79,6 +85,7 @@ class PermissionSeeder extends Seeder
             'Delete Permanent Notification',
 
             'List Package',
+            'Add Package',
             'View Package',
             'Edit Package',
             'Delete Package',
@@ -86,6 +93,7 @@ class PermissionSeeder extends Seeder
             'Delete Permanent Package',
 
             'List Permission',
+            'Add Permission',
             'View Permission',
             'Edit Permission',
             'Delete Permission',
@@ -94,6 +102,7 @@ class PermissionSeeder extends Seeder
 
 
             'List Role',
+            'Add Role',
             'View Role',
             'Edit Role',
             'Delete Role',
@@ -101,6 +110,7 @@ class PermissionSeeder extends Seeder
             'Delete Permanent Role',
 
             'List Site Settings',
+            'Add Site Settings',
             'View Site Settings',
             'Edit Site Settings',
             'Delete Site Settings',
@@ -109,6 +119,7 @@ class PermissionSeeder extends Seeder
 
 
             'List Subscription',
+            'Add Subscription',
             'View Subscription',
             'Edit Subscription',
             'Delete Subscription',
@@ -116,13 +127,12 @@ class PermissionSeeder extends Seeder
             'Delete Permanent Subscription',
 
             'List User',
+            'Add User',
             'View User',
             'Edit User',
             'Delete User',
             'Restore User',
             'Delete Permanent User',
-
-            'Add Site Settings'
         ];
 
         foreach ($adminpermissions as $permission) {
