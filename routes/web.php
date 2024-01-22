@@ -67,7 +67,7 @@ Route::middleware('auth')->prefix('admin')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy']);
 });
 
-Route::middleware('auth')->prefix('admin')->group(function () {
+Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
 
     Route::get('/dashboard', [\App\Http\Controllers\AdminDashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 

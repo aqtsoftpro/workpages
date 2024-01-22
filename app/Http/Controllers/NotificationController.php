@@ -19,16 +19,19 @@ class NotificationController extends Controller
     public function notification_job_alert()
     {
 
-        $records = Notification::join('jobs', 'notifications.job_id', '=', 'jobs.id')
-        ->join('companies', 'notifications.company_id', '=', 'companies.id')
-        ->select(    
-            'jobs.id as job_id',
-            'companies.name as company_name',
-            'jobs.location_id',
-            'jobs.job_title',
-            'jobs.salary_from',
-            'jobs.salary_to'
-        )->get();
+        // $records = Notification::join('jobs', 'notifications.job_id', '=', 'jobs.id')
+        // ->join('companies', 'notifications.company_id', '=', 'companies.id')
+        // ->select(    
+        //     'jobs.id as job_id',
+        //     'companies.name as company_name',
+        //     'jobs.location_id',
+        //     'jobs.job_title',
+        //     'jobs.salary_from',
+        //     'jobs.salary_to'
+        // )->get();
+
+        $records = Notification::whereNotNull('job_id')->with('job.company')->get();
+
   
         return view('admin.notifications.notification_job_alert', compact('records'));
 
@@ -37,18 +40,21 @@ class NotificationController extends Controller
     public function notification_package_subscription()
     {
 
-        $records = Notification::join('jobs', 'notifications.job_id', '=', 'jobs.id')
-        ->join('companies', 'notifications.company_id', '=', 'companies.id')
-        ->select(    
-            'jobs.id as job_id',
-            'companies.name as company_name',
-            'jobs.location_id',
-            'jobs.job_title',
-            'jobs.salary_from',
-            'jobs.salary_to'
-        )->get();
+        // $records = Notification::join('jobs', 'notifications.job_id', '=', 'jobs.id')
+        // ->join('companies', 'notifications.company_id', '=', 'companies.id')
+        // ->select(    
+        //     'jobs.id as job_id',
+        //     'companies.name as company_name',
+        //     'jobs.location_id',
+        //     'jobs.job_title',
+        //     'jobs.salary_from',
+        //     'jobs.salary_to'
+        // )->get();
+        $records = Notification::where('type', '_notification_package_subscription')->with('mainCompany.jobs')->get();
+
+        // dd($records);
   
-        return view('admin.notifications.notification_job_alert', compact('records'));
+        return view('admin.notifications.subscription_alert', compact('records'));
         
     }
 

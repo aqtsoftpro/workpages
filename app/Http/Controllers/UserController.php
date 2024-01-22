@@ -176,7 +176,7 @@ class UserController extends Controller
 
             // }
 
-            $newUser = $user->create([
+            $newUser = User::create([
                 'name' => $request['first_name'] . ' ' . $request['last_name'],
                 'email' => $request['email'],
                 'suburb_id' => $request['suburb_id'],
@@ -185,49 +185,50 @@ class UserController extends Controller
             ]);
 
             //Assign Job Seeker role to user
-            $jobSeekerRole = Role::find(1);
-            $newUser->assignRole($jobSeekerRole);
+            $jobSeekerRole = Role::where('name', 'Job Seeker')->first();
 
             if ($newUser) {
+                $newUser->assignRole($jobSeekerRole);
+                // $customBaseUrl = env('FRONT_APP_URL');
 
-                $customBaseUrl = 'http://localhost:8080';
+                $linkurl = URL::temporarySignedRoute(
+                    'verification.verify',
+                    now()->addMinutes(60),
+                    ['id' => $newUser->id, 'hash' => sha1($newUser->email)],
+                    // false // This parameter ensures that the base URL is not included
+                );
 
-                    $linkurl = URL::temporarySignedRoute(
-                        'verification.verify',
-                        now()->addMinutes(60),
-                        ['id' => $newUser->id, 'hash' => sha1($newUser->email)],
-                        false // This parameter ensures that the base URL is not included
-                    );
+                // $verificationUrl = rtrim($customBaseUrl, '/') . '/' . ltrim($linkurl, '/');
+                $verificationUrl = $linkurl;
+                $email_templates  = new EmailTemplateController();
+                $get_template = $email_templates->get_template('job-seeker-verify-email');
+                $originalContent = $get_template['desc'];
+                
+                $email_variables = [
+                    '[Name]' => $request->first_name.' '.$request->last_name,
+                    '[Account Verify Link]' => '<a href="'.$verificationUrl.'" target="_blank">'.env('FRONT_APP_URL').'</a>',
+                ];
 
-                    $verificationUrl = rtrim($customBaseUrl, '/') . '/' . ltrim($linkurl, '/');
+                // echo $originalContent;
 
-                    $email_templates  = new EmailTemplateController();
-                    $get_template = $email_templates->get_template('job-seeker-verify-email');
-                    $originalContent = $get_template['desc'];
-                    
-                    $email_variables = [
-                        '[Name]' => $request->first_name.' '.$request->last_name,
-                        '[Account Verify Link]' => '<a href="'.$verificationUrl.'" target="_blank">'.env('FRONT_APP_URL').'</a>',
-                    ];
+                foreach ($email_variables as $search => $replace) {
+                    $originalContent = str_replace($search, $replace, $originalContent);
+                };
 
-                    // echo $originalContent;
+                $subject = "Verify Email Address";
+                $To = $request->email;
 
-                    foreach ($email_variables as $search => $replace) {
-                        $originalContent = str_replace($search, $replace, $originalContent);
-                    };
+                MultiPurposeEmailJob::dispatch($To, $subject, $originalContent, $verificationUrl);
 
-                    $subject = "Verify Email Address";
-                    $To = $request->email;
-
-                    MultiPurposeEmailJob::dispatch($To, $subject, $originalContent, $verificationUrl);
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Registration successful!',
+                    'user' => $newUser,
+                    'token' => $newUser->createToken($request->device_name)->plainTextToken
+                ]);
             }
 
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Registration successful!',
-                'user' => $newUser,
-                'token' => $newUser->createToken($request->device_name)->plainTextToken
-            ]);
+
         }   catch(Exception $e){
             return $e->getMessage();
         }

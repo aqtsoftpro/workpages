@@ -11,19 +11,14 @@ class NewsletterController extends Controller
   
     public function mailChimpEmailLog(Request $request)
         {
-
-
             $mailChimpApiKey = SiteSettings::where('meta_key', '_mailchimp_api_key')->first()->toArray();
             $mailChimpListID = SiteSettings::where('meta_key', '_mailchimp_list_id')->first()->toArray();
 
-
             if($mailChimpApiKey)
             {
-
                 $email = $request->newsletter_email;
                 $apiKey = $mailChimpApiKey['meta_val'];
                 $listId = $mailChimpListID['meta_val'];
-
                 $data = [
                     'email_address' => $email,
                     'status' => 'subscribed', // or 'pending' for double opt-in
@@ -74,8 +69,6 @@ class NewsletterController extends Controller
     
                     ]);
                 }
-
-
             }
             else
             {

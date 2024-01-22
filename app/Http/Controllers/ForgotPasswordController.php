@@ -13,6 +13,9 @@ use Illuminate\Support\Str;
 use App\Mail\MultiPurposeEmail;
 use App\Jobs\MultiPurposeEmailJob;
 use App\Models\User;
+use App\Jobs\NotificationEmailJob;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\URL;
 
 
 class ForgotPasswordController extends Controller
@@ -20,6 +23,40 @@ class ForgotPasswordController extends Controller
     public function forgot() 
     {
         $credentials = request()->validate(['email' => 'required|email']);
+
+        // if (request()->user()) {
+
+        //     $customBaseUrl = env('FRONT_APP_URL');
+
+        //     $linkurl = URL::temporarySignedRoute(
+        //         'verification.verify',
+        //         now()->addMinutes(60),
+        //         ['id' => request()->user()->id, 'hash' => sha1(request()->email)],
+        //         false // This parameter ensures that the base URL is not included
+        //     );
+
+        //     $verificationUrl = rtrim($customBaseUrl, '/') . '/' . ltrim($linkurl, '/');
+
+        //     $email_templates  = new EmailTemplateController();
+        //     $get_template = $email_templates->get_template('job-seeker-verify-email');
+        //     $originalContent = $get_template['desc'];
+            
+        //     $email_variables = [
+        //         '[Name]' => request()->user()->name,
+        //         '[Account Verify Link]' => '<a href="'.$verificationUrl.'" target="_blank">'.env('FRONT_APP_URL').'</a>',
+        //     ];
+
+        //     // echo $originalContent;
+
+        //     foreach ($email_variables as $search => $replace) {
+        //         $originalContent = str_replace($search, $replace, $originalContent);
+        //     };
+
+        //     $subject = "Verify Email Address";
+        //     $To = $request->email;
+
+        //     MultiPurposeEmailJob::dispatch($To, $subject, $originalContent, $verificationUrl);
+        // }
 
         Password::sendResetLink($credentials);
         return response()->json(["msg" => 'Reset password link sent on your email id.']);

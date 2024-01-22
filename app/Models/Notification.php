@@ -5,14 +5,22 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Laravel\Scout\Searchable;
+use App\Models\Job;
 
 
 class Notification extends Model
 {
-    use HasFactory, Searchable;
+    use HasFactory;
 
     protected $fillable = [
+      'type',
+      'name',
+      'package_id',
+      'company',
+      'package',
       'job_title',
       'company_id',
       'job_key',
@@ -33,10 +41,11 @@ class Notification extends Model
       'gender',
       'qualification_id',
       'working_mode',
-      'payment_mode'
+      'payment_mode',
+      'job_id'
     ];
 
-    public function company(){
+    public function mainCompany(){
       return $this->belongsTo(Company::class);
     }
 
@@ -62,6 +71,11 @@ class Notification extends Model
 
     public function applications(){
         return $this->hasMany(Application::class);
+    }
+
+    public function job(): BelongsTo
+    {
+      return $this->belongsTo(Job::class);
     }
 }
 

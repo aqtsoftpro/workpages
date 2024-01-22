@@ -101,7 +101,7 @@ Route::post('/workpages/getUser', function (Request $request) {
 });
 
 
-Route::group(['middleware' => ['auth:sanctum', 'cors']], function () {
+Route::group(['middleware' => ['auth:sanctum', 'cors', 'verified']], function () {
 
     Route::get('verify-email/{id}/{hash}', VerifyEmailController::class)->middleware(['signed', 'throttle:6,1']);
 

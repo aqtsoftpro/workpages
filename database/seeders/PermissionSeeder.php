@@ -121,6 +121,8 @@ class PermissionSeeder extends Seeder
             'Delete User',
             'Restore User',
             'Delete Permanent User',
+
+            'Add Site Settings'
         ];
 
         foreach ($adminpermissions as $permission) {
