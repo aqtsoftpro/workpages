@@ -32,7 +32,6 @@ class NotificationController extends Controller
 
         $records = Notification::whereNotNull('job_id')->with('job.company')->get();
 
-  
         return view('admin.notifications.notification_job_alert', compact('records'));
 
     }

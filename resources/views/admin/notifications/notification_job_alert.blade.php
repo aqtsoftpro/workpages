@@ -56,8 +56,8 @@
                   <td>{{ $record->job_title }}</td>
                   <td>{{ $record->location_id }}</td>
                   <td>
-                    <b>Salary From : </b>{{ $record->salary_from }}<br>
-                    <b>Salary To : </b>{{ $record->salary_to }}
+                    <b>Salary From : </b>{{ $record->job->salary_from ?? 0.00 }}<br>
+                    <b>Salary To : </b>{{ $record->job->salary_to ?? 0.00 }}
                   </td>
               </tr>
               @endforeach
