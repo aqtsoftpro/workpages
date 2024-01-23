@@ -17,6 +17,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Cashier\Billable;
 use Laravel\Scout\Searchable;
 use App\Notifications\VerifyEmailNotification;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+
 
 
 
@@ -118,4 +120,9 @@ class User extends Authenticatable implements MustVerifyEmail
     // {
     //     $this->notify((new VerifyEmailNotification));
     // }
+
+    public function portfolios(): HasMany
+    {
+        return $this->hasMany(User::class);
+    }
 }
