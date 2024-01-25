@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Exception;
-use App\Models\SiteSettings;
+use App\Models\{SiteSettings, Notification};
 use Illuminate\Http\Request;
 
 class NewsletterController extends Controller
@@ -55,11 +55,26 @@ class NewsletterController extends Controller
                 }
                 elseif($statusCode == 200)
                 {
-                    return response()->json([
-                        'status' => 'successs',
-                        'message' => 'You have successfully subcribed newsletter',
-    
-                    ]);
+                    try {
+                        $notification = Notification::create([
+                            'type' => '_notification_newsletter',
+                            'name' => 'Newsletter',
+                            'package' => 'No Package',
+                            'desc' => 'Newsletter subscribed by '.$email.'.'
+                        ]);
+                        return response()->json([
+                            'status' => 'successs',
+                            'message' => 'You have successfully subcribed newsletter',
+        
+                        ]);
+                    } catch (\Throwable $th) {
+                        return response()->json([
+                            'status' => 'error',
+                            'message' => $th,
+        
+                        ]);
+                    }
+
                 }
                 else
                 {

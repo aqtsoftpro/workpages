@@ -47,12 +47,22 @@ class AdminSettingsController extends Controller
         {
             if($request->file('_slider_img'))
             {
-                $FileName = 'slider-img-'.time().'-'.rand(100000,1000000).'.'.$request->file('_slider_img')->extension();
-                $request->file('_slider_img')->storeAs('public', $FileName);
+                // $FileName = 'slider-img-'.time().'-'.rand(100000,1000000).'.'.$request->file('_slider_img')->extension();
+                // $request->file('_slider_img')->storeAs('public', $FileName);
+                $FileName = $request->file('_slider_img')->store('/','public');
                 
                 if(isset($FileName)){
-                    $img_array['_slider_img'] = env('APP_URL') . 'storage/' . $FileName;
-                    SiteSettings::update_setting($img_array);
+                    // $img_array['_slider_img'] = env('APP_URL') . 'storage/' . $FileName;
+                    // SiteSettings::update_setting($img_array);
+                    // $imagePath = env('APP_URL').'storage/'.$FileName;
+                    // SiteSettings::updateRow('_slider_img', $imagePath);
+                    $settingRow = SiteSettings::where('meta_key', '_slider_img')->first();
+                    // dd($settingRow);
+                    if ($settingRow) {
+                        $settingRow->meta_val = env('APP_URL').'storage/'.$FileName;
+                        $settingRow->save();
+                        // dd($settingRow);
+                    }
                 }
             }
 
@@ -274,7 +284,9 @@ class AdminSettingsController extends Controller
 
     public function slider_settings(){
         $this->authorize('create', SiteSettings::class);
+        
         $settings = SiteSettings::select('meta_key', 'meta_val')->get()->keyBy('meta_key')->toArray();
+        // dd($settings);
         return view('admin.settings.slider_settings',  compact('settings'));
     }
 

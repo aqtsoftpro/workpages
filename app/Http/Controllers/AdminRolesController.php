@@ -134,7 +134,7 @@ class AdminRolesController extends Controller
 
         RoleHasPermission::where('role_id', '=', $role->id)->delete();
 
-        if(Role::destroy($id)) {
+        if(Role::destroy($role->id)) {
 
             return redirect()->route('roles.index')
                         ->with('success',''.$deleted_rec->name.' role deleted successfully');

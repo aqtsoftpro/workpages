@@ -36,14 +36,14 @@
           <!-- Table with stripped rows -->
           <ul class="nav nav-tabs nav-tabs-bordered d-flex" id="borderedTabJustified" role="tablist">
             <li class="nav-item flex-fill" role="presentation">
-              <button class="nav-link w-100 active" id="open-jobs-tab" data-bs-toggle="tab" data-bs-target="#bordered-justified-home" type="button" role="tab" aria-controls="home" aria-selected="true">Current Jobs</button>
+              <button class="nav-link w-100 active" id="open-jobs-tab" data-bs-toggle="tab" data-bs-target="#current-jobs" type="button" role="tab" aria-controls="home" aria-selected="true">Current Jobs</button>
             </li>
             <li class="nav-item flex-fill" role="presentation">
-              <button class="nav-link w-100" id="closed-jobs-tab" data-bs-toggle="tab" data-bs-target="#bordered-justified-profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Expired Jobs</button>
+              <button class="nav-link w-100" id="closed-jobs-tab" data-bs-toggle="tab" data-bs-target="#closed-jobs" type="button" role="tab" aria-controls="profile" aria-selected="false">Expired Jobs</button>
             </li>
           </ul>
           <div class="tab-content pt-2" id="borderedTabJustifiedContent">
-            <div class="tab-pane fade show active" id="bordered-justified-home" role="tabpanel" aria-labelledby="open-jobs-tab">
+            <div class="tab-pane fade show active" id="current-jobs" role="tabpanel" aria-labelledby="open-jobs-tab">
               <table class="table datatable">
                 <thead>
                   <tr>
@@ -82,7 +82,7 @@
               </table>
               <!-- End Table with stripped rows -->
             </div>
-            <div class="tab-pane fade" id="bordered-justified-profile" role="tabpanel" aria-labelledby="closed-jobs-tab">
+            <div class="tab-pane fade" id="closed-jobs" role="tabpanel" aria-labelledby="closed-jobs-tab">
               <table class="table datatable">
                 <thead>
                   <tr>

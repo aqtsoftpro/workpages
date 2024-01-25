@@ -73,6 +73,11 @@ return [
         'unsearchable' => 500,
     ],
 
+    'queue' => [
+        'connection' => 'database',
+        'queue' => 'scout'
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Soft Deletes
@@ -174,28 +179,28 @@ return [
             'retry_interval_seconds' => env('TYPESENSE_RETRY_INTERVAL_SECONDS', 1),
         ],
         'model-settings' => [
-            // User::class => [
-            //     'collection-schema' => [
-            //         'fields' => [
-            //             [
-            //                 'name' => 'id',
-            //                 'type' => 'string',
-            //             ],
-            //             [
-            //                 'name' => 'name',
-            //                 'type' => 'string',
-            //             ],
-            //             [
-            //                 'name' => 'created_at',
-            //                 'type' => 'int64',
-            //             ],
-            //         ],
-            //         'default_sorting_field' => 'created_at',
-            //     ],
-            //     'search-parameters' => [
-            //         'query_by' => 'name'
-            //     ],
-            // ],
+            User::class => [
+                'collection-schema' => [
+                    'fields' => [
+                        [
+                            'name' => 'id',
+                            'type' => 'string',
+                        ],
+                        [
+                            'name' => 'name',
+                            'type' => 'string',
+                        ],
+                        [
+                            'name' => 'created_at',
+                            'type' => 'int64',
+                        ],
+                    ],
+                    'default_sorting_field' => 'created_at',
+                ],
+                'search-parameters' => [
+                    'query_by' => 'name'
+                ],
+            ],
         ],
     ],
 

@@ -53,10 +53,10 @@
                         <div class="row">
                           @foreach ($perm_cat['permission'][$key] as $permission)
                             <div class="form-check col-md-4">
-                              <input class="form-check-input" type="checkbox" id="permission" name="role[{{ $permission['id'] }}]" 
+                              <input class="form-check-input" type="checkbox" id="permission-{{$permission['id']}}" name="role[{{ $permission['id'] }}]" 
                               {{ isset($permissions[$permission['id']])?'checked':'' }}
                               >
-                              <label class="form-check-label" for="permission">
+                              <label class="form-check-label" for="permission-{{$permission['id']}}">
                                 {{ $permission['name'] }}
                               </label>
                             </div>

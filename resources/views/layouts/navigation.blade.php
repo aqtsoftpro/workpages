@@ -255,10 +255,10 @@
         </li><!-- End Components Nav -->
 
         <li class="nav-item">
-            <a class="nav-link collapsed" data-bs-target="#jobs-nav" data-bs-toggle="collapse" href="#">
+            <a class="nav-link collapsed" data-bs-target="#app-nav" data-bs-toggle="collapse" href="#">
                 <i class="bi bi-newspaper"></i><span>Applications</span><i class="bi bi-chevron-down ms-auto"></i>
             </a>
-            <ul id="jobs-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+            <ul id="app-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                 <li>
                     <a href="{{ url('admin/applications') }}">
                         <i class="bi bi-circle"></i><span>Manage Applications</span>

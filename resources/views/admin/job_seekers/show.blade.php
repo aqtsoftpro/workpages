@@ -55,9 +55,26 @@
                             {{ $suburb ? $suburb->name : '' }}
                         </div>
 
+                        <hr>
+                        <div class="col-md-12">
+                            <label for="email" class="form-label"><b>Phone</b></label><br>
+                            {{ $record->phone }}
+                        </div>
+
+                        <hr>
+                        <div class="col-md-12">
+                            <label for="email" class="form-label"><b>Description</b></label><br>
+                            {{ $record->phone }}
+                        </div>
+
+                        {{-- <hr>
+                        <div class="col-md-12">
+                            <label for="email" class="form-label"><b>Location</b></label><br>
+                            {{ $record->location }}
+                        </div> --}}
+
                     </div>
                 </div>
-
             </div>
         </div>
     </section>

@@ -29,19 +29,22 @@ class AdminUsersController extends Controller
 
     public function admin_users() {
         // $this->authorize('viewAny', Role::class);
-        $roles =  Role::get()->toArray();
-        $admin_user = array();
-        foreach($roles as $role)
-        {
+        // $roles =  Role::get()->toArray();
+        // $admin_user = array();
+        // foreach($roles as $role)
+        // {
 
-            if($role['name'] == 'Super Admin' || $role['name'] == 'Job Seeker' || $role['name'] == 'Employer')
-            {
-                continue;
-            }
+        //     if($role['name'] == 'Super Admin' || $role['name'] == 'Job Seeker' || $role['name'] == 'Employer')
+        //     {
+        //         continue;
+        //     }
 
-            $records =  Role::find($role['id'])->users;
-        }
+        //     $records =  Role::find($role['id'])->users;
+        // }
 
+        $role = Role::where('name', 'Super Admin')->first();
+
+        $records = $role->users;
 
         return view('admin.users.admin_user', compact('records'));
     }

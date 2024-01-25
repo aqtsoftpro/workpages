@@ -15,7 +15,13 @@ class Category extends Model
         'name', 'icon', 'image', 'slug', 'status'
     ];
 
-
+    public function toSearchableArray()
+    {
+        return array_merge($this->toArray(),[
+            'id' => (string) $this->id,
+            'created_at' => $this->created_at->timestamp,
+        ]);
+    }
     
 
 

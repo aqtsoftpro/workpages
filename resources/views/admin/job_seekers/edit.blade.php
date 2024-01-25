@@ -53,7 +53,7 @@
                         <select class="form-control" name="suburb_id">
                                 <option value="">Show All</option>
                               @foreach ($suburbs as $suburb)
-                                <option value="{{ $suburb->id }}">{{ $suburb->name }}</option>
+                                <option value="{{ $suburb->id }}" @selected($suburb->id == $record->suburb_id)>{{ $suburb->name }}</option>
                               @endforeach
                         </select>
                     </div>

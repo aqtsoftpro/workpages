@@ -54,7 +54,7 @@
 
                   <div class="col-md-12">
                     <label for="name" class="form-label">Email Verified At</label>
-                    <input type="date" name="email_verified_at" value="{{ $record->email_verified_at }}" class="form-control" id="email_verified_at">
+                    <input type="date" name="email_verified_at" value="{{ $record->email_verified_at ?? old('email_verified_a', now()->toDateString() ) }}" class="form-control" id="email_verified_at">
                   </div>
 
                   <div class="col-md-12">
@@ -63,7 +63,6 @@
                   </div>
                   <div class="col-md-12">
                     <label for="name" class="form-label">Permission</label><br>
-
                       <div class="row">
                         @foreach ($user_roles as $role)
                           <div class="form-check col-md-4">
@@ -77,9 +76,6 @@
                       </div>
 
                   </div>
-
-            
-  
                     <div>
                       <button type="submit" class="btn btn-primary">Update</button>
                     </div>

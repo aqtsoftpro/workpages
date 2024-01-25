@@ -22,7 +22,7 @@ class AdminJobsController extends Controller
         $records_closed = Job::whereDate('expiration', '<=' , Carbon::now()
                             ->format('Y-m-d'))
                             // ->where('status', 'inactive')
-                            ->orderBy('job_title', 'ASC')
+                            ->latest()
                             ->get();
 
               
@@ -30,7 +30,7 @@ class AdminJobsController extends Controller
         $records_opened = Job::whereDate('expiration', '>=' , Carbon::now()
                             ->format('Y-m-d'))
                             // ->where('status', 'active')
-                            ->orderBy('job_title', 'ASC')
+                            ->latest()
                             ->get();
         // 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
 

@@ -13,6 +13,8 @@ class SiteSettings extends Model
     use HasFactory;
     protected $table = 'site_settings';
     protected $fillable = [
+        'meta_key',
+        'meta_val',
         'site_name',
         'admin_email',
         'language_id',
@@ -60,6 +62,26 @@ class SiteSettings extends Model
                     }
             }
     
+        }
+
+
+    }
+
+    static function updateRow($key, $value)
+    {
+        $settings = self::where('meta_key', $key)->first();
+        DB::beginTransaction();
+        try {
+            if ($settings) {
+                $settings->meta_val = $value;
+                $settings->save();
+                DB::commit();
+            }
+        } catch (\Throwable $th) {
+            //throw $th;
+            DB::rollBack();
+
+            return $th;
         }
 
 

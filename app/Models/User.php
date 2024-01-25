@@ -18,8 +18,7 @@ use Laravel\Cashier\Billable;
 use Laravel\Scout\Searchable;
 use App\Notifications\VerifyEmailNotification;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-
-
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 
 class User extends Authenticatable implements MustVerifyEmail
@@ -72,7 +71,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
-    public function location(){
+    public function location(): BelongsTo
+    {
         return $this->belongsTo(Location::class);
     }
 

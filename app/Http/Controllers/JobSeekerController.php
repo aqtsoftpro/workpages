@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Exception;
 use App\Models\JobSeeker;
-use App\Models\Suburb;
+use App\Models\{Suburb, User};
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 
@@ -67,6 +67,8 @@ class JobSeekerController extends Controller
     public function show(string $id)
     {
         $record = JobSeeker::find($id);
+        // $record = $record->location;
+        // dd($record);
         return view('admin.job_seekers.show', compact('record'));
     }
 
