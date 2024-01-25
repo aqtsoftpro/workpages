@@ -10,7 +10,7 @@ use Stripe\Stripe;
 use Stripe\Product;
 use Stripe\Price;
 use Laravel\Cashier\Cashier;
-use App\Models\{Subscription, Company, Notification};
+use App\Models\{Subscription, Company};
 
 class PackageController extends Controller
 {
@@ -61,7 +61,6 @@ class PackageController extends Controller
         //     $cart->delete();
         // }
 
-
         Stripe::setApiKey(env('STRIPE_SECRET'));
 
         $session = \Stripe\Checkout\Session::retrieve($session_id, []);
@@ -85,15 +84,6 @@ class PackageController extends Controller
                 'stripe_price' => $package->price,
                 'quantity' => 1,
                 'stripe_status' => 'active',
-            ]);
-
-            Notification::create([
-                'type' => '_notification_package_subscription',
-                'name' => 'Package Subscription',
-                'company_id' =>  $company->id,
-                'package_id' => $package->id,
-                'company' => $company->name,
-                'package' => $package->name,
             ]);
         }
 

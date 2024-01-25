@@ -8,11 +8,8 @@ use App\Models\Category;
 use App\Models\Currency;
 use App\Models\Location;
 use App\Models\Application;
-use App\Models\Job;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Laravel\Scout\Searchable;
 
 
@@ -44,8 +41,7 @@ class Job extends Model
       'payment_mode'
     ];
 
-    public function company(): BelongsTo
-    {
+    public function company(){
       return $this->belongsTo(Company::class);
     }
 
@@ -63,11 +59,6 @@ class Job extends Model
 
     public function job_type(){
         return $this->belongsTo(JobType::class);
-    }
-
-    public function notification(): HasOne
-    {
-        return $this->hasOne(Job::class);
     }
 
     public function qualification(){
