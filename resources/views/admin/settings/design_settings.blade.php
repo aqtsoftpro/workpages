@@ -74,7 +74,7 @@
 
               </div>
             </div>
-             <h1 class="card-title mb-0">Colors</h1>
+             {{-- <h1 class="card-title mb-0">Colors</h1>
             <hr class="mt-0">
             <b class="col-md-12 mb-4">Site Colors</b>
             <div class="row">
@@ -90,8 +90,8 @@
                 <label for="site_base_color_3" class="form-label">Base Color 3</label><br>
                 <input type="color" name="setting[_site_base_color_3]" class="form-control form-control-color" value="{{ (isset($settings['_site_base_color_3']['meta_val']))? $settings['_site_base_color_3']['meta_val']:'' }}"  id="site_base_color_1">
               </div>
-            </div>
-{{--
+            </div> --}}
+            {{--
             <h5 class="card-title mb-0">Colors</h5>
             <h5 class="card-title mb-0">Fonts</h5>
             <hr class="mt-0">

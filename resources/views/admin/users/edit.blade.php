@@ -51,6 +51,12 @@
                     <label for="name" class="form-label">Email</label>
                     <input type="email" name="email" class="form-control" id="email" value="{{ $record->email }}" readonly required>
                   </div>
+
+                  <div class="col-md-12">
+                    <label for="name" class="form-label">Email Verified At</label>
+                    <input type="date" name="email_verified_at" value="{{ $record->email_verified_at }}" class="form-control" id="email_verified_at">
+                  </div>
+
                   <div class="col-md-12">
                     <label for="name" class="form-label">Password</label>
                     <input type="password" name="password" class="form-control" id="password">
@@ -71,6 +77,7 @@
                       </div>
 
                   </div>
+
             
   
                     <div>

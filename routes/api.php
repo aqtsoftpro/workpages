@@ -135,7 +135,7 @@ Route::group(['middleware' => ['auth:sanctum', 'cors', 'verified']], function ()
 
 Route::get('stripe/success/{id}/{session}/{user}', [PackageController::class, 'success']);
 
-Route::post('updateUserPortfolio/{id}', [PortfolioController::class, 'updateUserPortfolio']);
+Route::post('updateUserPortfolio/{id?}', [PortfolioController::class, 'updateUserPortfolio']);
 Route::get('getUserPortfolio/{id}', [PortfolioController::class, 'getUserPortfolio']);
 
 Route::post('updateCompanyProfile/{id}', [CompanyController::class, 'updateCompanyProfile']);

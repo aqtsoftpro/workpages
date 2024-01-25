@@ -47,16 +47,19 @@ use App\Http\Controllers\AdminSearchController;
 
 Route::middleware('cors')->group(function () {
     Route::get('/', function () {
-        return view('welcome');
+        return redirect()->route('login');
     });
 });
 
 Route::get('/loginWithEmail/{email}', function($email){
-
     if($user = User::where('email', $email)->first()){
         Auth::loginUsingId($user->id);
         return redirect('/admin/dashboard');
     }
+});
+
+Route::get('dashboard', function () {
+    return redirect('/admin/dashboard');
 });
 
 Route::middleware('auth')->prefix('admin')->group(function () {

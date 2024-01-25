@@ -20,8 +20,8 @@ class Portfolio extends Model
         'start_date',
         'end_date',
         'skill_used',
-        'images',
         'video_links',
+        'other_file',
         'status',
     ];
 
@@ -30,7 +30,7 @@ class Portfolio extends Model
         return $this->belongsTo(Portfolio::class);
     }
 
-    public function images(): HasMany
+    public function portfolioImages(): HasMany
     {
         return $this->hasMany(PortfolioImage::class);
     }

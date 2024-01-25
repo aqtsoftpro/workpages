@@ -17,6 +17,7 @@ class JobSeeker extends Model
         'suburb_id',
         'status',
         'code',
+        'email_verified_at'
     ];
 }
 

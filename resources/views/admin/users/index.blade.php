@@ -33,7 +33,7 @@
                             <td>{{ $job_seeker->name }}</td>
                             <td>{{ $job_seeker->email }}</td>
                             <td>
-                                <a class="btn btn-primary" href="#">Edit</a>
+                                <a class="btn btn-primary" href="{{ route('users.edit', $job_seeker->id) }}">Edit</a>
                                 <a class="btn btn-info" href="#">View</a>
                                 <a class="btn btn-danger" href="#">Delete</a>
                             </td>

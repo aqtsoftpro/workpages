@@ -1,8 +1,8 @@
 <!-- ======= Sidebar ======= -->
-  <aside id="sidebar" class="sidebar">
+<aside id="sidebar" class="sidebar">
 
     <ul class="sidebar-nav" id="sidebar-nav">
-{{--
+        {{--
       <li class="nav-item">
         <a class="nav-link collapsed" href="{{ url('admin/dashboard') }}">
           <i class="bi bi-grid"></i>
@@ -10,150 +10,151 @@
         </a>
       </li><!-- End Dashboard Nav -->  --}}
 
-      <li class="nav-item">
-        <a class="nav-link"  href="{{ url('admin/dashboard') }}">
-          <i class="bi bi-grid"></i><span>Dashboard</span><i class="bi bi-chevron-down ms-auto"></i>
-        </a>
-      </li><!-- End Components Nav -->
-      @if (auth()->user()->hasRole('Super Admin'))
-                <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-gear"></i><span>Settings</span><i class="bi bi-chevron-down ms-auto"></i>
-        </a>
-        <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-            {{--  <li class="nav-heading">Site Settings</li>  --}}
-        <li>
-            <a href="{{ url('admin/settings') }}">
-              <i class="bi bi-circle"></i><span>Site Settings</span>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url('admin/dashboard') }}">
+                <i class="bi bi-grid"></i><span>Dashboard</span><i class="bi bi-chevron-down ms-auto"></i>
             </a>
-          </li>
-          <li>
-            <a href="{{ url('admin/settings/design_settings') }}">
-              <i class="bi bi-circle"></i><span>Design Settings</span>
-            </a>
-          </li>
-          <li>
-            <a href="{{ url('admin/settings/social_media_settings') }}">
-              <i class="bi bi-circle"></i><span>Social Media Settings</span>
-            </a>
-          </li>
-          <li>
-            <a href="{{ url('admin/settings/payment_settings') }}">
-              <i class="bi bi-circle"></i><span>Payment Gateway Settings</span>
-            </a>
-          </li>
-          <li>
-            <a href="{{ url('admin/settings/newsletter_settings') }}">
-              <i class="bi bi-circle"></i><span>Newsletter Settings</span>
-            </a>
-          </li>
-          <li>
-            <a href="{{ url('admin/settings/sms_settings') }}">
-              <i class="bi bi-circle"></i><span>SMS Settings</span>
-            </a>
-          </li>
-          <li>
-            <a href="{{ url('admin/settings/slider_settings') }}">
-              <i class="bi bi-circle"></i><span>Slider Settings</span>
-            </a>
-          </li>
-          <li>
-            <a href="{{ url('admin/settings/job_seeker_settings') }}">
-              <i class="bi bi-circle"></i><span>Job Seeker Settings</span>
-            </a>
-          </li>
-          <li>
-            <a href="{{ url('admin/settings/notification_settings') }}">
-              <i class="bi bi-circle"></i><span>Notification Setting</span>
-            </a>
-          </li>
-          
-        </ul>
-      </li><!-- End Components Nav -->
-      @endif
+        </li><!-- End Components Nav -->
+        @if (auth()->user()->hasRole('Super Admin'))
+            <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
+                    <i class="bi bi-gear"></i><span>Settings</span><i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    {{--  <li class="nav-heading">Site Settings</li>  --}}
+                    <li>
+                        <a href="{{ url('admin/settings') }}">
+                            <i class="bi bi-circle"></i><span>Site Settings</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ url('admin/settings/design_settings') }}">
+                            <i class="bi bi-circle"></i><span>Design Settings</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ url('admin/settings/social_media_settings') }}">
+                            <i class="bi bi-circle"></i><span>Social Media Settings</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ url('admin/settings/payment_settings') }}">
+                            <i class="bi bi-circle"></i><span>Payment Gateway Settings</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ url('admin/settings/newsletter_settings') }}">
+                            <i class="bi bi-circle"></i><span>Newsletter Settings</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ url('admin/settings/sms_settings') }}">
+                            <i class="bi bi-circle"></i><span>SMS Settings</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ url('admin/settings/slider_settings') }}">
+                            <i class="bi bi-circle"></i><span>Slider Settings</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ url('admin/settings/job_seeker_settings') }}">
+                            <i class="bi bi-circle"></i><span>Job Seeker Settings</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ url('admin/settings/notification_settings') }}">
+                            <i class="bi bi-circle"></i><span>Notification Setting</span>
+                        </a>
+                    </li>
+
+                </ul>
+            </li><!-- End Components Nav -->
+        @endif
 
 
-      <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#cms-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-display"></i><span>CMS</span><i class="bi bi-chevron-down ms-auto"></i>
-        </a>
-        <ul id="cms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-          <li>
-            <a href="{{ url('admin/manage_pages/') }}">
-              <i class="bi bi-circle"></i><span>Manage Pages</span>
+        <li class="nav-item">
+            <a class="nav-link collapsed" data-bs-target="#cms-nav" data-bs-toggle="collapse" href="#">
+                <i class="bi bi-display"></i><span>CMS</span><i class="bi bi-chevron-down ms-auto"></i>
             </a>
-          </li>
-        </ul>
-      </li><!-- End Components Nav -->
+            <ul id="cms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                <li>
+                    <a href="{{ url('admin/manage_pages/') }}">
+                        <i class="bi bi-circle"></i><span>Manage Pages</span>
+                    </a>
+                </li>
+            </ul>
+        </li><!-- End Components Nav -->
 
-      <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#jobcat-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-menu-button-wide"></i><span>Job Categories</span><i class="bi bi-chevron-down ms-auto"></i>
-        </a>
-        <ul id="jobcat-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-          <li>
-            <a href="{{ url('admin/job_categories') }}">
-              <i class="bi bi-circle"></i><span>Job Categories</span>
+        <li class="nav-item">
+            <a class="nav-link collapsed" data-bs-target="#jobcat-nav" data-bs-toggle="collapse" href="#">
+                <i class="bi bi-menu-button-wide"></i><span>Job Categories</span><i
+                    class="bi bi-chevron-down ms-auto"></i>
             </a>
-          </li>
-          <li>
-            <a href="{{ url('admin/sectors') }}">
-              <i class="bi bi-circle"></i><span>Sectors</span>
-            </a>
-          </li>
-          {{-- <li>
+            <ul id="jobcat-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                <li>
+                    <a href="{{ url('admin/job_categories') }}">
+                        <i class="bi bi-circle"></i><span>Job Categories</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ url('admin/sectors') }}">
+                        <i class="bi bi-circle"></i><span>Sectors</span>
+                    </a>
+                </li>
+                {{-- <li>
             <a href="{{ url('admin/locations') }}">
               <i class="bi bi-circle"></i><span>Locations</span>
             </a>
           </li> --}}
-          <li>
-            <a href="{{ url('admin/location_states') }}">
-              <i class="bi bi-circle"></i><span>States</span>
-            </a>
-          </li>
-          <li>
-            <a href="{{ url('admin/skills') }}">
-              <i class="bi bi-circle"></i><span>Skills</span>
-            </a>
-          </li>
-          <li>
-            <a href="{{ url('admin/technologies') }}">
-              <i class="bi bi-circle"></i><span>Technologies</span>
-            </a>
-          </li>
-          <li>
-            <a href="{{ url('admin/suburbs') }}">
-              <i class="bi bi-circle"></i><span>Suburbs</span>
-            </a>
-          </li>
-        </ul>
-      </li><!-- End Components Nav -->
+                <li>
+                    <a href="{{ url('admin/location_states') }}">
+                        <i class="bi bi-circle"></i><span>States</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ url('admin/skills') }}">
+                        <i class="bi bi-circle"></i><span>Skills</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ url('admin/technologies') }}">
+                        <i class="bi bi-circle"></i><span>Technologies</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ url('admin/suburbs') }}">
+                        <i class="bi bi-circle"></i><span>Suburbs</span>
+                    </a>
+                </li>
+            </ul>
+        </li><!-- End Components Nav -->
 
-      <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#email-template-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-envelope"></i><span>Email Templates</span><i class="bi bi-chevron-down ms-auto"></i>
-        </a>
-        <ul id="email-template-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-          <li>
-            <a href="{{ url('admin/email_templates/admin_templates') }}">
-              <i class="bi bi-circle"></i><span>Admin Emails</span>
+        <li class="nav-item">
+            <a class="nav-link collapsed" data-bs-target="#email-template-nav" data-bs-toggle="collapse" href="#">
+                <i class="bi bi-envelope"></i><span>Email Templates</span><i class="bi bi-chevron-down ms-auto"></i>
             </a>
-          </li>
-          <li>
-            <a href="{{ url('admin/email_templates/company_templates') }}">
-              <i class="bi bi-circle"></i><span>Company Emails</span>
-            </a>
-          </li>
-          <li>
-            <a href="{{ url('admin/email_templates/job_seeker_templates') }}">
-              <i class="bi bi-circle"></i><span>Job Seekar Emails</span>
-            </a>
-          </li>
-          
-        </ul>
-      </li><!-- End Components Nav -->
+            <ul id="email-template-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                <li>
+                    <a href="{{ url('admin/email_templates/admin_templates') }}">
+                        <i class="bi bi-circle"></i><span>Admin Emails</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ url('admin/email_templates/company_templates') }}">
+                        <i class="bi bi-circle"></i><span>Company Emails</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ url('admin/email_templates/job_seeker_templates') }}">
+                        <i class="bi bi-circle"></i><span>Job Seekar Emails</span>
+                    </a>
+                </li>
 
-      {{-- <li class="nav-item">
+            </ul>
+        </li><!-- End Components Nav -->
+
+        {{-- <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#blog-nav" data-bs-toggle="collapse" href="#">
           <i class="bi bi-bootstrap-fill"></i><span>Blog</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
@@ -171,125 +172,137 @@
         </ul>
       </li><!-- End Components Nav --> --}}
 
-      <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#subscription-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-basket"></i><span>Packages & Subscriptions</span><i class="bi bi-chevron-down ms-auto"></i>
-        </a>
-        <ul id="subscription-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-          <li>
-            <a href="{{ url('admin/packages/') }}">
-              <i class="bi bi-circle"></i><span>Manage Packages</span>
+        <li class="nav-item">
+            <a class="nav-link collapsed" data-bs-target="#subscription-nav" data-bs-toggle="collapse" href="#">
+                <i class="bi bi-basket"></i><span>Packages & Subscriptions</span><i
+                    class="bi bi-chevron-down ms-auto"></i>
             </a>
-          </li>
-          <li>
-            <a href="{{ url('/admin/subscriptions/') }}">
-              <i class="bi bi-circle"></i><span>Subscription History</span>
-            </a>
-          </li>
-        </ul>
-      </li><!-- End Components Nav -->
+            <ul id="subscription-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                <li>
+                    <a href="{{ url('admin/packages/') }}">
+                        <i class="bi bi-circle"></i><span>Manage Packages</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ url('/admin/subscriptions/') }}">
+                        <i class="bi bi-circle"></i><span>Subscription History</span>
+                    </a>
+                </li>
+            </ul>
+        </li><!-- End Components Nav -->
 
-      <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#admin-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-person-lines-fill"></i><span>User Management</span><i class="bi bi-chevron-down ms-auto"></i>
-        </a>
-        <ul id="admin-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-          <li>
-            <a href="{{ url('admin/roles') }}">
-              <i class="bi bi-circle"></i><span>Role Management</span>
+        <li class="nav-item">
+            <a class="nav-link collapsed" data-bs-target="#admin-nav" data-bs-toggle="collapse" href="#">
+                <i class="bi bi-person-lines-fill"></i><span>User Management</span><i
+                    class="bi bi-chevron-down ms-auto"></i>
             </a>
-          </li>
-          <li>
-            <a href="{{ url('admin/permissions') }}">
-              <i class="bi bi-circle"></i><span>Permissions</span>
-            </a>
-          </li>
-        </ul>
-      </li><!-- End Components Nav -->
+            <ul id="admin-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                <li>
+                    <a href="{{ url('admin/roles') }}">
+                        <i class="bi bi-circle"></i><span>Role Management</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ url('admin/permissions') }}">
+                        <i class="bi bi-circle"></i><span>Permissions</span>
+                    </a>
+                </li>
+            </ul>
+        </li><!-- End Components Nav -->
 
 
-      <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#users-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-people"></i><span>Site Users</span><i class="bi bi-chevron-down ms-auto"></i>
-        </a>
-        <ul id="users-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-          <li>
-            <a href="{{ url('admin/admin_users') }}">
-              <i class="bi bi-circle"></i><span>Admin User</span>
+        <li class="nav-item">
+            <a class="nav-link collapsed" data-bs-target="#users-nav" data-bs-toggle="collapse" href="#">
+                <i class="bi bi-people"></i><span>Site Users</span><i class="bi bi-chevron-down ms-auto"></i>
             </a>
-          </li>
-          <li>
-            <a href="{{ url('admin/job_seekers') }}">
-              <i class="bi bi-circle"></i><span>Job Seeker</span>
-            </a>
-          </li>
-          <li>
-            <a href="{{ url('admin/companies') }}">
-              <i class="bi bi-circle"></i><span>Companies</span>
-            </a>
-          </li>
-        </ul>
-      </li><!-- End Components Nav -->
+            <ul id="users-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                <li>
+                    <a href="{{ url('admin/admin_users') }}">
+                        <i class="bi bi-circle"></i><span>Admin User</span>
+                    </a>
+                </li>
+                @if (auth()->user()->roles('Super Admin'))
+                    <li>
+                        <a href="{{ url('admin/users') }}">
+                            <i class="bi bi-circle"></i><span>Total User</span>
+                        </a>
+                    </li>
+                @endif
+                <li>
+                    <a href="{{ url('admin/job_seekers') }}">
+                        <i class="bi bi-circle"></i><span>Job Seeker</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ url('admin/companies') }}">
+                        <i class="bi bi-circle"></i><span>Companies</span>
+                    </a>
+                </li>
+            </ul>
+        </li><!-- End Components Nav -->
 
-      <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#jobs-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-briefcase"></i><span>Jobs</span><i class="bi bi-chevron-down ms-auto"></i>
-        </a>
-        <ul id="jobs-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-          <li>
-            <a href="{{ url('admin/jobs') }}">
-              <i class="bi bi-circle"></i><span>Current/Expired Jobs</span>
+        <li class="nav-item">
+            <a class="nav-link collapsed" data-bs-target="#jobs-nav" data-bs-toggle="collapse" href="#">
+                <i class="bi bi-briefcase"></i><span>Jobs</span><i class="bi bi-chevron-down ms-auto"></i>
             </a>
-          </li>
-        </ul>
-      </li><!-- End Components Nav -->
+            <ul id="jobs-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                <li>
+                    <a href="{{ url('admin/jobs') }}">
+                        <i class="bi bi-circle"></i><span>Current/Expired Jobs</span>
+                    </a>
+                </li>
+            </ul>
+        </li><!-- End Components Nav -->
 
-      <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#jobs-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-newspaper"></i><span>Applications</span><i class="bi bi-chevron-down ms-auto"></i>
-        </a>
-        <ul id="jobs-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-          <li>
-            <a href="{{ url('admin/applications') }}">
-              <i class="bi bi-circle"></i><span>Manage Applications</span>
+        <li class="nav-item">
+            <a class="nav-link collapsed" data-bs-target="#jobs-nav" data-bs-toggle="collapse" href="#">
+                <i class="bi bi-newspaper"></i><span>Applications</span><i class="bi bi-chevron-down ms-auto"></i>
             </a>
-          </li>
-        </ul>
-      </li><!-- End Components Nav -->
+            <ul id="jobs-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                <li>
+                    <a href="{{ url('admin/applications') }}">
+                        <i class="bi bi-circle"></i><span>Manage Applications</span>
+                    </a>
+                </li>
+            </ul>
+        </li><!-- End Components Nav -->
 
-      <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#testimonials-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-emoji-smile"></i><span>Testimonials/Feedback</span><i class="bi bi-chevron-down ms-auto"></i>
-        </a>
-        <ul id="testimonials-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-          <li>
-            <a href="{{ url('admin/testimonials') }}">
-              <i class="bi bi-circle"></i><span>All Testimonials</span>
+        <li class="nav-item">
+            <a class="nav-link collapsed" data-bs-target="#testimonials-nav" data-bs-toggle="collapse"
+                href="#">
+                <i class="bi bi-emoji-smile"></i><span>Testimonials/Feedback</span><i
+                    class="bi bi-chevron-down ms-auto"></i>
             </a>
-          </li>
-  
-        </ul>
-      </li><!-- End Components Nav -->
+            <ul id="testimonials-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                <li>
+                    <a href="{{ url('admin/testimonials') }}">
+                        <i class="bi bi-circle"></i><span>All Testimonials</span>
+                    </a>
+                </li>
 
-      <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#notification-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-newspaper"></i><span>Notification</span><i class="bi bi-chevron-down ms-auto"></i>
-        </a>
-        <ul id="notification-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-          <li>
-            <a href="{{ url('admin/notification_job_alert') }}">
-              <i class="bi bi-circle"></i><span>Job Alerts</span>
-            </a>
-          </li>
-          <li>
-            <a href="{{ url('admin/notification_package_subscription') }}">
-              <i class="bi bi-circle"></i><span>Package Subscriptions</span>
-            </a>
-          </li>
-        </ul>
-      </li><!-- End Components Nav -->
+            </ul>
+        </li><!-- End Components Nav -->
 
-{{--
+        <li class="nav-item">
+            <a class="nav-link collapsed" data-bs-target="#notification-nav" data-bs-toggle="collapse"
+                href="#">
+                <i class="bi bi-newspaper"></i><span>Notification</span><i class="bi bi-chevron-down ms-auto"></i>
+            </a>
+            <ul id="notification-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                <li>
+                    <a href="{{ url('admin/notification_job_alert') }}">
+                        <i class="bi bi-circle"></i><span>Job Alerts</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ url('admin/notification_package_subscription') }}">
+                        <i class="bi bi-circle"></i><span>Package Subscriptions</span>
+                    </a>
+                </li>
+            </ul>
+        </li><!-- End Components Nav -->
+
+        {{--
       <li class="nav-heading">Pages</li>
 
       <li class="nav-item">
@@ -386,7 +399,7 @@
 
     </ul>
 
-  </aside><!-- End Sidebar-->
+</aside><!-- End Sidebar-->
 {{--  <nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

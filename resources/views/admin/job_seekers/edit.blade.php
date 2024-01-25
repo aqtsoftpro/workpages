@@ -66,6 +66,11 @@
                       </select>
                     </div>
 
+                    <div class="col-md-12">
+                      <label for="email" class="form-label">Verified At</label>
+                      <input type="date" name="email_verified_at" value="{{ $record->email_verified_at }}" class="form-control" id="verify">
+                    </div>
+
                     <div>
                       <button type="submit" class="btn btn-primary">Update</button>
                     </div>

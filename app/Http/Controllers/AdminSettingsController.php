@@ -62,14 +62,23 @@ class AdminSettingsController extends Controller
         if($request->setting_form_type == 'design_settings')
         {
             
-            if($request->file('_site_logo'))
+            if($request->hasFile('_site_logo'))
             {
-                $FileName = 'site-logo-'.time().'-'.rand(100000,1000000).'.'.$request->file('_site_logo')->extension();
-                $request->file('_site_logo')->storeAs('public', $FileName);
-                
-                if(isset($FileName)){
-                    echo $img_array['_site_logo'] = env('APP_URL') . 'storage/' . $FileName;
-                    SiteSettings::update_setting($img_array);
+                // dd('data is here...');
+                // $FileName = 'site-logo-'.time().'-'.rand(100000,1000000).'.'.$request->file('_site_logo')->extension();
+                // $filePath = $request->file('_site_logo')->store('public', $FileName);
+                $imagePath = $request->file('_site_logo')->store('/','public');
+
+                                
+                if(isset($imagePath)){
+                    // echo $img_array['_site_logo'] = env('APP_URL').$imagePath;
+                    // // dd($imagePath);
+                    // SiteSettings::update_setting($img_array);
+                    $settingRow = SiteSettings::where('meta_key', '_site_logo')->first();
+                    if ($settingRow) {
+                        $settingRow->meta_val = env('APP_URL').'storage/'.$imagePath;
+                        $settingRow->update();
+                    }
                 }
             }
 

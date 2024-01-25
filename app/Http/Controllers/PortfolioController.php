@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Portfolio;
+use App\Models\{Portfolio, PortfolioImage};
 use Exception;
 use App\Models\Skill;
 use Illuminate\Http\Request;
@@ -11,23 +11,81 @@ use App\Http\Requests\PortfolioRequest;
 class PortfolioController extends Controller
 {
 
-    public function updateUserPortfolio($id, Request $request)
+    public function updateUserPortfolio(Request $request, $id=null)
     {
-        $inputs = $request->all();
+        if ($id==null) {
+            if ($request->hasFile('other_file')) {
+                // Upload the image and store it in the default 'storage' disk
+                $imagePath = $request->file('other_file')->store('portfolio/others', 'public');
+                // Add the image path to the form data before saving to the database            
+                // $inputs['other_file'] = $imagePath;
+            }
+    
+            $portfolio = Portfolio::create([
+                'user_id' => $request->user_id,
+                'title' => $request->title,
+                'description' => $request->description,
+                'url' => $request->url,
+                'start_date' => $request->start_date,
+                'end_date' => $request->end_date,
+                'skill_used' => $request->skill_used,
+                'other_file' => $imagePath ?? null,
+                'video_links' => $request->video_links,
+            ]);
 
-        Portfolio::create([
-            'user_id' => auth()->id(),
-            'title' => $request->portfolio['title'],
-            'description' => $request->portfolio['description'],
-            'url' => $request->portfolio['url'],
-            'start_date' => null,
-            'end_date' => null,
-            'skill_used' => $request->portfolio['skill_used'],
-            // 'images' => 'ksdfklsd',
-            // 'video_links' => 'ksdfklsd',
-        ]);
+            if ($request->hasFile('images')) {
+                foreach ($request->file('images') as $image) {
+                    // Generate a unique name for each image
+                    $imagePath = $image['file']->store('portfolio/images', 'public');
+                    PortfolioImage::create([
+                        'portfolio_id' => $portfolio->id,
+                        'image' => $imagePath,
+                    ]);
+                }
+            }
+    
 
-        return response()->json(Portfolio::where('user_id', auth()->id())->get()->toArray());
+        } else {
+            $portfolio = Portfolio::with('portfolioImages')->findOrFail($id);
+
+            if ($request->hasFile('other_file')) {
+                // Upload the image and store it in the default 'storage' disk
+                $imagePath = $request->file('other_file')->store('portfolio/others', 'public');
+
+            }
+    
+            $portfolio->update([
+                'user_id' => $request->user_id,
+                'title' => $request->title,
+                'description' => $request->description,
+                'url' => $request->url,
+                'start_date' => $request->start_date,
+                'end_date' => $request->end_date,
+                'skill_used' => $request->skill_used,
+                'other_file' => $imagePath ?? null,
+                'video_links' => $request->video_links,
+            ]);
+
+            if ($request->hasFile('images') ) {
+                foreach ($request->file('images') as $image) {
+                    // Generate a unique name for each image
+                    $imagePath = $image['file']->store('portfolio/images', 'public');
+                    PortfolioImage::create([
+                        'portfolio_id' => $portfolio->id,
+                        'image' => $imagePath,
+                    ]);
+                }
+            }
+        }
+        
+        // $inputs = $request->all();
+
+
+        // else {
+        //     Service::create($inputs);
+        // }
+
+        return response()->json(Portfolio::where('user_id', $request->user_id)->get()->toArray());
 
         // $portfolio[] = array(
         //         'title' => 'portfolio 11',
@@ -88,7 +146,7 @@ class PortfolioController extends Controller
 
     public function getUserPortfolio($id)
     {
-        return response()->json(Portfolio::where('user_id', $id)->get()->toArray());
+        return response()->json(Portfolio::where('user_id', $id)->latest()->take(4)->get()->toArray());
     }
     
 

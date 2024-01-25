@@ -11,8 +11,13 @@ use Spatie\Permission\Models\Role;
 class AdminUsersController extends Controller
 {
     public function index(){
-        // $this->authorize('viewAny', User::class);
-        $job_seekers =  Role::find(2)->users;
+        $this->authorize('viewAny', User::class);
+        if (auth()->user()->roles('Super Admin')) {
+            $job_seekers =  User::all();
+        }
+        else {
+            $job_seekers =  Role::where('name', 'Super Admin')->first()->users;
+        }
         return view('admin.users.index', compact('job_seekers'));
     }
 
@@ -124,13 +129,15 @@ class AdminUsersController extends Controller
 
             $update_user->update([
                 'name' => $request['name'],
-                'password' => $request->password
+                'password' => $request->password,
+                'email_verified_at' => $request->email_verified_at,
             ]);
         }
         else
         {
             $update_user->update([
                 'name' => $request['name'],
+                'email_verified_at' => $request->email_verified_at,
             ]);
         }
 
