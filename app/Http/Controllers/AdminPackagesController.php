@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\{Package, Subscription};
+use App\Models\{Package, Subscription, KeyPoint};
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Http\Requests\PackageRequest;
 use Stripe\PaymentIntent;
@@ -36,12 +37,15 @@ class AdminPackagesController extends Controller
         $inputs = $request->all();
 
         Stripe::setApiKey(env('STRIPE_SECRET'));
+        DB::beginTransaction();
         try {
+
+            if ($request->price > 0) {
                 // Create the product
                 $product = \Stripe\Product::create([
                     'name' => $request->name,
                     'type' => 'service', // optional field
-                    'description' => "this is jsut test", // optional field
+                    'description' => $request->description, // optional field
                 ]);
                 if ($product) {
                     // Create the price for the product
@@ -62,12 +66,28 @@ class AdminPackagesController extends Controller
                         $inputs['stripe_product_id'] = $product->id;
 
                     }
-                }
+                }               
+            }
 
             $added_rec = Package::create($inputs);
+            if($added_rec){
+                    // Validate the request data
+                    $request->validate([
+                        'icon.*' => 'required',
+                        'title.*' => 'required',
+                        'detail.*' => 'required',
+                    ]);
 
-            if($added_rec)
-            {
+                    // Store the data in your database or perform any other necessary action
+                    foreach ($request->icon as $key => $value) {
+                        KeyPoint::create([
+                            'package_id' => $added_rec->id,
+                            'icon' => $value,
+                            'title' => $request->title[$key],
+                            'detail' => $request->detail[$key],
+                        ]);
+                    }
+                    DB::commit();
                 return redirect()->route('packages.index')
                             ->with('success',''.$request->name.' Package added successfully.');
             }
@@ -79,10 +99,27 @@ class AdminPackagesController extends Controller
 
         }
         catch(Exception $ex){
+            DB::rollBack();
             //dd($ex->getMessage());
             return redirect()->route('admin.plans.index')->with('failed', $ex->getMessage());
         }
         
+    }
+
+    public function destroyKey(KeyPoint $keypoint)
+    {   
+        // dd($keypoint);  
+        // $this->authorize('delete', $package);
+        $keypoint = KeyPoint::findOrFail($keypoint->id);
+        $deleted_rec = $keypoint;
+        if($keypoint->delete()) {
+
+            return redirect()->back()
+                        ->with('success',''.$deleted_rec->title.' keypoint deleted successfully');
+          } else {
+            return redirect()->back()
+                        ->with('error','Please try again!');
+        }
     }
 
 
@@ -147,43 +184,69 @@ class AdminPackagesController extends Controller
     public function edit(Package $package)
     {
         $this->authorize('update', $package);
-
-        $record = $package;
-
+        $record = Package::with('keypoints')->find($package->id);
+        // dd($record);
         return view('admin.packages.edit', compact('record'));
     }
 
     public function update(Request $request, Package $package)
     {
+        // dd('some thing done');
         $this->authorize('update', $package);
+        $inputs = [
+            'name' => $request->name,
+            'price' => $request->price
+        ];
+        // $location = $package;
+        $location = Package::with('keypoints')->findOrFail($package->id);
 
-        $location = $package;
-
-        if($location->update($request->all()))
+        if($location->update($inputs))
             {
-                return redirect()->back()->with('success', ''.$request->name.' package updated successfully');
+                foreach ($location->keypoints as $key => $point) {
+                    $point->delete();
+                }
+                $request->validate([
+                    'icon.*' => 'required',
+                    'title.*' => 'required',
+                    'detail.*' => 'required',
+                ]);
+
+                // Store the data in your database or perform any other necessary action
+                foreach ($request->icon as $key => $value) {
+                    KeyPoint::create([
+                        'package_id' => $package->id,
+                        'icon' => $value,
+                        'title' => $request->title[$key],
+                        'detail' => $request->detail[$key],
+                    ]);
+                }
+
+
+                // return redirect()->back()->with('success', ''.$request->name.' package updated successfully');
+                return response()->json(['data' => $package, 'status'=> 'success', 'message'=> $request->name.' package updated successfully']);
             }
             else
             {
-                return redirect()->back()->with('success', 'Something went wrong. Please try again!');
+                // return redirect()->back()->with('success', 'Something went wrong. Please try again!');
+                return response()->json(['data' => $package, 'status'=> 'error', 'message'=> 'Something went wrong. Please try again!']);
             }
     }
 
-    public function destroy(Package $package)
-    {
-        $this->authorize('delete', $package);
+    // public function destroy(Package $package)
+    // {
+    //     $this->authorize('delete', $package);
 
-        $deleted_rec = $package;
+    //     $deleted_rec = $package;
 
-        if(Package::destroy($package->id)) {
+    //     if(Package::destroy($package->id)) {
 
-            return redirect()->route('packages.index')
-                        ->with('success',''.$deleted_rec->name.' package deleted successfully');
-          } else {
-            return redirect()->route('packages.index')
-                        ->with('error','Please try again!');
-        }
-    }
+    //         return redirect()->route('packages.index')
+    //                     ->with('success',''.$deleted_rec->name.' package deleted successfully');
+    //       } else {
+    //         return redirect()->route('packages.index')
+    //                     ->with('error','Please try again!');
+    //     }
+    // }
 
     public function history(){
         return  view('admin.packages.history');

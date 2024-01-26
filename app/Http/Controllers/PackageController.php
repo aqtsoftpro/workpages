@@ -16,7 +16,9 @@ class PackageController extends Controller
 {
     public function index()
     {
-        return response()->json(PackageResource::collection(Package::all()));
+        $packages = Package::with('keypoints')->get();
+        // return response()->json(PackageResource::collection(Package::all()));
+        return response()->json($packages);
     }
 
     //just check if it works or not

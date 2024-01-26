@@ -65,7 +65,7 @@
                                             {{-- <a class="mx-1 btn btn-success"
                                                 href="{{ route('subscriptions.edit', $record->id) }}">Subscribe this..</a> --}}
                                             <a class="mx-1 text-success"
-                                                href="{{ route('subscriptions.edit', $record->id) }}"><i
+                                                href="{{ route('packages.edit', $record->id) }}"><i
                                                     class="bi bi-pen"></i> </a>|
                                             <a type="#" class="mx-1 text-danger" data-bs-toggle="modal"
                                                 data-bs-target="#deleteModel-{{ $record->id }}"><i

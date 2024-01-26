@@ -19,7 +19,6 @@ class NotificationController extends Controller
     public function notification_job_alert()
     {
 
-<<<<<<< HEAD
         // $records = Notification::join('jobs', 'notifications.job_id', '=', 'jobs.id')
         // ->join('companies', 'notifications.company_id', '=', 'companies.id')
         // ->select(    
@@ -32,20 +31,6 @@ class NotificationController extends Controller
         // )->get();
 
         $records = Notification::whereNotNull('job_id')->with('job.company')->get();
-
-=======
-        $records = Notification::join('jobs', 'notifications.job_id', '=', 'jobs.id')
-        ->join('companies', 'notifications.company_id', '=', 'companies.id')
-        ->select(    
-            'jobs.id as job_id',
-            'companies.name as company_name',
-            'jobs.location_id',
-            'jobs.job_title',
-            'jobs.salary_from',
-            'jobs.salary_to'
-        )->get();
-  
->>>>>>> parent of cb616cb (new letter and subscription alert balde done)
         return view('admin.notifications.notification_job_alert', compact('records'));
 
     }

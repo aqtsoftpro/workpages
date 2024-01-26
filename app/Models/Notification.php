@@ -15,28 +15,6 @@ class Notification extends Model
     protected $fillable = [
       'job_title',
       'company_id',
-<<<<<<< HEAD
-      // 'job_key',
-      // 'job_slug',
-      // 'location_id',
-      // 'state_id',
-      // 'job_description',
-      // 'job_responsibilities',
-      // 'salary_from',
-      // 'salary_to',
-      // 'currency_id',
-      // 'category_id',
-      // 'job_title',
-      // 'expiration',
-      // 'job_type_id',
-      // 'vacancy',
-      // 'experience',
-      // 'gender',
-      // 'qualification_id',
-      // 'working_mode',
-      // 'payment_mode',
-      'job_id'
-=======
       'job_key',
       'job_slug',
       'location_id',
@@ -56,7 +34,6 @@ class Notification extends Model
       'qualification_id',
       'working_mode',
       'payment_mode'
->>>>>>> parent of cb616cb (new letter and subscription alert balde done)
     ];
 
     public function company(){

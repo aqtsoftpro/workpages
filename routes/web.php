@@ -154,7 +154,8 @@ Route::middleware('auth')->prefix('admin')->group(function () {
    Route::get('admin_users', [AdminUsersController::class, 'admin_users'])->name('admin_users');;
    Route::resource('users', AdminUsersController::class);
 
-   Route::resource('packages', AdminPackagesController::class);
+   Route::resource('packages', AdminPackagesController::class)->only('index', 'create', 'edit', 'store', 'update');
+   Route::delete('keypoint/{keypoint}/destroy', [AdminPackagesController::class, 'destroyKey'])->name('keypoints.destroy');
 
    Route::post('/session', [AdminPackagesController::class, 'session'])->name("session");
 
@@ -206,6 +207,8 @@ Route::middleware('auth')->prefix('admin')->group(function () {
 //       Route::get('applications/', [\App\Http\Controllers\AdminJobsController::class, 'applications']);
 //       Route::post('/change_status', [\App\Http\Controllers\AdminJobsController::class, 'change_status']);
 //    });
+
+
 
 });
 

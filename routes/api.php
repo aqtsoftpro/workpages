@@ -133,77 +133,82 @@ Route::group(['middleware' => ['auth:sanctum', 'cors']], function () {
 
 });
 
-Route::get('stripe/success/{id}/{session}/{user}', [PackageController::class, 'success']);
+Route::middleware('cors')->group(function(){
+    
+    Route::get('stripe/success/{id}/{session}/{user}', [PackageController::class, 'success']);
 
-Route::post('updateUserPortfolio/{id?}', [PortfolioController::class, 'updateUserPortfolio']);
-Route::get('getUserPortfolio/{id}', [PortfolioController::class, 'getUserPortfolio']);
+    Route::post('updateUserPortfolio/{id?}', [PortfolioController::class, 'updateUserPortfolio']);
+    Route::get('getUserPortfolio/{id}', [PortfolioController::class, 'getUserPortfolio']);
 
-Route::post('updateCompanyProfile/{id}', [CompanyController::class, 'updateCompanyProfile']);
-Route::get('updateCompanyProfile/{id}', [CompanyController::class, 'updateCompanyProfile']);
+    Route::post('updateCompanyProfile/{id}', [CompanyController::class, 'updateCompanyProfile']);
+    Route::get('updateCompanyProfile/{id}', [CompanyController::class, 'updateCompanyProfile']);
 
-Route::get('globalVariables', [GlobalVariableController::class, 'index']);
-Route::get('homeStats', [StatsController::class, 'homeStats']);
+    Route::get('globalVariables', [GlobalVariableController::class, 'index']);
+    Route::get('homeStats', [StatsController::class, 'homeStats']);
 
-Route::post('getCandidateAppiedOnJob/{user_id}/{job_id}', [ApplicationController::class, 'CandidateAppiedOnJob']);
+    Route::post('getCandidateAppiedOnJob/{user_id}/{job_id}', [ApplicationController::class, 'CandidateAppiedOnJob']);
 
-Route::get('subrubs', [SuburbController::class, 'subrubs_list']);
+    Route::get('subrubs', [SuburbController::class, 'subrubs_list']);
 
-Route::post('jobSeekerRegister', [UserController::class, 'jobSeekerRegister']);
-Route::post('company_register', [CompanyController::class, 'CompanyRegister']);
-Route::get('companies', [CompanyController::class, 'companies']);
-Route::get('CompaniesListing', [CompanyController::class, 'CompaniesListing']);
-Route::get('categories', [CategoryController::class, 'categories']);
-Route::get('trending_jobs_categories', [CategoryController::class, 'trending_jobs_categories']);
+    Route::post('jobSeekerRegister', [UserController::class, 'jobSeekerRegister']);
+    Route::post('company_register', [CompanyController::class, 'CompanyRegister']);
+    Route::get('companies', [CompanyController::class, 'companies']);
+    Route::get('CompaniesListing', [CompanyController::class, 'CompaniesListing']);
+    Route::get('categories', [CategoryController::class, 'categories']);
+    Route::get('trending_jobs_categories', [CategoryController::class, 'trending_jobs_categories']);
 
-Route::get('filter_type_of_employments', [JobTypeController::class, 'filter_type_of_employments']);
-Route::get('filter_salary_range', [SalaryRangeController::class, 'filter_salary_range']);
-Route::get('filter_job_posted_on', [JobPostedOnController::class, 'filter_job_posted_on']);
+    Route::get('filter_type_of_employments', [JobTypeController::class, 'filter_type_of_employments']);
+    Route::get('filter_salary_range', [SalaryRangeController::class, 'filter_salary_range']);
+    Route::get('filter_job_posted_on', [JobPostedOnController::class, 'filter_job_posted_on']);
 
-Route::get('filter_companies_location', [LocationController::class, 'filter_companies_location']);
-Route::get('location', [LocationController::class, 'locations']);
-Route::get('states', [LocationStatesController::class, 'states']);
+    Route::get('filter_companies_location', [LocationController::class, 'filter_companies_location']);
+    Route::get('location', [LocationController::class, 'locations']);
+    Route::get('states', [LocationStatesController::class, 'states']);
 
-Route::get('filter_company_type', [CompanyTypeController::class, 'filter_company_type']);
-Route::get('companyTypes', [CompanyTypeController::class, 'index']);
+    Route::get('filter_company_type', [CompanyTypeController::class, 'filter_company_type']);
+    Route::get('companyTypes', [CompanyTypeController::class, 'index']);
 
-Route::get('jobsListing', [JobController::class, 'JobsListing']);
-Route::get('filteredJobs', [JobController::class, 'FilteredJobs']);
-Route::get('latestJobs', [JobController::class, 'latestJobs']);
-Route::get('featuredJobs', [JobController::class, 'featuredJobs']);
-Route::get('jobs', [JobController::class, 'index']);
-Route::get('testimonials', [TestimonialController::class, 'testimonials']);
-Route::post('jobDetail/{job_key}', [JobController::class, 'jobDetail']);
-Route::get('categoryJobs/{cat_slug}', [JobController::class, 'categoryJobs']);
+    Route::get('jobsListing', [JobController::class, 'JobsListing']);
+    Route::get('filteredJobs', [JobController::class, 'FilteredJobs']);
+    Route::get('latestJobs', [JobController::class, 'latestJobs']);
+    Route::get('featuredJobs', [JobController::class, 'featuredJobs']);
+    Route::get('jobs', [JobController::class, 'index']);
+    Route::get('testimonials', [TestimonialController::class, 'testimonials']);
+    Route::post('jobDetail/{job_key}', [JobController::class, 'jobDetail']);
+    Route::get('categoryJobs/{cat_slug}', [JobController::class, 'categoryJobs']);
 
-Route::get('getCompanyByUserId/{user_id}', [CompanyController::class, 'getCompanyByUserId']);
+    Route::get('getCompanyByUserId/{user_id}', [CompanyController::class, 'getCompanyByUserId']);
 
-Route::get('jobTypes', [JobTypeController::class, 'index']);
-Route::get('qualifications', [QualificationController::class, 'index']);
-Route::post('search_jobs', [JobController::class, 'search_jobs']);
-Route::get('getApplicationsByUserId/{user_id}', [ApplicationController::class, 'getApplicationsByUserId']);
-Route::get('getApplicationsByCompany', [ApplicationController::class, 'getApplicationsByCompany']);
-Route::post('getCompanyInfo/{company_id}', [CompanyController::class, 'getCompanyInfo']);
+    Route::get('jobTypes', [JobTypeController::class, 'index']);
+    Route::get('qualifications', [QualificationController::class, 'index']);
+    Route::post('search_jobs', [JobController::class, 'search_jobs']);
+    Route::get('getApplicationsByUserId/{user_id}', [ApplicationController::class, 'getApplicationsByUserId']);
+    Route::get('getApplicationsByCompany', [ApplicationController::class, 'getApplicationsByCompany']);
+    Route::post('getCompanyInfo/{company_id}', [CompanyController::class, 'getCompanyInfo']);
 
-Route::get('getCompanyReviews/{company_id}', [CompanyReviewController::class, 'getCompanyReview']);
-Route::resource('companyReviews', CompanyReviewController::class);
+    Route::get('getCompanyReviews/{company_id}', [CompanyReviewController::class, 'getCompanyReview']);
+    Route::resource('companyReviews', CompanyReviewController::class);
 
-Route::get('getCompanyJobs', [JobController::class, 'getCompanyJobs']);
-Route::post('updateJobStatus', [JobController::class, 'updateJobStatus']);
-Route::put('updateJob/{id}', [JobController::class, 'update']);
+    Route::get('getCompanyJobs', [JobController::class, 'getCompanyJobs']);
+    Route::post('updateJobStatus', [JobController::class, 'updateJobStatus']);
+    Route::put('updateJob/{id}', [JobController::class, 'update']);
 
-Route::get('cmsPages/', [AdminCmsController::class, 'get_page']);
+    Route::get('cmsPages/', [AdminCmsController::class, 'get_page']);
 
-Route::post('emails/contactUs/', [EmailsController::class, 'contact_us']);
-Route::get('emails/contactUs/', [EmailsController::class, 'contact_us']);
-// Route::put('updateJob/{id}', JobController::class);
-Route::post('password/email', [ForgotPasswordController::class, 'forgot']);
-Route::get('reset-password/{token}', [ForgotPasswordController::class, 'getToken']);
-Route::post('password/reset', [ForgotPasswordController::class, 'reset']);
-Route::post('newletterEmail/', [NewsletterController::class, 'mailChimpEmailLog']);
+    Route::post('emails/contactUs/', [EmailsController::class, 'contact_us']);
+    Route::get('emails/contactUs/', [EmailsController::class, 'contact_us']);
+    // Route::put('updateJob/{id}', JobController::class);
+    Route::post('password/email', [ForgotPasswordController::class, 'forgot']);
+    Route::get('reset-password/{token}', [ForgotPasswordController::class, 'getToken']);
+    Route::post('password/reset', [ForgotPasswordController::class, 'reset']);
+    Route::post('newletterEmail/', [NewsletterController::class, 'mailChimpEmailLog']);
 
-// Show all packages....
+    // Show all packages....
 
-Route::get('packages', [PackageController::class, 'index']);
+    Route::get('packages', [PackageController::class, 'index']);
+ });
+
+
 
 
 
