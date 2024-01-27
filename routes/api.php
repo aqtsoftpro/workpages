@@ -131,6 +131,8 @@ Route::group(['middleware' => ['auth:sanctum', 'cors']], function () {
 
     Route::post('stripe/checkout', [PackageController::class, 'session']);
 
+    Route::post('zeroSubscribe', [PackageController::class, 'zeroPlan']);
+
 });
 
 Route::middleware('cors')->group(function(){

@@ -10,14 +10,14 @@ class AdminAUsersController extends Controller
 {
     public function index(){
 
-        $roles = Role::all();
+        $roles = Role::latest()->get();
 
         return view('admin.adminusers.index', compact('roles'));
     }
 
     public function permissions(){
 
-        $permissions = Permission::all();
+        $permissions = Permission::latest()->get();
 
         return view('admin.adminusers.permissions', compact('permissions'));
     }

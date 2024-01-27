@@ -25,12 +25,6 @@ class AdminDashboardController extends Controller
         $records['subscription_wise_earning'] =  $this->subscription_wise_earning();
         $records['jobs_posted'] = $this->jobs($time="", $where="", $column="",  $val="", $company_id="", $user_id="", $limit);
         $records['signups'] =  $this->signups();
-  
-        
-
-
-
-        
    
         // DB::enableQueryLog();
         // $limit = 5;
@@ -125,10 +119,7 @@ class AdminDashboardController extends Controller
             {
                 $records =  $this->jobs($request->time, $where, $column, $val, $company_id, $user_id);
             }
-
         
-            
-
             $response = [
                 'status' => 'success',
                 'data' => $records

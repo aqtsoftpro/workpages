@@ -31,7 +31,7 @@ use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\SuburbController;
 use App\Http\Controllers\EmailsController;
 use App\Http\Controllers\NotificationController;
-use App\Http\Controllers\AdminSearchController;
+use App\Http\Controllers\{AdminSearchController, AdminNewsletterController};
 
 
 /*
@@ -208,7 +208,10 @@ Route::middleware('auth')->prefix('admin')->group(function () {
 //       Route::post('/change_status', [\App\Http\Controllers\AdminJobsController::class, 'change_status']);
 //    });
 
-
+    Route::get('news-letters', [AdminNewsletterController::class, 'index'])->name('news.letter');
+    Route::get('new-letter/status/{status}/{hash}', [AdminNewsletterController::class, 'status'])->name('newsletter.status');
+    Route::get('new-letter/delete/{status}/{hash}', [AdminNewsletterController::class, 'archive'])->name('newsletter.archive');
+    Route::get('new-letter/permanent/{status}/{hash}', [AdminNewsletterController::class, 'deletePermanent'])->name('newsletter.permanent');
 
 });
 

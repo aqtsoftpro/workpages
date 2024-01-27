@@ -232,21 +232,21 @@ class AdminPackagesController extends Controller
             }
     }
 
-    // public function destroy(Package $package)
-    // {
-    //     $this->authorize('delete', $package);
+    public function destroy(Package $package)
+    {
+        $this->authorize('delete', $package);
 
-    //     $deleted_rec = $package;
+        $deleted_rec = $package;
 
-    //     if(Package::destroy($package->id)) {
+        if(Package::destroy($package->id)) {
 
-    //         return redirect()->route('packages.index')
-    //                     ->with('success',''.$deleted_rec->name.' package deleted successfully');
-    //       } else {
-    //         return redirect()->route('packages.index')
-    //                     ->with('error','Please try again!');
-    //     }
-    // }
+            return redirect()->route('packages.index')
+                        ->with('success',''.$deleted_rec->name.' package deleted successfully');
+          } else {
+            return redirect()->route('packages.index')
+                        ->with('error','Please try again!');
+        }
+    }
 
     public function history(){
         return  view('admin.packages.history');

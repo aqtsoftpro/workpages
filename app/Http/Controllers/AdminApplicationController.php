@@ -9,7 +9,7 @@ class AdminApplicationController extends Controller
 {
     public function index(){
 
-        $records = Application::get();
+        $records = Application::latest()->get();
 
 
 
@@ -18,7 +18,7 @@ class AdminApplicationController extends Controller
 
     public function applications(){
 
-        $applications = Application::paginate('10');
+        $applications = Application::latest()->paginate('10');
 
         return view('admin.jobs.applications', compact('applications'));
     }

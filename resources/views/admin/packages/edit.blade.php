@@ -206,6 +206,7 @@
                             // Fade out after a certain duration (e.g., 3000 milliseconds or 3 seconds)
                             setTimeout(function() {
                                 alertElement.fadeOut();
+                                window.location.reload();
                             }, 3000);
 
                         } else {
