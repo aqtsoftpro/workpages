@@ -17,7 +17,7 @@ class PackageController extends Controller
 {
     public function index()
     {
-        $packages = Package::with('keypoints')->get();
+        $packages = Package::with('keypoints')->orderBy('price', 'asc')->get();
         // return response()->json(PackageResource::collection(Package::all()));
         return response()->json($packages);
     }
@@ -100,37 +100,55 @@ class PackageController extends Controller
      */
     public function zeroPlan(Request $request)
     {
-        $package = Package::findOrFail($request->package_id);
-        if ($package->price == 0 || $package->price == 0.00 ||  $package->price == null || $package->price == "") {
-            $inputs = $request->all();
-            $intervalCount = $package->interval_count
-            $currentDateTime = Carbon::now();
-            if ($package->interval == 'day') {
-                $newDateTime = $currentDateTime->addDays($intervalCount);
-            } elseif ($package->interval == 'month') {
-                $newDateTime = $currentDateTime->addMonths($intervalCount);
-            } elseif ($package->interval == 'year')  {
-                $newDateTime = $currentDateTime->addYears($intervalCount);
-            }
-            $inputs['package_id'] = $package->id;
-            $inputs['name'] = $package->name;
-            $inputs['quantity'] = 1;
-            $inputs['trial_ends_at'] = $newDateTime;
-            $inputs['ends_at'] = $newDateTime;
-            $subscription = Subscription::create($inputs);
-            if ($subscription) {
-                return response()->json([
-                    'status' => 'successs',
-                    'data' => $subscription,
-                    'message' => 'You have successfully subcribed',
-                ]);
-            } else {
-                return response()->json([
-                    'status' => 'error',
-                    'message' => 'Some thing went wrong...',
-                ]);
-            }
-        }      
+        $package = Package::findOrFail($request->package);
+        $subscription = Subscription::where('package_id', $request->package)->first();
+        if ($subscription) {
+            return response()->json([
+                'status' => 'successs',
+                'data' => $subscription,
+                'message' => 'You have already subcribed this plan',
+            ]);
+        } else {
+            if ($package->price == 0 || $package->price == 0.00 ||  $package->price == null || $package->price == "") {
+                $inputs = $request->all();
+                $intervalCount = $package->interval_count;
+                $currentDateTime = Carbon::now();
+                if ($package->interval == 'day') {
+                    $newDateTime = $currentDateTime->addDays($intervalCount);
+                } elseif ($package->interval == 'month') {
+                    $newDateTime = $currentDateTime->addMonths($intervalCount);
+                } elseif ($package->interval == 'year')  {
+                    $newDateTime = $currentDateTime->addYears($intervalCount);
+                }
+                $auth = auth()->user();
+                $company = Company::where('owner_id', $auth->id)->first();
+                // $company?->id ?? null;
+                $inputs['user_id'] = $auth->id;
+                $inputs['package_id'] = $package->id;
+                $inputs['company_id'] = $company?->id ?? null;
+                $inputs['name'] = $package->name;
+                $inputs['quantity'] = 1;
+                // $inputs['stripe_id'] = 'zero';
+                // $inputs['stripe_status'] = 'no';
+                // $inputs['stripe_price'] = $package->price;
+                $inputs['quantity'] = 1;
+                $inputs['trial_ends_at'] = $newDateTime;
+                $inputs['ends_at'] = $newDateTime;
+                $subscription = Subscription::create($inputs);
+                if ($subscription) {
+                    return response()->json([
+                        'status' => 'successs',
+                        'data' => $subscription,
+                        'message' => 'You have successfully subcribed',
+                    ]);
+                } else {
+                    return response()->json([
+                        'status' => 'error',
+                        'message' => 'Some thing went wrong...',
+                    ]);
+                }
+            }  
+        }    
     }
 
     /**

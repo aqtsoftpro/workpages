@@ -120,6 +120,7 @@ Route::group(['middleware' => ['auth:sanctum', 'cors']], function () {
     Route::resource('category', CategoryController::class);
     Route::resource('companyType', CompanyTypeController::class);
     //Route::post('updateCompanyProfile', [CompanyController::class, 'updateCompanyProfile']);
+    Route::post('updateCompanyProfile/{id}', [CompanyController::class, 'updateCompanyProfile']);
     Route::resource('job', JobController::class);
 
     Route::resource('application', ApplicationController::class);
@@ -142,7 +143,6 @@ Route::middleware('cors')->group(function(){
     Route::post('updateUserPortfolio/{id?}', [PortfolioController::class, 'updateUserPortfolio']);
     Route::get('getUserPortfolio/{id}', [PortfolioController::class, 'getUserPortfolio']);
 
-    Route::post('updateCompanyProfile/{id}', [CompanyController::class, 'updateCompanyProfile']);
     Route::get('updateCompanyProfile/{id}', [CompanyController::class, 'updateCompanyProfile']);
 
     Route::get('globalVariables', [GlobalVariableController::class, 'index']);

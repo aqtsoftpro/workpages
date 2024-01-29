@@ -27,9 +27,7 @@ class Permission extends Spatiepermission
     public function toSearchableArray(): array
     {
         $array = $this->toArray();
- 
-        // Customize the data array...
- 
+  
         return $array;
     }
     

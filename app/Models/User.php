@@ -19,7 +19,7 @@ use Laravel\Scout\Searchable;
 use App\Notifications\VerifyEmailNotification;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -88,7 +88,8 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->belongsTo(Qualification::class);
     }
 
-    public function company(){
+    public function company(): HasOne
+    {
         return $this->hasOne(Company::class, 'owner_id');
     }
 

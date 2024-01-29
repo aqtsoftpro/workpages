@@ -85,9 +85,10 @@ class CompanyController extends Controller
     }
 
 
-    public function updateCompanyProfile(Company $company, Request $request, $id)
+    public function updateCompanyProfile(Request $request, $id)
     {
-        $this->authorize('updateProfile', $comapny);
+        $comapny = Company::findOrFail($id);
+        // $this->authorize('updateProfile', $comapny);
         $company_id = $id;
 
         // return response()->json([
