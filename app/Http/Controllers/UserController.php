@@ -185,12 +185,12 @@ class UserController extends Controller
             ]);
 
             //Assign Job Seeker role to user
-            $jobSeekerRole = Role::find(1);
+            $jobSeekerRole = Role::where('name', 'Job Seeker')->first();
             $newUser->assignRole($jobSeekerRole);
 
             if ($newUser) {
 
-                $customBaseUrl = 'http://localhost:8080';
+                    $customBaseUrl = 'http://localhost:8080';
 
                     $linkurl = URL::temporarySignedRoute(
                         'verification.verify',

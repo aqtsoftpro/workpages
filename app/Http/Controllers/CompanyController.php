@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 use App\Http\Controllers\EmailTemplateController;
 use App\Jobs\MultiPurposeEmailJob;
+use Illuminate\Support\Facades\URL;
+
 
 class CompanyController extends Controller
 {
@@ -234,11 +236,10 @@ class CompanyController extends Controller
         return response()->json(new CompanyResource($company));
     }
 
-    public function CompanyRegister(Company $company, Request $request)
+    public function CompanyRegister(Request $request)
     {
-        
-        $hased_password = bcrypt($request->password);
-        $request['password'] = $hased_password;
+
+        // dd($request->all());
 
         try{
 
@@ -254,22 +255,25 @@ class CompanyController extends Controller
             
             $user = new User();
 
-            $verificationToken = md5(uniqid(rand(), true));
+            // $verificationToken = md5(uniqid(rand(), true));
+
+            $hased_password = bcrypt($request->password);
 
             $newUser = $user->create([
                 'name' => $request->first_name.' '.$request->last_name,
                 'email' => $request->email,
-                'password' => $request->password,
+                'password' => $hased_password,
                 'suburb_id' => $request->suburb_id,
-                'email_verified_at' => $verificationToken
             ]);
+
+            // dd($newUser);
 
             if($newUser)
             {
                 //Assign Employer role to user
-                $employerRole = Role::find(3);
+                $employerRole = Role::findByName("Employer");
                 $newUser->assignRole($employerRole);
-
+                // dd($newUser);
                 Company::create([
                     'name' => $request->company_name,
                     'owner_id' => $newUser->id,
@@ -278,39 +282,80 @@ class CompanyController extends Controller
                     'suburb_id' => $request->suburb_id
                 ]);
 
+                $customBaseUrl = 'http://localhost:8080';
+
+                $linkurl = URL::temporarySignedRoute(
+                    'verification.verify',
+                    now()->addMinutes(60),
+                    ['id' => $newUser->id, 'hash' => sha1($newUser->email)],
+                    false // This parameter ensures that the base URL is not included
+                );
+
+                $verificationUrl = rtrim($customBaseUrl, '/') . '/' . ltrim($linkurl, '/');
+
                 $email_templates  = new EmailTemplateController();
-                $get_template = $email_templates->get_template('company-account-verify');
+                $get_template = $email_templates->get_template('job-seeker-verify-email');
                 $originalContent = $get_template['desc'];
-
-                // email=' . urlencode($userEmail) . '&token=' . $verificationToken;
-
+                
                 $email_variables = [
                     '[Name]' => $request->first_name.' '.$request->last_name,
-                    '[Account Verify Link]' => '<a href="'.env('FRONT_APP_URL').'account-verification/?email='. urlencode($request->email) .'&token='.$verificationToken.'" target="_blank">'.env('FRONT_APP_URL').'</a>',
+                    '[Account Verify Link]' => '<a href="'.$verificationUrl.'" target="_blank">'.env('FRONT_APP_URL').'</a>',
                 ];
 
-                echo $originalContent;
+                // echo $originalContent;
 
                 foreach ($email_variables as $search => $replace) {
                     $originalContent = str_replace($search, $replace, $originalContent);
                 };
 
-                $subject = "Account verification Email";
+                $subject = "Verify Email Address";
                 $To = $request->email;
 
-                echo $originalContent;
-
-                MultiPurposeEmailJob::dispatch($To, $subject, $originalContent);
+                MultiPurposeEmailJob::dispatch($To, $subject, $originalContent, $verificationUrl);
+                
 
                 // $result = Mail::to($To)->send(new MultiPurposeEmail($subject, $originalContent));
-
-
             }
+
+            // if ($newUser) {
+
+            //     $customBaseUrl = 'http://localhost:8080';
+
+            //     $linkurl = URL::temporarySignedRoute(
+            //         'verification.verify',
+            //         now()->addMinutes(60),
+            //         ['id' => $newUser->id, 'hash' => sha1($newUser->email)],
+            //         false // This parameter ensures that the base URL is not included
+            //     );
+
+            //     $verificationUrl = rtrim($customBaseUrl, '/') . '/' . ltrim($linkurl, '/');
+
+            //     $email_templates  = new EmailTemplateController();
+            //     $get_template = $email_templates->get_template('job-seeker-verify-email');
+            //     $originalContent = $get_template['desc'];
+                
+            //     $email_variables = [
+            //         '[Name]' => $request->first_name.' '.$request->last_name,
+            //         '[Account Verify Link]' => '<a href="'.$verificationUrl.'" target="_blank">'.env('FRONT_APP_URL').'</a>',
+            //     ];
+
+            //     // echo $originalContent;
+
+            //     foreach ($email_variables as $search => $replace) {
+            //         $originalContent = str_replace($search, $replace, $originalContent);
+            //     };
+
+            //     $subject = "Verify Email Address";
+            //     $To = $request->email;
+
+            //     MultiPurposeEmailJob::dispatch($To, $subject, $originalContent, $verificationUrl);
+            // }
 
             return response()->json([
                 'status' => 'success',
                 'message' => 'Registration successful!',
-                'user' => $newUser
+                'user' => $newUser,
+                'token' => $newUser->createToken('web')->plainTextToken
             ]);
 
         }   

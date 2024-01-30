@@ -110,11 +110,16 @@ class CategoryController extends Controller
         {
             $FileName = 'cat-'.time().'-'.rand(100000,1000000).'.'.$request->file('image')->extension();
             $request->file('image')->storeAs('public', $FileName);
+
+            $imagePath = $request->file('image')->store('categories','public');
+            // Add the image path to the form data before saving to the database 
             
-            if(isset($FileName)){
-                $image = env('APP_URL') . '/storage/' . $FileName;
+            // dd($imagePath);
+            
+            if(isset($imagePath)){
+                $image = env('APP_URL') .'storage/'.$imagePath;
+                // dd($image);
             }
-            
             Category::where("id", $id)->update(["image" => $image]);
         }
   
