@@ -13,6 +13,7 @@ class PortfolioController extends Controller
 
     public function updateUserPortfolio(Request $request, $id=null)
     {
+        // dd($request->all());
         if ($id==null) {
             if ($request->hasFile('other_file')) {
                 // Upload the image and store it in the default 'storage' disk
@@ -36,13 +37,24 @@ class PortfolioController extends Controller
             if ($request->hasFile('images')) {
                 foreach ($request->file('images') as $image) {
                     // Generate a unique name for each image
-                    $imagePath = $image['file']->store('portfolio/images', 'public');
+                    $newImage = $image->store('portfolio/images', 'public');
                     PortfolioImage::create([
                         'portfolio_id' => $portfolio->id,
-                        'image' => $imagePath,
+                        'image' => env('FRONT_APP_URL') .'storage/'. $newImage,
                     ]);
                 }
             }
+
+            // if ($request->hasFile('images[0][file]')) {
+            //     $image = $request->file('images[0][file]');
+            //     dd($image);
+            //     // Generate a unique name for the image
+            //     $newImage = $image->store('portfolio/images', 'public');
+            //     PortfolioImage::create([
+            //         'portfolio_id' => $portfolio->id,
+            //         'image' => $newImage,
+            //     ]);
+            // }
     
 
         } else {
@@ -66,13 +78,13 @@ class PortfolioController extends Controller
                 'video_links' => $request->video_links,
             ]);
 
-            if ($request->hasFile('images') ) {
+            if ($request->hasFile('images')) {
                 foreach ($request->file('images') as $image) {
                     // Generate a unique name for each image
-                    $imagePath = $image['file']->store('portfolio/images', 'public');
+                    $newImage = $image->store('portfolio/images', 'public');
                     PortfolioImage::create([
                         'portfolio_id' => $portfolio->id,
-                        'image' => $imagePath,
+                        'image' => env('FRONT_APP_URL').'storage/'. $newImage,
                     ]);
                 }
             }

@@ -129,10 +129,10 @@ class CompanyController extends Controller
 
 
         if(isset($logoFileName)){
-            $requestData['logo'] = env('APP_URL') . '/storage/' . $logoFileName;
+            $requestData['logo'] = env('APP_URL') . 'storage/' . $logoFileName;
         }
         if(isset($coverPhotoFileName)){
-            $requestData['cover_photo'] = env('APP_URL') . '/storage/' . $coverPhotoFileName;
+            $requestData['cover_photo'] = env('APP_URL') . 'storage/' . $coverPhotoFileName;
         }
         
 
@@ -282,7 +282,7 @@ class CompanyController extends Controller
                     'suburb_id' => $request->suburb_id
                 ]);
 
-                $customBaseUrl = 'http://localhost:8080';
+                $customBaseUrl = env('FRONT_APP_URL');
 
                 $linkurl = URL::temporarySignedRoute(
                     'verification.verify',
@@ -291,7 +291,7 @@ class CompanyController extends Controller
                     false // This parameter ensures that the base URL is not included
                 );
 
-                $verificationUrl = rtrim($customBaseUrl, '/') . '/' . ltrim($linkurl, '/');
+                $verificationUrl = rtrim($customBaseUrl) . '/' . ltrim($linkurl, '/');
 
                 $email_templates  = new EmailTemplateController();
                 $get_template = $email_templates->get_template('job-seeker-verify-email');

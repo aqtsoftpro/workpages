@@ -12,7 +12,16 @@ class PortfolioImage extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['portfolio_id', 'image'];
+    protected $fillable = ['portfolio_id', 'image', 'status'];
+
+    protected static function boot()
+    {
+        parent::boot();
+        
+        static::creating(function ($model) {
+            $model->status = 1; // Generate slug from the name
+        });
+    }
 
     public function portfolio(): BelongsTo
     {

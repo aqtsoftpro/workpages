@@ -21,7 +21,7 @@ class Portfolio extends Model
         'end_date',
         'skill_used',
         'video_links',
-        'other_file',
+        // 'other_file',
         'status',
     ];
 

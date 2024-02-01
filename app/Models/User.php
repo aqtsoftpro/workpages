@@ -48,9 +48,10 @@ class User extends Authenticatable implements MustVerifyEmail
         'address',
         'suburb_id',
         'status',
-        'email_verified_at'
-
+        'email_verified_at',
+        'gender'
     ];
+
 
     /**
      * The attributes that should be hidden for serialization.
@@ -101,7 +102,8 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(UserMeta::class);
     }
 
-    public function socials(){
+    public function socials():HasOne
+    {
         return $this->hasOne(UserSocial::class);
     }
 

@@ -106,6 +106,7 @@ Route::group(['middleware' => ['auth:sanctum', 'cors']], function () {
     Route::get('verify-email/{id}/{hash}', VerifyEmailController::class)->middleware(['signed', 'throttle:6,1']);
 
     Route::put('updatePassword/{user_id}', [UserController::class, 'updatePassword']);
+    
     Route::resource('user', UserController::class);
 
     Route::put('updateUserMeta/{user_id}', [UserMetaController::class, 'updateUserMeta']);

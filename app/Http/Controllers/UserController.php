@@ -14,7 +14,7 @@ use App\Mail\MultiPurposeEmail;
 use App\Jobs\MultiPurposeEmailJob;
 use App\Jobs\NotificationEmailJob;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\URL;
+use Illuminate\Http\Response;
 
 
 class UserController extends Controller
@@ -102,9 +102,10 @@ class UserController extends Controller
         }
 
         $userRequest = $request->all();
+        // dd($userRequest);
 
         if(isset($uploadedPhoto)){
-            $userRequest['photo'] = env('APP_URL') . '/storage/' . $fileName;
+            $userRequest['photo'] = env('APP_URL') . 'storage/' . $fileName;
         }
 
         if(isset($request->password)){
@@ -234,22 +235,17 @@ class UserController extends Controller
     }
 
 
-    public function updateUserSocial($user_id, Request $request){
-        if(isset(User::find($user_id)->socials)){
-            User::find($user_id)->socials->update($request->all());
-            return response()->json([
+    public function updateUserSocial($user_id, Request $request): Response
+    {
+
+        // $inputs = $request->all();
+        UserSocial::updateOrCreate(['user_id' => $user_id], $request->all());
+        $user = User::with('socials')->findOrFail($user_id);
+        return Response([
                 'status' => 'success',
                 'message' => 'Socials updated successfully',
-                'data' => User::find($user_id)->socials
-            ]);
-        } else {
-            UserSocial::create($request->all());
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Socials created successfully',
-                'data' => User::find($user_id)->socials
-            ]);
-        }
+                'data' => $user,
+        ]);
     }
 
     public function getUserSocial($user_id){
