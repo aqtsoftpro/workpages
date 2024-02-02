@@ -14,6 +14,7 @@ use App\Mail\MultiPurposeEmail;
 use App\Jobs\MultiPurposeEmailJob;
 use App\Jobs\NotificationEmailJob;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Http\Response;
 
 

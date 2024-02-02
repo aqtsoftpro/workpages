@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Package;
 use Illuminate\Http\Request;
 use App\Http\Resources\PackageResource;
+use Illuminate\Http\Response;
 use Stripe\PaymentIntent;
 use Stripe\Stripe;
 use Stripe\Product;
@@ -154,9 +155,16 @@ class PackageController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Package $package)
+    public function subPlans(): Response
     {
-        //
+        $company = Company::where('owner_id', auth()->id())->first();
+        if ($company) {
+            $subscription = Subscription::with('package')->where('company_id', $company->id)->get();
+            return Response($subscription);
+        }
+        else {
+            return Response($subscription);
+        }
     }
 
     /**

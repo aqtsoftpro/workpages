@@ -5,10 +5,11 @@ namespace App\Http\Controllers;
 use Exception;
 use App\Models\User;
 use App\Models\Company;
-use App\Models\Application;
+use App\Models\{Application, Notification};
 use Illuminate\Http\Request;
 use App\Http\Resources\ApplicationResource;
-use App\Models\SiteSettings;
+use Illuminate\Support\Facades\DB;
+use App\Models\{SiteSettings, Job};
 
 class ApplicationController extends Controller
 {
@@ -23,12 +24,12 @@ class ApplicationController extends Controller
     public function store(Application $application, Request $request){
 
         // fileUplaod script
+        DB::beginTransaction();
         try{
 
             $fileExtension = $request->cv->getClientOriginalExtension();
             $fileName = 'resume-' . $request->user_id . '.' . $fileExtension;
             $request->cv->storeAs('public', $fileName);
-
 
             $application->create([
                 'user_id' => $request->user_id,
@@ -39,11 +40,29 @@ class ApplicationController extends Controller
                 'experience' => $request->experience,
                 'salary' => $request->salary
             ]);
+
+            $job = Job::find($request->job_id);
+
+            if (isset($application)) {
+                Notification::create([
+                    'company_id' => $request->company_id,
+                    'job_id' => $request->job_id,
+                    'type' => '_notification_job_activity',
+                    'name' => 'Job Alert',
+                    'job_title' => $job->job_title,
+                    'company_id' => $request->company_id,
+                    'salary' => $request->salary,
+                    'desc' => 'This is notification for job application for job seeker',
+                    'package' => 'No Package'
+                ]);
+            }
+            DB::commit();
             return response()->json([
                 'status' => 'success',
                 'message' => 'Job Application Sent!'
             ]);
         } catch(Exception $e){
+            DB::rollBack();
             return $e->getMessage();
         }
     }
@@ -108,17 +127,10 @@ class ApplicationController extends Controller
         // return ApplicationResource::collection($applications);
     }
 
-    public function getApplicationsByCompany(Request $request, Application $application){
-        
-        $q = $application->newQuery();
-
-        $q->where('company_id', $request->company_id);
-        
-
-        $jobs = $q->get();
-        // print_r($jobs);
-        // $applications = Company::find($request->company_id);
-        return ApplicationResource::collection($q->get());
+    public function getApplicationsByCompany(Request $request, Application $application)
+    {
+        $application = $application->where('company_id', $request->company_id)->get();
+        return ApplicationResource::collection($application);
     }
 
     public function updateCandidateApplication(Request $request){

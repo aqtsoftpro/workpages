@@ -10,9 +10,6 @@ class AdminApplicationController extends Controller
     public function index(){
 
         $records = Application::latest()->get();
-
-
-
         return view('admin.applications.index', compact('records'));
     }
 

@@ -49,7 +49,7 @@ class Cors
 
             $response = $next($request);
             $headers = [
-                'Access-Control-Allow-Origin' => 'https://wpageapp.aqtdemos.com',
+                'Access-Control-Allow-Origin' => '*',
                 'Access-Control-Allow-Methods' => 'GET, PUT, POST, DELETE, PATCH',
                 'Access-Control-Allow-Headers' => 'Access-Control-Allow-Headers, Origin, Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Authorization, Access-Control-Request-Headers',
                 'Access-Control-Allow-Credentials' => 'true',
