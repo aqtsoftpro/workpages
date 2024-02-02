@@ -64,7 +64,6 @@ class Cors
                     $response->headers->set($key, $value);
                 }
             }
-        
             return $response;
         
     }

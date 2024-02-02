@@ -199,7 +199,6 @@ Route::middleware('cors')->group(function(){
     Route::post('updateJobStatus', [JobController::class, 'updateJobStatus']);
     Route::put('updateJob/{id}', [JobController::class, 'update']);
 
-    Route::get('cmsPages/', [AdminCmsController::class, 'get_page']);
 
     Route::post('emails/contactUs/', [EmailsController::class, 'contact_us']);
     Route::get('emails/contactUs/', [EmailsController::class, 'contact_us']);
@@ -213,6 +212,9 @@ Route::middleware('cors')->group(function(){
 
     Route::get('packages', [PackageController::class, 'index']);
  });
+
+ Route::get('cmsPages/', [AdminCmsController::class, 'get_page']);
+
 
 
 
