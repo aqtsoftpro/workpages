@@ -98,12 +98,9 @@ class AdminCmsController extends Controller
         }
     }
 
-
     public function get_page(Request $request): Response
     {
         $page_content = Cms::where('slug', $request->page_slug)->first();
-
         return Response($page_content->desc);
     }
-
 }

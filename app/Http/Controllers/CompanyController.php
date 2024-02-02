@@ -142,7 +142,12 @@ class CompanyController extends Controller
 
             $companyInfo = Company::find($company_id);
 
-   
+            $tecrequest = $request->technologies?? [];
+
+            foreach ($tecrequest as $input) {
+                $input['company_id'] = $company_id;
+                CompanyTechnology::create($input);
+            }
             return response()->json([
                 'status' => 'success',
                 'message' => 'Company updated!',
