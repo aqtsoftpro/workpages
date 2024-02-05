@@ -23,48 +23,60 @@ class ApplicationController extends Controller
 
     public function store(Application $application, Request $request){
 
-        // fileUplaod script
-        DB::beginTransaction();
-        try{
-
-            $fileExtension = $request->cv->getClientOriginalExtension();
-            $fileName = 'resume-' . $request->user_id . '.' . $fileExtension;
-            $request->cv->storeAs('public', $fileName);
-
-            $application->create([
+        $appData =  Application::where([
                 'user_id' => $request->user_id,
-                'company_id' => $request->company_id,
-                'status_id' => $request->status_id,
-                'cv' => env('APP_URL') . 'storage/' . $fileName,
-                'job_id' => $request->job_id,
-                'experience' => $request->experience,
-                'salary' => $request->salary
-            ]);
-
-            $job = Job::find($request->job_id);
-
-            if (isset($application)) {
-                Notification::create([
+                'job_id' => $request->job_id
+                ])->first();
+        // fileUplaod script
+        if (!$appData) {
+            DB::beginTransaction();
+            try{
+    
+                $fileExtension = $request->cv->getClientOriginalExtension();
+                $fileName = 'resume-' . $request->user_id . '.' . $fileExtension;
+                $request->cv->storeAs('public', $fileName);
+    
+                $application->create([
+                    'user_id' => $request->user_id,
                     'company_id' => $request->company_id,
+                    'status_id' => $request->status_id,
+                    'cv' => env('APP_URL') . 'storage/' . $fileName,
                     'job_id' => $request->job_id,
-                    'type' => '_notification_job_activity',
-                    'name' => 'Job Alert',
-                    'job_title' => $job->job_title,
-                    'company_id' => $request->company_id,
-                    'salary' => $request->salary,
-                    'desc' => 'This is notification for job application for job seeker',
-                    'package' => 'No Package'
+                    'experience' => $request->experience,
+                    'salary' => $request->salary
                 ]);
+    
+                $job = Job::find($request->job_id);
+    
+                if (isset($application)) {
+                    Notification::create([
+                        'company_id' => $request->company_id,
+                        'job_id' => $request->job_id,
+                        'type' => '_notification_job_activity',
+                        'name' => 'Job Alert',
+                        'job_title' => $job->job_title,
+                        'company_id' => $request->company_id,
+                        'salary' => $request->salary,
+                        'desc' => 'This is notification for job application for job seeker',
+                        'package' => 'No Package'
+                    ]);
+                }
+                DB::commit();
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Job Application Sent!',
+                    'data' => $job
+                ]);
+            } catch(Exception $e){
+                DB::rollBack();
+                return $e->getMessage();
             }
-            DB::commit();
+        } else {
             return response()->json([
                 'status' => 'success',
-                'message' => 'Job Application Sent!',
-                'data' => $job
+                'message' => 'You have already applied for this job!',
+                'data' => $appData
             ]);
-        } catch(Exception $e){
-            DB::rollBack();
-            return $e->getMessage();
         }
     }
 

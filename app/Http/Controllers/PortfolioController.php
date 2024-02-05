@@ -162,7 +162,15 @@ class PortfolioController extends Controller
     {
         return response()->json(Portfolio::where('user_id', $id)->latest()->take(4)->get()->toArray());
     }
-    
 
+    public function destroy(Portfolio $protfolio)
+    {
+        $protfolio->delete();
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Portfolio deleted successfully',
+            'data' => Portfolio::where('user_id', auth()->id())->get()->toArray()
+        ]);
+    }
 
 }

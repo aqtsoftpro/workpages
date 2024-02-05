@@ -20,10 +20,11 @@ use App\Notifications\VerifyEmailNotification;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasApiTokens, HasFactory, Notifiable, HasRoles, Billable, Searchable;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles, Billable, Searchable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.

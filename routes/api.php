@@ -147,6 +147,8 @@ Route::middleware('cors')->group(function(){
     Route::post('updateUserPortfolio/{id?}', [PortfolioController::class, 'updateUserPortfolio']);
     Route::get('getUserPortfolio/{id}', [PortfolioController::class, 'getUserPortfolio']);
 
+    Route::post('delete-portfolio/{portfolio}', [PortfolioController::class, 'destroy']);
+
     Route::get('updateCompanyProfile/{id}', [CompanyController::class, 'updateCompanyProfile']);
 
     Route::get('globalVariables', [GlobalVariableController::class, 'index']);
