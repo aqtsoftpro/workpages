@@ -59,7 +59,8 @@ class ApplicationController extends Controller
             DB::commit();
             return response()->json([
                 'status' => 'success',
-                'message' => 'Job Application Sent!'
+                'message' => 'Job Application Sent!',
+                'data' => $job
             ]);
         } catch(Exception $e){
             DB::rollBack();

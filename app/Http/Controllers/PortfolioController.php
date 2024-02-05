@@ -34,14 +34,16 @@ class PortfolioController extends Controller
                 'video_links' => $request->video_links,
             ]);
 
-            if ($request->hasFile('images')) {
-                foreach ($request->file('images') as $image) {
-                    // Generate a unique name for each image
-                    $newImage = $image->store('portfolio/images', 'public');
-                    PortfolioImage::create([
-                        'portfolio_id' => $portfolio->id,
-                        'image' => env('FRONT_APP_URL') .'storage/'. $newImage,
-                    ]);
+            if ($portfolio) {
+                if ($request->hasFile('images')) {
+                    foreach ($request->file('images') as $image) {
+                        // Generate a unique name for each image
+                        $newImage = $image->store('portfolio/images', 'public');
+                        PortfolioImage::create([
+                            'portfolio_id' => $portfolio->id,
+                            'image' => env('FRONT_APP_URL') .'storage/'. $newImage,
+                        ]);
+                    }
                 }
             }
 
