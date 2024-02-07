@@ -137,14 +137,14 @@ Route::group(['middleware' => ['auth:sanctum', 'cors']], function () {
 
     Route::get('companySubscriptions', [PackageController::class, 'subPlans']);
 
-
+    Route::post('updateUserPortfolio/{id?}', [PortfolioController::class, 'updateUserPortfolio']);
+    
 });
 
 Route::middleware('cors')->group(function(){
     
     Route::get('stripe/success/{id}/{session}/{user}', [PackageController::class, 'success']);
 
-    Route::post('updateUserPortfolio/{id?}', [PortfolioController::class, 'updateUserPortfolio']);
     Route::get('getUserPortfolio/{id}', [PortfolioController::class, 'getUserPortfolio']);
 
     Route::post('delete-portfolio/{portfolio}', [PortfolioController::class, 'destroy']);

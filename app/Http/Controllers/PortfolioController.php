@@ -23,7 +23,7 @@ class PortfolioController extends Controller
             }
     
             $portfolio = Portfolio::create([
-                'user_id' => $request->user_id,
+                'user_id' => auth()->id(),
                 'title' => $request->title,
                 'description' => $request->description,
                 'url' => $request->url,
@@ -41,7 +41,7 @@ class PortfolioController extends Controller
                         $newImage = $image->store('portfolio/images', 'public');
                         PortfolioImage::create([
                             'portfolio_id' => $portfolio->id,
-                            'image' => env('FRONT_APP_URL') .'storage/'. $newImage,
+                            'image' => env('APP_URL') .'storage/'. $newImage,
                         ]);
                     }
                 }
@@ -69,7 +69,7 @@ class PortfolioController extends Controller
             }
     
             $portfolio->update([
-                'user_id' => $request->user_id,
+                'user_id' => auth()->id(),
                 'title' => $request->title,
                 'description' => $request->description,
                 'url' => $request->url,
@@ -86,10 +86,12 @@ class PortfolioController extends Controller
                     $newImage = $image->store('portfolio/images', 'public');
                     PortfolioImage::create([
                         'portfolio_id' => $portfolio->id,
-                        'image' => env('FRONT_APP_URL').'storage/'. $newImage,
+                        'image' => env('APP_URL').'storage/'. $newImage,
                     ]);
                 }
             }
+
+            // dd($portfolio->with('portfolioImages'));
         }
         
         // $inputs = $request->all();
@@ -99,7 +101,11 @@ class PortfolioController extends Controller
         //     Service::create($inputs);
         // }
 
-        return response()->json(Portfolio::where('user_id', $request->user_id)->get()->toArray());
+        return response()->json([
+            'status'=> 'success',
+            'data' => Portfolio::with('portfolioImages')->where('user_id', auth()->id())->latest()->take(4)->get()->toArray(),
+            'message' => 'Portfolio updated successfully'
+        ]);
 
         // $portfolio[] = array(
         //         'title' => 'portfolio 11',
@@ -160,16 +166,21 @@ class PortfolioController extends Controller
 
     public function getUserPortfolio($id)
     {
-        return response()->json(Portfolio::where('user_id', $id)->latest()->take(4)->get()->toArray());
+        return response()->json(['status'=> 'success',
+            'data' => Portfolio::with('portfolioImages')->where('user_id', $id)->latest()->take(4)->get()->toArray(),
+            'message' => 'Portfolio updated successfully'
+        ]);
     }
 
-    public function destroy(Portfolio $protfolio)
+    public function destroy($protfolio)
     {
+        $protfolio = Portfolio::findOrFail($protfolio);
+        $userId = $protfolio->user_id;
         $protfolio->delete();
         return response()->json([
+            'data' => Portfolio::with('portfolioImages')->where('user_id', $userId)->latest()->take(4)->get()->toArray(),
             'status' => 'success',
-            'message' => 'Portfolio deleted successfully',
-            'data' => Portfolio::where('user_id', auth()->id())->get()->toArray()
+            'message' => 'Portfolio deleted successfully'
         ]);
     }
 
