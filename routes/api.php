@@ -37,7 +37,10 @@ use App\Http\Controllers\LocationStatesController;
 use App\Http\Controllers\SuburbController;
 use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\PackageController;
+use App\Http\Controllers\ApiVerifyEmailController;
 use App\Http\Controllers\Auth\VerifyEmailController;
+
+// VerifyEmailController
 
 
 
@@ -100,10 +103,11 @@ Route::post('/workpages/getUser', function (Request $request) {
     //return new UserResource($token->tokenable);
 });
 
+Route::group(['middleware' => ['auth:sanctum']], function () {
 
-Route::group(['middleware' => ['auth:sanctum', 'cors']], function () {
+    Route::get('verify-email/{id}/{hash}', ApiVerifyEmailController::class)->middleware(['signed', 'throttle:6,1'])->name('api.verify');
 
-    Route::get('verify-email/{id}/{hash}', VerifyEmailController::class)->middleware(['signed', 'throttle:6,1']);
+    // Route::get('verify-email/{id}/{hash}', VerifyEmailController::class)->middleware(['signed', 'throttle:6,1'])->name('verification.verify');
 
     Route::put('updatePassword/{user_id}', [UserController::class, 'updatePassword']);
     

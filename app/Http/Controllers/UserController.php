@@ -192,7 +192,7 @@ class UserController extends Controller
 
             if ($newUser) {
 
-                    $customBaseUrl = 'http://localhost:8080';
+                    $customBaseUrl = env('APP_URL');
 
                     $linkurl = URL::temporarySignedRoute(
                         'verification.verify',
@@ -201,7 +201,7 @@ class UserController extends Controller
                         false // This parameter ensures that the base URL is not included
                     );
 
-                    $verificationUrl = rtrim($customBaseUrl, '/') . '/' . ltrim($linkurl, '/');
+                    $verificationUrl = rtrim($customBaseUrl) . '/' . ltrim($linkurl, '/');
 
                     $email_templates  = new EmailTemplateController();
                     $get_template = $email_templates->get_template('job-seeker-verify-email');
@@ -209,7 +209,7 @@ class UserController extends Controller
                     
                     $email_variables = [
                         '[Name]' => $request->first_name.' '.$request->last_name,
-                        '[Account Verify Link]' => '<a href="'.$verificationUrl.'" target="_blank">'.env('FRONT_APP_URL').'</a>',
+                        '[Account Verify Link]' => '<a href="'.$verificationUrl.'" target="_blank">'.env('APP_URL').'</a>',
                     ];
 
                     // echo $originalContent;

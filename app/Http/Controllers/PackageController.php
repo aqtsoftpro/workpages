@@ -30,7 +30,7 @@ class PackageController extends Controller
 
         Stripe::setApiKey(env('STRIPE_SECRET'));
 
-        $externalUrl = env('FRONT_APP_URL').'/company/plan';
+        $externalUrl = env('FRONT_APP_URL').'company/plan';
 
         $session = \Stripe\Checkout\Session::create([
             'line_items'  => [

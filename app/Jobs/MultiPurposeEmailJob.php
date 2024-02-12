@@ -37,7 +37,6 @@ class MultiPurposeEmailJob implements ShouldQueue
     public function handle(): void
     {
         $email = new MultiPurposeEmail($this->subject, $this->originalContent, $this->verificationUrl);
-
         Mail::to($this->To)->send($email);
     }
 }

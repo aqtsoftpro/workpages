@@ -45,6 +45,30 @@ class AdminSettingsController extends Controller
    
         if($request->setting_form_type == 'slider_settings')
         {
+            // if ($request->setting['_slider_text_color']) {
+            //     $sliderColor = SiteSettings::where('meta_key', '_slider_text_color')->first();
+            //     if (isset($sliderColor)) {
+            //         $sliderColor->meta_val = $request->setting['_slider_text_color'];
+            //     } else {
+            //         SiteSettings::create([
+            //             'meta_key'=> '_slider_text_color',
+            //             'meta_val' => $request->setting['_slider_text_color']
+            //         ]);
+            //     }
+            // }
+
+            // if ($request->setting['_search_panel_margin_top']) {
+            //     $sliderMargin = SiteSettings::where('meta_key', '_search_panel_margin_top')->first();
+            //     if (isset($sliderMargin)) {
+            //         $sliderMargin->meta_val = $request->setting['_search_panel_margin_top'];
+            //     } else {
+            //         SiteSettings::create([
+            //             'meta_key'=> '_search_panel_margin_top',
+            //             'meta_val' => $request->setting['_search_panel_margin_top']
+            //         ]);
+            //     }                
+            // }
+
             if($request->file('_slider_img'))
             {
                 // $FileName = 'slider-img-'.time().'-'.rand(100000,1000000).'.'.$request->file('_slider_img')->extension();

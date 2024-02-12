@@ -42,7 +42,10 @@ class CompanyResource extends JsonResource
             'dribble' => $this->dribble,
             'behance' => $this->behance,
             'jobs_count' => $this->jobs->count(),
-            'jobs' => JobResource::collection($this->jobs)
+            'jobs' => JobResource::collection($this->jobs),
+            'live_jobs'=>$this->jobs->where('job_status', 'live')->count(),
+            'pending_jobs'=>$this->jobs->where('job_status', 'pending')->count(),
+            'closed_jobs'=>$this->jobs->where('job_status', 'closed')->count(),
         ];
     }
 }

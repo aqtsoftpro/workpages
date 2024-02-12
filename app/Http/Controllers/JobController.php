@@ -113,7 +113,7 @@ class JobController extends Controller
     public function search_jobs(Request $request, Job $job){
 
         $q = $job->newQuery();
-
+        $q->where('status', 'active');
         if(isset($request->keyword)){
             $q->where('job_title', 'LIKE', '%'.$request->keyword.'%');
         }
@@ -127,7 +127,7 @@ class JobController extends Controller
             $q->where('location_id', '=',  $request->location_id);
         }
 
-        return response()->json(JobResource::collection($q->get()));
+        return response()->json(JobResource::collection($q->orderByDesc('updated_at')->get()));
 
     }
 
@@ -306,8 +306,6 @@ class JobController extends Controller
             ->orderBy('expiration', 'desc')
             ->get()
         );
-
-
 
         $all_jobs  = array(
             'Listing' => $jobs_listing,

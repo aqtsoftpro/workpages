@@ -49,6 +49,7 @@ class JobResource extends JsonResource
             'applications_count' => $this->applications->count(),
             'status' => $this->status,
             'jobStatus' => ($this->status == 'active')?true:false,
+            'job_status' => $this->job_status,
         ];
     }
 }

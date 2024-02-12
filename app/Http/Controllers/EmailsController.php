@@ -16,7 +16,7 @@ class EmailsController extends Controller
     {
 
     }
-    public function contact_us()
+    public function contact_us(Request $request)
     {
 
 
@@ -29,10 +29,10 @@ class EmailsController extends Controller
         // print_r($result);
         // echo "</pre>";
         
-        // return response()->json([
-        //     'status' => 'success',
-        //     'message' => 'Message Sent Sucessfully!',
-        // ]);
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Message Sent Sucessfully!',
+        ]);
     }
 
     public function verify_account()

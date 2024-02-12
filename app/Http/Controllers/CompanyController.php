@@ -287,24 +287,24 @@ class CompanyController extends Controller
                     'suburb_id' => $request->suburb_id
                 ]);
 
-                $customBaseUrl = env('FRONT_APP_URL');
+                $customBaseUrl = env('APP_URL');
 
                 $linkurl = URL::temporarySignedRoute(
-                    'verification.verify',
+                    'api.verify',
                     now()->addMinutes(60),
                     ['id' => $newUser->id, 'hash' => sha1($newUser->email)],
                     false // This parameter ensures that the base URL is not included
                 );
 
-                $verificationUrl = rtrim($customBaseUrl) . '/' . ltrim($linkurl, '/');
+                $verificationUrl = rtrim($customBaseUrl) . ltrim($linkurl, '/');
 
                 $email_templates  = new EmailTemplateController();
-                $get_template = $email_templates->get_template('job-seeker-verify-email');
+                $get_template = $email_templates->get_template('company-account-verify');
                 $originalContent = $get_template['desc'];
                 
                 $email_variables = [
                     '[Name]' => $request->first_name.' '.$request->last_name,
-                    '[Account Verify Link]' => '<a href="'.$verificationUrl.'" target="_blank">'.env('FRONT_APP_URL').'</a>',
+                    '[Account Verify Link]' => '<a href="'.$verificationUrl.'" target="_blank">'.env('APP_URL').'</a>',
                 ];
 
                 // echo $originalContent;
@@ -341,7 +341,7 @@ class CompanyController extends Controller
                 
             //     $email_variables = [
             //         '[Name]' => $request->first_name.' '.$request->last_name,
-            //         '[Account Verify Link]' => '<a href="'.$verificationUrl.'" target="_blank">'.env('FRONT_APP_URL').'</a>',
+            //         '[Account Verify Link]' => '<a href="'.$verificationUrl.'" target="_blank">'.env('APP_URL').'</a>',
             //     ];
 
             //     // echo $originalContent;
