@@ -13,8 +13,9 @@ class UserMetaController extends Controller
 
     public function updateUserMeta($user_id, Request $request)
         {
-
-
+            $user = User::find(auth()->id());
+            $user->status = $request->disable_account == true ? 'disable' : 'enable';
+            $user->save();
             // return response()->json($request->all());
             foreach ($request->all() as $key => $val) {
                 UserMeta::updateOrInsert(

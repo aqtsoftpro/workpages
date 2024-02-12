@@ -194,6 +194,7 @@ Route::middleware('cors')->group(function(){
     Route::get('jobTypes', [JobTypeController::class, 'index']);
     Route::get('qualifications', [QualificationController::class, 'index']);
     Route::post('search_jobs', [JobController::class, 'search_jobs']);
+    Route::post('getJobs/{comapny_id}', [JobController::class, 'companyJobs']);
     Route::get('getApplicationsByUserId/{user_id}', [ApplicationController::class, 'getApplicationsByUserId']);
     Route::get('getApplicationsByCompany', [ApplicationController::class, 'getApplicationsByCompany']);
     Route::post('getCompanyInfo/{company_id}', [CompanyController::class, 'getCompanyInfo']);

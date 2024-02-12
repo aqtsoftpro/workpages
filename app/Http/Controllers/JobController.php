@@ -131,6 +131,13 @@ class JobController extends Controller
 
     }
 
+    public function companyJobs(Request $request, Job $job, $company_id)
+    {
+        $q = $job->newQuery();
+        $q->where(['status'=>'active', 'company_id'=> $company_id]);
+        return response()->json(JobResource::collection($q->orderByDesc('updated_at')->get()));
+    }
+
     public function jobDetail($job_key, Job $job)
     {
 

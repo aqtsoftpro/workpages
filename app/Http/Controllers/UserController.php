@@ -245,7 +245,7 @@ class UserController extends Controller
         return Response([
                 'status' => 'success',
                 'message' => 'Socials updated successfully',
-                'data' => $user,
+                'data' => $user->socials,
         ]);
     }
 
