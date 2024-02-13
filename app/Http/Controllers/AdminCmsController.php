@@ -69,14 +69,12 @@ class AdminCmsController extends Controller
         print_r($data);
         $affectedRows = Cms::where('id', $cms->id)->update($data);
 
-        if($affectedRows)
-            {
-                return redirect()->back()->with('success', ''.$request->name.' page updated successfully');
-            }
-            else
-            {
-                return redirect()->back()->with('success', 'Something went wrong. Please try again!');
-            }
+        if($affectedRows){
+            return redirect()->back()->with('success', ''.$request->name.' page updated successfully');
+        }
+        else{
+            return redirect()->back()->with('success', 'Something went wrong. Please try again!');
+        }
     
     }
 

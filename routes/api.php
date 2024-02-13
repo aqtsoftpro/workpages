@@ -216,8 +216,10 @@ Route::middleware('cors')->group(function(){
     Route::post('newletterEmail/', [NewsletterController::class, 'mailChimpEmailLog']);
     // Show all packages....
     Route::get('packages', [PackageController::class, 'index']);
-    Route::get('cmsPages/', [AdminCmsController::class, 'get_page']);
  });
+
+Route::get('cmsPages/', [AdminCmsController::class, 'get_page']);
+
 
 
 
