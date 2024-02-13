@@ -214,6 +214,7 @@ Route::middleware('cors')->group(function(){
     Route::get('reset-password/{token}', [ForgotPasswordController::class, 'getToken']);
     Route::post('password/reset', [ForgotPasswordController::class, 'reset']);
     Route::post('newletterEmail/', [NewsletterController::class, 'mailChimpEmailLog']);
+    Route::post('storePartner/', [NewsletterController::class, 'CharityPost']);
     // Show all packages....
     Route::get('packages', [PackageController::class, 'index']);
  });
