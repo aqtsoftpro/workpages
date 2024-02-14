@@ -130,12 +130,10 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::resource('userSocial', UserSocialController::class);
 
     Route::post('stripe/checkout', [PackageController::class, 'session']);
-
     Route::post('zeroSubscribe', [PackageController::class, 'zeroPlan']);
-
     Route::get('companySubscriptions', [PackageController::class, 'subPlans']);
-
     Route::post('updateUserPortfolio/{id?}', [PortfolioController::class, 'updateUserPortfolio']);
+    Route::get('getCompanyJobs', [JobController::class, 'getCompanyJobs']);
     
 });
 
@@ -196,7 +194,6 @@ Route::middleware('cors')->group(function(){
     Route::get('getCompanyReviews/{company_id}', [CompanyReviewController::class, 'getCompanyReview']);
     Route::resource('companyReviews', CompanyReviewController::class);
 
-    Route::get('getCompanyJobs', [JobController::class, 'getCompanyJobs']);
     Route::post('updateJobStatus', [JobController::class, 'updateJobStatus']);
     Route::put('updateJob/{id}', [JobController::class, 'update']);
 

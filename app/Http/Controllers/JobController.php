@@ -6,7 +6,7 @@ use Exception;
 use App\Models\Job;
 use Illuminate\Http\Request;
 use App\Http\Resources\JobResource;
-use App\Models\Category;
+use App\Models\{Category, Company};
 use App\Models\SiteSettings;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -280,10 +280,12 @@ class JobController extends Controller
 
     public function getCompanyJobs(Request $request, Job $job)
     {
-
+        $user = auth()->user();
+        $company = Company::where('owner_id', $user->id)->first();
         // echo $request->keyword;
         // print_r($request->all());
         $q = $job->newQuery();
+        $q->where('company_id', $company->id);
         // $q->where('status', 'active');
         $listing_rows_count  = SiteSettings::select('meta_val')->where('meta_key', '_listing_rows_limit')->first();
 
