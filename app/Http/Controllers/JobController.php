@@ -127,7 +127,7 @@ class JobController extends Controller
             $q->where('location_id', '=',  $request->location_id);
         }
 
-        return response()->json(JobResource::collection($q->orderByDesc('updated_at')->get()));
+        return response()->json(JobResource::collection($q->orderBy('expiration', 'desc')->get()));
 
     }
 
@@ -135,7 +135,7 @@ class JobController extends Controller
     {
         $q = $job->newQuery();
         $q->where(['status'=>'active', 'company_id'=> $company_id]);
-        return response()->json(JobResource::collection($q->orderByDesc('updated_at')->get()));
+        return response()->json(JobResource::collection($q->orderBy('expiration', 'desc')->get()));
     }
 
     public function jobDetail($job_key, Job $job)
@@ -154,15 +154,15 @@ class JobController extends Controller
         $category = Category::where('slug', $cat_slug)->first()->toArray();
         
         $q = $job->newQuery();
-        $q->where('category_id', $category['id']);
+        $q->where(['category_id'=> $category['id'], 'status' => 'active']);
       
-        return response()->json(JobResource::collection($q->get()));
+        return response()->json(JobResource::collection($q->orderBy('expiration', 'desc')->get()));
     }
 
     public function latestJobs(Request $request, Job $job)
     {
-        $latest_jobs = Job::limit(6)
-            ->orderBy('created_at', 'desc')
+        $latest_jobs = Job::limit(6)->where('status', 'active')
+            ->orderBy('expiration', 'desc')
             ->get();
 
         return response()->json(JobResource::collection($latest_jobs));
@@ -171,8 +171,8 @@ class JobController extends Controller
     public function featuredJobs(Request $request, Job $job)
     {
         $latest_jobs = Job::limit(4)
-            ->where('featured', 1)
-            ->orderBy('created_at', 'desc')
+            ->where(['featured'=> 1, 'status'=> 'active'])
+            ->orderBy('expiration', 'desc')
             ->get();
 
         return response()->json(JobResource::collection($latest_jobs));
@@ -188,6 +188,7 @@ class JobController extends Controller
         // die();
 
         $q = $job->newQuery();
+        $q->where('status', 'active');
         
         if(!empty($request->jobCategories)){
             $q->whereIn('category_id', explode(",", $request->jobCategories));
@@ -217,7 +218,7 @@ class JobController extends Controller
     public function JobsListing(Request $request, Job $job)
     {
         $q = $job->newQuery();
-
+        $q->where('status', 'active');
         $currentDate = Carbon::today();
         $originalDate = $currentDate->format('Y-m-d');
         
@@ -283,7 +284,7 @@ class JobController extends Controller
         // echo $request->keyword;
         // print_r($request->all());
         $q = $job->newQuery();
-
+        // $q->where('status', 'active');
         $listing_rows_count  = SiteSettings::select('meta_val')->where('meta_key', '_listing_rows_limit')->first();
 
         if(isset($request->pageId) && $request->pageId)
