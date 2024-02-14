@@ -9,12 +9,15 @@ use App\Models\Company;
 use Illuminate\Http\Request;
 use App\Http\Resources\CompanyResource;
 use App\Models\SiteSettings;
+use App\Models\VerifyEmail;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 use App\Http\Controllers\EmailTemplateController;
 use App\Jobs\MultiPurposeEmailJob;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 
 class CompanyController extends Controller
@@ -287,16 +290,18 @@ class CompanyController extends Controller
                     'suburb_id' => $request->suburb_id
                 ]);
 
-                $customBaseUrl = env('APP_URL');
+                $customBaseUrl = env('FRONT_APP_URL');
+                $randomString = Str::random(40);
+                $expired = now()->addMinutes(60);
 
-                $linkurl = URL::temporarySignedRoute(
-                    'api.verify',
-                    now()->addMinutes(60),
-                    ['id' => $newUser->id, 'hash' => sha1($newUser->email)],
-                    false // This parameter ensures that the base URL is not included
-                );
+                VerifyEmail::create([
+                    'user_id'=> $newUser->id,
+                    'email' => $newUser->email,
+                    'token' => Hash::make($randomString),
+                    'expired_at' => $expired,
+                ]);
 
-                $verificationUrl = rtrim($customBaseUrl) . ltrim($linkurl, '/');
+                $verificationUrl = rtrim($customBaseUrl). 'verify-email/?userId='.$newUser->id. '&token=' .$randomString. '&expired='.hash('sha256', $expired);
 
                 $email_templates  = new EmailTemplateController();
                 $get_template = $email_templates->get_template('company-account-verify');

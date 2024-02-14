@@ -13,9 +13,12 @@ use App\Events\SendDataToPusher;
 use App\Mail\MultiPurposeEmail;
 use App\Jobs\MultiPurposeEmailJob;
 use App\Jobs\NotificationEmailJob;
+use App\Models\VerifyEmail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 
 class UserController extends Controller
@@ -192,16 +195,18 @@ class UserController extends Controller
 
             if ($newUser) {
 
-                    $customBaseUrl = env('APP_URL');
+                    $customBaseUrl = env('FRONT_APP_URL');
+                    $randomString = Str::random(40);
+                    $expired = now()->addMinutes(60);
 
-                    $linkurl = URL::temporarySignedRoute(
-                        'verification.verify',
-                        now()->addMinutes(60),
-                        ['id' => $newUser->id, 'hash' => sha1($newUser->email)],
-                        false // This parameter ensures that the base URL is not included
-                    );
+                    VerifyEmail::create([
+                        'user_id'=> $newUser->id,
+                        'email' => $newUser->email,
+                        'token' => Hash::make($randomString),
+                        'expired_at' => $expired,
+                    ]);
 
-                    $verificationUrl = rtrim($customBaseUrl) . '/' . ltrim($linkurl, '/');
+                    $verificationUrl = rtrim($customBaseUrl). 'verify-email/?userId='.$newUser->id. '&token=' .$randomString. '&expired='.hash('sha256', $expired);
 
                     $email_templates  = new EmailTemplateController();
                     $get_template = $email_templates->get_template('job-seeker-verify-email');

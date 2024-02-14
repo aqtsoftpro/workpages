@@ -38,7 +38,7 @@ use App\Http\Controllers\SuburbController;
 use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\PackageController;
 use App\Http\Controllers\ApiVerifyEmailController;
-use App\Http\Controllers\Auth\VerifyEmailController;
+// use App\Http\Controllers\Auth\VerifyEmailController;
 
 // VerifyEmailController
 
@@ -104,18 +104,12 @@ Route::post('/workpages/getUser', function (Request $request) {
 });
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
-
-    Route::get('verify-email/{id}/{hash}', ApiVerifyEmailController::class)->middleware(['signed', 'throttle:6,1'])->name('api.verify');
-
+    Route::get('verify-email/', ApiVerifyEmailController::class);
     // Route::get('verify-email/{id}/{hash}', VerifyEmailController::class)->middleware(['signed', 'throttle:6,1'])->name('verification.verify');
-
     Route::put('updatePassword/{user_id}', [UserController::class, 'updatePassword']);
-    
     Route::resource('user', UserController::class);
-
     Route::put('updateUserMeta/{user_id}', [UserMetaController::class, 'updateUserMeta']);
     Route::get('getUserMeta/{user_id}', [UserMetaController::class, 'updateUserMeta']);
-
     Route::put('updateUserSocial/{user_id}', [UserController::class, 'updateUserSocial']);
     Route::get('getUserSocial/{user_id}', [UserController::class, 'getUserSocial']);
     Route::resource('designation', DesignationController::class);

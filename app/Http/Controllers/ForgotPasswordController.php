@@ -19,20 +19,51 @@ class ForgotPasswordController extends Controller
 {
     public function forgot() 
     {
+
         $credentials = request()->validate(['email' => 'required|email']);
         $user = User::where('email', request()->email)->first();
-        if ($user) {
-            Password::sendResetLink($credentials);
-            return response()->json([
-                'status' => 'success',
-                "msg" => 'Reset password link sent on your email id.',
-            ]);
-        } else {
-            return response()->json([
-                'status' => 'error',
-                "message" => 'This email does not exists...',
-            ]);
-        }
+
+        $customBaseUrl = env('FRONT_APP_URL');
+        $randomString = Str::random(40);
+
+        DB::table('password_reset_tokens')->updateOrInsert(
+            ['email' => $user->email],
+            ['token' => Hash::make($randomString), 'created_at' => now()]
+        );
+
+        // DB::table('password_reset_tokens')->insert([
+        //     'email' => $user->email,
+        //     'token' => Hash::make($randomString),
+        //     'created_at' => now(),
+        // ]);
+
+        $verificationUrl = rtrim($customBaseUrl). 'reset-password/' .$randomString. '?email='.$user->email;
+
+        $email_templates  = new EmailTemplateController();
+        $get_template = $email_templates->get_template('job-seeker-verify-email');
+        $originalContent = $get_template['desc'];
+        
+        $email_variables = [
+            '[Name]' => $user->first_name.' '.$user->last_name,
+            '[Admin Password Reset]' => '<a href="'.$verificationUrl.'" target="_blank">'.env('APP_URL').'</a>',
+        ];
+
+        // echo $originalContent;
+
+        foreach ($email_variables as $search => $replace) {
+            $originalContent = str_replace($search, $replace, $originalContent);
+        };
+
+        $subject = "Password Recovery Email";
+        $To = $user->email;
+
+        MultiPurposeEmailJob::dispatch($To, $subject, $originalContent, $verificationUrl);
+
+        return response()->json([
+            'status' => 'success',
+            "msg" => 'Reset password link sent on your email id.',
+        ]);
+
     }
 
     public function reset(Request $request)

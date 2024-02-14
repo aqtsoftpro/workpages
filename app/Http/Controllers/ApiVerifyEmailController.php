@@ -9,7 +9,8 @@ use Illuminate\Auth\Events\Verified;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\RedirectResponse;
 use App\Listeners\LogVerifiedUser;
-
+use App\Models\{VerifyEmail, User};
+use Illuminate\Support\Facades\Hash;
 
 class ApiVerifyEmailController extends Controller
 {
@@ -18,34 +19,23 @@ class ApiVerifyEmailController extends Controller
      */
     public function __invoke(Request $request)
     {
-        // dd($request->user());
-        // if ($request->user()->hasVerifiedEmail()) {
-        //     return response()->json([
-        //         'status' => 'success',
-        //         'data' => $request->user(),
-        //         'message' => 'User alreay verified!'
-        //     ]);
-        // }
-        // if ($request->user()->markEmailAsVerified()) {
-        //     event(new Verified($request->user()));
-
-
-        // }
-        // return response()->json([
-        //     'status' => 'success',
-        //     'data' => $request->user(),
-        //     'message' => 'User verified successfully!'
-        // ]);
-
         $user = User::findOrFail($request->userId);
-        
-        if (! hash_equals((string) $request->token, $user->getEmailVerificationToken())) {
-            return response()->json(['message' => 'Mismatch token'], 403);
+        $verifyMailData = VerifyEmail::where('user_id', $request->userId)->where('expired_at', '>=', now())->first();
+
+        if ($user && $verifyMailData) {
+            if (!Hash::check($request->token, $verifyMailData->token)) {
+                return response()->json(['message' => 'Mismatch token'], 403);
+            } else {
+                $user->update([
+                    'email_verified_at' => now(),
+                ]);
+                return response()->json(['message' => 'Email verified successfully']);
+            }
+        }
+        else {
+            return response()->json(['message' => 'User not found']);
         }
 
-        $user->markEmailAsVerified();
-
-        return response()->json(['message' => 'Email verified successfully']);
     }
 
     // public function verifyEmail(Request $request)
