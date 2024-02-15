@@ -320,8 +320,9 @@ class CompanyController extends Controller
 
                 $subject = "Verify Email Address";
                 $To = $request->email;
-
-                MultiPurposeEmailJob::dispatch($To, $subject, $originalContent, $verificationUrl);
+                // MultiPurposeEmailJob::dispatch($To, $subject, $originalContent, $verificationUrl);
+                $email = new MultiPurposeEmail($subject, $originalContent, $verificationUrl);
+                Mail::to($To)->send($email);
                 
 
                 // $result = Mail::to($To)->send(new MultiPurposeEmail($subject, $originalContent));

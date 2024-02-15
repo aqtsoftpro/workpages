@@ -104,7 +104,7 @@ Route::post('/workpages/getUser', function (Request $request) {
 });
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
-    Route::get('verify-email/', ApiVerifyEmailController::class);
+    Route::get('verify-email/', [ApiVerifyEmailController::class, 'verifyEmail']);
     // Route::get('verify-email/{id}/{hash}', VerifyEmailController::class)->middleware(['signed', 'throttle:6,1'])->name('verification.verify');
     Route::put('updatePassword/{user_id}', [UserController::class, 'updatePassword']);
     Route::resource('user', UserController::class);
@@ -134,7 +134,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('companySubscriptions', [PackageController::class, 'subPlans']);
     Route::post('updateUserPortfolio/{id?}', [PortfolioController::class, 'updateUserPortfolio']);
     Route::get('getCompanyJobs', [JobController::class, 'getCompanyJobs']);
-    
+    Route::post('resendEmail', [ApiVerifyEmailController::class, 'resendEmail']);
 });
 
 Route::middleware('cors')->group(function(){
