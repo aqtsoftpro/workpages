@@ -15,13 +15,13 @@ return [
     |
     */
 
-    'paths' => ['*', 'sanctum/csrf-cookie', '*', 'register'],
+    'paths' => ['*', 'sanctum/csrf-cookie', '*', 'register', '*', 'cmsPages', '*', 'verify-email'],
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['*'],
+    // 'allowed_origins' => ['*'],
 
-    // 'allowed_origins' => ['https://wpageapp.aqtdemos.com'],
+    'allowed_origins' => ['https://wpageapp.aqtdemos.com', 'http://localhost:8080'],
 
     'allowed_origins_patterns' => ['*'],
 
