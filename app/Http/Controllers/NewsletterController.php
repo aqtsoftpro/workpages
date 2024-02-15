@@ -104,13 +104,13 @@ class NewsletterController extends Controller
 
     public function CharityPost(Request $request)
     {
-        $mailChimpApiKey = "0bc97559ccb0dbace7deefc59278efa0-us6" //SiteSettings::where('meta_key', '_mailchimp_api_key')->first()->toArray();
-        $mailChimpListID = "aa90ec88ac"//SiteSettings::where('meta_key', '_mailchimp_list_id')->first()->toArray();
+        $mailChimpApiKey = SiteSettings::where('meta_key', '_mailchimp_api_key')->first()->toArray();
+        $mailChimpListID = SiteSettings::where('meta_key', '_mailchimp_list_id')->first()->toArray();
         if($mailChimpApiKey)
         {
             $email = $request->email;
-            $apiKey = "0bc97559ccb0dbace7deefc59278efa0-us6" //$mailChimpApiKey['meta_val'];
-            $listId = "aa90ec88ac"  //$mailChimpListID['meta_val'];
+            $apiKey = $mailChimpApiKey['meta_val'];
+            $listId = $mailChimpListID['meta_val'];
 
             $data = [
                 'email_address' => $email,
