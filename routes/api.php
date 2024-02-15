@@ -103,8 +103,7 @@ Route::post('/workpages/getUser', function (Request $request) {
     //return new UserResource($token->tokenable);
 });
 
-Route::group(['middleware' => ['auth:sanctum']], function () {
-    Route::get('verify-email/', [ApiVerifyEmailController::class, 'verifyEmail']);
+Route::group(['middleware' => ['auth:sanctum', 'cors']], function () {
     // Route::get('verify-email/{id}/{hash}', VerifyEmailController::class)->middleware(['signed', 'throttle:6,1'])->name('verification.verify');
     Route::put('updatePassword/{user_id}', [UserController::class, 'updatePassword']);
     Route::resource('user', UserController::class);
@@ -136,6 +135,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('getCompanyJobs', [JobController::class, 'getCompanyJobs']);
     Route::post('resendEmail', [ApiVerifyEmailController::class, 'resendEmail']);
 });
+
+Route::get('verify-email', [ApiVerifyEmailController::class, 'verifyEmail']);
 
 Route::middleware('cors')->group(function(){
     
