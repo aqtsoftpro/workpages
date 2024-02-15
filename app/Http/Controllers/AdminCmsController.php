@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Cms;
 use Stringable;
 use Illuminate\Support\Str;
-use Illuminate\Http\Response;
+// use Illuminate\Http\Response;
 
 
 class AdminCmsController extends Controller
@@ -96,9 +96,9 @@ class AdminCmsController extends Controller
         }
     }
 
-    public function get_page(Request $request): Response
+    public function get_page(Request $request)
     {
         $page_content = Cms::where('slug', $request->page_slug)->first();
-        return Response($page_content->desc);
+        return response()->json($page_content->desc);
     }
 }

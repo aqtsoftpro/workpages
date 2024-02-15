@@ -136,10 +136,10 @@ Route::group(['middleware' => ['auth:sanctum', 'cors']], function () {
     Route::post('resendEmail', [ApiVerifyEmailController::class, 'resendEmail']);
 });
 
-Route::get('verify-email', [ApiVerifyEmailController::class, 'verifyEmail']);
 
 Route::middleware('cors')->group(function(){
-    
+    Route::get('verify-email', [ApiVerifyEmailController::class, 'verifyEmail']);
+
     Route::get('stripe/success/{id}/{session}/{user}', [PackageController::class, 'success']);
 
     Route::get('getUserPortfolio/{id}', [PortfolioController::class, 'getUserPortfolio']);
@@ -197,7 +197,6 @@ Route::middleware('cors')->group(function(){
 
     Route::post('updateJobStatus', [JobController::class, 'updateJobStatus']);
     Route::put('updateJob/{id}', [JobController::class, 'update']);
-
 
     Route::post('emails/contactUs/', [EmailsController::class, 'contact_us']);
     Route::get('emails/contactUs/', [EmailsController::class, 'contact_us']);

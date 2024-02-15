@@ -4,13 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Providers\RouteServiceProvider;
-use Illuminate\Auth\Events\Verified;
-use Illuminate\Foundation\Auth\EmailVerificationRequest;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\MultiPurposeEmail;
-use App\Listeners\LogVerifiedUser;
 use App\Models\{VerifyEmail, User};
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
