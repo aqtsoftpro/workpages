@@ -172,7 +172,7 @@ class AdminUsersController extends Controller
 
         if(User::destroy($user->id)) {
 
-            return redirect()->route('admin_users')
+            return redirect()->back()
                         ->with('success',''.$deleted_rec->name.' user deleted successfully');
           } else {
             return redirect()->route('admin_users')
