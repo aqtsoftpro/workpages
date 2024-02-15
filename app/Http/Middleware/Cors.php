@@ -47,24 +47,32 @@ class Cors
         //     ->header('Accept', $request->header('Accept'))
         //     ->header('Accept', 'application/json');
 
-            $response = $next($request);
-            $headers = [
-                'Access-Control-Allow-Origin' => '*',
-                'Access-Control-Allow-Methods' => 'GET, PUT, POST, DELETE, PATCH',
-                'Access-Control-Allow-Headers' => 'Access-Control-Allow-Headers, Origin, Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Authorization, Access-Control-Request-Headers',
-                'Access-Control-Allow-Credentials' => 'true',
-            ];
+            // $response = $next($request);
+            // $headers = [
+            //     'Access-Control-Allow-Origin' => '*',
+            //     'Access-Control-Allow-Methods' => 'GET, PUT, POST, DELETE, PATCH',
+            //     'Access-Control-Allow-Headers' => 'Access-Control-Allow-Headers, Origin, Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Authorization, Access-Control-Request-Headers',
+            //     'Access-Control-Allow-Credentials' => 'true',
+            // ];
         
-            if ($response instanceof \Illuminate\Http\Response) {
-                foreach ($headers as $key => $value) {
-                    $response->header($key, $value);
-                }
-            } elseif ($response instanceof \Symfony\Component\HttpFoundation\Response) {
-                foreach ($headers as $key => $value) {
-                    $response->headers->set($key, $value);
-                }
-            }
-            return $response;
+            // if ($response instanceof \Illuminate\Http\Response) {
+            //     foreach ($headers as $key => $value) {
+            //         $response->header($key, $value);
+            //     }
+            // } elseif ($response instanceof \Symfony\Component\HttpFoundation\Response) {
+            //     foreach ($headers as $key => $value) {
+            //         $response->headers->set($key, $value);
+            //     }
+            // }
+            // return $response;
+
+            $response = $next($request);
+    
+            $response->headers->set('Access-Control-Allow-Origin', '*');
+            $response->headers->set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+            $response->headers->set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    
+            return $response;        
         
     }
 }
