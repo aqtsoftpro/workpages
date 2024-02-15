@@ -261,4 +261,26 @@ class UserController extends Controller
         $userSocials = User::find($user_id)->socials;
         return response()->json($userSocials);
     }
+
+
+    public function verifyEmail(Request $request)
+    {
+        $user = User::findOrFail($request->userId);
+        $verifyMailData = VerifyEmail::where('user_id', $request->userId)->where('expired_at', '>=', now())->first();
+
+        if ($user && $verifyMailData) {
+            if (!Hash::check($request->token, $verifyMailData->token)) {
+                return response()->json(['message' => 'Mismatch token'], 403);
+            } else {
+                $user->update([
+                    'email_verified_at' => now(),
+                ]);
+                return response()->json(['message' => 'Email verified successfully']);
+            }
+        }
+        else {
+            return response()->json(['message' => 'User not found']);
+        }
+
+    }
 }

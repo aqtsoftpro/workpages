@@ -138,7 +138,7 @@ Route::group(['middleware' => ['auth:sanctum', 'cors']], function () {
 
 
 Route::middleware('cors')->group(function(){
-    Route::get('verify-email', [ApiVerifyEmailController::class, 'verifyEmail']);
+    Route::get('verify-email', [UserController::class, 'verifyEmail']);
 
     Route::get('stripe/success/{id}/{session}/{user}', [PackageController::class, 'success']);
 
@@ -208,7 +208,7 @@ Route::middleware('cors')->group(function(){
     Route::post('storePartner', [NewsletterController::class, 'CharityPost']);
     // Show all packages....
     Route::get('packages', [PackageController::class, 'index']);
-    Route::get('cmsPages/', [AdminCmsController::class, 'get_page']);
+    Route::get('cmsPages/', [PackageController::class, 'get_page']);
  });
 
 

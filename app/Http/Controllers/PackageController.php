@@ -11,7 +11,7 @@ use Stripe\Stripe;
 use Stripe\Product;
 use Stripe\Price;
 use Laravel\Cashier\Cashier;
-use App\Models\{Subscription, Company};
+use App\Models\{Subscription, Company, Cms};
 use Carbon\Carbon;
 
 class PackageController extends Controller
@@ -165,6 +165,12 @@ class PackageController extends Controller
         else {
             return Response($subscription);
         }
+    }
+
+    public function get_page(Request $request)
+    {
+        $page_content = Cms::where('slug', $request->page_slug)->first();
+        return response()->json($page_content->desc);
     }
 
     /**
