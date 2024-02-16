@@ -38,6 +38,9 @@ class Cors
     
         //     return $response;
         // }
+
+
+
     
         // return $next($request)
         //     ->header('Access-Control-Allow-Origin', '*')
@@ -46,6 +49,9 @@ class Cors
         //     ->header('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, X-Token-Auth, Authorization')
         //     ->header('Accept', $request->header('Accept'))
         //     ->header('Accept', 'application/json');
+
+
+
 
             // $response = $next($request);
             // $headers = [
@@ -65,6 +71,9 @@ class Cors
             //     }
             // }
             // return $response;
+
+
+            
 
             $response = $next($request);
     
