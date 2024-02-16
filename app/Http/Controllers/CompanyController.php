@@ -14,6 +14,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 use App\Http\Controllers\EmailTemplateController;
+use App\Mail\MultiPurposeEmail;
 use App\Jobs\MultiPurposeEmailJob;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Hash;
