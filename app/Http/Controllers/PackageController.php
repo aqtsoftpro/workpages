@@ -173,6 +173,11 @@ class PackageController extends Controller
         return response()->json($page_content->desc);
     }
 
+    public function getPage(Request $request)
+    {
+        $page_content = Cms::where('slug', $request->page_slug)->first();
+        return response()->json($page_content->desc ?? null);
+    }
     /**
      * Remove the specified resource from storage.
      */

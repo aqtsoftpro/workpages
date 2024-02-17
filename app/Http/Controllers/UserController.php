@@ -275,6 +275,7 @@ class UserController extends Controller
                 $user->update([
                     'email_verified_at' => now(),
                 ]);
+                $verifyMailData->delete();
                 return response()->json(['message' => 'Email verified successfully']);
             }
         }

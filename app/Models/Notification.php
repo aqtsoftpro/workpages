@@ -5,6 +5,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Laravel\Scout\Searchable;
 
 
@@ -65,6 +67,11 @@ class Notification extends Model
 
     public function applications(){
         return $this->hasMany(Application::class);
+    }
+
+    public function job(): BelongsTo
+    {
+      return $this->belongsTo(Job::class);
     }
 }
 

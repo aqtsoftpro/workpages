@@ -10,6 +10,7 @@ use App\Models\Location;
 use App\Models\Application;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Laravel\Scout\Searchable;
 
 
@@ -67,6 +68,11 @@ class Job extends Model
 
     public function applications(){
         return $this->hasMany(Application::class);
+    }
+
+    public function notifications(): HasMany
+    {
+      return $this->hasMany(Application::class);
     }
 
     public function toSearchableArray(): array

@@ -64,13 +64,12 @@ class GlobalDataServiceProvider extends ServiceProvider
                         <div>
                             <h4>'.$noti['name'].'</h4>
                             <p>'.$noti['desc'].'</p>
-                            <p>2 hrs. ago</p>
+                            <p>'.\Carbon\Carbon::parse($noti['created_at'])->diffForHumans().'</p>
                         </div>
                     </li>
                     <li>
                     <hr class="dropdown-divider">
-                  </li>
-                    ';
+                  </li>';
 
                     }
             

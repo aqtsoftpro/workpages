@@ -13,6 +13,7 @@ use App\Models\VerifyEmail;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\EmailTemplateController;
 use App\Mail\MultiPurposeEmail;
 use App\Jobs\MultiPurposeEmailJob;
