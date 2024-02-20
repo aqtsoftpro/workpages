@@ -59,8 +59,8 @@ class AdminUsersController extends Controller
     }
 
     public function store(Request $request)
-
     {
+
         $this->authorize('create', User::class);
         $hased_passwoed = bcrypt($request['password']);
         $request['password'] = $hased_passwoed;
@@ -123,6 +123,7 @@ class AdminUsersController extends Controller
 
     public function update(Request $request, User $user)
     {
+
         $update_user = $user;
 
         if($request['password'] != '')

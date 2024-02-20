@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\Models\{Application, BookmarkJob, CompanyReview, Rating, Designation, JobSeeker, Package, JobCategory, Blog, BlogCategory, Category, Company, User, Permission};
+use App\Models\{Application, Job, BookmarkJob, CompanyReview, Rating, Designation, JobSeeker, Package, JobCategory, Blog, BlogCategory, Category, Company, User, Permission};
 
 
 class AdminSearchController extends Controller
@@ -21,29 +21,40 @@ class AdminSearchController extends Controller
      */
     public function search(Request $request)
     {
-
-       $searchResults = [];
+        $keyword = $request->keyword;
+        $searchResults = [];
         $searchModels = [
-            Application::class,
+            // Application::class,
             Blog::class,
-            // BlogCategory::class,
-            // BookmarkJob::class,
-            // Category::class,
+            BlogCategory::class,
+            BookmarkJob::class,
+            Category::class,
             Company::class,
             CompanyReview::class,
-            // Designation::class,
-            // JobCategory::class,
+            Designation::class,
+            JobCategory::class,
             JobSeeker::class,
-            // Package::class,
+            Package::class,
             // Portfolio::class,
             // Qualification::class,
-            // Rating::class,
+            Job::class,
             User::class,
         ];
 
         foreach ($searchModels as $model) {
-            $searchResults[basename($model)] = $model::search($request->keyword)->get();
+            // $searchResults[basename($model)] = $model::where('name', 'OR', 'job_title', 'LIKE', "%$keyword%")->get();
+            $modelName = basename($model);
+            $searchResults[$modelName] = $model::where(function($query) use ($model, $keyword) {
+                $columns = ['name', 'email', 'description', 'job_title']; // Define the columns to search
+                
+                foreach ($columns as $column) {
+                    if (\Schema::hasColumn((new $model)->getTable(), $column)) {
+                        $query->orWhere($column, 'LIKE', "%$keyword%");
+                    }
+                }
+            })->get();
         }
+        // dd($searchResults);
 
         return view('admin.search.index', compact('searchResults'));
     //    dd($jobCategories, $users);

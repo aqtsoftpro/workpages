@@ -62,17 +62,11 @@
                                 @foreach ($record->keypoints as $point)
                                     <div class="row field">
                                         <div class="col-md-3">
-                                            <label for="icon" class="form-label">Icon </label>
-                                            <input type="text" name="icon[]" value="{{ old('icon', $point->icon) }}"
-                                                class="form-control" placeholder="e.g. fa fa-tick..." id="icon"
-                                                required>
-                                        </div>
-                                        <div class="col-md-3">
                                             <label for="title" class="form-label">Title </label>
                                             <input type="text" name="title[]" value="{{ old('title', $point->title) }}"
                                                 class="form-control" placeholder="e.g. title..." id="title">
                                         </div>
-                                        <div class="col-md-5">
+                                        <div class="col-md-7">
                                             <label for="detail" class="form-label">Detail </label>
                                             <input type="text" name="detail[]"
                                                 value="{{ old('detail', $point->detail) }}" class="form-control"
@@ -143,16 +137,11 @@
             var moreFields = `
                               <div class="row field">
                                   <div class="col-md-3">
-                                      <label for="icon" class="form-label">Icon </label>
-                                      <input type="text" name="icon[]" value="{{ old('icon') }}" class="form-control"
-                                          placeholder="e.g. fa fa-tick..." id="icon" required>
-                                  </div>
-                                  <div class="col-md-3">
                                       <label for="title" class="form-label">Title </label>
                                       <input type="text" name="title[]" value="{{ old('title') }}" class="form-control"
                                           placeholder="e.g. title..." id="title" >
                                   </div>
-                                  <div class="col-md-5">
+                                  <div class="col-md-7">
                                       <label for="detail" class="form-label">Detail </label>
                                       <input type="text" name="detail[]" value="{{ old('detail') }}" class="form-control"
                                           placeholder="e.g. detail..." id="detail" required>

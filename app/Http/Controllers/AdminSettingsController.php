@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\File;
 use App\Models\Skill;
 use App\Models\Sector;
 use App\Models\Language;
@@ -102,13 +102,13 @@ class AdminSettingsController extends Controller
                 // $FileName = 'site-logo-'.time().'-'.rand(100000,1000000).'.'.$request->file('_site_logo')->extension();
                 // $filePath = $request->file('_site_logo')->store('public', $FileName);
                 $imagePath = $request->file('_site_logo')->store('/','public');
-
-                                
+                
                 if(isset($imagePath)){
                     // echo $img_array['_site_logo'] = env('APP_URL').$imagePath;
                     // // dd($imagePath);
                     // SiteSettings::update_setting($img_array);
                     $settingRow = SiteSettings::where('meta_key', '_site_logo')->first();
+                    File::delete($settingRow->meta_val);
                     if ($settingRow) {
                         $settingRow->meta_val = env('APP_URL').'storage/'.$imagePath;
                         $settingRow->update();

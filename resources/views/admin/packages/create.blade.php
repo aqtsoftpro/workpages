@@ -102,11 +102,11 @@
 
                             <div id="dynamic-fields">
                                 <div class="row field">
-                                    <div class="col-md-3">
+                                    {{-- <div class="col-md-3">
                                         <label for="icon" class="form-label">Icon </label>
                                         <input type="text" name="icon[]" value="{{ old('icon') }}"
                                             class="form-control" placeholder="e.g. fa fa-tick..." id="icon" required>
-                                    </div>
+                                    </div> --}}
                                     <div class="col-md-3">
                                         <label for="title" class="form-label">Title </label>
                                         <input type="text" name="title[]" value="{{ old('title') }}"
@@ -147,11 +147,6 @@
 
             var moreFields = `
                             <div class="row field">
-                                <div class="col-md-3">
-                                    <label for="icon" class="form-label">Icon </label>
-                                    <input type="text" name="icon[]" value="{{ old('icon') }}" class="form-control"
-                                        placeholder="e.g. fa fa-tick..." id="icon" required>
-                                </div>
                                 <div class="col-md-3">
                                     <label for="title" class="form-label">Title </label>
                                     <input type="text" name="title[]" value="{{ old('title') }}" class="form-control"

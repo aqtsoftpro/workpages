@@ -1,9 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\DB;
 use Exception;
-use App\Models\{SiteSettings, Notification};
+use App\Models\{SiteSettings, Notification, CharityPartner};
 use Illuminate\Http\Request;
 
 class NewsletterController extends Controller
@@ -108,6 +108,8 @@ class NewsletterController extends Controller
         $mailChimpListID = SiteSettings::where('meta_key', '_mailchimp_list_id')->first()->toArray();
         if($mailChimpApiKey)
         {
+            DB::beginTransaction();
+
             $email = $request->email;
             $apiKey = $mailChimpApiKey['meta_val'];
             $listId = $mailChimpListID['meta_val'];
@@ -145,8 +147,6 @@ class NewsletterController extends Controller
 
             // Handle the response as needed
             $result = json_decode($response, true);
-
-            dd($result);
             
             if($statusCode == 400)
             {
@@ -158,6 +158,7 @@ class NewsletterController extends Controller
             }
             elseif($statusCode == 200)
             {
+
                 try {
                     $notification = Notification::create([
                         'type' => '_notification_newsletter',
@@ -165,12 +166,22 @@ class NewsletterController extends Controller
                         'package' => 'No Package',
                         'desc' => 'Newsletter subscribed by '.$email.'.'
                     ]);
+                    $charity = CharityPartner::create([
+                        'name' => $request->name,
+                        'email' => $request->email,
+                        'phone' => $request->phone,
+                        'company_name' => $request->company,
+                        'description' => $request->message
+                    ]);
+
+                    DB::commit();
                     return response()->json([
                         'status' => 'successs',
                         'message' => 'You have successfully subcribed newsletter',
     
                     ]);
                 } catch (\Throwable $th) {
+                    DB::rollBack();
                     return response()->json([
                         'status' => 'error',
                         'message' => $th,

@@ -54,7 +54,7 @@
 
                   <div class="col-md-12">
                     <label for="name" class="form-label">Email Verified At</label>
-                    <input type="date" name="email_verified_at" value="{{ $record->email_verified_at ?? old('email_verified_a', now()->toDateString() ) }}" class="form-control" id="email_verified_at">
+                    <input type="datetime-local" name="email_verified_at" value="{{ $record->email_verified_at ?? old('email_verified_a', now()->toDateString() ) }}" class="form-control" id="email_verified_at">
                   </div>
 
                   <div class="col-md-12">

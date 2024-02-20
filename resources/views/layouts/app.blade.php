@@ -42,6 +42,8 @@
 
     <script src="assets/vendor/ckeditor5/build/ckeditor.js"></script>
 
+    @vite(['resources/js/app.js', "resources/js/bootstrap.js"])
+
 </head>
 
 <body>

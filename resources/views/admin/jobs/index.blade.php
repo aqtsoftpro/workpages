@@ -68,9 +68,12 @@
                       <td>{{  date('F j, Y', strtotime($record->expiration)) }}</td>
                       <td>
                         @if( $record->status == 'active')
-                          <i class="bi bi-check text-green" style="font-size: 20px; font-weight:bold;"></i>
+                          {{-- <i class="bi bi-check text-green" style="font-size: 20px; font-weight:bold;"></i> --}}
+                          <span class="badge bg-success">Opened</span>
+
                         @else
-                          <i class="bi bi-x  text-danger" style="font-size: 20px; font-weight:bold;"></i>
+                          {{-- <i class="bi bi-x  text-danger" style="font-size: 20px; font-weight:bold;"></i> --}}
+                          <span class="badge bg-danger">Closed</span>
                         @endif
                       </td>
                       <td>
@@ -106,10 +109,12 @@
                       <td>{{ $record->currency->symbol . ' ' . $record->salary_from . ' - ' . $record->currency->symbol . ' ' . $record->salary_to }}</td>
                       <td>{{  date('F j, Y', strtotime($record->expiration)) }}</td>
                       <td>
-                        @if( $record->status == 'active')
-                          <i class="bi bi-check text-green" style="font-size: 20px; font-weight:bold;"></i>
+                        @if( $record->status == 'active' && $record->expiration > now())
+                          <span class="badge bg-success">Opened</span>
+                          {{-- <i class="bi bi-check text-green" style="font-size: 20px; font-weight:bold;"></i> --}}
                         @else
-                          <i class="bi bi-x  text-danger" style="font-size: 20px; font-weight:bold;"></i>
+                          <span class="badge bg-danger">Closed</span>
+                          {{-- <i class="bi bi-x  text-danger" style="font-size: 20px; font-weight:bold;"></i> --}}
                         @endif
                       </td>
                       <td>

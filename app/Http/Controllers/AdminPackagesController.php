@@ -79,11 +79,11 @@ class AdminPackagesController extends Controller
                     ]);
 
                     // Store the data in your database or perform any other necessary action
-                    foreach ($request->icon as $key => $value) {
+                    foreach ($request->title as $key => $value) {
                         KeyPoint::create([
                             'package_id' => $added_rec->id,
-                            'icon' => $value,
-                            'title' => $request->title[$key],
+                            'icon' => 'yes',
+                            'title' => $value,
                             'detail' => $request->detail[$key],
                         ]);
                     }

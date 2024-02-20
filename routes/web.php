@@ -232,4 +232,6 @@ Route::get('/linkstorage', function () {
 
 Route::get('/checkout/success/{package}/{session_id}', [AdminPackagesController::class, 'success'])->name('checkout.success');
 
+Route::view('pusher', 'pusher');
+
 require __DIR__.'/auth.php';

@@ -56,7 +56,7 @@
                                         </h6>
                                         @forelse ($searchResults['App\Models\User'] as $user)
                                             <div class="col-md-6">
-                                                <a href="{{ route('users.show', $user->id) }}">
+                                                <a href="{{ route('users.edit', $user->id) }}">
                                                     <span class="fw-bold">{{ $user->name }}</span>
                                                 </a>
                                             </div>
@@ -65,23 +65,21 @@
                                     </div>
                                 @endif
 
-                                @if ($searchResults['App\Models\Application'])
+                                @if ($searchResults['App\Models\Company'])
                                     <div class="row">
                                         <h6 class="card-title">
-                                            Applications: Total ({{ $searchResults['App\Models\Application']->count() }})
+                                            Companies: Total ({{ $searchResults['App\Models\Company']->count() }})
                                         </h6>
-                                        @forelse ($searchResults['App\Models\Application'] as $application)
+                                        @forelse ($searchResults['App\Models\Company'] as $companies)
                                             <div class="col-md-6">
-                                                <a href="{{ route('applications.show', $application->id) }}">
-                                                    <span class="fw-bold">{{ $application->name }}</span>
+                                                <a href="{{ route('companies.show', $companies->id) }}">
+                                                    <span class="fw-bold">{{ $companies->name }}</span>
                                                 </a>
                                             </div>
                                         @empty
                                         @endforelse
                                     </div>
                                 @endif
-
-
                                 @if ($searchResults['App\Models\Blog'])
                                     <div class="row">
                                         <h6 class="card-title">
@@ -89,7 +87,7 @@
                                         </h6>
                                         @forelse ($searchResults['App\Models\Blog'] as $blog)
                                             <div class="col-md-6">
-                                                <a href="{{ route('blog.show', $blog->id) }}">
+                                                <a href="{{ route('blog.edit', $blog->id) }}">
                                                     <span class="fw-bold">{{ $blog->name }}</span>
                                                 </a>
                                             </div>
@@ -133,7 +131,6 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </section>

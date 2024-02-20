@@ -74,27 +74,49 @@ class PackageController extends Controller
             'limit' => 1,
         ]);
 
-        // dd(auth()->user());
+        // dd($payment_intent->data[0]['charges']['data'][0]['payment_method_details']['card']);
 
+        $card_data = $payment_intent->data[0]['charges']['data'][0]['payment_method_details']['card'];
+        // dd($payment_intent->data[0]['charges']['data'][0]['receipt_url']);
+        $receipt = $payment_intent->data[0]['charges']['data'][0]['receipt_url'];
         $subscription = Subscription::where('stripe_id', $payment_intent->data[0]['id'])->first();
 
         if (!$subscription) {
+            $expire = now()->addDays(4);
+            switch ($package->interval) {
+                case 'day':
+                    $expire = now()->addDays($package->count);
+                    break;
+                case 'month':
+                    $expire = now()->addMonths($package->count);
+                    break;
+                case 'year':
+                    $expire = now()->addYears($package->count);
+                    break;
+                default:
+                    $expire = now()->addDays(7);
+                    break;
+            }
             Subscription::create([
                 'user_id' => $user,
                 'package_id'=> $package->id,
-                'company_id' => $company->id,
+                'company_id' => $company->id ?? null,
                 'name' => $package->name,
                 'stripe_id' => $payment_intent->data[0]['id'],
                 'stripe_price' => $package->price,
                 'quantity' => 1,
+                'ends_at' => now()->addDays(),
                 'stripe_status' => 'active',
+                'last_4' => $card_data['last4'],
+                'brand' => $card_data['brand'],
+                'exp_month' => $card_data['exp_month'],
+                'exp_year' => $card_data['exp_year'],
+                'receipt_url' => $receipt,
             ]);
         }
 
         $externalUrl = env('FRONT_APP_URL').'company/plan';
-
         return redirect()->away($externalUrl);
-
     }
     /**
      * Display the specified resource.

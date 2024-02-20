@@ -51,7 +51,6 @@ class AdminPermissionsController extends Controller
             'status' => $request->status,
             'guard_name' => 'web',
             'permission_category_id' => 1,
-            
             'slug' =>  Str::slug($request->name),
         ]);
 

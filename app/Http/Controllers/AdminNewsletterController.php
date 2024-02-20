@@ -5,16 +5,20 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Spatie\Newsletter\Facades\Newsletter;
 use GuzzleHttp\Client;
+use App\Models\SiteSettings;
 
 class AdminNewsletterController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $apiKey = config('newsletter.driver_arguments.api_key');
-        $listId = config('newsletter.lists.subscribers.id');
+        // $listId = config('newsletter.lists.subscribers.id');
+        $listId = $request->list_id;
+
+        $list_ids = SiteSettings::where('meta_key', '_mailchimp_list_id')->get();
 
         $url = "https://us6.api.mailchimp.com/3.0/lists/{$listId}/members?count=100";
 
@@ -34,16 +38,21 @@ class AdminNewsletterController extends Controller
             $members = json_decode(json_encode($members['members']));
         
             if ($statusCode == 200) {
-                return view('admin.news_letters.index', compact('members'))->with('success','Members list got successfully.');
+                return view('admin.news_letters.index', compact('members', 'list_ids'))->with('success','Members list got successfully.');
             } else {
+                $members = [];
+                return view('admin.news_letters.index', compact('members', 'list_ids'))->with('error','Failed to fetch members. Status code: ' . $statusCode,);
 
-                abort($statusCode, 'Failed to fetch members. Status code: ' . $statusCode,);
+                // abort($statusCode, 'Failed to fetch members. Status code: ' . $statusCode,);
             }
         } catch (\Exception $e) {
-            return response()->json([
-                'status' => 'error',
-                'message' => $e->getMessage(),
-            ]);
+            // return response()->json([
+            //     'status' => 'error',
+            //     'message' => $e->getMessage(),
+            // ]);
+            $members = [];
+            return view('admin.news_letters.index', compact('members', 'list_ids'))->with('error',$e->getMessage());
+
         }
 
     }

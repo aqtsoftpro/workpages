@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use Illuminate\Support\Facades\Storage;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -35,16 +36,16 @@ class ProfileController extends Controller
       
         // echo $request->file('admin_img');
         // echo "sadasd";
-    
-        if($request->hasFile('admin_img') && $request->file('admin_img')->isValid())
-            {
-                echo $FileName = 'admin-img-'.time().'-'.rand(100000,1000000).'.'.$request->file('admin_img')->extension();
-                $request->file('admin_img')->storeAs('public', $FileName);
 
-                User::where('id', '=', $request->id)->update([
-                    'photo' => env('APP_URL') . '/storage/' .$FileName,
-                ]);
-            }
+
+        if ($request->hasFile('admin_img') && $request->file('admin_img')->isValid()) {
+            $FileName = $request->file('admin_img')->store('public');
+            $filePath = Storage::url($FileName);
+            $user = User::find($request->id);
+            $user->update([
+                'photo' => env('APP_URL').ltrim($filePath, '/'),
+            ]);
+        }
     
         if($request->exist_admin_img == '')
         {

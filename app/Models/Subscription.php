@@ -20,6 +20,11 @@ class Subscription extends Model
         'stripe_price',
         'quantity',
         'stripe_status',
+        'last_4',
+        'brand',
+        'exp_month',
+        'exp_year',
+        'ends_at',
     ];
 
     public function package()

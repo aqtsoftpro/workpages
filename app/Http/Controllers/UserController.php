@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\URL;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
-
+use App\Events\UserRegisterEvent;
 
 class UserController extends Controller
 {
@@ -181,7 +181,7 @@ class UserController extends Controller
 
             // }
 
-            $newUser = $user->create([
+            $newUser = User::create([
                 'name' => $request['first_name'] . ' ' . $request['last_name'],
                 'email' => $request['email'],
                 'suburb_id' => $request['suburb_id'],
@@ -192,6 +192,12 @@ class UserController extends Controller
             //Assign Job Seeker role to user
             $jobSeekerRole = Role::where('name', 'Job Seeker')->first();
             $newUser->assignRole($jobSeekerRole);
+
+            // broadcast(new UserRegisterEvent($newUser))->toOthers();
+
+            event(new UserRegisterEvent('hello world'));
+
+            // return $newUser->load('users');
 
             if ($newUser) {
 
@@ -282,6 +288,18 @@ class UserController extends Controller
         else {
             return response()->json(['message' => 'User not found']);
         }
+
+    }
+
+    public function companyUsers()
+    {
+        $company = Company::where('owner_id', auth()->id())->first()->id;
+
+        $users = User::whereHas('applications', function ($query) use ($company) {
+            $query->where('company_id', $company);
+        })->get();
+
+        return response()->json($users);
 
     }
 }

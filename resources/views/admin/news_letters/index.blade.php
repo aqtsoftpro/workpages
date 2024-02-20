@@ -21,6 +21,25 @@
 
     <section class="section">
         <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title row">
+                            <div class="col-lg-6">
+                                Select Contact List
+                            </div>
+                        </h5>
+                        <form action="{{ route('news.letter') }}" method="get" class="row g-3" id="list-form">
+                            <select class="form-select" id="list-id" name="list_id"> <!-- Added name attribute -->
+                                <option selected>Select one</option>
+                                @foreach ($list_ids as $item)
+                                    <option value="{{ $item->meta_val }}">{{ $item->meta_val }}</option>
+                                @endforeach
+                            </select>
+                        </form>
+                    </div>
+                </div>
+            </div>
             <div class="col-lg-12">
                 {{-- <p>{{ json_encode($members) }}</p> --}}
                 <div class="card">
@@ -101,9 +120,15 @@
                                                 </a>
 
                                                 <ul class="dropdown-menu">
-                                                    <li><a class="dropdown-item" href="{{ route('newsletter.status', ['status'=>$member->status, 'hash'=>$member->id]) }}">{{ $member->status == 'subscribed' ? 'Unsubscribe' : 'Subscribe' }}</a></li>
-                                                    <li><a class="dropdown-item" href="{{ route('newsletter.archive', ['status'=>$member->status, 'hash'=>$member->id]) }}">Archive</a></li>
-                                                    <li><a class="dropdown-item" href="{{ route('newsletter.permanent', ['status'=>$member->status, 'hash'=>$member->id]) }}">Delete Permanently</a></li>
+                                                    <li><a class="dropdown-item"
+                                                            href="{{ route('newsletter.status', ['status' => $member->status, 'hash' => $member->id]) }}">{{ $member->status == 'subscribed' ? 'Unsubscribe' : 'Subscribe' }}</a>
+                                                    </li>
+                                                    <li><a class="dropdown-item"
+                                                            href="{{ route('newsletter.archive', ['status' => $member->status, 'hash' => $member->id]) }}">Archive</a>
+                                                    </li>
+                                                    <li><a class="dropdown-item"
+                                                            href="{{ route('newsletter.permanent', ['status' => $member->status, 'hash' => $member->id]) }}">Delete
+                                                            Permanently</a></li>
                                                 </ul>
                                             </div>
                                         </td>
@@ -117,4 +142,9 @@
             </div>
         </div>
     </section>
+    <script>
+        document.getElementById('list-id').addEventListener('change', function() {
+            document.getElementById('list-form').submit();
+        });
+    </script>    
 @endsection
