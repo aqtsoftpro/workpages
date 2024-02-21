@@ -317,8 +317,6 @@
                   <!-- Sales Card -->
                   <div class="col-xxl-12 col-md-12">
                     <div class="card info-card sales-card">
-        
-        
                       <div class="card-body">
                         <h5 class="card-title">Signups </h5>
                         <div class="row">
@@ -336,7 +334,7 @@
                           <div class="col-md-4">
                             <div class="d-flex align-items-center">
                               <div class="ps-3">
-                                <h6><?=$records['companies'];?></h6>
+                                <h6><?=$records['job_seekers'];?></h6>
                                 <span class="text-success small pt-1 fw-bold">Job Seekers</span>
             
                               </div>
@@ -345,7 +343,7 @@
                           <div class="col-md-4">
                             <div class="d-flex align-items-center">
                               <div class="ps-3">
-                                <h6><?=$records['companies'];?></h6>
+                                <h6>{{ $records['companies'] + $records['job_seekers']}}</h6>
                                 <span class="text-success small pt-1 fw-bold">Total Signups</span>
             
                               </div>
@@ -372,7 +370,7 @@
                         <i class="bi bi-building"></i>
                       </div>
                       <div class="ps-3">
-                        <h6><?=$records['companies'];?></h6>
+                        <h6><?=$records['active_jobs'];?></h6>
                         <span class="text-success small pt-1 fw-bold">Active Jobs</span>
                       </div>
                     </div>
@@ -380,7 +378,7 @@
                   <div class="col-md-4">
                     <div class="d-flex align-items-center">
                       <div class="ps-3">
-                        <h6><?=$records['companies'];?></h6>
+                        <h6><?=$records['expired_jobs'];?></h6>
                         <span class="text-success small pt-1 fw-bold">Expired Jobs</span>
     
                       </div>
@@ -409,7 +407,7 @@
 
 
               <div class="card-body">
-                <h5 class="card-title">Job Seekers</h5>
+                <h5 class="card-title">Job Seekers Applications</h5>
                 <div class="row">
                   <div class="col-md-4">
                     <div class="d-flex align-items-center">
@@ -417,7 +415,7 @@
                         <i class="bi bi-person-check"></i>
                       </div>
                       <div class="ps-3">
-                        <h6><?=$records['job_seekers'];?></h6>
+                        <h6><?=$records['accepted_app'];?></h6>
                         <span class="text-success small pt-1 fw-bold">Accepted Application</span>
                       </div>
                     </div>
@@ -425,7 +423,7 @@
                   <div class="col-md-4">
                     <div class="d-flex align-items-center">
                       <div class="ps-3">
-                        <h6><?=$records['companies'];?></h6>
+                        <h6><?=$records['rejected_app'];?></h6>
                         <span class="text-success small pt-1 fw-bold">Rejected Applications</span>
     
                       </div>
@@ -434,7 +432,7 @@
                   <div class="col-md-4">
                     <div class="d-flex align-items-center">
                       <div class="ps-3">
-                        <h6><?=$records['companies'];?></h6>
+                        <h6><?=$records['applications'];?></h6>
                         <span class="text-success small pt-1 fw-bold">Total Applications</span>
     
                       </div>
@@ -452,7 +450,9 @@
             <div class="card">
               <div class="card-body">
                 <h5 class="card-title">Jobs</h5>
-  
+                @php
+                    $pi_job_data =  [$records['jobs'], $records['active_jobs'], $records['expired_jobs']];
+                @endphp
                 <!-- Pie Chart -->
                 <canvas id="pieChart" style="max-height: 400px;"></canvas>
                 <script>
@@ -467,7 +467,7 @@
                         ],
                         datasets: [{
                           label: 'My First Dataset',
-                          data: [300, 50, 100],
+                          data: @php echo json_encode($pi_job_data) @endphp,
                           backgroundColor: [
                             'rgb(255, 99, 132)',
                             'rgb(54, 162, 235)',
@@ -504,7 +504,7 @@
                         ],
                         datasets: [{
                           label: 'My First Dataset',
-                          data: [300, 50, 100],
+                          data: @php echo json_encode([$records['applications'], $records['accepted_app'], $records['rejected_app']]) @endphp,
                           backgroundColor: [
                             'rgb(255, 99, 132)',
                             'rgb(54, 162, 235)',

@@ -61,8 +61,14 @@ class AdminDashboardController extends Controller
 
         $records['companies'] = Company::count();
         $records['jobs'] = Job::count();
+        $records['active_jobs'] = Job::where(['status' => 'active', 'job_status' => 'live'])->whereDate('expiration', '>', now())->count();
+        $records['expired_jobs'] = Job::where('status', 'inactive')->orWhere('job_status', 'expired')->orWhereDate('expiration', '<=', now())->count();
         $records['job_seekers'] = Role::find(2)->users->count();
         $records['applications'] = Application::count();
+        $records['accepted_app'] = Application::where('shortlisted', 'yes')->count();
+        $records['rejected_app'] = Application::where('rejected', 'yes')->count();
+
+
 
         return view('dashboard', compact('records'));
 
