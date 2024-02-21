@@ -211,6 +211,7 @@
               @endphp --}}
 
               <!-- Bar Chart -->
+              {{-- {{json_encode($records['signups']['signups'])}} --}}
               <canvas id="signups" style="max-height: 400px; display: block; box-sizing: border-box; height: 199px; width: 399px;" width="599" height="299"></canvas>
               <script>
                 document.addEventListener("DOMContentLoaded", () => {

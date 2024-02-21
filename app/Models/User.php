@@ -7,7 +7,7 @@ use App\Models\Language;
 use App\Models\Location;
 use App\Models\Suburb;
 use App\Models\Designation;
-use App\Models\Qualification;
+use App\Models\{Qualification, UserReview};
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
@@ -78,6 +78,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->belongsTo(Location::class);
     }
 
+    public function job_location(): BelongsTo
+    {
+        return $this->belongsTo(Location::class, 'current_job_location_id');
+    }
+
     public function designtion(){
         return $this->belongsTo(Designation::class);
     }
@@ -130,5 +135,10 @@ class User extends Authenticatable implements MustVerifyEmail
     public function portfolios(): HasMany
     {
         return $this->hasMany(User::class);
+    }
+
+    public function reviews(): HasMany
+    {
+        return $this->hasMany(UserReview::class);
     }
 }

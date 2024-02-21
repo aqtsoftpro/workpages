@@ -18,13 +18,20 @@ class AdminDashboardController extends Controller
 {
     public function index(Request $request){
 
+        $time = 'today';
+        $val = Carbon::now();
+        $column = 'created_at';
+        $where = 'whereDate';
+        $company_id = '';
+        $user_id = '';
         $limit = 10;
-       
-        $records['sales'] =  $this->sales();
-        $records['revenue'] =  $this->revenue();
+        $records['sales'] = $this->sales($time, $where, $column, $val, $company_id, $user_id);
+        $records['revenue'] =  $this->revenue($time, $where, $column, $val, $company_id, $user_id);
         $records['subscription_wise_earning'] =  $this->subscription_wise_earning();
         $records['jobs_posted'] = $this->jobs($time="", $where="", $column="",  $val="", $company_id="", $user_id="", $limit);
         $records['signups'] =  $this->signups();
+
+        // dd($records['signups']);
    
         // DB::enableQueryLog();
         // $limit = 5;
@@ -192,7 +199,6 @@ class AdminDashboardController extends Controller
 
         $n_query = new Subscription();
         $query = $n_query->newQuery();
-
         if($time)
         {
             $query->$where($column, $val);
@@ -291,7 +297,6 @@ class AdminDashboardController extends Controller
             //     print_r((array)$month);
             // echo "</pre>";
             $getTime = (array)$month;
-
             // echo "<pre>";
             // echo $getTime['date'];
             // echo "</pre>";
@@ -310,8 +315,7 @@ class AdminDashboardController extends Controller
                 ->whereMonth('users.created_at', '=', $month)
                 ->groupBy('roles.id', 'roles.name')
                 ->orderBy('roles.id')
-                ->get()->ToArray();
-  
+                ->get()->ToArray();  
             // echo "<pre>";
             // print_r($query_result);
             // echo "</pre>";

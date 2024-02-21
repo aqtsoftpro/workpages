@@ -38,6 +38,8 @@ use App\Http\Controllers\SuburbController;
 use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\PackageController;
 use App\Http\Controllers\ApiVerifyEmailController;
+use App\Http\Controllers\UserReviewController;
+
 // use App\Http\Controllers\Auth\VerifyEmailController;
 
 // VerifyEmailController
@@ -108,6 +110,8 @@ Route::group(['middleware' => ['auth:sanctum', 'cors']], function () {
     Route::put('updatePassword/{user_id}', [UserController::class, 'updatePassword']);
     Route::resource('user', UserController::class);
     Route::get('company-users', [UserController::class, 'companyUsers']);
+    Route::resource('user_reviews', UserReviewController::class);
+    Route::get('search-seeker', [UserController::class, 'searchSeeker']);
     Route::put('updateUserMeta/{user_id}', [UserMetaController::class, 'updateUserMeta']);
     Route::get('getUserMeta/{user_id}', [UserMetaController::class, 'updateUserMeta']);
     Route::put('updateUserSocial/{user_id}', [UserController::class, 'updateUserSocial']);
@@ -197,7 +201,6 @@ Route::middleware('cors')->group(function(){
 
     Route::get('getCompanyReviews/{company_id}', [CompanyReviewController::class, 'getCompanyReview']);
     Route::resource('companyReviews', CompanyReviewController::class);
-
     Route::post('updateJobStatus', [JobController::class, 'updateJobStatus']);
     Route::put('updateJob/{id}', [JobController::class, 'update']);
 

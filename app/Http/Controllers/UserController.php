@@ -28,7 +28,7 @@ class UserController extends Controller
     }
 
     public function show(User $user){
-        return response()->json($user);
+        return response()->json($user->load('location', 'designtion', 'qualification', 'job_location', 'reviews.company'));
     }
 
     public function store(User $user, Request $request){
@@ -247,6 +247,13 @@ class UserController extends Controller
         }   catch(Exception $e){
             return $e->getMessage();
         }
+    }
+
+    public function searchSeeker()
+    {
+        $company = Company::where('owner_id', auth()->id())->first();
+        $user = User::where('location_id', $company->location_id)->orWhere('suburb_id', $company->suburb_id)->get();
+        return response()->json($user->load('location', 'designtion', 'qualification', 'job_location', 'reviews.company'));
     }
 
 

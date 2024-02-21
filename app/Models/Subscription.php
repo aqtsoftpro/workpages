@@ -25,6 +25,7 @@ class Subscription extends Model
         'exp_month',
         'exp_year',
         'ends_at',
+        'receipt_url',
     ];
 
     public function package()
