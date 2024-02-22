@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Exception;
 use App\Models\User;
 use App\Models\Suburb;
-use App\Models\Company;
+use App\Models\{Company, Subscription};
 use Illuminate\Http\Request;
 use App\Http\Resources\CompanyResource;
 use App\Models\SiteSettings;
@@ -421,5 +421,13 @@ class CompanyController extends Controller
         );
 
         return response()->json($all_companies);
+    }
+
+    public function companyData()
+    {
+        $company = Company::withCount('jobs', 'reviews', 'applications')->where('owner_id', auth()->id())->first();
+        $company->orders_count = Subscription::where('user_id', auth()->id())->count();
+        $company->packages_count = Subscription::distinct('package_id')->where('user_id', auth()->id())->count();
+        return response()->json($company);
     }
 }

@@ -22,6 +22,12 @@ class PackageResource extends JsonResource
             'stripe_product_id' => $this->stripe_product_id,
             'interval' => $this->interval,
             'interval_count' => $this->interval_count,
+            'design' => $this->design,
+            'count' => $this->count,
+            'main_icon' => $this->main_icon,
+            'description' => $this->description,
+            'keypoints' => $this->keypoints,
+            'isLoading' => false,
         ];
     }
 }

@@ -18,7 +18,7 @@ class PackageController extends Controller
 {
     public function index()
     {
-        $packages = Package::with('keypoints')->orderBy('price', 'asc')->get();
+        $packages = PackageResource::collection(Package::with('keypoints')->orderBy('price', 'asc')->get());
         // return response()->json(PackageResource::collection(Package::all()));
         return response()->json($packages);
     }
@@ -136,12 +136,20 @@ class PackageController extends Controller
                 $inputs = $request->all();
                 $intervalCount = $package->interval_count;
                 $currentDateTime = Carbon::now();
-                if ($package->interval == 'day') {
-                    $newDateTime = $currentDateTime->addDays($intervalCount);
-                } elseif ($package->interval == 'month') {
-                    $newDateTime = $currentDateTime->addMonths($intervalCount);
-                } elseif ($package->interval == 'year')  {
-                    $newDateTime = $currentDateTime->addYears($intervalCount);
+
+                switch ($package->interval) {
+                    case 'day':
+                        $newDateTime = $currentDateTime->addDays($intervalCount);
+                        break;
+                    case 'month':
+                        $newDateTime = $currentDateTime->addMonths($intervalCount);
+                        break;
+                    case 'year':
+                        $newDateTime = $currentDateTime->addYears($intervalCount);
+                        break;
+                    default:
+                        $newDateTime = $currentDateTime->addDays($intervalCount);
+                        break;
                 }
                 $auth = auth()->user();
                 $company = Company::where('owner_id', $auth->id)->first();

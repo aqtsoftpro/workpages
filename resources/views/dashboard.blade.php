@@ -538,31 +538,13 @@
                     <th scope="col">Application</th>
                 </thead>
                 <tbody>
+                  @foreach ($records['top_employers'] as $company)
                   <tr>
-                    <td><a href="#" class="text-primary fw-bold">Visual Soft</a></td>
-                    <td>20</td>
-                    <td>10</td>
+                    <td><a href="#" class="text-primary fw-bold">{{ $company->name }}</a></td>
+                    <td>{{$company->jobs_count}}</td>
+                    <td>{{$company->applications_count}}</td>
                   </tr>
-                  <tr>
-                    <td><a href="#" class="text-primary fw-bold">Visual Soft</a></td>
-                    <td>20</td>
-                    <td>10</td>
-                  </tr>
-                  <tr>
-                    <td><a href="#" class="text-primary fw-bold">Visual Soft</a></td>
-                    <td>20</td>
-                    <td>10</td>
-                  </tr>
-                  <tr>
-                    <td><a href="#" class="text-primary fw-bold">Visual Soft</a></td>
-                    <td>20</td>
-                    <td>10</td>
-                  </tr>
-                  <tr>
-                    <td><a href="#" class="text-primary fw-bold">Visual Soft</a></td>
-                    <td>20</td>
-                    <td>10</td>
-                  </tr>
+                  @endforeach
                 </tbody>
               </table>
 
@@ -681,27 +663,12 @@
 
               <!-- List group With badges -->
               <ul class="list-group">
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                  category 1
-                  <span class="badge bg-primary rounded-pill">2</span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                  category 1
-                  <span class="badge bg-primary rounded-pill">2</span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                  category 1
-                  <span class="badge bg-primary rounded-pill">1</span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                  category 1
-                  <span class="badge bg-primary rounded-pill">1</span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                  category 1
-                  <span class="badge bg-primary rounded-pill">1</span>
-                </li>
-       
+                @foreach ($records['categories'] as $category)
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                    {{ $category->name }}
+                    <span class="badge bg-primary rounded-pill">2</span>
+                  </li> 
+                @endforeach    
                 
               </ul><!-- End List With badges -->
 
@@ -718,26 +685,12 @@
 
               <!-- List group With badges -->
               <ul class="list-group">
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                  Company 1
-                  <span class="badge bg-primary rounded-pill">14</span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                  Company 1
-                  <span class="badge bg-primary rounded-pill">2</span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                  Company 1
-                  <span class="badge bg-primary rounded-pill">1</span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                  Company 1
-                  <span class="badge bg-primary rounded-pill">1</span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                  Company 1
-                  <span class="badge bg-primary rounded-pill">1</span>
-                </li>
+                @foreach ($records['top_employers'] as $company)
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                    {{ $company->name }}
+                    <span class="badge bg-primary rounded-pill">14</span>
+                  </li>        
+                @endforeach
 
               </ul><!-- End List With badges -->
 
@@ -755,26 +708,12 @@
 
               <!-- List group With badges -->
               <ul class="list-group">
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                  Company 1
-                  <span class="badge bg-primary rounded-pill">14</span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                  Company 1
-                  <span class="badge bg-primary rounded-pill">2</span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                  Company 1
-                  <span class="badge bg-primary rounded-pill">1</span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                  Company 1
-                  <span class="badge bg-primary rounded-pill">1</span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                  Company 1
-                  <span class="badge bg-primary rounded-pill">1</span>
-                </li>
+                @foreach ($records['top_skills'] as $skill)
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                    {{$skill->name}}
+                    <span class="badge bg-primary rounded-pill">14</span>
+                  </li>
+                @endforeach
               
               </ul><!-- End List With badges -->
 
@@ -899,26 +838,12 @@
 
           <!-- List group With badges -->
           <ul class="list-group">
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-              Jobs 1
-              <span class="badge bg-primary rounded-pill">14</span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-              Jobs 1
-              <span class="badge bg-primary rounded-pill">14</span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-              Jobs 1
-              <span class="badge bg-primary rounded-pill">14</span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-              Jobs 1
-              <span class="badge bg-primary rounded-pill">14</span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-              Jobs 1
-              <span class="badge bg-primary rounded-pill">14</span>
-            </li>
+            @foreach ($records['applied_jobs'] as $job)
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                {{$job[0]->job->job_title}}
+                <span class="badge bg-primary rounded-pill">{{$job->count()}}</span>
+              </li>
+            @endforeach
             
           </ul><!-- End List With badges -->
 

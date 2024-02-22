@@ -6,7 +6,7 @@ use App\Models\Company;
 use App\Models\Job;
 use App\Models\Application;
 use App\Models\Package;
-use App\Models\Subscription;
+use App\Models\{Subscription, Category, Skill};
 use App\Models\User;
 use Spatie\Permission\Models\Role;
 use Illuminate\Http\Request;
@@ -67,7 +67,12 @@ class AdminDashboardController extends Controller
         $records['applications'] = Application::count();
         $records['accepted_app'] = Application::where('shortlisted', 'yes')->count();
         $records['rejected_app'] = Application::where('rejected', 'yes')->count();
+        $records['top_employers'] = Company::withCount('jobs', 'applications')->where('status', 'active')->limit(10)->get();
+        $records['categories'] = Category::where('status', 'enable')->limit(10)->get();
+        $records['applied_jobs'] = Application::with('job')->get()->groupBy('job_id')->take(10);
+        $records['top_skills'] = Skill::limit(10)->get();
 
+        // return response()->json(CompanyResource::collection($company->limit(10)->get()));
 
 
         return view('dashboard', compact('records'));

@@ -38,7 +38,7 @@ use App\Http\Controllers\SuburbController;
 use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\PackageController;
 use App\Http\Controllers\ApiVerifyEmailController;
-use App\Http\Controllers\UserReviewController;
+use App\Http\Controllers\{UserReviewController, JobAddController};
 
 // use App\Http\Controllers\Auth\VerifyEmailController;
 
@@ -139,6 +139,8 @@ Route::group(['middleware' => ['auth:sanctum', 'cors']], function () {
     Route::post('updateUserPortfolio/{id?}', [PortfolioController::class, 'updateUserPortfolio']);
     Route::get('getCompanyJobs', [JobController::class, 'getCompanyJobs']);
     Route::post('resendEmail', [ApiVerifyEmailController::class, 'resendEmail']);
+    Route::get('company-dashboard', [CompanyController::class, 'companyData']);
+    Route::post('store-job-ad', [JobAddController::class, 'store']);
 });
 
 
@@ -216,6 +218,7 @@ Route::middleware('cors')->group(function(){
     Route::get('packages', [PackageController::class, 'index']);
     Route::get('cmsPages/', [PackageController::class, 'get_page']);
     Route::post('getCmsPages', [PackageController::class, 'getPage']);
+    Route::get('job-ads', [JobAddController::class, 'getAds']);
  });
 
 
