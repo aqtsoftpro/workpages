@@ -21,7 +21,7 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        Schema::create('subscriptions', function (Blueprint $table) {
+        Schema::table('subscriptions', function (Blueprint $table) {
             $table->string('receipt_url')->nullable();
         });
     }
