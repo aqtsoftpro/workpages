@@ -11,15 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('user_reviews', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('company_id')->nullable()->constrained()->onDelete('set null');
-            $table->text('review')->nullable();
-            $table->tinyInteger('rating')->nullable();
-            $table->boolean('status')->default(true);
-            $table->timestamps();
-        });
+        // Schema::create('user_reviews', function (Blueprint $table) {
+        //     $table->id();
+        //     $table->foreignId('user_id')->constrained()->onDelete('cascade');
+        //     $table->foreignId('company_id')->nullable()->constrained()->onDelete('set null');
+        //     $table->text('review')->nullable();
+        //     $table->tinyInteger('rating')->nullable();
+        //     $table->boolean('status')->default(true);
+        //     $table->timestamps();
+        // });
 
         Schema::table('subscriptions', function (Blueprint $table) {
             $table->string('receipt_url')->nullable();
