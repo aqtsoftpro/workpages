@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('subscription_id')->constrained()->onDelete('cascade');
             $table->foreignId('user_id')->nullable()->constrained()->onDelete('set null');
             $table->date('ends_at');
-            $table->tinyInteger('status')->default(1);
+            $table->enum('status', ['pause', 'close', 'live'])->default('live');
             $table->softDeletes();
             $table->timestamps();
         });

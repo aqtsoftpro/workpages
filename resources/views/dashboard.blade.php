@@ -568,31 +568,13 @@
                             <th scope="col">Application</th>
                         </thead>
                         <tbody>
-                          <tr>
-                            <td><a href="#" class="text-primary fw-bold">Visual Soft</a></td>
-                            <td>20</td>
-                            <td>10</td>
-                          </tr>
-                          <tr>
-                            <td><a href="#" class="text-primary fw-bold">Visual Soft</a></td>
-                            <td>20</td>
-                            <td>10</td>
-                          </tr>
-                          <tr>
-                            <td><a href="#" class="text-primary fw-bold">Visual Soft</a></td>
-                            <td>20</td>
-                            <td>10</td>
-                          </tr>
-                          <tr>
-                            <td><a href="#" class="text-primary fw-bold">Visual Soft</a></td>
-                            <td>20</td>
-                            <td>10</td>
-                          </tr>
-                          <tr>
-                            <td><a href="#" class="text-primary fw-bold">Visual Soft</a></td>
-                            <td>20</td>
-                            <td>10</td>
-                          </tr>
+                          @foreach ($records['top_candidates'] as $candidate)
+                            <tr>
+                              <td><a href="#" class="text-primary fw-bold">{{$candidate->name}}</a></td>
+                              <td>{{ $candidate->applications_count }}</td>
+                              <td>{{ $candidate->applications_count }}</td>
+                            </tr>
+                          @endforeach
                         </tbody>
                       </table>
         

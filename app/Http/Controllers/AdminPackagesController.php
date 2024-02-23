@@ -61,10 +61,9 @@ class AdminPackagesController extends Controller
                     ]);
 
                     if ($price) {
-
                         $inputs['stripe_price_id'] = $price->id;
                         $inputs['stripe_product_id'] = $product->id;
-
+                        $inputs['count'] = 9999999;
                     }
                 }               
             }

@@ -23,7 +23,21 @@ class Package extends Model
         'description',
         'count',
         'design',
-        'main_icon'
+        'main_icon',
+        'post_for',
+        'allow_ads',
+        'allow_edits',
+        'allow_ref',
+        'allow_right',
+        'allow_others',
+        'h_s_screen',
+        'allow_interview',
+        'recruiter_dash',
+        'casual_portal',
+        'rec_support',
+        'cv_credit',
+        'msg_credit',
+        'cv_access',
     ];
 
     public function subscriptions(): HasMany

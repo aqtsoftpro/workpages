@@ -11,7 +11,7 @@ use Stripe\Stripe;
 use Stripe\Product;
 use Stripe\Price;
 use Laravel\Cashier\Cashier;
-use App\Models\{Subscription, Company, Cms};
+use App\Models\{Subscription, Company, Cms, SubAccess};
 use Carbon\Carbon;
 
 class PackageController extends Controller
@@ -97,7 +97,7 @@ class PackageController extends Controller
                     $expire = now()->addDays(7);
                     break;
             }
-            Subscription::create([
+            $subscription = Subscription::create([
                 'user_id' => $user,
                 'package_id'=> $package->id,
                 'company_id' => $company->id ?? null,
@@ -105,7 +105,7 @@ class PackageController extends Controller
                 'stripe_id' => $payment_intent->data[0]['id'],
                 'stripe_price' => $package->price,
                 'quantity' => 1,
-                'ends_at' => now()->addDays(),
+                'ends_at' => $expire,
                 'stripe_status' => 'active',
                 'last_4' => $card_data['last4'],
                 'brand' => $card_data['brand'],
@@ -113,6 +113,28 @@ class PackageController extends Controller
                 'exp_year' => $card_data['exp_year'],
                 'receipt_url' => $receipt,
             ]);
+            if ($subscription) {
+                $sub_access = SubAccess::create([
+                    'user_id' => $user,
+                    'subscription_id' => $subscription->id,
+                    'post_for' => $package->post_for,
+                    'allow_ads' => $package->allow_ads,
+                    'allow_edits' => $package->allow_edits,
+                    'allow_ref' => $package->allow_ref,
+                    'allow_right' => $package->allow_right,
+                    'allow_others' => $package->allow_others,
+                    'h_s_screen' => $package->h_s_screen,
+                    'allow_interview' => $package->allow_interview,
+                    'recruiter_dash' => $package->recruiter_dash,
+                    'casual_portal' => $package->casual_portal,
+                    'rec_support' => $package->rec_support,
+                    'cv_credit' => $package->cv_credit,
+                    'msg_credit' => $package->msg_credit,
+                    'cv_access' => $package->cv_access,
+                    'expired_at' => $expire,
+                ]);
+
+            }
         }
 
         $externalUrl = env('FRONT_APP_URL').'company/plan';

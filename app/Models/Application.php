@@ -39,7 +39,8 @@ class Application extends Model
         return $this->belongsTo(Job::class);
     }
 
-    public function status(){
+    public function status(): BelongsTo
+    {
         return $this->belongsTo(JobApplicationStatus::class);
     }
 

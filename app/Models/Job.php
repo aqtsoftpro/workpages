@@ -78,13 +78,11 @@ class Job extends Model
     public function toSearchableArray(): array
     {
         $array = $this->toArray();
- 
         // Customize the data array...
- 
         return $array;
     }
 
-    public function ads(): HasMany
+    public function jobAds(): HasMany
     {
       return $this->hasMany(JobAd::class);
     }

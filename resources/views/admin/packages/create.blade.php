@@ -89,12 +89,89 @@
                                 <input type="text" name="main_icon" value="{{ old('main_icon') }}" class="form-control"
                                     placeholder="e.g. fa fa-link or image path..." id="main_icon" required>
                             </div>
+                            <div class="col-md-3">
+                                <label for="count" class="form-label">Count </label>
+                                <input type="number" name="count" value="" class="form-control"
+                                    placeholder="e.g. count..." id="count" required>
+                            </div>
+                            <div class="col-md-3">
+                                <x-package.dropdown :boolean="true" name="allow_ads" id="allow_ads" :value="null"
+                                    label="Allow unlimited ads to post" />
+                            </div>
+                            <div class="col-md-3">
+                                <x-package.dropdown :boolean="true" name="allow_edits" id="allow_edits" :value="null"
+                                    label="Allow unlimited edits to post" />
+                            </div>
+                            <div class="col-md-3">
+                                <x-package.dropdown :boolean="true" name="allow_ref" id="allow_ref" :value="null"
+                                    label="Allow to verify work references" />
+                            </div>
+                            <div class="col-md-3">
+                                <x-package.dropdown :boolean="true" name="allow_right" id="allow_right" :value="null"
+                                    label="Allow to verify work rights" />
+                            </div>
+                            <div class="col-md-3">
+                                <x-package.dropdown :boolean="true" name="allow_others" id="allow_others" :value="null"
+                                    label="Allow to verify other documents" />
+                            </div>
+
+                            <div class="col-md-3">
+                                <x-package.dropdown :boolean="true" name="h_s_screen" id="h_s_screen" :value="null"
+                                    label="Health and safety screening permission" />
+                            </div>
+                            <div class="col-md-3">
+                                <x-package.dropdown :boolean="true" name="allow_interview" id="allow_interview" :value="null"
+                                    label="Allow to jobseeker interview" />
+                            </div>
+                            <div class="col-md-3">
+                                <x-package.dropdown :boolean="true" name="recruiter_dash" id="recruiter_dash" :value="null"
+                                    label="Access to recruiter dashboard" />
+                            </div>
+                            <div class="col-md-3">
+                                <x-package.dropdown :boolean="true" name="casual_portal" id="casual_portal" :value="null"
+                                    label="Access to our casual PORTAL" />
+                            </div>
+                            <div class="col-md-3">
+                                <x-package.dropdown :boolean="true" name="rec_support" id="rec_support" :value="null"
+                                    label="Dedicated recruitment support" />
+                            </div>
 
                             <div class="col-md-12">
                                 <label for="description" class="form-label">Description </label>
                                 <textarea name="description" id="editor" cols="30" rows="10"></textarea>
                             </div>
                             <br>
+                            <div class="col-md-12">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" role="switch" name="cv_access"
+                                        value="1" id="cv_access" @checked(old('cv_access')==1)>
+                                    <label class="form-check-label" for="cv_access">CV access</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3" id="cvCredits" style="display: none;">
+                                <label for="cv_credit" class="form-label">CV download credits</label>
+                                <input type="number" name="cv_credit" value="0" class="form-control"
+                                    placeholder="must in integer" id="cv_credit" required>
+                            </div>
+
+
+                            <div class="col-md-3">
+                                <label for="msg_credit" class="form-label">Message credits</label>
+                                <input type="number" name="msg_credit" value="0" class="form-control"
+                                    placeholder="must in number" id="msg_credit" required>
+                            </div>
+
+                            <div class="col-md-3">
+                                <x-package.dropdown name="post_for" id="post_for" :value="null" label="Ads run with days">
+                                    <option value="15">15 Days</option>
+                                    <option value="30">30 Days</option>
+                                    <option value="45">45 Days</option>
+                                    <option value="60">60 Days</option>
+                                    <option value="90">90 Days</option>
+                                </x-package.dropdown>
+                            </div>
+
                             <br><br>
                             <div class="card-title mt-5">
                                 Add More Key Points...
@@ -169,6 +246,16 @@
             // Remove a specific field
             $("#dynamic-fields").on("click", ".remove-field", function() {
                 $(this).parent().parent().remove();
+            });
+        });
+
+        $(document).ready(function() {
+            $('#cv_access').change(function() {
+                if ($(this).is(':checked')) {
+                    $('#cvCredits').show();
+                } else {
+                    $('#cvCredits').hide();
+                }
             });
         });
     </script>

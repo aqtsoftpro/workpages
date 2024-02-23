@@ -4,8 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Searchable;
+use App\Models\{SubAccess, Package, User, Company};
 
 
 class Subscription extends Model
@@ -41,7 +43,14 @@ class Subscription extends Model
 
     public function company(): BelongsTo
     {
-        return $this->belongsTo( Company::class);
+        return $this->belongsTo(Company::class);
     }
+
+    public function subAccess(): HasOne
+    {
+        return $this->hasOne(SubAccess::class);
+    }
+
+    
 
 }

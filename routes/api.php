@@ -39,6 +39,7 @@ use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\PackageController;
 use App\Http\Controllers\ApiVerifyEmailController;
 use App\Http\Controllers\{UserReviewController, JobAddController};
+use Carbon\Carbon;
 
 // use App\Http\Controllers\Auth\VerifyEmailController;
 
@@ -96,7 +97,9 @@ Route::post('/workpages/getUser', function (Request $request) {
         $userMeta[$meta['meta_key']] = $meta['meta_val'];
     }
 
-    $getUserInfo = $user->where('id', $user->id)->with('roles', 'company')->get();
+    $getUserInfo = $user->where('id', $user->id)->with(['roles', 'company', 'subAccesses' => function ($query) {
+            $query->whereDate('expired_at','>', now());
+        }])->get();
 
     $getUserInfo[0]['userMeta'] = $userMeta;
 
@@ -141,6 +144,7 @@ Route::group(['middleware' => ['auth:sanctum', 'cors']], function () {
     Route::post('resendEmail', [ApiVerifyEmailController::class, 'resendEmail']);
     Route::get('company-dashboard', [CompanyController::class, 'companyData']);
     Route::post('store-job-ad', [JobAddController::class, 'store']);
+    Route::get('getCompanyAds', [JobAddController::class, 'index']);
 });
 
 
