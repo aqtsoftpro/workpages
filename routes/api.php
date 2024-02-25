@@ -145,6 +145,9 @@ Route::group(['middleware' => ['auth:sanctum', 'cors']], function () {
     Route::get('company-dashboard', [CompanyController::class, 'companyData']);
     Route::post('store-job-ad', [JobAddController::class, 'store']);
     Route::get('getCompanyAds', [JobAddController::class, 'index']);
+    Route::get('get-advertise/{job_ad}', [JobAddController::class, 'show']);
+    Route::put('update-job-ad/{job_ad}', [JobAddController::class, 'update']);
+    
 });
 
 

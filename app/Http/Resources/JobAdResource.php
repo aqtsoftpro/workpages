@@ -22,6 +22,7 @@ class JobAdResource extends JsonResource
             'description' => $this->description,
             'job' => new JobResource($this->whenLoaded('job')), // Ensure 'job' is loaded before transforming
             'ends_at' => Carbon::parse($this->ends_at)->format('M d, Y'),
+            'status' => $this->status,
         ];
     }
 }

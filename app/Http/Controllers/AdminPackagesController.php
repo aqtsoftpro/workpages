@@ -81,7 +81,7 @@ class AdminPackagesController extends Controller
                     foreach ($request->title as $key => $value) {
                         KeyPoint::create([
                             'package_id' => $added_rec->id,
-                            'icon' => 'yes',
+                            'icon' => $request->icon[$key],
                             'title' => $value,
                             'detail' => $request->detail[$key],
                         ]);

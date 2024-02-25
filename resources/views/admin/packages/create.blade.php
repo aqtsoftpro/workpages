@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 {{-- ck ck-content ck-editor__editable ck-rounded-corners ck-editor__editable_inline ck-blurred --}}
-
+<link rel="stylesheet" href="http://localhost:8080/assets/css/boxicons.min.css">
 <style>
     .ck-editor__editable {
         height: 300px !important;
@@ -46,18 +46,18 @@
 
                         <form method="POST" action="{{ route('packages.store') }}" class="row g-3">
                             @csrf
-                            <div class="col-md-6">
+                            <div class="col-md-12">
                                 <label for="name" class="form-label">Name</label>
                                 <input type="text" name="name" value="{{ old('name') }}" class="form-control"
                                     id="name" required>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-2">
                                 <label for="price" class="form-label">Price</label>
                                 <input type="text" name="price" value="{{ old('price') }}" class="form-control"
                                     id="price" required>
                             </div>
 
-                            <div class="col-md-6">
+                            <div class="col-md-3">
                                 <label for="interval" class="form-label">Interval</label>
                                 <select name="interval" id="" class="form-select">
                                     <option value="day">Days</option>
@@ -66,34 +66,43 @@
                                 </select>
                             </div>
 
-                            <div class="col-md-6">
+                            <div class="col-md-3">
                                 <label for="interval_count" class="form-label">Interval Count</label>
                                 <input type="number" name="interval_count" value="" class="form-control"
                                     id="interval_count" required>
                             </div>
 
-                            <div class="col-md-6">
+                            {{-- <div class="col-md-6">
                                 <label for="design" class="form-label">Designation </label>
                                 <input type="text" name="design" value="{{ old('design') }}" class="form-control"
                                     placeholder="e.g. Job" id="design" required>
-                            </div>
+                            </div> --}}
 
-                            <div class="col-md-6">
-                                <label for="count" class="form-label">Count </label>
-                                <input type="number" name="count" value="" class="form-control"
-                                    placeholder="e.g. count..." id="count" required>
-                            </div>
 
-                            <div class="col-md-6">
-                                <label for="main_icon" class="form-label">Main Icon </label>
+
+                            <div class="col-md-4">
+                                {{-- <label for="main_icon" class="form-label">Main Icon </label>
                                 <input type="text" name="main_icon" value="{{ old('main_icon') }}" class="form-control"
-                                    placeholder="e.g. fa fa-link or image path..." id="main_icon" required>
+                                    placeholder="e.g. fa fa-link or image path..." id="main_icon" required> --}}
+                                <x-common.icon-list name="main_icon" id="main_icon" :value="null" label="Main Icon" />
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-12">
+                                <label for="description" class="form-label">Description </label>
+                                <textarea name="description" id="editor" cols="30" rows="10"></textarea>
+                            </div>
+                            <br>
+                            <br>
+                            <br>
+                            {{-- <h3>Allow permissions:</h3> --}}
+
+                            <div class="card-title mt-5">
+                                Allow permissions:
+                            </div>
+                            {{-- <div class="col-md-3">
                                 <label for="count" class="form-label">Count </label>
                                 <input type="number" name="count" value="" class="form-control"
                                     placeholder="e.g. count..." id="count" required>
-                            </div>
+                            </div> --}}
                             <div class="col-md-3">
                                 <x-package.dropdown :boolean="true" name="allow_ads" id="allow_ads" :value="null"
                                     label="Allow unlimited ads to post" />
@@ -134,11 +143,6 @@
                             <div class="col-md-3">
                                 <x-package.dropdown :boolean="true" name="rec_support" id="rec_support" :value="null"
                                     label="Dedicated recruitment support" />
-                            </div>
-
-                            <div class="col-md-12">
-                                <label for="description" class="form-label">Description </label>
-                                <textarea name="description" id="editor" cols="30" rows="10"></textarea>
                             </div>
                             <br>
                             <div class="col-md-12">
@@ -185,6 +189,9 @@
                                             class="form-control" placeholder="e.g. fa fa-tick..." id="icon" required>
                                     </div> --}}
                                     <div class="col-md-3">
+                                        <x-common.icon-list name="icon[]" id="icon-1" :value="null" label="Icon" />
+                                    </div>
+                                    <div class="col-md-3">
                                         <label for="title" class="form-label">Title </label>
                                         <input type="text" name="title[]" value="{{ old('title') }}"
                                             class="form-control" placeholder="e.g. title..." id="title">
@@ -219,11 +226,11 @@
 
     <script>
         $(document).ready(function() {
-            var dynamicField =
-                '<div class="field"><input type="text" name="icon[]" placeholder="Icon"> <input type="text" name="title[]" placeholder="Title"> <input type="text" name="detail[]" placeholder="Detail"> <button type="button" class="remove-field">Remove</button></div>';
-
             var moreFields = `
                             <div class="row field">
+                                <div class="col-md-3">
+                                    <x-common.icon-list name="icon[]" id="icon-1" :value="null" label="Icon" />
+                                </div>
                                 <div class="col-md-3">
                                     <label for="title" class="form-label">Title </label>
                                     <input type="text" name="title[]" value="{{ old('title') }}" class="form-control"

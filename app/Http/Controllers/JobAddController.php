@@ -102,17 +102,26 @@ class JobAddController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(JobAd $jobAd)
+    public function show($job_ad)
     {
-        //
+        try {
+            $job_ad = JobAd::find($job_ad);
+            return response()->json($job_ad->load('job'));
+        } catch (\Throwable $th) {
+            return response()->json($th);
+        }
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, JobAd $jobAd)
+    public function update(Request $request, JobAd $job_ad)
     {
-        //
+        $job_ad->update([
+            'description' => $request->description,
+            'status' => $request->status ?? $job_ad->status,
+        ]);
+        return response()->json(['status'=> 'success', 'message'=> 'advertisement successfully updated']);
     }
 
     /**
