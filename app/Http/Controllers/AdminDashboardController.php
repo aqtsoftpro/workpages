@@ -271,8 +271,9 @@ class AdminDashboardController extends Controller
         $prices = array();
         foreach ($subscriptions as $subscription) {
             $package = Package::find($subscription->package_id);
-
-            $labels[] = $package->name;
+            if ($package) {
+                $labels[] = $package->name;
+            }
             $prices[] = $subscription->total_amount;
         }
 

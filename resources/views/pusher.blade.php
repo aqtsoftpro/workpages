@@ -1,39 +1,90 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap demo</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    @vite(['resources/js/app.js', "resources/js/bootstrap.js"])
-  </head>
+  <title>Chat Laravel Pusher | Edlin App</title>
+  <link rel="icon" href="https://assets.edlin.app/favicon/favicon.ico"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- JavaScript -->
+  <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+  <!-- End JavaScript -->
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="https://chat.laravel.pusher.edlin.app/style.css">
+  <!-- End CSS -->
+
+</head>
+
 <body>
-    <h1>This is just test page</h1>
+<div class="chat">
 
-    <!-- Pusher event listener -->
-    <div id="app">
-        <!-- Content to be updated dynamically -->
+  <!-- Header -->
+  <div class="top">
+    <img src="https://assets.edlin.app/images/rossedlin/03/rossedlin-03-100.jpg" alt="Avatar">
+    <div>
+      <p>Ross Edlin</p>
+      <small>Online</small>
     </div>
+  </div>
+  <!-- End Header -->
 
-    {{-- <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/laravel-echo@1.11.3/dist/echo.js"></script>
-    <script>
-    </script> --}}
-    <script>
-        async function setupChannel() {
-            try {
-                const channel = await window.Echo.channel('user-register-event');
-                channel.listen('my-event', data => {
-                    // ... event handling
-                });
-            } catch (error) {
-                console.error('Error creating Echo channel:', error);
-            }
-        }
-        setupChannel()
-    </script>
+  <!-- Chat -->
+  <div class="messages">
+    @include('receive', ['message' => "Hey! What's up!  👋"])
+    @include('receive', ['message' => "Ask a friend to open this link and you can chat with them!"])
+  </div>
+  <!-- End Chat -->
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+  <!-- Footer -->
+  <div class="bottom">
+    <form>
+      <input type="text" id="message" name="message" placeholder="Enter message..." autocomplete="off">
+      <button type="submit"></button>
+    </form>
+  </div>
+  <!-- End Footer -->
+
+</div>
 </body>
+
+<script>
+  const pusher  = new Pusher('{{config('broadcasting.connections.pusher.key')}}', {cluster: 'ap2'});
+  const channel = pusher.subscribe('public');
+  console.log(channel);
+  //Receive messages
+  channel.bind('chat', function (data) {
+    $.post("/receive", {
+      _token:  '{{csrf_token()}}',
+      message: data.message,
+    })
+     .done(function (res) {
+       $(".messages > .message").last().after(res);
+       $(document).scrollTop($(document).height());
+       alert(JSON.stringify(res));
+     });
+  });
+
+  //Broadcast messages
+  $("form").submit(function (event) {
+    event.preventDefault();
+
+    $.ajax({
+      url:     "/broadcast",
+      method:  'POST',
+      headers: {
+        'X-Socket-Id': pusher.connection.socket_id
+      },
+      data:    {
+        _token:  '{{csrf_token()}}',
+        message: $("form #message").val(),
+      }
+    }).done(function (res) {
+      $(".messages > .message").last().after(res);
+      $("form #message").val('');
+      $(document).scrollTop($(document).height());
+    });
+  });
+
+</script>
 </html>

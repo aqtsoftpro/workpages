@@ -87,7 +87,7 @@
                                                             <button type="button" class="btn btn-secondary"
                                                                 data-bs-dismiss="modal">Close</button>
                                                             <form id="delete-form"
-                                                                action="{{ route('subscriptions.destroy', $record->id) }}"
+                                                                action="{{ route('packages.destroy', $record->id) }}"
                                                                 method="POST">
                                                                 @csrf
                                                                 @method('DELETE')

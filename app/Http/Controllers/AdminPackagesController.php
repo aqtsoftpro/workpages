@@ -237,7 +237,7 @@ class AdminPackagesController extends Controller
 
         $deleted_rec = $package;
 
-        if(Package::destroy($package->id)) {
+        if($package->delete()) {
 
             return redirect()->route('packages.index')
                         ->with('success',''.$deleted_rec->name.' package deleted successfully');

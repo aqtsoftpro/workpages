@@ -154,7 +154,7 @@ Route::middleware('auth')->prefix('admin')->group(function () {
    Route::get('admin_users', [AdminUsersController::class, 'admin_users'])->name('admin_users');;
    Route::resource('users', AdminUsersController::class);
 
-   Route::resource('packages', AdminPackagesController::class)->only('index', 'create', 'edit', 'store', 'update');
+   Route::resource('packages', AdminPackagesController::class);
    Route::delete('keypoint/{keypoint}/destroy', [AdminPackagesController::class, 'destroyKey'])->name('keypoints.destroy');
 
    Route::post('/session', [AdminPackagesController::class, 'session'])->name("session");
@@ -232,6 +232,9 @@ Route::get('/linkstorage', function () {
 
 Route::get('/checkout/success/{package}/{session_id}', [AdminPackagesController::class, 'success'])->name('checkout.success');
 
-Route::view('pusher', 'pusher');
+// Route::view('pusher', 'pusher');
+Route::get('/pusher', 'App\Http\Controllers\PusherController@index');
+Route::post('/broadcast', 'App\Http\Controllers\PusherController@broadcast');
+Route::post('/receive', 'App\Http\Controllers\PusherController@receive');
 
 require __DIR__.'/auth.php';
