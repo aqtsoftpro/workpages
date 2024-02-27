@@ -7,7 +7,7 @@ use App\Models\Language;
 use App\Models\Location;
 use App\Models\Suburb;
 use App\Models\Designation;
-use App\Models\{Qualification, UserReview};
+use App\Models\{Qualification, UserReview, Document, UserDetail};
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
@@ -114,8 +114,19 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasOne(UserSocial::class);
     }
 
-    public function suburb(){
+    public function suburb()
+    {
         return $this->hasOne(Suburb::class);
+    }
+
+    public function document(): HasMany
+    {
+        return $this->hasMany(Document::class);
+    }
+
+    public function userDetail(): HasOne
+    {
+        return $this->hasOne(UserDetail::class);
     }
 
     public function toSearchableArray(): array
