@@ -26,19 +26,18 @@ class UserMetaController extends Controller
                     ['meta_val' =>  $val]                
                 );
             }
-
             $getUserMeta = UserMeta::where('user_id', $user_id)->get()->toArray();
-
             $userMeta = array();
             foreach($getUserMeta as $meta)
             {
                 $userMeta[$meta['meta_key']] = $meta['meta_val'];
             }
-        
-            $getUserInfo = User::where('id', $user_id)->with('roles', 'company')->get();
-        
-            $getUserInfo[0]['userMeta'] = $userMeta;
+            // $getUserInfo = User::where('id', $user_id)->with('roles', 'company')->get();
+            $getUserInfo = $user->where('id', $user->id)->with(['roles', 'user_detail', 'documents', 'company', 'subAccesses' => function ($query) {
+                $query->whereDate('expired_at','>', now());
+            }])->get();
 
+            $getUserInfo[0]['userMeta'] = $userMeta;
             return response()->json([
                 'status' => 'user updated',
                 'message' => 'User Setting Updated!',

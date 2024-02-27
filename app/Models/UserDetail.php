@@ -11,6 +11,9 @@ class UserDetail extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'user_id', 'active_job', 'country_id', 'profile_status', 'is_available', 'intro_video'
+    ];
     public function user(){
         return $this->belongsTo(User::class);
     }

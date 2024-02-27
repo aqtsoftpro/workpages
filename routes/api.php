@@ -15,30 +15,16 @@ use App\Http\Controllers\StatsController;
 use App\Http\Controllers\EmailsController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\JobTypeController;
-use App\Http\Controllers\AdminCmsController;
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\LanguageController;
-use App\Http\Controllers\LocationController;
-use App\Http\Controllers\UserMetaController;
-use App\Http\Controllers\PortfolioController;
-use App\Http\Controllers\UserSocialController;
 use Illuminate\Validation\ValidationException;
 use App\Http\Controllers\ApplicationController;
-use App\Http\Controllers\CompanyTypeController;
-use App\Http\Controllers\DesignationController;
-use App\Http\Controllers\JobPostedOnController;
-use App\Http\Controllers\SalaryRangeController;
-use App\Http\Controllers\TestimonialController;
-use App\Http\Controllers\CompanyReviewController;
-use App\Http\Controllers\QualificationController;
-use App\Http\Controllers\ForgotPasswordController;
-use App\Http\Controllers\GlobalVariableController;
-use App\Http\Controllers\LocationStatesController;
-use App\Http\Controllers\SuburbController;
-use App\Http\Controllers\NewsletterController;
-use App\Http\Controllers\PackageController;
-use App\Http\Controllers\ApiVerifyEmailController;
-use App\Http\Controllers\{UserReviewController, JobAddController};
+use App\Http\Controllers\{CompanyTypeController, DesignationController,
+    AdminCmsController ,CategoryController ,LanguageController ,LocationController,
+    UserMetaController ,PortfolioController ,UserSocialController,
+    JobPostedOnController, SalaryRangeController, TestimonialController, 
+    CompanyReviewController, QualificationController, ForgotPasswordController, 
+    GlobalVariableController, LocationStatesController, SuburbController, 
+    NewsletterController, PackageController, ApiVerifyEmailController, UserReviewController, 
+    JobAddController, UserDetailController};
 use Carbon\Carbon;
 
 // use App\Http\Controllers\Auth\VerifyEmailController;
@@ -97,21 +83,23 @@ Route::post('/workpages/getUser', function (Request $request) {
         $userMeta[$meta['meta_key']] = $meta['meta_val'];
     }
 
-    $getUserInfo = $user->where('id', $user->id)->with(['roles', 'company', 'subAccesses' => function ($query) {
+    $getUserInfo = $user->where('id', $user->id)->with(['roles', 'user_detail', 'documents', 'company', 'subAccesses' => function ($query) {
             $query->whereDate('expired_at','>', now());
         }])->get();
 
     $getUserInfo[0]['userMeta'] = $userMeta;
 
     return $getUserInfo;
-    //return User::find($user->id)->with('roles')->first();
-    //return new UserResource($token->tokenable);
 });
 
 Route::group(['middleware' => ['auth:sanctum', 'cors']], function () {
     // Route::get('verify-email/{id}/{hash}', VerifyEmailController::class)->middleware(['signed', 'throttle:6,1'])->name('verification.verify');
     Route::put('updatePassword/{user_id}', [UserController::class, 'updatePassword']);
     Route::resource('user', UserController::class);
+    Route::post('user-detail', [UserDetailController::class, 'store']);
+    Route::get('get-detail', [UserDetailController::class, 'getDetail']);
+    Route::post('user-document', [UserDetailController::class, 'storeDocs']);
+    Route::post('detail-status', [UserDetailController::class, 'updateStatus']);
     Route::get('company-users', [UserController::class, 'companyUsers']);
     Route::resource('user_reviews', UserReviewController::class);
     Route::get('search-seeker', [UserController::class, 'searchSeeker']);

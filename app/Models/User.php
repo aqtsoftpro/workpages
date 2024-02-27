@@ -105,7 +105,8 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Application::class);
     }
 
-    public function UserMeta(){
+    public function UserMeta(): HasMany
+    {
         return $this->hasMany(UserMeta::class);
     }
 
@@ -119,12 +120,12 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasOne(Suburb::class);
     }
 
-    public function document(): HasMany
+    public function documents(): HasMany
     {
         return $this->hasMany(Document::class);
     }
 
-    public function userDetail(): HasOne
+    public function user_detail(): HasOne
     {
         return $this->hasOne(UserDetail::class);
     }
