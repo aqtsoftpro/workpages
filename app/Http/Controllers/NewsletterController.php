@@ -121,7 +121,7 @@ class NewsletterController extends Controller
                     'FNAME'     => $request->name,
                     'LNAME'     => $request->name,
                     'COMPANY'   => $request->company,
-                    'MESSAGE' => $request->message,
+                    'ADDRESS' => $request->address,
                 ]
             ];
 
@@ -171,7 +171,7 @@ class NewsletterController extends Controller
                         'email' => $request->email,
                         'phone' => $request->phone,
                         'company_name' => $request->company,
-                        'description' => $request->message
+                        'description' => $request->address,
                     ]);
 
                     DB::commit();
