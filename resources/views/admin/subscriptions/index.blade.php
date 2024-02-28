@@ -59,7 +59,7 @@
                   <td>{{ $record->user->name }}<br>
                    <b>Company</b> {{ $record->company->name ?? null }}
                   </td>
-                  <td>{{ $record->package->name }}
+                  <td>{{ $record->package?->name }}
                   
                   </td>
                   <td>{{ $record->created_at }}</td>

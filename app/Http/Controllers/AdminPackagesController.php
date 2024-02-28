@@ -192,25 +192,27 @@ class AdminPackagesController extends Controller
     {
         // dd('some thing done');
         $this->authorize('update', $package);
-        $inputs = [
-            'name' => $request->name,
-            'price' => $request->price
-        ];
-        // $location = $package;
-        $location = Package::with('keypoints')->findOrFail($package->id);
+        // $inputs = [
+        //     'name' => $request->name,
+        //     'price' => $request->price
+        // ];
+        $inputs = $request->all();
+        // $main_package = $package;
+        $main_package = Package::with('keypoints')->findOrFail($package->id);
 
-        if($location->update($inputs))
-            {
-                foreach ($location->keypoints as $key => $point) {
-                    $point->delete();
-                }
-                $request->validate([
-                    'icon.*' => 'required',
-                    'title.*' => 'required',
-                    'detail.*' => 'required',
-                ]);
+        if($main_package->update($inputs)){
+            // dd($main_package);
+            foreach ($main_package->keypoints as $key => $point) {
+                $point->delete();
+            }
+            $request->validate([
+                'icon.*' => 'required',
+                'title.*' => 'required',
+                'detail.*' => 'required',
+            ]);
 
-                // Store the data in your database or perform any other necessary action
+            // Store the data in your database or perform any other necessary action
+            if (gettype($request->icon) == 'array') {
                 foreach ($request->icon as $key => $value) {
                     KeyPoint::create([
                         'package_id' => $package->id,
@@ -219,16 +221,15 @@ class AdminPackagesController extends Controller
                         'detail' => $request->detail[$key],
                     ]);
                 }
-
-
-                // return redirect()->back()->with('success', ''.$request->name.' package updated successfully');
-                return response()->json(['data' => $package, 'status'=> 'success', 'message'=> $request->name.' package updated successfully']);
             }
-            else
-            {
-                // return redirect()->back()->with('success', 'Something went wrong. Please try again!');
-                return response()->json(['data' => $package, 'status'=> 'error', 'message'=> 'Something went wrong. Please try again!']);
-            }
+            return redirect()->route('packages.index')->with('success', ''.$request->name.' package updated successfully');
+            // return response()->json(['data' => $package, 'status'=> 'success', 'message'=> $request->name.' package updated successfully']);
+        }
+        else
+        {
+            // return redirect()->back()->with('error', 'Something went wrong. Please try again!');
+            return response()->json(['data' => $package, 'status'=> 'error', 'message'=> 'Something went wrong. Please try again!']);
+        }
     }
 
     public function destroy(Package $package)

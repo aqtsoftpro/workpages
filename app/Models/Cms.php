@@ -12,6 +12,6 @@ class Cms extends Model
     protected $table = 'cms_pages';
 
     protected $fillable = [
-        'name', 'icon', 'status'
+        'name', 'icon', 'status', 'desc'
     ];
 }

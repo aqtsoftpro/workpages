@@ -58,30 +58,29 @@ class AdminCmsController extends Controller
         return view('admin.cms.edit', compact('record'));
     }
 
-    public function update(Request $request, Cms $cms)
+    public function update(Request $request, $id)
     {
-        $this->authorize('update', $cms);
+        $affectedRows = Cms::findOrFail($id);
 
+        $this->authorize('update', $affectedRows);
         $data =  array(
             'name' => $request->name,
             'desc' => addslashes($request->desc),
         );
-        print_r($data);
-        $affectedRows = Cms::where('id', $cms->id)->update($data);
-
-        if($affectedRows){
+        $affectedRows = Cms::findOrFail($id);
+        if($affectedRows->update($data)){
             return redirect()->back()->with('success', ''.$request->name.' page updated successfully');
         }
         else{
             return redirect()->back()->with('success', 'Something went wrong. Please try again!');
         }
-    
     }
 
 
 
-    public function destroy(Cms $cms)
+    public function destroy($id)
     {
+        $cms = Cms::findOrFail($id);
         $this->authorize('update', $cms);
 
         $deleted_rec = $cms;
