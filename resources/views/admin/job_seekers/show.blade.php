@@ -62,10 +62,10 @@
                         </div>
 
                         <hr>
-                        <div class="col-md-12">
+                        {{-- <div class="col-md-12">
                             <label for="email" class="form-label"><b>Description</b></label><br>
                             {{ $record->phone }}
-                        </div>
+                        </div> --}}
 
                         {{-- <hr>
                         <div class="col-md-12">

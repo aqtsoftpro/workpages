@@ -18,6 +18,8 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class AdminSettingsController extends Controller
 {
@@ -71,21 +73,24 @@ class AdminSettingsController extends Controller
 
             if($request->file('_slider_img'))
             {
-                // $FileName = 'slider-img-'.time().'-'.rand(100000,1000000).'.'.$request->file('_slider_img')->extension();
-                // $request->file('_slider_img')->storeAs('public', $FileName);
                 $FileName = $request->file('_slider_img')->store('/','public');
                 
                 if(isset($FileName)){
-                    // $img_array['_slider_img'] = env('APP_URL') . 'storage/' . $FileName;
-                    // SiteSettings::update_setting($img_array);
-                    // $imagePath = env('APP_URL').'storage/'.$FileName;
-                    // SiteSettings::updateRow('_slider_img', $imagePath);
+
                     $settingRow = SiteSettings::where('meta_key', '_slider_img')->first();
-                    // dd($settingRow);
                     if ($settingRow) {
+                        $slider_img = Str::after($settingRow->meta_val, '/storage');
+                        if (Storage::disk('public')->exists($slider_img)) {
+                            Storage::disk('public')->delete($slider_img);
+                        }
+                        $settingRow->meta_val = env('APP_URL').'storage/'.$FileName;
+                        $settingRow->update();
+                    }
+                    else {
+                        $settingRow = new SiteSettings();
+                        $settingRow->meta_key = '_slider_img';
                         $settingRow->meta_val = env('APP_URL').'storage/'.$FileName;
                         $settingRow->save();
-                        // dd($settingRow);
                     }
                 }
             }
@@ -98,20 +103,24 @@ class AdminSettingsController extends Controller
             
             if($request->hasFile('_site_logo'))
             {
-                // dd('data is here...');
-                // $FileName = 'site-logo-'.time().'-'.rand(100000,1000000).'.'.$request->file('_site_logo')->extension();
-                // $filePath = $request->file('_site_logo')->store('public', $FileName);
+
                 $imagePath = $request->file('_site_logo')->store('/','public');
                 
                 if(isset($imagePath)){
-                    // echo $img_array['_site_logo'] = env('APP_URL').$imagePath;
-                    // // dd($imagePath);
-                    // SiteSettings::update_setting($img_array);
                     $settingRow = SiteSettings::where('meta_key', '_site_logo')->first();
-                    File::delete($settingRow->meta_val);
                     if ($settingRow) {
+                        $site_logo = Str::after($settingRow->meta_val, '/storage');
+                        if (Storage::disk('public')->exists($site_logo)) {
+                            Storage::disk('public')->delete($site_logo);
+                        }
                         $settingRow->meta_val = env('APP_URL').'storage/'.$imagePath;
                         $settingRow->update();
+                    }
+                    else {
+                        $settingRow = new SiteSettings();
+                        $settingRow->meta_key = '_site_logo';
+                        $settingRow->meta_val = env('APP_URL').'storage/'.$FileName;
+                        $settingRow->save();
                     }
                 }
             }

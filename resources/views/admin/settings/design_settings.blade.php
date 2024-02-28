@@ -49,7 +49,7 @@
                   <div class="admin-manage-img-container">
                   <i class="bi bi-x-octagon-fill delete-img-btn delete-site-logo-btn"></i>
                   <img src="{{ $site_logo_img }}" width="150" height="150" />
-                  <input type="hidden" name="setting[_site_logo]" value="{{ (isset($settings['_site_logo']['meta_val']))? $settings['_site_logo']['meta_val']:'' }}" class="form-control" id="exist_site_logo">
+                  {{-- <input type="hidden" name="setting[_site_logo]" value="{{ (isset($settings['_site_logo']['meta_val']))? $settings['_site_logo']['meta_val']:'' }}" class="form-control" id="exist_site_logo"> --}}
                   </div>
                 @endif
 
@@ -68,7 +68,7 @@
                   <div class="admin-manage-img-container">
                   <i class="bi bi-x-octagon-fill delete-img-btn delete-site-logo-btn"></i>
                   <img src="{{ $site_favicon_img }}" width="150" height="150" />
-                  <input type="hidden" name="setting[_site_favicon]" value="{{ (isset($settings['_site_favicon']['meta_val']))? $settings['_site_favicon']['meta_val']:'' }}" class="form-control" id="exist_admin_img">
+                  {{-- <input type="hidden" name="setting[_site_favicon]" value="{{ (isset($settings['_site_favicon']['meta_val']))? $settings['_site_favicon']['meta_val']:'' }}" class="form-control" id="exist_admin_img"> --}}
                   </div> 
                 @endif
 
