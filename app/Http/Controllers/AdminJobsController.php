@@ -27,7 +27,7 @@ class AdminJobsController extends Controller
 
               
 
-        $records_opened = Job::whereDate('expiration', '>=' , Carbon::now()
+        $records_opened = Job::where('status', 'active')->whereDate('expiration', '>=' , Carbon::now()
                             ->format('Y-m-d'))
                             // ->where('status', 'active')
                             ->latest()
