@@ -14,7 +14,7 @@
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{ url('admin/dashboard') }}">Dashboard</a></li>
                 <li class="breadcrumb-item">Package</li>
-                <li class="breadcrumb-item active">Add Package</li>
+                <li class="breadcrumb-item active">Edit Package</li>
             </ol>
         </nav>
     </div>
@@ -34,7 +34,7 @@
                     <div class="card-body">
                         <h5 class="card-title row">
                             <div class="col-lg-6">
-                                Add Package
+                                Edit Package
                             </div>
                             <div class="col-lg-6">
                                 <div class="btn-group float-end" role="group" aria-label="Basic example">
@@ -46,15 +46,6 @@
                         <form method="POST" action="{{ route('packages.update', $record->id) }}" class="row g-3">
                             @csrf
                             @method('PUT')
-
-
-                            <div class="col-md-12">
-                                <label for="description" class="form-label">Description </label>
-                                <textarea name="description" id="editor" cols="30" rows="10"> {{ $record->description }}</textarea>
-                            </div>
-                            <br>
-                            <br>
-                            <br>
 
                             <div class="card-title mt-5">
                                 Allow permissions:
@@ -238,15 +229,17 @@
                                     <input type="text" name="title[]" value="{{ old('title') }}" class="form-control"
                                         placeholder="e.g. title..." id="title" >
                                 </div>
-                                <div class="col-md-5">
-                                    <label for="detail" class="form-label">Detail </label>
-                                    <input type="text" name="detail[]" value="{{ old('detail') }}" class="form-control"
-                                        placeholder="e.g. detail..." id="detail" required>
-                                </div>
+
                                 <div class="col-md-1 mt-3">
                                     <button type="button" class="remove-field btn btn-primary mt-3" >remove</button>
                                 </div>
                             </div>`
+
+                            // <div class="col-md-5">
+                            //         <label for="detail" class="form-label">Detail </label>
+                            //         <input type="text" name="detail[]" value="{{ old('detail') }}" class="form-control"
+                            //             placeholder="e.g. detail..." id="detail" required>
+                            //     </div>
             // Add more fields
             $("#add-more").click(function() {
                 $("#dynamic-fields").append(moreFields);

@@ -45,7 +45,7 @@ class AdminPackagesController extends Controller
                 $product = \Stripe\Product::create([
                     'name' => $request->name,
                     'type' => 'service', // optional field
-                    'description' => $request->description, // optional field
+                    'description' => $request->description ?? 'No Description', // optional field
                 ]);
                 if ($product) {
                     // Create the price for the product
@@ -67,14 +67,14 @@ class AdminPackagesController extends Controller
                     }
                 }               
             }
-
+            $inputs['description'] = $request->description ?? 'No Description';
             $added_rec = Package::create($inputs);
             if($added_rec){
                     // Validate the request data
                     $request->validate([
                         'icon.*' => 'required',
                         'title.*' => 'required',
-                        'detail.*' => 'required',
+                        // 'detail.*' => 'required',
                     ]);
 
                     // Store the data in your database or perform any other necessary action
@@ -83,7 +83,7 @@ class AdminPackagesController extends Controller
                             'package_id' => $added_rec->id,
                             'icon' => $request->icon[$key],
                             'title' => $value,
-                            'detail' => $request->detail[$key],
+                            'detail' => $request->detail[$key] ?? null,
                         ]);
                     }
                     DB::commit();

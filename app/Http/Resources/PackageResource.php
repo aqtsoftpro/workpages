@@ -40,6 +40,7 @@ class PackageResource extends JsonResource
             'msg_credit' => $this->msg_credit,
             'cv_access' => $this->cv_access,
             'isLoading' => false,
+            'keypoints' => $this->keypoints,
         ];
     }
 }

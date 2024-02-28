@@ -72,27 +72,18 @@
                                     id="interval_count" required>
                             </div>
 
-                            {{-- <div class="col-md-6">
-                                <label for="design" class="form-label">Designation </label>
-                                <input type="text" name="design" value="{{ old('design') }}" class="form-control"
-                                    placeholder="e.g. Job" id="design" required>
-                            </div> --}}
 
 
-
-                            <div class="col-md-4">
-                                {{-- <label for="main_icon" class="form-label">Main Icon </label>
-                                <input type="text" name="main_icon" value="{{ old('main_icon') }}" class="form-control"
-                                    placeholder="e.g. fa fa-link or image path..." id="main_icon" required> --}}
+                            {{-- <div class="col-md-4">
                                 <x-common.icon-list name="main_icon" id="main_icon" :value="null" label="Main Icon" />
-                            </div>
-                            <div class="col-md-12">
+                            </div> --}}
+                            {{-- <div class="col-md-12">
                                 <label for="description" class="form-label">Description </label>
                                 <textarea name="description" id="editor" cols="30" rows="10"></textarea>
-                            </div>
+                            </div> --}}
+                            {{-- <br>
                             <br>
-                            <br>
-                            <br>
+                            <br> --}}
                             {{-- <h3>Allow permissions:</h3> --}}
 
                             <div class="card-title mt-5">
@@ -196,11 +187,11 @@
                                         <input type="text" name="title[]" value="{{ old('title') }}"
                                             class="form-control" placeholder="e.g. title..." id="title">
                                     </div>
-                                    <div class="col-md-5">
+                                    {{-- <div class="col-md-5">
                                         <label for="detail" class="form-label">Detail </label>
                                         <input type="text" name="detail[]" value="{{ old('detail') }}"
                                             class="form-control" placeholder="e.g. detail..." id="detail" required>
-                                    </div>
+                                    </div> --}}
                                     <div class="col-md-1 mt-3">
                                         <button type="button" class="remove-field btn btn-primary mt-3">remove</button>
                                     </div>
@@ -236,15 +227,17 @@
                                     <input type="text" name="title[]" value="{{ old('title') }}" class="form-control"
                                         placeholder="e.g. title..." id="title" >
                                 </div>
-                                <div class="col-md-5">
-                                    <label for="detail" class="form-label">Detail </label>
-                                    <input type="text" name="detail[]" value="{{ old('detail') }}" class="form-control"
-                                        placeholder="e.g. detail..." id="detail" required>
-                                </div>
+
                                 <div class="col-md-1 mt-3">
                                     <button type="button" class="remove-field btn btn-primary mt-3" >remove</button>
                                 </div>
                             </div>`
+
+                            // <div class="col-md-5">
+                            //         <label for="detail" class="form-label">Detail </label>
+                            //         <input type="text" name="detail[]" value="{{ old('detail') }}" class="form-control"
+                            //             placeholder="e.g. detail..." id="detail" required>
+                            //     </div>
             // Add more fields
             $("#add-more").click(function() {
                 $("#dynamic-fields").append(moreFields);
