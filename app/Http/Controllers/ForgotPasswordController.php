@@ -88,7 +88,7 @@ class ForgotPasswordController extends Controller
                     'password' => Hash::make($request->password),
                     'remember_token' => Str::random(60),
                 ]);
-                $data->delete();
+                DB::table('password_reset_tokens')->where('email', $request->email)->delete();
                 return response(['status'=> 'success', 'message' => 'Password updated successfully'], 200);
             }
             else {
