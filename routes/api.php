@@ -140,8 +140,6 @@ Route::group(['middleware' => ['auth:sanctum', 'cors']], function () {
 
 
 Route::middleware('cors')->group(function(){
-    // Route::get('verify-email', [UserController::class, 'verifyEmail']);
-
     Route::post('verify-mail', [UserController::class, 'verifyEmail']);
 
     Route::get('stripe/success/{id}/{session}/{user}', [PackageController::class, 'success']);
