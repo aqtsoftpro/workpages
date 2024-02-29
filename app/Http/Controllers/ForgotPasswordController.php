@@ -12,6 +12,7 @@ use Illuminate\Validation\Rules;
 use Illuminate\Support\Str;
 use App\Mail\MultiPurposeEmail;
 use App\Jobs\MultiPurposeEmailJob;
+use Illuminate\Support\Facades\Mail;
 use App\Models\User;
 
 
@@ -57,8 +58,10 @@ class ForgotPasswordController extends Controller
         $subject = "Password Recovery Email";
         $To = $user->email;
 
-        MultiPurposeEmailJob::dispatch($To, $subject, $originalContent, $verificationUrl);
+        // MultiPurposeEmailJob::dispatch($To, $subject, $originalContent, $verificationUrl);
 
+        $email = new MultiPurposeEmail($subject, $originalContent, $verificationUrl);
+        Mail::to($To)->send($email);
         return response()->json([
             'status' => 'success',
             "msg" => 'Reset password link sent on your email id.',
@@ -98,8 +101,12 @@ class ForgotPasswordController extends Controller
 
     public function getToken(Request $request)
     {
-        $email = DB::table('password_reset_tokens')->where('token', $request->token)->pluck('email');
-        return response(["data" => $email], 200);
+        $data = DB::table('password_reset_tokens')->where('email', $request->email)->first();
+        $email = $data->email;
+
+        if ($email && Hash::check($request->token, $data->token)) {
+            return response($email, 200);
+        }
 
         // dd($request->all());
         // if (!empty($request)) {
