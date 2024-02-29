@@ -41,11 +41,11 @@ class CompanyResource extends JsonResource
             'pinterest' => $this->pinterest,
             'dribble' => $this->dribble,
             'behance' => $this->behance,
-            'jobs_count' => $this->jobs->count(),
-            'jobs' => JobResource::collection($this->jobs),
-            'live_jobs'=>$this->jobs()->where('status', 'active')->count(),
-            'pending_jobs'=>$this->jobs()->where('status', 'inactive')->count(),
-            'closed_jobs'=>$this->jobs()->where('job_status', 'closed')->count(),
+            'jobs' => JobResource::collection($this->jobs) ?? [],
+            'jobs_count' => $this->jobs()->count() ?? 0,
+            'live_jobs'=>$this->jobs()->where('status', 'active')->count() ?? 0,
+            'pending_jobs'=>$this->jobs()->where('status', 'inactive')->count() ?? 0,
+            'closed_jobs'=>$this->jobs()->where('job_status', 'closed')->count() ?? 0,
         ];
     }
 }

@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Exception;
 use App\Models\User;
 use App\Models\Suburb;
-use App\Models\{Company, Subscription};
+use App\Models\{Company, Subscription, Application, Job};
 use Illuminate\Http\Request;
 use App\Http\Resources\CompanyResource;
 use App\Models\SiteSettings;
@@ -88,7 +88,7 @@ class CompanyController extends Controller
 
     public function companies(Company $company){
 
-        return response()->json(CompanyResource::collection($company->limit(10)->get()));
+        return response()->json(CompanyResource::collection($company->load('jobs')->limit(10)->get()));
     }
 
 
@@ -229,7 +229,7 @@ class CompanyController extends Controller
 
     public function getCompanyByUserId($user_id){
       
-        $user = User::find($user_id);
+        $user = User::with('company')->find($user_id);
 
         $company_resource = new CompanyResource($user->company);
         $company_resource->email = $user->email;
@@ -322,12 +322,8 @@ class CompanyController extends Controller
 
                 $subject = "Verify Email Address";
                 $To = $request->email;
-                // MultiPurposeEmailJob::dispatch($To, $subject, $originalContent, $verificationUrl);
                 $email = new MultiPurposeEmail($subject, $originalContent, $verificationUrl);
                 Mail::to($To)->send($email);
-                
-
-                // $result = Mail::to($To)->send(new MultiPurposeEmail($subject, $originalContent));
             }
 
             // if ($newUser) {
@@ -428,6 +424,11 @@ class CompanyController extends Controller
         $company = Company::withCount('jobs', 'reviews', 'applications')->where('owner_id', auth()->id())->first();
         $company->orders_count = Subscription::where('user_id', auth()->id())->count();
         $company->packages_count = Subscription::distinct('package_id')->where('user_id', auth()->id())->count();
+        $company->total_applied_job = Application::where('company_id', $company->id)->distinct('job_id')->count('job_id');
+        $company->followers_count = Application::where('company_id', $company->id)->distinct('user_id')->count('user_id');
+        $company->highlighted_jobs =  Job::withCount('applications')->where('company_id', $company->id)
+                            ->orderByDesc('applications_count')
+                            ->count();
         return response()->json($company);
     }
 }

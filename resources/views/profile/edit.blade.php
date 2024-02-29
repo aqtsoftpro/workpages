@@ -56,7 +56,7 @@
                         <div class="admin-manage-img-container">
                         <i class="bi bi-x-octagon-fill delete-img-btn delete-admin-img-btn"></i>
                         <img src="{{ $profile_img }}" width="150" height="150" />
-                        <input type="hidden" name="exist_admin_img" value="{{ $user->photo }}" id="exist_site_logo">
+                        {{-- <input type="hidden" name="exist_admin_img" value="{{ $user->photo }}" id="exist_site_logo"> --}}
                         </div>
                       @endif
                     </div>

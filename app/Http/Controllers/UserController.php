@@ -200,7 +200,6 @@ class UserController extends Controller
             // return $newUser->load('users');
 
             if ($newUser) {
-
                     $customBaseUrl = env('FRONT_APP_URL');
                     $randomString = Str::random(40);
                     $expired = now()->addMinutes(60);
@@ -231,9 +230,6 @@ class UserController extends Controller
 
                     $subject = "Verify Email Address";
                     $To = $request->email;
-
-                    // MultiPurposeEmailJob::dispatch($To, $subject, $originalContent, $verificationUrl);
-
                     $email = new MultiPurposeEmail($subject, $originalContent, $verificationUrl);
                     Mail::to($To)->send($email);
             }
@@ -278,7 +274,7 @@ class UserController extends Controller
 
     public function verifyEmail(Request $request)
     {
-        $user = User::findOrFail($request->userId);
+        $user = User::find($request->userId);
         $verifyMailData = VerifyEmail::where('user_id', $request->userId)->where('expired_at', '>=', now())->first();
 
         if ($user && $verifyMailData) {

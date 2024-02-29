@@ -27,32 +27,19 @@ class ProfileController extends Controller
     /**
      * Update the user's profile information.
      */
-    public function update(ProfileUpdateRequest $request): RedirectResponse
+    public function update(ProfileUpdateRequest $request)
     {
-        // echo "<pre>";
-        // print_r($request->all());
-        // echo "</pre>";
-        // echo Hash::make($request->password);
-      
-        // echo $request->file('admin_img');
-        // echo "sadasd";
-
-
+        // dd($request->all());
         if ($request->hasFile('admin_img') && $request->file('admin_img')->isValid()) {
-            $FileName = $request->file('admin_img')->store('public');
+
+            $FileName = $request->file('admin_img')->store('/','public');
             $filePath = Storage::url($FileName);
             $user = User::find($request->id);
             $user->update([
                 'photo' => env('APP_URL').ltrim($filePath, '/'),
             ]);
+            // dd($user);
         }
-    
-        if($request->exist_admin_img == '')
-        {
-            User::where('id', '=', $request->id)->update([
-                'photo' => '',
-            ]);
-        } 
 
         if($request->admin_name)
         {

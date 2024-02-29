@@ -169,7 +169,7 @@ class NewsletterController extends Controller
                     $charity = CharityPartner::create([
                         'name' => $request->name,
                         'email' => $request->email,
-                        'phone' => $request->phone,
+                        'phone' => $request->phone??'1234567890',
                         'company_name' => $request->company,
                         'description' => $request->address,
                     ]);
