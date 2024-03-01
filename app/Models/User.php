@@ -83,11 +83,13 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->belongsTo(Location::class, 'current_job_location_id');
     }
 
-    public function designtion(){
+    public function designtion(): BelongsTo
+    {
         return $this->belongsTo(Designation::class);
     }
 
-    public function language(){
+    public function language(): BelongsTo
+    {
         return $this->belongsTo(Language::class);
     }
 
@@ -115,7 +117,7 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasOne(UserSocial::class);
     }
 
-    public function suburb()
+    public function suburb(): HasOne
     {
         return $this->hasOne(Suburb::class);
     }

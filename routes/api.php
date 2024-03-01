@@ -24,7 +24,7 @@ use App\Http\Controllers\{CompanyTypeController, DesignationController,
     CompanyReviewController, QualificationController, ForgotPasswordController, 
     GlobalVariableController, LocationStatesController, SuburbController, 
     NewsletterController, PackageController, ApiVerifyEmailController, UserReviewController, 
-    JobAddController, UserDetailController};
+    JobAddController, UserDetailController, AccessManagementController};
 use Carbon\Carbon;
 
 // use App\Http\Controllers\Auth\VerifyEmailController;
@@ -135,11 +135,13 @@ Route::group(['middleware' => ['auth:sanctum', 'cors']], function () {
     Route::get('getCompanyAds', [JobAddController::class, 'index']);
     Route::get('get-advertise/{job_ad}', [JobAddController::class, 'show']);
     Route::put('update-job-ad/{job_ad}', [JobAddController::class, 'update']);
-    
+    Route::get('jobseeker-by/{user}', [UserController::class, 'getUser']);
+    Route::post('download-cv', [AccessManagementController::class, 'cvDownload']);
 });
 
 
 Route::middleware('cors')->group(function(){
+
     Route::post('verify-mail', [UserController::class, 'verifyEmail']);
 
     Route::get('stripe/success/{id}/{session}/{user}', [PackageController::class, 'success']);

@@ -305,4 +305,11 @@ class UserController extends Controller
         return response()->json($users);
 
     }
+
+    public function getUser(User $user)
+    {
+        $user = $user->load('location', 'job_location', 'designtion', 'language', 'qualification', 
+            'company', 'applications', 'UserMeta', 'socials', 'suburb', 'documents', 'user_detail');
+        return response()->json($user);
+    }
 }

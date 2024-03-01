@@ -55,7 +55,7 @@ class AdminPackagesController extends Controller
                         'currency' => 'usd',
                         'recurring' => [
                             'interval' => 'month',
-                            'interval_count' => 6,
+                            'interval_count' => $request->interval_count,
                             'usage_type' => 'licensed', // normally 'licensed'
                         ],
                     ]);

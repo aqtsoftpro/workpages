@@ -68,7 +68,7 @@
 
                             <div class="col-md-3">
                                 <label for="interval_count" class="form-label">Interval Count</label>
-                                <input type="number" name="interval_count" value="" class="form-control"
+                                <input type="number" name="interval_count" min="2" class="form-control"
                                     id="interval_count" required>
                             </div>
 

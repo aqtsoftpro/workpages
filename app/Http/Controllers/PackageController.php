@@ -80,18 +80,19 @@ class PackageController extends Controller
         // dd($payment_intent->data[0]['charges']['data'][0]['receipt_url']);
         $receipt = $payment_intent->data[0]['charges']['data'][0]['receipt_url'];
         $subscription = Subscription::where('stripe_id', $payment_intent->data[0]['id'])->first();
+        // dd($package);
 
         if (!$subscription) {
             $expire = now()->addDays(4);
             switch ($package->interval) {
                 case 'day':
-                    $expire = now()->addDays($package->count);
+                    $expire = now()->addDays($package->interval_count);
                     break;
                 case 'month':
-                    $expire = now()->addMonths($package->count);
+                    $expire = now()->addMonths($package->interval_count);
                     break;
                 case 'year':
-                    $expire = now()->addYears($package->count);
+                    $expire = now()->addYears($package->interval_count);
                     break;
                 default:
                     $expire = now()->addDays(7);

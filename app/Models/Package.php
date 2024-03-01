@@ -20,6 +20,7 @@ class Package extends Model
         'stripe_price_id',
         'stripe_product_id',
         'interval',
+        'interval_count',
         'description',
         'count',
         'design',
