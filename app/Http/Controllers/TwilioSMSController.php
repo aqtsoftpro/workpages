@@ -4,25 +4,34 @@ namespace App\Http\Controllers;
 
 use App\Models\SubAccess;
 use Illuminate\Http\Request;
+use Twilio\Rest\Client;
 use Exception;
 
-class AccessManagementController extends Controller
+class TwilioSMSController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function cvDownload()
+    public function sendSms(Request $request)
     {
+        $receiverNumber = $request->receiver_number;
+        $message = $request->message;
         try {
-            $sub_access = SubAccess::where('user_id', auth()->id())->where('cv_credit', '>', 0)->whereDate('expired_at', '>', now())->first();
-            $sub_access->update([
-                'cv_credit' => $sub_access->cv_credit - 1
-            ]);
-            return response()->json(['status'=> 'success', 'message' => 'download success']);
+  
+            $account_sid = env("TWILIO_SID");
+            $auth_token = env("TWILIO_TOKEN");
+            $twilio_number = env("TWILIO_FROM");
+  
+            $client = new Client($account_sid, $auth_token);
+            $client->messages->create($receiverNumber, [
+                'from' => $twilio_number, 
+                'body' => $message]);
+  
+            return response()->json(['status'=> 'success', 'message', 'message sent successfully']);
+  
         } catch (Exception $e) {
-            return response()->json(['status'=> 'error', 'message' => $e->getMessage()], 403);
+            return response()->json(['status'=> 'error', 'message',  $e->getMessage()], 403);
         }
-
     }
 
     /**
