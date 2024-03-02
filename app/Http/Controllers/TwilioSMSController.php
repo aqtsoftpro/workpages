@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\SubAccess;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Twilio\Rest\Client;
 use Exception;
 
@@ -14,10 +15,17 @@ class TwilioSMSController extends Controller
      */
     public function sendSms(Request $request)
     {
-        $receiverNumber = $request->receiver_number;
+        
+        // $receiverNumber = $request->receiver_number;
+        $receiverNumber = +18777804236;
         $message = $request->message;
+        DB::beginTransaction();
         try {
   
+            $sub_access = SubAccess::where('user_id', auth()->id())->where('msg_credit', '>', 0)->whereDate('expired_at', '>', now())->first();
+            $sub_access->update([
+                'msg_credit' => $sub_access->msg_credit - 1
+            ]);
             $account_sid = env("TWILIO_SID");
             $auth_token = env("TWILIO_TOKEN");
             $twilio_number = env("TWILIO_FROM");
@@ -26,10 +34,12 @@ class TwilioSMSController extends Controller
             $client->messages->create($receiverNumber, [
                 'from' => $twilio_number, 
                 'body' => $message]);
-  
+
+            DB::commit();
             return response()->json(['status'=> 'success', 'message', 'message sent successfully']);
   
         } catch (Exception $e) {
+            DB::rollBack();
             return response()->json(['status'=> 'error', 'message',  $e->getMessage()], 403);
         }
     }
