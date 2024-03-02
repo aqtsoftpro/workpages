@@ -23,20 +23,23 @@ class TwilioSMSController extends Controller
         try {
   
             $sub_access = SubAccess::where('user_id', auth()->id())->where('msg_credit', '>', 0)->whereDate('expired_at', '>', now())->first();
-            $sub_access->update([
-                'msg_credit' => $sub_access->msg_credit - 1
-            ]);
-            $account_sid = env("TWILIO_SID");
-            $auth_token = env("TWILIO_TOKEN");
-            $twilio_number = env("TWILIO_FROM");
-  
-            $client = new Client($account_sid, $auth_token);
-            $client->messages->create($receiverNumber, [
-                'from' => $twilio_number, 
-                'body' => $message]);
+            if ($sub_access) {
+                $sub_access->update([
+                    'msg_credit' => $sub_access->msg_credit - 1
+                ]);
+                $account_sid = env("TWILIO_SID");
+                $auth_token = env("TWILIO_TOKEN");
+                $twilio_number = env("TWILIO_FROM");
+      
+                $client = new Client($account_sid, $auth_token);
+                $client->messages->create($receiverNumber, [
+                    'from' => $twilio_number, 
+                    'body' => $message]);
+    
+                DB::commit();
+                return response()->json(['status'=> 'success', 'message', 'message sent successfully']);
+            }
 
-            DB::commit();
-            return response()->json(['status'=> 'success', 'message', 'message sent successfully']);
   
         } catch (Exception $e) {
             DB::rollBack();
