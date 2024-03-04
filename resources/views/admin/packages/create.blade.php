@@ -209,16 +209,16 @@
                                     <div class="col-md-3">
                                         <label for="title" class="form-label">Title </label>
                                         <input type="text" name="title[]" value="{{ old('title') }}"
-                                            class="form-control" placeholder="e.g. title..." id="title">
+                                            class="form-control" placeholder="e.g. title..." id="title" required>
                                     </div>
                                     {{-- <div class="col-md-5">
                                         <label for="detail" class="form-label">Detail </label>
                                         <input type="text" name="detail[]" value="{{ old('detail') }}"
                                             class="form-control" placeholder="e.g. detail..." id="detail" required>
                                     </div> --}}
-                                    <div class="col-md-1 mt-3">
+                                    {{-- <div class="col-md-1 mt-3">
                                         <button type="button" class="remove-field btn btn-primary mt-3">remove</button>
-                                    </div>
+                                    </div> --}}
                                 </div>
                             </div>
 
