@@ -31,9 +31,7 @@
                             <div class="row">
                                 <div class="col-md-6 mb-2">
                                     <label for="_slider_img" class="form-label">Slider Image Logo</label>
-                                    <input type="file" name="_slider_img"
-                                        value="{{ isset($settings['_slider_img']['meta_val']) ? $settings['_site_logo']['meta_val'] : '' }}"
-                                        class="form-control" id="_slider_img">
+                                    <input type="file" name="_slider_img" class="form-control" id="_slider_img">
                                 </div>
                                 <div class="col-md-6 mb-2 mt-2">
                                     @if (isset($settings['_slider_img']['meta_val']) && $settings['_slider_img']['meta_val'])
@@ -43,9 +41,6 @@
                                         <div class="admin-manage-img-container">
                                             <i class="bi bi-x-octagon-fill delete-img-btn delete-site-logo-btn"></i>
                                             <img src="{{ $site_slider_img }}" width="100%" />
-                                            <input type="hidden" name="setting[_slider_img]"
-                                                value="{{ isset($settings['_slider_img']['meta_val']) ? $settings['_slider_img']['meta_val'] : '' }}"
-                                                class="form-control" id="exist_site_logo">
                                         </div>
                                     @endif
 

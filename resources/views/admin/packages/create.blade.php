@@ -103,6 +103,30 @@
                                     label="Allow unlimited edits to post" />
                             </div>
                             <div class="col-md-3">
+                                <x-package.dropdown :boolean="true" name="edit_title" id="edit_title" :value="null"
+                                    label="Allow to edit title" />
+                            </div>
+                            <div class="col-md-3">
+                                <x-package.dropdown :boolean="true" name="edit_categ" id="edit_categ" :value="null"
+                                    label="Allow to edit category" />
+                            </div>
+                            <div class="col-md-3">
+                                <x-package.dropdown :boolean="true" name="edit_body" id="edit_body" :value="null"
+                                    label="Allow to edit body" />
+                            </div>
+                            <div class="col-md-3">
+                                <x-package.dropdown :boolean="true" name="pause_ad" id="pause_ad" :value="null"
+                                    label="Allow to pause ad" />
+                            </div>
+                            <div class="col-md-3">
+                                <x-package.dropdown :boolean="true" name="close_ad" id="close_ad" :value="null"
+                                    label="Allow to close ad" />
+                            </div>
+                            <div class="col-md-3">
+                                <x-package.dropdown :boolean="true" name="delete_ad" id="delete_ad" :value="null"
+                                    label="Allow to delete ad" />
+                            </div>
+                            <div class="col-md-3">
                                 <x-package.dropdown :boolean="true" name="allow_ref" id="allow_ref" :value="null"
                                     label="Allow to verify work references" />
                             </div>

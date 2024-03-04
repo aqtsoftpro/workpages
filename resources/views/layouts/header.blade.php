@@ -67,13 +67,13 @@
 
                     <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#"
                         data-bs-toggle="dropdown">
-                        <img src="{{ $user->photo }}" alt="Profile" class="rounded-circle">
+                        <div style="border-radius:50%!important ">
+                            <img src="{{ $user->photo }}" alt="Profile" class="rounded-circle" width="40" height="40">
+                        </div>
                         <span class="d-none d-md-block dropdown-toggle ps-2">{{ Auth::user()->name }}</span>
                     </a><!-- End Profile Iamge Icon -->
                 @else
                     @php $site_logo_img  = URL::to('/uploads/no-img.jpg') @endphp
-
-
                     <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#"
                         data-bs-toggle="dropdown">
                         <img src="{{ $site_logo_img }}" alt="Profile" class="rounded-circle">

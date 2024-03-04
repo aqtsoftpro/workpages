@@ -39,6 +39,12 @@ class Package extends Model
         'cv_credit',
         'msg_credit',
         'cv_access',
+        'pause_ad',
+        'delete_ad',
+        'close_ad',
+        'edit_title',
+        'edit_categ',
+        'edit_body',
     ];
 
     public function subscriptions(): HasMany

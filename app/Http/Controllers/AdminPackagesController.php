@@ -36,6 +36,8 @@ class AdminPackagesController extends Controller
 
         $inputs = $request->all();
 
+        // dd($inputs);
+
         Stripe::setApiKey(env('STRIPE_SECRET'));
         DB::beginTransaction();
         try {
@@ -83,7 +85,7 @@ class AdminPackagesController extends Controller
                             'package_id' => $added_rec->id,
                             'icon' => $request->icon[$key],
                             'title' => $value,
-                            'detail' => $request->detail[$key] ?? null,
+                            'detail' => $request->detail[$key] ?? "No Detail",
                         ]);
                     }
                     DB::commit();
@@ -184,51 +186,41 @@ class AdminPackagesController extends Controller
     {
         $this->authorize('update', $package);
         $record = Package::with('keypoints')->find($package->id);
-        // dd($record);
         return view('admin.packages.edit', compact('record'));
     }
 
     public function update(Request $request, Package $package)
     {
-        // dd('some thing done');
         $this->authorize('update', $package);
-        // $inputs = [
-        //     'name' => $request->name,
-        //     'price' => $request->price
-        // ];
-        $inputs = $request->all();
-        // $main_package = $package;
-        $main_package = Package::with('keypoints')->findOrFail($package->id);
 
+        $inputs = $request->all();
+        $main_package = Package::with('keypoints')->findOrFail($package->id);
         if($main_package->update($inputs)){
-            // dd($main_package);
             foreach ($main_package->keypoints as $key => $point) {
                 $point->delete();
             }
             $request->validate([
                 'icon.*' => 'required',
                 'title.*' => 'required',
-                'detail.*' => 'required',
+                // 'detail.*' => 'required',
             ]);
 
-            // Store the data in your database or perform any other necessary action
             if (gettype($request->icon) == 'array') {
                 foreach ($request->icon as $key => $value) {
                     KeyPoint::create([
                         'package_id' => $package->id,
                         'icon' => $value,
                         'title' => $request->title[$key],
-                        'detail' => $request->detail[$key],
+                        'detail' => $request->detail[$key] ?? "No Detail",
                     ]);
                 }
             }
             return redirect()->route('packages.index')->with('success', ''.$request->name.' package updated successfully');
-            // return response()->json(['data' => $package, 'status'=> 'success', 'message'=> $request->name.' package updated successfully']);
         }
         else
         {
-            // return redirect()->back()->with('error', 'Something went wrong. Please try again!');
-            return response()->json(['data' => $package, 'status'=> 'error', 'message'=> 'Something went wrong. Please try again!']);
+            return redirect()->back()->with('error', 'Something went wrong. Please try again!');
+            // return response()->json(['data' => $package, 'status'=> 'error', 'message'=> 'Something went wrong. Please try again!']);
         }
     }
 

@@ -44,7 +44,7 @@ class AdminSettingsController extends Controller
         $this->authorize('create', SiteSettings::class);
 
         $settings = $request->input('setting', []);
-   
+
         if($request->setting_form_type == 'slider_settings')
         {
             // if ($request->setting['_slider_text_color']) {
@@ -74,9 +74,7 @@ class AdminSettingsController extends Controller
             if($request->file('_slider_img'))
             {
                 $FileName = $request->file('_slider_img')->store('/','public');
-                
                 if(isset($FileName)){
-
                     $settingRow = SiteSettings::where('meta_key', '_slider_img')->first();
                     if ($settingRow) {
                         $slider_img = Str::after($settingRow->meta_val, '/storage');
@@ -94,7 +92,6 @@ class AdminSettingsController extends Controller
                     }
                 }
             }
-
         }
 
 
@@ -138,8 +135,6 @@ class AdminSettingsController extends Controller
             }
 
         }
-  
-
 
         if($request->setting_form_type == 'payment_gateway_settings')
         {
