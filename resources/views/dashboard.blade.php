@@ -787,29 +787,13 @@
 
           <!-- List group With badges -->
           <ul class="list-group">
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-              Jobs 1
-              <span class="badge bg-primary rounded-pill">14</span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-              Jobs 1
-              <span class="badge bg-primary rounded-pill">14</span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-              Jobs 1
-              <span class="badge bg-primary rounded-pill">14</span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-              Jobs 1
-              <span class="badge bg-primary rounded-pill">14</span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-              Jobs 1
-              <span class="badge bg-primary rounded-pill">14</span>
-            </li>
-            
+            @foreach ($records['most_viewed'] as $viewed_job)
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                {{ $viewed_job->job_title }}
+                <span class="badge bg-primary rounded-pill">{{ $viewed_job->view_jobs_count }}</span>
+              </li>
+            @endforeach
           </ul><!-- End List With badges -->
-
         </div>
       </div>
 

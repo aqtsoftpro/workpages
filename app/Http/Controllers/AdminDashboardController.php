@@ -71,6 +71,7 @@ class AdminDashboardController extends Controller
         $records['categories'] = Category::where('status', 'enable')->limit(10)->get();
         $records['applied_jobs'] = Application::with('job')->get()->groupBy('job_id')->take(10);
         $records['top_skills'] = Skill::limit(10)->get();
+        $records['most_viewed'] = Job::withCount('viewJobs')->orderByDesc('view_jobs_count')->get()->take(10);
         $records['top_candidates'] =  User::withCount(['applications' => function ($query) {
                                         $query->where('status_id', 3);
                                     }])

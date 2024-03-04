@@ -6,7 +6,7 @@ use Exception;
 use App\Models\Job;
 use Illuminate\Http\Request;
 use App\Http\Resources\JobResource;
-use App\Models\{Category, Company};
+use App\Models\{Category, Company, ViewJob};
 use App\Models\SiteSettings;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -140,11 +140,13 @@ class JobController extends Controller
 
     public function jobDetail($job_key, Job $job)
     {
-
         $q = $job->newQuery();
         $q->where('job_key', $job_key);
-        // $q->where('job_slug', 'software-engineer');
-      
+        $jobId = $q->first()->id;
+        ViewJob::create([
+            'user_id' => auth()->id() ?? null,
+            'job_id' => $jobId,
+        ]);
         return response()->json(JobResource::collection($q->get()));
     }
 

@@ -7,7 +7,7 @@ use App\Models\JobType;
 use App\Models\Category;
 use App\Models\Currency;
 use App\Models\Location;
-use App\Models\{Application, JobAd};
+use App\Models\{Application, JobAd, ViewJob};
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -85,6 +85,11 @@ class Job extends Model
     public function jobAds(): HasMany
     {
       return $this->hasMany(JobAd::class);
+    }
+
+    public function viewJobs(): HasMany
+    {
+      return $this->hasMany(ViewJob::class);
     }
 }
 

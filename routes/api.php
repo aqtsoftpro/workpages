@@ -138,6 +138,7 @@ Route::group(['middleware' => ['auth:sanctum', 'cors']], function () {
     Route::get('jobseeker-by/{user}', [UserController::class, 'getUser']);
     Route::post('download-cv', [AccessManagementController::class, 'cvDownload']);
     Route::post('send-sms', [TwilioSMSController::class, 'sendSms']);
+    Route::post('jobDetail/{job_key}', [JobController::class, 'jobDetail']);
 });
 
 
@@ -184,7 +185,6 @@ Route::middleware('cors')->group(function(){
     Route::get('featuredJobs', [JobController::class, 'featuredJobs']);
     Route::get('jobs', [JobController::class, 'index']);
     Route::get('testimonials', [TestimonialController::class, 'testimonials']);
-    Route::post('jobDetail/{job_key}', [JobController::class, 'jobDetail']);
     Route::get('categoryJobs/{cat_slug}', [JobController::class, 'categoryJobs']);
 
     Route::get('getCompanyByUserId/{user_id}', [CompanyController::class, 'getCompanyByUserId']);
