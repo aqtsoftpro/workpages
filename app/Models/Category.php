@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Searchable;
 
@@ -22,8 +23,9 @@ class Category extends Model
             'created_at' => $this->created_at->timestamp,
         ]);
     }
-    
-
-
+    public function stats(): HasMany
+    {
+        return $this->hasMany(Stat::class, 'ref_id');
+    }
 
 }

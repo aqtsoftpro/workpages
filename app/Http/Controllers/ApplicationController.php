@@ -142,7 +142,7 @@ class ApplicationController extends Controller
 
     public function getApplicationsByCompany(Request $request, Application $application)
     {
-        $application = $application->where('company_id', $request->company_id)->get();
+        $application = $application->with('user')->where('company_id', $request->company_id)->get();
         return ApplicationResource::collection($application);
     }
 

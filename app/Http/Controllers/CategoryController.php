@@ -153,12 +153,12 @@ class CategoryController extends Controller
 
     public function categories(Category $category){
 
-        $categories = Category::select('job_categories.*', 'stats.counts as cat_counts')
-        ->where('stats.counts', '!=', '')
-        ->leftJoin('stats', 'job_categories.id', '=', 'stats.ref_id')
-        ->orderBy('job_categories.name', 'ASC')
-        ->get();
-
+        // $categories = Category::select('job_categories.*', 'stats.counts as cat_counts')
+        // ->where('stats.counts', '!=', '')
+        // ->leftJoin('stats', 'job_categories.id', '=', 'stats.ref_id')
+        // ->orderBy('job_categories.name', 'ASC')
+        // ->get();
+        $categories = Category::with('stats')->get();
         return response()->json($categories);
     }
 

@@ -45,7 +45,6 @@ class PackageController extends Controller
         ]);
 
         return response()->json($session);
-
         // return redirect()->away($session->url);
     }
 

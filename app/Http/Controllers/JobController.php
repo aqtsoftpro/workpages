@@ -288,6 +288,7 @@ class JobController extends Controller
         // print_r($request->all());
         $q = $job->newQuery();
         $q->where('company_id', $company->id);
+        $q->withCount('viewJobs');
         // $q->where('status', 'active');
         $listing_rows_count  = SiteSettings::select('meta_val')->where('meta_key', '_listing_rows_limit')->first();
 

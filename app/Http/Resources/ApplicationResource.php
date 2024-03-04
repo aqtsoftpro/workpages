@@ -26,6 +26,7 @@ class ApplicationResource extends JsonResource
             'job_id' => $this->job_id,
             'job' => new JobResource($this->job),
             'cv' => $this->cv,
+            'user' => $this->user ?? [],
             'applied_on' => Carbon::parse($this->created_at)->format('M d, Y'),
             'experience' => $this->experience,
             'salary' => $this->salary,

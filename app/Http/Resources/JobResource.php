@@ -47,6 +47,7 @@ class JobResource extends JsonResource
             'expiration' => Carbon::parse($this->expiration)->format('M d, Y'),
             'applications' => $this->applications,
             'applications_count' => $this->applications->count(),
+            'view_jobs_count' => $this->view_jobs_count,
             'status' => $this->status,
             'jobStatus' => ($this->status == 'active')?true:false,
             'job_status' => $this->job_status,

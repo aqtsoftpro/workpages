@@ -165,21 +165,8 @@ class UserController extends Controller
             }
             else
             {
-                $uploadedPhoto = '';
+                $uploadedPhoto = null;
             }
-
-            // if(isset($request['photo'])){
-            //     if($request['photo'] != null){
-            //         $fileName = time().'-'.rand(100000,1000000).'.'.$request->photo->getClientOriginalExtension();
-
-            //         $uploadedPhoto =  $request->photo->storeAs('dp', $fileName);
-            //     }
-            //     else
-            //     {
-            //         $uploadedPhoto = '';
-            //     }
-
-            // }
 
             $newUser = User::create([
                 'name' => $request['first_name'] . ' ' . $request['last_name'],
@@ -189,17 +176,13 @@ class UserController extends Controller
                 'password' => $request->password
             ]);
 
-            //Assign Job Seeker role to user
-            $jobSeekerRole = Role::where('name', 'Job Seeker')->first();
-            $newUser->assignRole($jobSeekerRole);
-
             // broadcast(new UserRegisterEvent($newUser))->toOthers();
 
-            event(new UserRegisterEvent('hello world'));
-
-            // return $newUser->load('users');
-
             if ($newUser) {
+
+                    $jobSeekerRole = Role::where('name', 'Job Seeker')->first();
+                    $newUser->assignRole($jobSeekerRole);
+
                     $customBaseUrl = env('FRONT_APP_URL');
                     $randomString = Str::random(40);
                     $expired = now()->addMinutes(60);
@@ -221,8 +204,6 @@ class UserController extends Controller
                         '[Name]' => $request->first_name.' '.$request->last_name,
                         '[Account Verify Link]' => '<a href="'.$verificationUrl.'" target="_blank">'.env('APP_URL').'</a>',
                     ];
-
-                    // echo $originalContent;
 
                     foreach ($email_variables as $search => $replace) {
                         $originalContent = str_replace($search, $replace, $originalContent);
