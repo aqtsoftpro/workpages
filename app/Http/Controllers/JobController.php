@@ -143,10 +143,16 @@ class JobController extends Controller
         $q = $job->newQuery();
         $q->where('job_key', $job_key);
         $jobId = $q->first()->id;
-        ViewJob::create([
+        ViewJob::updateOrCreate(
+            [
             'user_id' => auth()->id() ?? null,
-            'job_id' => $jobId,
-        ]);
+            'job_id' => $jobId
+            ],
+            [
+            'user_id' => auth()->id() ?? null,
+            'job_id' => $jobId
+            ],
+        );
         return response()->json(JobResource::collection($q->get()));
     }
 

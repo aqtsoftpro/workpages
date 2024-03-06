@@ -36,8 +36,6 @@ class AdminPackagesController extends Controller
 
         $inputs = $request->all();
 
-        // dd($inputs);
-
         Stripe::setApiKey(env('STRIPE_SECRET'));
         DB::beginTransaction();
         try {
@@ -79,15 +77,17 @@ class AdminPackagesController extends Controller
                         // 'detail.*' => 'required',
                     ]);
 
-                    // Store the data in your database or perform any other necessary action
-                    foreach ($request->title as $key => $value) {
-                        KeyPoint::create([
-                            'package_id' => $added_rec->id,
-                            'icon' => $request->icon[$key],
-                            'title' => $value,
-                            'detail' => $request->detail[$key] ?? "No Detail",
-                        ]);
+                    if (in_array($request->title) && count($request->title) > 0) {
+                        foreach ($request->title as $key => $value) {
+                            KeyPoint::create([
+                                'package_id' => $added_rec->id,
+                                'icon' => $request->icon[$key],
+                                'title' => $value,
+                                'detail' => $request->detail[$key] ?? "No Detail",
+                            ]);
+                        }
                     }
+
                     DB::commit();
                 return redirect()->route('packages.index')
                             ->with('success',''.$request->name.' Package added successfully.');

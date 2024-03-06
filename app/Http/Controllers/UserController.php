@@ -6,6 +6,7 @@ use Exception;
 use App\Models\User;
 use App\Models\Company;
 use App\Models\UserSocial;
+use App\Models\SiteSettings;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use Pusher\Pusher;
@@ -20,6 +21,8 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use App\Events\UserRegisterEvent;
+use App\Http\Resources\JobSeekerResource;
+
 
 class UserController extends Controller
 {
@@ -226,11 +229,35 @@ class UserController extends Controller
         }
     }
 
-    public function searchSeeker()
+    public function searchSeeker(Request $request ,User $user)
     {
         $company = Company::where('owner_id', auth()->id())->first();
-        $user = User::where('location_id', $company->location_id)->orWhere('suburb_id', $company->suburb_id)->get();
-        return response()->json($user->load('location', 'designtion', 'qualification', 'job_location', 'reviews.company'));
+        $user = User::where('location_id', $company->location_id)->orWhere('suburb_id', $company->suburb_id);
+        $listing_rows_count  = SiteSettings::select('meta_val')->where('meta_key', '_listing_rows_limit')->first();
+        if($request->pageId)
+            {
+                $offset = $request->pageId*$listing_rows_count['meta_val'];
+            }
+            else
+            {
+                $offset = 0;
+            }
+
+        $total_counts = $user->count();
+
+        $seeker_listing = JobSeekerResource::collection(
+            $user->offset($offset)
+            ->limit($listing_rows_count['meta_val'])
+            ->get()
+        );
+        $job_seekers  = array(
+            'Listing' => $seeker_listing,
+            'page_no' => $request->pageId,
+            'count' => $total_counts,
+            'showing_count' => $total_counts,
+            'rows_count' =>  $listing_rows_count['meta_val'],
+        );
+        return response()->json($job_seekers);
     }
 
 
@@ -275,16 +302,39 @@ class UserController extends Controller
 
     }
 
-    public function companyUsers()
+    public function companyUsers(Request $request, User $users)
     {
         $company = Company::where('owner_id', auth()->id())->first()->id;
-
         $users = User::whereHas('applications', function ($query) use ($company) {
             $query->where('company_id', $company);
-        })->get();
+        });
 
-        return response()->json($users);
+        $listing_rows_count  = SiteSettings::select('meta_val')->where('meta_key', '_listing_rows_limit')->first();
 
+        if($request->pageId)
+            {
+                $offset = $request->pageId*$listing_rows_count['meta_val'];
+            }
+            else
+            {
+                $offset = 0;
+            }
+
+        $total_counts = $users->count();
+
+        $seeker_listing = JobSeekerResource::collection(
+            $users->offset($offset)
+            ->limit($listing_rows_count['meta_val'])
+            ->get()
+        );
+        $job_seekers  = array(
+            'Listing' => $seeker_listing,
+            'page_no' => $request->pageId,
+            'count' => $total_counts,
+            'showing_count' => $total_counts,
+            'rows_count' =>  $listing_rows_count['meta_val'],
+        );
+        return response()->json($job_seekers);
     }
 
     public function getUser(User $user)

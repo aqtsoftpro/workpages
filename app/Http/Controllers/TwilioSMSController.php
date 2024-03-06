@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\SubAccess;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\EmailTemplateController;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\MultiPurposeEmail;
 use Twilio\Rest\Client;
+use App\Models\{SubAccess, User, Company};
+
 use Exception;
 
 class TwilioSMSController extends Controller
@@ -50,9 +54,37 @@ class TwilioSMSController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function sendEmail(Request $request)
     {
-        //
+        $company = Company::where('owner_id', auth()->id())->first();
+        $user = User::find($request->user_id);
+        $customBaseUrl = env('FRONT_APP_URL');
+        if ($company && $user) {
+            $email_templates  = new EmailTemplateController();
+            $get_template = $email_templates->get_template('job-seeker-email');
+            $originalContent = $get_template['desc'];
+            
+            $email_variables = [
+                '[Name]' => $user->name,
+                '[Company]' => $company->name.' address: '.$company->address,
+                '[Message]' => $request->body,
+            ];
+
+            foreach ($email_variables as $search => $replace) {
+                $originalContent = str_replace($search, $replace, $originalContent);
+            };
+            $verificationUrl = rtrim($customBaseUrl). 'user/dashboard';
+            $subject = $request->subject;
+            $To = $user->email;
+            $email = new MultiPurposeEmail($subject, $originalContent, $verificationUrl);
+            Mail::to($To)->send($email);
+            return response()->json(['status' => 'success', 'message' => 'Email successfully sent!']);
+
+        } else {
+            return response()->json(['status' => 'error', 'message' => 'Job seeker not found!'], 404);
+        }
+        
+
     }
 
     /**

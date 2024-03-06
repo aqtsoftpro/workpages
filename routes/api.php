@@ -100,9 +100,9 @@ Route::group(['middleware' => ['auth:sanctum', 'cors']], function () {
     Route::get('get-detail', [UserDetailController::class, 'getDetail']);
     Route::post('user-document', [UserDetailController::class, 'storeDocs']);
     Route::post('detail-status', [UserDetailController::class, 'updateStatus']);
-    Route::get('company-users', [UserController::class, 'companyUsers']);
+    Route::post('company-users', [UserController::class, 'companyUsers']);
     Route::resource('user_reviews', UserReviewController::class);
-    Route::get('search-seeker', [UserController::class, 'searchSeeker']);
+    Route::post('search-seeker', [UserController::class, 'searchSeeker']);
     Route::put('updateUserMeta/{user_id}', [UserMetaController::class, 'updateUserMeta']);
     Route::get('getUserMeta/{user_id}', [UserMetaController::class, 'updateUserMeta']);
     Route::put('updateUserSocial/{user_id}', [UserController::class, 'updateUserSocial']);
@@ -138,6 +138,7 @@ Route::group(['middleware' => ['auth:sanctum', 'cors']], function () {
     Route::get('jobseeker-by/{user}', [UserController::class, 'getUser']);
     Route::post('download-cv', [AccessManagementController::class, 'cvDownload']);
     Route::post('send-sms', [TwilioSMSController::class, 'sendSms']);
+    Route::post('send-email', [TwilioSMSController::class, 'sendEmail']);
     Route::post('jobDetail/{job_key}', [JobController::class, 'jobDetail']);
 });
 
