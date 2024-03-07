@@ -31,7 +31,6 @@ class AdminRolesController extends Controller
         $this->authorize('create', Role::class);
 
         $permission_categories = PermissionsCategories::all()->toArray();
-
         $perm_cat = array();
         foreach($permission_categories as $permission_category)
         {

@@ -202,11 +202,11 @@
                         <i class="bi bi-circle"></i><span>Role Management</span>
                     </a>
                 </li>
-                <li>
+                {{-- <li>
                     <a href="{{ url('admin/permissions') }}">
                         <i class="bi bi-circle"></i><span>Permissions</span>
                     </a>
-                </li>
+                </li> --}}
             </ul>
         </li><!-- End Components Nav -->
 

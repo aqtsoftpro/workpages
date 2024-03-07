@@ -46,7 +46,8 @@
                       <label for="name" class="form-label">Permission</label><br>
                
                       @foreach ($perm_cat['per_cat'] as $key => $record)
-                        <b>{{ $record }}</b><br><br>
+                        @if ($record == 'Admin Panel')
+                        {{-- <b>{{ $record }}</b><br><br> --}}
                         <div class="row">
                           @foreach ($perm_cat['permission'][$key] as $permission)
                             <div class="form-check col-md-4">
@@ -58,6 +59,7 @@
                           @endforeach
                         </div>
                         <hr>
+                        @endif
                       @endforeach
                     </div>
                     <div>

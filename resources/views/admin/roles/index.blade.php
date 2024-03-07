@@ -56,7 +56,7 @@
               <tr>
                   <td scope="row">{{ $loop->iteration }}</td>
                   <td>{{ $record->name }}</td>
-                  <td>{{ $post->permissionCategory->name ?? '' }}</td>
+                  <td>{{ $record->permissions->count() }}</td>
                   <td>
                       <a class="mx-1 text-success" href="{{ route('roles.edit', $record->id) }}"><i class="bi bi-pen"></i> </a>|
                       <a type="#" class="mx-1 text-danger"  data-bs-toggle="modal" data-bs-target="#deleteModel-{{ $record->id }}" ><i class="bi bi-trash"></i></a>
