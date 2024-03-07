@@ -26,12 +26,12 @@
           <div class="card-body">
             <h5 class="card-title row">
               <div class="col-lg-6">
-                View Job Locations
+                Email Templates List
               </div>
               <div class="col-lg-6">
-                <div class="btn-group float-end" role="group" aria-label="Basic example">
+                {{-- <div class="btn-group float-end" role="group" aria-label="Basic example">
                   <a href="{{ url('admin/email_templates/create') }}" class="btn btn-success">Add new</a>
-                </div>
+                </div> --}}
               </div>
             </h5>
           <!-- Table with stripped rows -->
@@ -67,8 +67,4 @@
       </div>
     </div>
   </section>
-
-
-
-
 @endsection

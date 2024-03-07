@@ -157,6 +157,8 @@ Route::middleware('auth')->prefix('admin')->group(function () {
    Route::resource('packages', AdminPackagesController::class);
    Route::delete('keypoint/{keypoint}/destroy', [AdminPackagesController::class, 'destroyKey'])->name('keypoints.destroy');
 
+   Route::get('keypoint/{keypoint}/destroy', [AdminPackagesController::class, 'destroyKey'])->name('keypoints.delete');
+
    Route::post('/session', [AdminPackagesController::class, 'session'])->name("session");
 
    Route::resource('subscriptions', AdminSubscriptionsController::class);

@@ -142,28 +142,28 @@
                                     value="{{ $record->allow_edits ?? null }}" label="Allow unlimited edits to post" />
                             </div>
                             <div class="col-md-3">
-                                <x-package.dropdown :boolean="true" name="edit_title" id="edit_title" value="{{ $record->edit_title ?? null }}"
-                                    label="Allow to edit title" />
+                                <x-package.dropdown :boolean="true" name="edit_title" id="edit_title"
+                                    value="{{ $record->edit_title ?? null }}" label="Allow to edit title" />
                             </div>
                             <div class="col-md-3">
-                                <x-package.dropdown :boolean="true" name="edit_categ" id="edit_categ" value="{{ $record->edit_categ ?? null }}"
-                                    label="Allow to edit category" />
+                                <x-package.dropdown :boolean="true" name="edit_categ" id="edit_categ"
+                                    value="{{ $record->edit_categ ?? null }}" label="Allow to edit category" />
                             </div>
                             <div class="col-md-3">
-                                <x-package.dropdown :boolean="true" name="edit_body" id="edit_body" value="{{ $record->edit_body ?? null }}"
-                                    label="Allow to edit body" />
+                                <x-package.dropdown :boolean="true" name="edit_body" id="edit_body"
+                                    value="{{ $record->edit_body ?? null }}" label="Allow to edit body" />
                             </div>
                             <div class="col-md-3">
-                                <x-package.dropdown :boolean="true" name="pause_ad" id="pause_ad" value="{{ $record->pause_ad ?? null }}"
-                                    label="Allow to pause ad" />
+                                <x-package.dropdown :boolean="true" name="pause_ad" id="pause_ad"
+                                    value="{{ $record->pause_ad ?? null }}" label="Allow to pause ad" />
                             </div>
                             <div class="col-md-3">
-                                <x-package.dropdown :boolean="true" name="close_ad" id="close_ad" value="{{ $record->close_ad ?? null }}"
-                                    label="Allow to close ad" />
+                                <x-package.dropdown :boolean="true" name="close_ad" id="close_ad"
+                                    value="{{ $record->close_ad ?? null }}" label="Allow to close ad" />
                             </div>
                             <div class="col-md-3">
-                                <x-package.dropdown :boolean="true" name="delete_ad" id="delete_ad" value="{{ $record->delete_ad ?? null }}"
-                                    label="Allow to delete ad" />
+                                <x-package.dropdown :boolean="true" name="delete_ad" id="delete_ad"
+                                    value="{{ $record->delete_ad ?? null }}" label="Allow to delete ad" />
                             </div>
                             <div class="col-md-3">
                                 <x-package.dropdown :boolean="true" name="allow_ref" id="allow_ref"
@@ -240,7 +240,19 @@
                             </div>
 
                             <div id="dynamic-fields">
-
+                                @foreach ($record?->keypoints as $point)
+                                    <div class="row mb-2">
+                                        <div class="col-md-3">
+                                            <span class="p-1 bg-light rounded-1 p-2 row mx-1">{{ $point->icon }}</span>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <span class="p-1 bg-light rounded-1 p-2 row mx-1">{{ $point->title }}</span>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <a href="{{ route('keypoints.delete', $point->id) }}" class="btn btn-danger">remove</a>
+                                        </div>
+                                    </div>
+                                @endforeach
                             </div>
 
                             <div class="col-12">
