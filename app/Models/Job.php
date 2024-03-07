@@ -39,7 +39,9 @@ class Job extends Model
       'gender',
       'qualification_id',
       'working_mode',
-      'payment_mode'
+      'payment_mode',
+      'status',
+      'job_status'
     ];
 
     public function company(){

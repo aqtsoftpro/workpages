@@ -21,7 +21,7 @@ class AdminJobsController extends Controller
         $this->authorize('viewAny', Job::class);
         $records_closed = Job::whereDate('expiration', '<=' , Carbon::now()
                             ->format('Y-m-d'))
-                            // ->where('status', 'inactive')
+                            ->orWhere('status', 'inactive')
                             ->latest()
                             ->get();
 
@@ -54,12 +54,9 @@ class AdminJobsController extends Controller
     public function update(Request $request, Job $job)
     {
         $this->authorize('update', $job);
-
-        $job =  Job::where('id', $job->id)
-       ->update([
+        $job->update([
            'status' => $request->status
         ]);
-
         if($job)
             {
                 return redirect()->back()->with('success', ''.$request->name.' job status updated successfully');
