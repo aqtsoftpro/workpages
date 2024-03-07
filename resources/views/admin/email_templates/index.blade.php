@@ -34,7 +34,6 @@
                 </div>
               </div>
             </h5>
-
           <!-- Table with stripped rows -->
           <table class="table datatable">
             <thead>

@@ -24,22 +24,34 @@ class UserDetailController extends Controller
     {
         $inputs = $request->all();
         $inputs['user_id'] = auth()->id();
-        $user_detail = UserDetail::where('user_id', auth()->id())->firstOrNew();
+        $user_detail = UserDetail::where('user_id', auth()->id())->first();
         if ($request->hasFile('intro_video')) {
             $image = $request->file('intro_video')->store('profile/intro', 'public');
-            $inputs['intro_video'] = env('APP_URL') . 'storage/' . $image;        
-            if ($user_detail->intro_video) {
-                $introVideoPath = Str::after($user_detail->intro_video, '/storage');
-                if (Storage::disk('public')->exists($introVideoPath)) {
-                    Storage::disk('public')->delete($introVideoPath);
+            $inputs['intro_video'] = env('APP_URL') . 'storage/' . $image;
+        }
+        if ($user_detail) {
+            if ($request->hasFile('intro_video')) {        
+                if ($user_detail->intro_video) {
+                    $introVideoPath = Str::after($user_detail->intro_video, '/storage');
+                    if (Storage::disk('public')->exists($introVideoPath)) {
+                        Storage::disk('public')->delete($introVideoPath);
+                    }
                 }
             }
-        }        
-        $user_detail->update($inputs);
-        return response()->json([
-            'status' => 'success',
-            'message' => 'User detail updated successfully',
-        ]);
+            $user_detail->update($inputs);
+            return response()->json([
+                'status' => 'success',
+                'message' => 'User detail updated successfully',
+            ]);
+        }
+        else {
+            UserDetail::create($inputs);
+            return response()->json([
+                'status' => 'success',
+                'message' => 'User detail updated successfully',
+            ]);
+        }
+
     }
 
     /**

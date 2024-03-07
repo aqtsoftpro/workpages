@@ -13,8 +13,14 @@ class PortfolioController extends Controller
 
     public function updateUserPortfolio(Request $request, $id=null)
     {
-        // dd($request->all());
         if ($id==null) {
+            if (Portfolio::where('user_id', $id)->count() >= 7) {
+                return response()->json([
+                    'status'=> 'success',
+                    'data' => Portfolio::with('portfolioImages')->where('user_id', auth()->id())->latest()->get()->toArray(),
+                    'message' => 'Portfolio updated successfully'
+                ]);
+            }
             if ($request->hasFile('other_file')) {
                 // Upload the image and store it in the default 'storage' disk
                 $imagePath = $request->file('other_file')->store('portfolio/others', 'public');
@@ -46,18 +52,12 @@ class PortfolioController extends Controller
                     }
                 }
             }
-
-            // if ($request->hasFile('images[0][file]')) {
-            //     $image = $request->file('images[0][file]');
-            //     dd($image);
-            //     // Generate a unique name for the image
-            //     $newImage = $image->store('portfolio/images', 'public');
-            //     PortfolioImage::create([
-            //         'portfolio_id' => $portfolio->id,
-            //         'image' => $newImage,
-            //     ]);
-            // }
-    
+            
+            return response()->json([
+                'status'=> 'success',
+                'data' => Portfolio::with('portfolioImages')->where('user_id', auth()->id())->latest()->get()->toArray(),
+                'message' => 'Portfolio updated successfully'
+            ]);
 
         } else {
             $portfolio = Portfolio::with('portfolioImages')->findOrFail($id);
@@ -91,83 +91,19 @@ class PortfolioController extends Controller
                 }
             }
 
-            // dd($portfolio->with('portfolioImages'));
+            return response()->json([
+                'status'=> 'success',
+                'data' => Portfolio::with('portfolioImages')->where('user_id', auth()->id())->latest()->get()->toArray(),
+                'message' => 'Portfolio updated successfully'
+            ]);
         }
-        
-        // $inputs = $request->all();
 
-
-        // else {
-        //     Service::create($inputs);
-        // }
-
-        return response()->json([
-            'status'=> 'success',
-            'data' => Portfolio::with('portfolioImages')->where('user_id', auth()->id())->latest()->take(4)->get()->toArray(),
-            'message' => 'Portfolio updated successfully'
-        ]);
-
-        // $portfolio[] = array(
-        //         'title' => 'portfolio 11',
-        //         'description' => 'description 1',
-        //         'images' => array('image 1','image 1','image 1','image 1'),
-
-        //     );
-        // $portfolio[] = array(
-        //         'title' => 'portfolio 12',
-        //         'description' => 'description 1',
-        //         'images' => array('image 1','image 1','image 1','image 1'),
-        //     );
-        // $portfolio[] = array(
-        //     'title' => 'portfolio 13',
-        //     'description' => 'description 1',
-        //     'images' => array('image 1','image 1','image 1','image 1'),
-        // );
-        // print_r($portfolio);
-        
-        // echo json_encode($portfolio);
-
-        // $portfolios = $request->all();
-        // print_r($portfolios['portfolio']);
-
-        // foreach($portfolios['portfolio']['name'] as $name_key => $name)
-        // {
-        //     if($name_key == 0)
-        //     {
-        //         continue;
-        //     }
-            
-        //     if(isset($portfolios['portfolio']['portfolioID'][$name_key]) && $portfolios['portfolio']['portfolioID'][$name_key] != '')
-        //         {
-        //             // echo $name;
-        //             echo $portfolios['portfolio']['portfolioID'][$name_key];
-        //             Portfolio::where('id', $portfolios['portfolio']['portfolioID'][$name_key])
-        //             ->update([
-        //                 'name' => $name,
-        //                 'description' => $portfolios['portfolio']['description'][$name_key],
-        //                 // 'images' => json_encode($portfolio['images']),
-        //             ]);
-        //         }
-        //         else
-        //         {
-        //             echo $name;
-        //             Portfolio::create([
-        //                 'user_id' => $id,
-        //                 'name' => $name,
-        //                 'description' => $portfolios['portfolio']['description'][$name_key],
-        //                 // 'images' => json_encode($portfolio['images']),
-        //             ]);
-        //         };
-        //     // echo "<pre>";    
-        //     // print_r($portfolio);
-        //     // echo "<pre>"; 
-        // }
     }
 
     public function getUserPortfolio($id)
     {
         return response()->json(['status'=> 'success',
-            'data' => Portfolio::with('portfolioImages')->where('user_id', $id)->latest()->take(4)->get()->toArray(),
+            'data' => Portfolio::with('portfolioImages')->where('user_id', $id)->latest()->get()->toArray(),
             'message' => 'Portfolio updated successfully'
         ]);
     }

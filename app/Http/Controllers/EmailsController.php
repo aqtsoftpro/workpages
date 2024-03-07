@@ -43,8 +43,8 @@ class EmailsController extends Controller
             $originalContent = $get_template['desc'];
 
             $email_variables = [
-                '[Name]' => 'John',
-                '[Account Verify Link]' => '<a href="'.env('FRONT_APP_URL').'" target="_blank">'.env('FRONT_APP_URL').'</a>',
+                '[username]' => 'John',
+                '[verify_email_link]' => '<a href="'.env('FRONT_APP_URL').'" target="_blank">'.env('FRONT_APP_URL').'</a>',
             ];
 
             print_r($email_variables);
@@ -58,7 +58,10 @@ class EmailsController extends Controller
             echo "</pre>";
      
             $subject = "Account verification Email";
-            
+
+            $To = $request->email;
+            $email = new MultiPurposeEmail($subject, $originalContent, $verificationUrl);
+            Mail::to($To)->send($email);       
             //$result = Mail::to('jamshed76@gmail.com')->send(new MultiPurposeEmail($subject, $originalContent));
 
 

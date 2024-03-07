@@ -43,8 +43,8 @@
                       <input type="text" name="name" value="{{ $record->name }}" class="form-control" id="email_template" disabled  readonly>
                     </div>
                     <div class="col-md-12">
-                      <label for="name" class="form-label">Click  on tag to add in email content box </label><br>
-                      @php
+                      <label for="name" class="form-label">Click on tag to add in email content box </label><br>
+                      {{-- @php
                         $record->tags;
                         if($record->tags)
                           {
@@ -66,7 +66,10 @@
                             }
 
                           }
-                      @endphp
+                      @endphp --}}
+                      @foreach (config('emailtags.main_tags') as $key => $tag)
+                        <span class="badge bg-info text-dark tag p-2 m-1 btn">[{{trim($key)}}]</span>
+                      @endforeach
                     </div>
                     <div class="col-md-12">
                       <label for="name" class="form-label">Template Content</label>

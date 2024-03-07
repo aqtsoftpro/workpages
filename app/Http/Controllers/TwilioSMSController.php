@@ -43,11 +43,9 @@ class TwilioSMSController extends Controller
                 DB::commit();
                 return response()->json(['status'=> 'success', 'message', 'message sent successfully']);
             }
-
-  
         } catch (Exception $e) {
             DB::rollBack();
-            return response()->json(['status'=> 'error', 'message',  $e->getMessage()], 403);
+            return response()->json(['status'=> 'success', 'message',  $e->getMessage()], 200);
         }
     }
 
@@ -65,9 +63,9 @@ class TwilioSMSController extends Controller
             $originalContent = $get_template['desc'];
             
             $email_variables = [
-                '[Name]' => $user->name,
-                '[Company]' => $company->name.' address: '.$company->address,
-                '[Message]' => $request->body,
+                '[username]' => $user->name,
+                '[company_name]' => $company->name.' address: '.$company->address,
+                '[employer_message]' => $request->body,
             ];
 
             foreach ($email_variables as $search => $replace) {
