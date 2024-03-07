@@ -10,6 +10,11 @@ use Illuminate\Http\Request;
 use App\Http\Resources\ApplicationResource;
 use Illuminate\Support\Facades\DB;
 use App\Models\{SiteSettings, Job};
+use App\Http\Controllers\EmailTemplateController;
+use App\Mail\MultiPurposeEmail;
+use App\Jobs\MultiPurposeEmailJob;
+use Illuminate\Support\Facades\Mail;
+
 
 class ApplicationController extends Controller
 {
@@ -147,7 +152,35 @@ class ApplicationController extends Controller
     }
 
     public function updateCandidateApplication(Request $request){
-        $application = Application::find($request->application_id);
+        $application = Application::with('user', 'job.company')->find($request->application_id);
+        if (!$application) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Application not found!',
+            ], 404);
+        }
+
+        $customBaseUrl = env('FRONT_APP_URL').'user/dashboard';
+        $email_templates  = new EmailTemplateController();
+        $get_template = $email_templates->get_template('short-listed-email');
+        $originalContent = $get_template['desc'];
+                    
+        $email_variables = [
+            '[username]' => $application->user?->name,
+            '[job_title]' => $application->job?->job_title,
+            '[company_name]' => $application->job?->company?->name,
+            '[profile_link]' => '<a href="'.$customBaseUrl.'" target="_blank">'.env('FRONT_APP_URL').'</a>',
+        ];
+
+        foreach ($email_variables as $search => $replace) {
+            $originalContent = str_replace($search, $replace, $originalContent);
+        };
+
+        $subject = "Application Accepted";
+        $To = $application->user?->email;
+        $email = new MultiPurposeEmail($subject, $originalContent, $customBaseUrl);
+        Mail::to($To)->send($email);
+
         switch($request->status){
             case 'shortlist':
                 $application->status_id = 3;

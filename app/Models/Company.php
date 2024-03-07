@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Searchable;
 
@@ -64,7 +65,8 @@ class Company extends Model
         return $this->belongsTo(CompanyType::class);
     }
 
-    public function applications(){
-        return $this->hasMany(Application::class, 'company_id');
+    public function applications(): HasMany
+    {
+        return $this->hasMany(Application::class);
     }
 }
