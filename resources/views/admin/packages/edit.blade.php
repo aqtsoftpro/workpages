@@ -38,7 +38,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
+                        {{-- <div class="row">
                             <div class="card-title">
                                 Previous keypoints
                             </div>
@@ -94,7 +94,7 @@
                             </table>
                         </div>
                         <br>
-                        <br>
+                        <br> --}}
                         <div class="card-title">
                             <div class="col-lg-6">
                                 Edit Package
