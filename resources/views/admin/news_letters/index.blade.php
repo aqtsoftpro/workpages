@@ -2,12 +2,12 @@
 
 @section('content')
     <div class="pagetitle">
-        <h1>Packages</h1>
+        <h1>News Letters</h1>
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{ url('admin/dashboard') }}">Dashboard</a></li>
-                <li class="breadcrumb-item">Packages</li>
-                <li class="breadcrumb-item active">Packages</li>
+                <li class="breadcrumb-item">News Letters</li>
+                <li class="breadcrumb-item active">News Letters</li>
             </ol>
         </nav>
     </div>
@@ -33,7 +33,7 @@
                             <select class="form-select" id="list-id" name="list_id"> <!-- Added name attribute -->
                                 <option selected>Select one</option>
                                 @foreach ($list_ids as $item)
-                                    <option value="{{ $item->meta_val }}">{{ $item->meta_val }}</option>
+                                    <option value="{{ $item->meta_val }}" @selected($item->meta_val == $listId)>{{ $item->meta_val }}</option>
                                 @endforeach
                             </select>
                         </form>
@@ -44,16 +44,21 @@
                 {{-- <p>{{ json_encode($members) }}</p> --}}
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title row">
-                            <div class="col-lg-6">
-                                View Packages
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="btn-group float-end" role="group" aria-label="Basic example">
-                                    <a href="{{ route('packages.create') }}" class="btn btn-success">Add new</a>
-                                </div>
-                            </div>
-                        </h5>
+                        <div class="col-lg-6">
+                            <h5 class="card-title row">
+                                View Mail Chimps List
+                            </h5>
+                        </div>
+                        <div class="col-lg-6">
+                            <form action="{{ route('news.letter') }}" method="get" class="row g-3" id="list-form">
+                                <select class="form-select" id="list-id" name="list_id"> <!-- Added name attribute -->
+                                    <option selected>Select one</option>
+                                    @foreach ($list_ids as $item)
+                                        <option value="{{ $item->meta_val }}" @selected($item->meta_val == $listId)>{{ $item->meta_val }}</option>
+                                    @endforeach
+                                </select>
+                            </form>
+                        </div>
                         <table class="table datatable">
                             <thead>
                                 <tr>
@@ -70,46 +75,8 @@
                                         <td scope="row">{{ $loop->iteration }}</td>
                                         <td>{{ $member->full_name }}</td>
                                         <td>{{ $member->email_address }}</td>
-                                        {{-- <td>
-
-                                            <a class="mx-1 text-success"
-                                                href="{{ route('packages.edit', $member->id) }}"><i
-                                                    class="bi bi-pen"></i> </a>|
-                                            <a type="#" class="mx-1 text-danger" data-bs-toggle="modal"
-                                                data-bs-target="#deleteModel-{{ $member->id }}"><i
-                                                    class="bi bi-trash"></i></a>
-
-                                            <div class="modal fade" id="deleteModel-{{ $member->id }}" tabindex="-1">
-                                                <div class="modal-dialog modal-dialog-centered">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title">Delete Package</h5>
-                                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                                aria-label="Close"></button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            Are you sure You want to Delete <b>{{ $member->name }}</b>?
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-secondary"
-                                                                data-bs-dismiss="modal">Close</button>
-                                                            <form id="delete-form"
-                                                                action="{{ route('subscriptions.destroy', $member->id) }}"
-                                                                method="POST">
-                                                                @csrf
-                                                                @method('DELETE')
-                                                                <button type="submit"
-                                                                    class="btn btn-danger">Delete</button>
-                                                            </form>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                        </td> --}}
                                         <td>
-                                            <span
-                                                class="badge p-2 {{ $member->status == 'subscribed' ? 'bg-success' : 'bg-danger' }}">{{ $member->status }}</span>
+                                            <span class="badge p-2 {{ $member->status == 'subscribed' ? 'bg-success' : 'bg-danger' }}">{{ $member->status }}</span>
                                             {{-- <span class="badge" @class(['bg-success'=> $member->status == 'subscribed'])>{{ $member->status}}</span> --}}
                                         </td>
                                         <td>

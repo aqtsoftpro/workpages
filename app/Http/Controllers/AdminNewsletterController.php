@@ -38,10 +38,10 @@ class AdminNewsletterController extends Controller
             $members = json_decode(json_encode($members['members']));
         
             if ($statusCode == 200) {
-                return view('admin.news_letters.index', compact('members', 'list_ids'))->with('success','Members list got successfully.');
+                return view('admin.news_letters.index', compact('members', 'list_ids', 'listId'))->with('success','Members list got successfully.');
             } else {
                 $members = [];
-                return view('admin.news_letters.index', compact('members', 'list_ids'))->with('error','Failed to fetch members. Status code: ' . $statusCode,);
+                return view('admin.news_letters.index', compact('members', 'list_ids', 'listId'))->with('error','Failed to fetch members. Status code: ' . $statusCode,);
 
                 // abort($statusCode, 'Failed to fetch members. Status code: ' . $statusCode,);
             }
@@ -51,7 +51,7 @@ class AdminNewsletterController extends Controller
             //     'message' => $e->getMessage(),
             // ]);
             $members = [];
-            return view('admin.news_letters.index', compact('members', 'list_ids'))->with('error',$e->getMessage());
+            return view('admin.news_letters.index', compact('members', 'list_ids', 'listId'))->with('error',$e->getMessage());
 
         }
 

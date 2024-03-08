@@ -6,7 +6,7 @@ use Exception;
 use App\Models\User;
 use App\Models\Company;
 use App\Models\UserSocial;
-use App\Models\SiteSettings;
+use App\Models\{SiteSettings, Job};
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use Pusher\Pusher;
@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use App\Events\UserRegisterEvent;
 use App\Http\Resources\JobSeekerResource;
+use App\Http\Controllers\EmailTemplateController;
 
 
 class UserController extends Controller
@@ -121,12 +122,38 @@ class UserController extends Controller
         }
 
         try{
-
             $user->update($userRequest);
+            $jobs = Job::with('company.owner')->where(['location_id'=> $user->current_job_location_id, 'qualification_id' => $user->qualification_id, 'status' => 'active', 'job_status'=> 'live'])->get();
+            if ($jobs->count() > 0) {
+                    $customBaseUrl = env('FRONT_APP_URL');
+                    $verificationUrl = rtrim($customBaseUrl). 'job-seeker-list';
+                    $email_templates  = new EmailTemplateController();
+                    $get_template = $email_templates->get_template('new-jobseeker-register');
+                    $originalContent = $get_template['desc'];
+
+                foreach ($jobs->take(4) as $job) {
+                    $email_variables = [
+                        '[username]' => $job->company?->owner?->name,
+                        '[job_title]' => $job->job_title,
+                        '[job_url]' => '<a href="'.rtrim($customBaseUrl).'job-details/'.$job->job_key.'/'.$job->job_slug.'" target="_blank">'.$job->job_title.'</a>',                        
+                        '[profile_link]' => '<a href="'.rtrim($customBaseUrl).'job-seeker/'.$user->id.'" target="_blank">'.$user->name.'</a>',                        
+                    ];
+
+                    foreach ($email_variables as $search => $replace) {
+                        $originalContent = str_replace($search, $replace, $originalContent);
+                    };
+
+                    $subject = "New Jobseeker Registered";
+                    $To = $job->company?->owner?->email;
+                    $email = new MultiPurposeEmail($subject, $originalContent, $verificationUrl);
+                    Mail::to($To)->send($email);
+                }
+            }
             return response()->json([
                 'status' => 'user updated',
                 'message' => 'Profile updated successfully',
-                'user' => User::where('id', $user->id)->with('roles')->get()
+                'user' => User::where('id', $user->id)->with('roles')->get(),
+                'jobs' => $jobs,
             ]);
         }   catch(Exception $e){
             return $e->getMessage();
@@ -182,14 +209,11 @@ class UserController extends Controller
             // broadcast(new UserRegisterEvent($newUser))->toOthers();
 
             if ($newUser) {
-
                     $jobSeekerRole = Role::where('name', 'Job Seeker')->first();
                     $newUser->assignRole($jobSeekerRole);
-
                     $customBaseUrl = env('FRONT_APP_URL');
                     $randomString = Str::random(40);
                     $expired = now()->addMinutes(60);
-
                     VerifyEmail::create([
                         'user_id'=> $newUser->id,
                         'email' => $newUser->email,
@@ -216,6 +240,7 @@ class UserController extends Controller
                     $To = $request->email;
                     $email = new MultiPurposeEmail($subject, $originalContent, $verificationUrl);
                     Mail::to($To)->send($email);
+
             }
 
             return response()->json([
