@@ -139,7 +139,6 @@ class PackageController extends Controller
 
             }
         }
-
         $externalUrl = env('FRONT_APP_URL').'company/plan';
         return redirect()->away($externalUrl);
     }
