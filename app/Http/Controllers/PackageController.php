@@ -132,6 +132,9 @@ class PackageController extends Controller
                     'msg_credit' => $package->msg_credit,
                     'cv_access' => $package->cv_access,
                     'expired_at' => $expire,
+                    'edit_title' => $package->edit_title,
+                    'edit_categ' => $package->edit_categ,
+                    'edit_body' => $package->edit_body,
                 ]);
 
             }

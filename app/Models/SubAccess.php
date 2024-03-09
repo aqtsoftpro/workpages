@@ -29,6 +29,9 @@ class SubAccess extends Model
         'msg_credit',
         'cv_access',
         'expired_at',
+        'edit_title',
+        'edit_categ',
+        'edit_body',
     ];
 
     public function subscription(): BelongsTo
