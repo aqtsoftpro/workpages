@@ -126,6 +126,7 @@ Route::group(['middleware' => ['auth:sanctum', 'cors']], function () {
 
     Route::post('stripe/checkout', [PackageController::class, 'session']);
     Route::post('zeroSubscribe', [PackageController::class, 'zeroPlan']);
+    Route::post('unsubscribe', [PackageController::class, 'unSub']);
     Route::get('companySubscriptions', [PackageController::class, 'subPlans']);
     Route::post('updateUserPortfolio/{id?}', [PortfolioController::class, 'updateUserPortfolio']);
     Route::get('getCompanyJobs', [JobController::class, 'getCompanyJobs']);

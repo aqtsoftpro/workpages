@@ -50,9 +50,8 @@ class ApplicationController extends Controller
                     'experience' => $request->experience,
                     'salary' => $request->salary
                 ]);
-    
-                $job = Job::find($request->job_id);
-    
+                $job = Job::with('company.owner')->find($request->job_id);
+                DB::commit();
                 if (isset($application)) {
                     Notification::create([
                         'company_id' => $request->company_id,
@@ -65,8 +64,30 @@ class ApplicationController extends Controller
                         'desc' => 'This is notification for job application for job seeker',
                         'package' => 'No Package'
                     ]);
+                    $customBaseUrl = env('FRONT_APP_URL');
+                    $verificationUrl = rtrim($customBaseUrl). 'company/dashboard';
+                    $email_templates  = new EmailTemplateController();
+                    $get_template = $email_templates->get_template('company-recieve-application');
+                    $originalContent = $get_template['desc'];
+                    // $application->load('company.owner');
+                    $email_variables = [
+                        '[username]' => $job->company?->owner?->name,
+                        '[company_name]' => $job->company?->name,
+                        '[job_title]' => $job->job_title,
+                        '[site_url]' => '<a href="'.$verificationUrl.'" target="_blank">Company dashboard</a>',                        
+                        '[profile_link]' => '<a href="'.$verificationUrl.'" target="_blank">Company dashboard</a>',                        
+                    ];
+
+                    foreach ($email_variables as $search => $replace) {
+                        $originalContent = str_replace($search, $replace, $originalContent);
+                    };
+
+                    $subject = "New Candidate Applied";
+                    $To = $job->company?->owner?->email;
+                    $email = new MultiPurposeEmail($subject, $originalContent, $verificationUrl);
+                    Mail::to($To)->send($email);
+
                 }
-                DB::commit();
                 return response()->json([
                     'status' => 'success',
                     'message' => 'Job Application Sent!',

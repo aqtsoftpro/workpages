@@ -11,6 +11,7 @@ use App\Models\{Application, JobAd, ViewJob};
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Laravel\Scout\Searchable;
 
 
@@ -44,7 +45,8 @@ class Job extends Model
       'job_status'
     ];
 
-    public function company(){
+    public function company(): BelongsTo
+    {
       return $this->belongsTo(Company::class);
     }
 

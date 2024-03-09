@@ -35,7 +35,8 @@ class Application extends Model
         return $this->belongsTo(Company::class);
     }
 
-    public function job(){
+    public function job(): BelongsTo
+    {
         return $this->belongsTo(Job::class);
     }
 

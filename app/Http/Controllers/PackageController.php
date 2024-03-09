@@ -233,8 +233,14 @@ class PackageController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Package $package)
+    public function unSub(Request $request)
     {
-        //
+        $subscription = Subscription::find($request->subscription_id);
+        if ($subscription) {
+            $accesses = SubAccess::where('subscription_id', $subscription->id)->first();
+            $accesses->delete();
+            $subscription->delete();
+        }
+        return response()->json(['status' => 'successs', 'data' => [], 'message' => 'successfully unsubcribed',]);
     }
 }
