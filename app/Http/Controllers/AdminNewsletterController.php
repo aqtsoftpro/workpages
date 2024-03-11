@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Spatie\Newsletter\Facades\Newsletter;
 use GuzzleHttp\Client;
 use App\Models\SiteSettings;
+use Illuminate\Support\Facades\Cache;
+
 
 class AdminNewsletterController extends Controller
 {
@@ -14,16 +16,24 @@ class AdminNewsletterController extends Controller
      */
     public function index(Request $request)
     {
-        $apiKey = config('newsletter.driver_arguments.api_key');
-        // $listId = config('newsletter.lists.subscribers.id');
+        $apiKey = SiteSettings::where('meta_key', '_mailchimp_api_key')->first();
+        $mailchimpLists = Cache::remember('mailchimp_lists', 5, function () {
+            $mailchimp = new \MailchimpMarketing\ApiClient();
+        
+            $mailchimp->setConfig([
+                'apiKey' => $apiKey,
+                'server' => 'us6'
+            ]);
+        
+            return $mailchimp->lists->getAllLists();
+        });
+        
         $listId = $request->list_id;
 
-        $list_ids = SiteSettings::where('meta_key', '_mailchimp_list_id')->get();
-
+        $list_ids = $mailchimpLists;
+        dd();
         $url = "https://us6.api.mailchimp.com/3.0/lists/{$listId}/members?count=100";
-
         $client = new Client();
-
         try {
             $response = $client->get($url, [
                 'headers' => [

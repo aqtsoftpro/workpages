@@ -197,6 +197,8 @@ Route::middleware('cors')->group(function(){
     Route::post('getJobs/{comapny_id}', [JobController::class, 'companyJobs']);
     Route::get('getApplicationsByUserId/{user_id}', [ApplicationController::class, 'getApplicationsByUserId']);
     Route::get('getApplicationsByCompany', [ApplicationController::class, 'getApplicationsByCompany']);
+    Route::get('shortlisted', [ApplicationController::class, 'shortlisted']);
+    Route::get('rejected', [ApplicationController::class, 'rejected']);
     Route::post('getCompanyInfo/{company_id}', [CompanyController::class, 'getCompanyInfo']);
 
     Route::get('getCompanyReviews/{company_id}', [CompanyReviewController::class, 'getCompanyReview']);

@@ -273,7 +273,7 @@ class UserController extends Controller
         $seeker_listing = JobSeekerResource::collection(
             $user->offset($offset)
             ->limit($listing_rows_count['meta_val'])
-            ->get()
+            ->latest()->get()
         );
         $job_seekers  = array(
             'Listing' => $seeker_listing,

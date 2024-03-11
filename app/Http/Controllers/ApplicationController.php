@@ -67,7 +67,7 @@ class ApplicationController extends Controller
                     $customBaseUrl = env('FRONT_APP_URL');
                     $verificationUrl = rtrim($customBaseUrl). 'company/dashboard';
                     $email_templates  = new EmailTemplateController();
-                    $get_template = $email_templates->get_template('company-recieve-application');
+                    $get_template = $email_templates->get_template('company-receive-application');
                     $originalContent = $get_template['desc'];
                     // $application->load('company.owner');
                     $email_variables = [
@@ -169,6 +169,18 @@ class ApplicationController extends Controller
     public function getApplicationsByCompany(Request $request, Application $application)
     {
         $application = $application->with('user')->where('company_id', $request->company_id)->get();
+        return ApplicationResource::collection($application);
+    }
+
+    public function shortlisted(Request $request, Application $application)
+    {
+        $application = $application->with('user')->where(['company_id' => $request->company_id, 'status_id' => 3])->get();
+        return ApplicationResource::collection($application);
+    }
+
+    public function rejected(Request $request, Application $application)
+    {
+        $application = $application->with('user')->where(['company_id' => $request->company_id, 'status_id' => 5])->get();
         return ApplicationResource::collection($application);
     }
 
