@@ -29,6 +29,8 @@ class Subscription extends Model
         'exp_year',
         'ends_at',
         'receipt_url',
+        'delete_ad',
+        'status'
     ];
 
     public function package(): BelongsTo

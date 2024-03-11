@@ -141,6 +141,7 @@ Route::group(['middleware' => ['auth:sanctum', 'cors']], function () {
     Route::post('send-sms', [TwilioSMSController::class, 'sendSms']);
     Route::post('send-email', [TwilioSMSController::class, 'sendEmail']);
     Route::post('jobDetail/{job_key}', [JobController::class, 'jobDetail']);
+    Route::get('get-active-sub', [PackageController::class, 'activeSub']);
 });
 
 

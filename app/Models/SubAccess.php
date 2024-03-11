@@ -32,6 +32,7 @@ class SubAccess extends Model
         'edit_title',
         'edit_categ',
         'edit_body',
+        'delete_ad',
     ];
 
     public function subscription(): BelongsTo

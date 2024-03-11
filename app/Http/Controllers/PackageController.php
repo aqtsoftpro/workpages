@@ -135,6 +135,7 @@ class PackageController extends Controller
                     'edit_title' => $package->edit_title,
                     'edit_categ' => $package->edit_categ,
                     'edit_body' => $package->edit_body,
+                    'delete_ad' => $package->delete_ad
                 ]);
 
             }
@@ -241,8 +242,16 @@ class PackageController extends Controller
         if ($subscription) {
             $accesses = SubAccess::where('subscription_id', $subscription->id)->first();
             $accesses->delete();
-            $subscription->delete();
+            $subscription->update(['status' => 'unsubscribed']);
         }
         return response()->json(['status' => 'successs', 'data' => [], 'message' => 'successfully unsubcribed',]);
     }
+
+    public function activeSub()
+    {
+        $subscription = Subscription::where(['user_id' => auth()->id(), 'status' => 'subscribed'])->whereDate('ends_at','>', now())->first();
+        return response()->json(['status' => 'successs', 'data' => $subscription, 'message' => 'success',]);
+    }
+
+    
 }
