@@ -196,9 +196,9 @@ class AdminPackagesController extends Controller
         $inputs = $request->all();
         $main_package = Package::with('keypoints')->findOrFail($package->id);
         if($main_package->update($inputs)){
-            foreach ($main_package->keypoints as $key => $point) {
-                $point->delete();
-            }
+            // foreach ($main_package->keypoints as $key => $point) {
+            //     $point->delete();
+            // }
             $request->validate([
                 'icon.*' => 'required',
                 'title.*' => 'required',
