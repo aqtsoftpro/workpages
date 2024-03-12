@@ -102,15 +102,15 @@
                                 <x-package.dropdown :boolean="true" name="allow_edits" id="allow_edits" :value="null"
                                     label="Allow unlimited edits to post" />
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-3" id="edit-title" style="display: none">
                                 <x-package.dropdown :boolean="true" name="edit_title" id="edit_title" :value="null"
                                     label="Allow to edit title" />
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-3" id="edit-cat" style="display: none">
                                 <x-package.dropdown :boolean="true" name="edit_categ" id="edit_categ" :value="null"
                                     label="Allow to edit category" />
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-3" id="edit-body" style="display: none">
                                 <x-package.dropdown :boolean="true" name="edit_body" id="edit_body" :value="null"
                                     label="Allow to edit body" />
                             </div>
@@ -181,7 +181,7 @@
                                     placeholder="must in number" id="msg_credit" required>
                             </div>
 
-                            <div class="col-md-3">
+                            {{-- <div class="col-md-3">
                                 <x-package.dropdown name="post_for" id="post_for" :value="null" label="Ads run with days">
                                     <option value="15">15 Days</option>
                                     <option value="30">30 Days</option>
@@ -189,7 +189,7 @@
                                     <option value="60">60 Days</option>
                                     <option value="90">90 Days</option>
                                 </x-package.dropdown>
-                            </div>
+                            </div> --}}
 
                             <br><br>
                             <div class="card-title mt-5">
@@ -281,7 +281,21 @@
                     $('#cvCredits').hide();
                 }
             });
+            $('#allow_edits').change(function() {
+                if ($('#allow_edits').val() === 'yes') {
+                    $('#edit-title').show();
+                    $('#edit-cat').show();
+                    $('#edit-body').show();
+                } else {
+                    $('#edit-title').hide();
+                    $('#edit-cat').hide();
+                    $('#edit-body').hide();
+                }
+            });
         });
+
+
+
     </script>
 
     <script>

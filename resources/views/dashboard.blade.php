@@ -163,19 +163,19 @@
                                                         'rgba(255, 99, 132, 0.2)',
                                                         'rgba(255, 159, 64, 0.2)',
                                                         'rgba(255, 205, 86, 0.2)',
-                                                        // 'rgba(75, 192, 192, 0.2)',
-                                                        // 'rgba(54, 162, 235, 0.2)',
-                                                        // 'rgba(153, 102, 255, 0.2)',
-                                                        // 'rgba(201, 203, 207, 0.2)'
+                                                        'rgba(75, 192, 192, 0.2)',
+                                                        'rgba(54, 162, 235, 0.2)',
+                                                        'rgba(153, 102, 255, 0.2)',
+                                                        'rgba(201, 203, 207, 0.2)'
                                                     ],
                                                     borderColor: [
                                                         'rgb(255, 255, 255)',
                                                         'rgb(255, 255, 255)',
                                                         'rgb(255, 255, 255)',
-                                                        // 'rgb(75, 192, 192)',
-                                                        // 'rgb(54, 162, 235)',
-                                                        // 'rgb(153, 102, 255)',
-                                                        // 'rgb(201, 203, 207)'
+                                                        'rgb(75, 192, 192)',
+                                                        'rgb(54, 162, 235)',
+                                                        'rgb(153, 102, 255)',
+                                                        'rgb(201, 203, 207)'
                                                     ],
                                                     borderWidth: 1
                                                 }]
@@ -576,7 +576,7 @@
                                     <tbody>
                                         @foreach ($records['top_candidates'] as $candidate)
                                             <tr>
-                                                <td><a href="#"
+                                                <td><a href="{{ route('job_seekers.show', $candidate->id) }}"
                                                         class="text-primary fw-bold">{{ $candidate->name }}</a></td>
                                                 <td>{{ $candidate->applications_count }}</td>
                                                 <td>{{ $candidate->applications_count }}</td>
@@ -653,13 +653,12 @@
                         <div class="card">
                             <div class="card-body">
                                 <h5 class="card-title">Top 10 Categories</h5>
-
                                 <!-- List group With badges -->
                                 <ul class="list-group">
                                     @foreach ($records['categories'] as $category)
                                         <li class="list-group-item d-flex justify-content-between align-items-center">
                                             {{ $category->name }}
-                                            <span class="badge bg-primary rounded-pill">2</span>
+                                            <span class="badge bg-primary rounded-pill">{{ $category->jobs_count }}</span>
                                         </li>
                                     @endforeach
 
@@ -675,13 +674,12 @@
                         <div class="card">
                             <div class="card-body">
                                 <h5 class="card-title">Top 10 Companies</h5>
-
                                 <!-- List group With badges -->
                                 <ul class="list-group">
                                     @foreach ($records['top_employers'] as $company)
                                         <li class="list-group-item d-flex justify-content-between align-items-center">
                                             {{ $company->name }}
-                                            <span class="badge bg-primary rounded-pill">14</span>
+                                            <span class="badge bg-primary rounded-pill">{{ $company->owner->subscriptions_count }}</span>
                                         </li>
                                     @endforeach
 

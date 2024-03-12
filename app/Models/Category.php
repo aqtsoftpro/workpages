@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Searchable;
+use App\Models\Job;
 
 class Category extends Model
 {
@@ -26,6 +27,11 @@ class Category extends Model
     public function stats(): HasMany
     {
         return $this->hasMany(Stat::class, 'ref_id');
+    }
+
+    public function jobs(): HasMany
+    {
+        return $this->hasMany(Job::class,);
     }
 
 }

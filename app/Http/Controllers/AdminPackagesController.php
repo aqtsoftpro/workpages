@@ -35,7 +35,7 @@ class AdminPackagesController extends Controller
         $this->authorize('create', Package::class);
 
         $inputs = $request->all();
-
+        $inputs['post_for'] = 30;
         Stripe::setApiKey(env('STRIPE_SECRET'));
         DB::beginTransaction();
         try {
@@ -192,8 +192,8 @@ class AdminPackagesController extends Controller
     public function update(Request $request, Package $package)
     {
         $this->authorize('update', $package);
-
         $inputs = $request->all();
+        $inputs['post_for'] = 30;
         if (!isset($$request->cv_access)) {
             $inputs['cv_access'] = 0;
         }

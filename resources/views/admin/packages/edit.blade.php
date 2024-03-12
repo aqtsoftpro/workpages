@@ -141,15 +141,16 @@
                                 <x-package.dropdown :boolean="true" name="allow_edits" id="allow_edits"
                                     value="{{ $record->allow_edits ?? null }}" label="Allow unlimited edits to post" />
                             </div>
-                            <div class="col-md-3">
+
+                            <div class="col-md-3" id="edit-title" @style($record->allow_edits == 'yes' ? '': 'display: none;')>
                                 <x-package.dropdown :boolean="true" name="edit_title" id="edit_title"
                                     value="{{ $record->edit_title ?? null }}" label="Allow to edit title" />
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-3" id="edit-cat" @style($record->allow_edits == 'yes' ? '': 'display: none;')>
                                 <x-package.dropdown :boolean="true" name="edit_categ" id="edit_categ"
                                     value="{{ $record->edit_categ ?? null }}" label="Allow to edit category" />
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-3" id="edit-body" @style($record->allow_edits == 'yes' ? '': 'display: none;')>
                                 <x-package.dropdown :boolean="true" name="edit_body" id="edit_body"
                                     value="{{ $record->edit_body ?? null }}" label="Allow to edit body" />
                             </div>
@@ -223,7 +224,7 @@
                                     class="form-control" placeholder="must in number" id="msg_credit" required>
                             </div>
 
-                            <div class="col-md-3">
+                            {{-- <div class="col-md-3">
                                 <x-package.dropdown name="post_for" id="post_for" :value="null"
                                     label="Ads run with days">
                                     <option value="15" @selected($record->post_for == 15)>15 Days</option>
@@ -232,7 +233,7 @@
                                     <option value="60" @selected($record->post_for == 60)>60 Days</option>
                                     <option value="90" @selected($record->post_for == 90)>90 Days</option>
                                 </x-package.dropdown>
-                            </div>
+                            </div> --}}
 
                             <br><br>
                             <div class="card-title mt-5">
@@ -311,6 +312,18 @@
                     $('#cvCredits').show();
                 } else {
                     $('#cvCredits').hide();
+                }
+            });
+
+            $('#allow_edits').change(function() {
+                if ($('#allow_edits').val() === 'yes') {
+                    $('#edit-title').show();
+                    $('#edit-cat').show();
+                    $('#edit-body').show();
+                } else {
+                    $('#edit-title').hide();
+                    $('#edit-cat').hide();
+                    $('#edit-body').hide();
                 }
             });
         });

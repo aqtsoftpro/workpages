@@ -54,8 +54,9 @@ class Job extends Model
       return $this->belongsTo(Location::class);
     }
 
-    public function category(){
-      return $this->belongsTo(Category::class);
+    public function category(): BelongsTo
+    {
+      return $this->belongsTo(Category::class, 'category_id');
     }
 
     public function currency(){
