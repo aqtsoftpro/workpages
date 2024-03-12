@@ -418,7 +418,7 @@
                                             </div>
                                             <div class="ps-3">
                                                 <h6><?= $records['accepted_app'] ?></h6>
-                                                <span class="text-success small pt-1 fw-bold">Accepted Application</span>
+                                                <span class="text-success small pt-1 fw-bold">Shortlisted Application</span>
                                             </div>
                                         </div>
                                     </div>
@@ -472,7 +472,7 @@
                                                     'Expired'
                                                 ],
                                                 datasets: [{
-                                                    label: 'My First Dataset',
+                                                    label: 'Number of jobs',
                                                     data: @php echo json_encode($pi_job_data) @endphp,
                                                     backgroundColor: [
                                                         'rgb(255, 99, 132)',
@@ -505,11 +505,11 @@
                                             data: {
                                                 labels: [
                                                     'Total',
-                                                    'Accepted',
+                                                    'Shortlisted',
                                                     'Rejected'
                                                 ],
                                                 datasets: [{
-                                                    label: 'My First Dataset',
+                                                    label: 'Number of applications',
                                                     data: @php echo json_encode([$records['applications'], $records['accepted_app'], $records['rejected_app']]) @endphp,
                                                     backgroundColor: [
                                                         'rgb(255, 99, 132)',
@@ -542,14 +542,16 @@
                                             <th scope="col">Company</th>
                                             <th scope="col">Jobs</th>
                                             <th scope="col">Application</th>
+                                            <th scope="col">Subscriptions</th>
                                     </thead>
                                     <tbody>
                                         @foreach ($records['top_employers'] as $company)
                                             <tr>
-                                                <td><a href="#"
+                                                <td><a href="{{ route('companies.show', $company->id) }}"
                                                         class="text-primary fw-bold">{{ $company->name }}</a></td>
                                                 <td>{{ $company->jobs_count }}</td>
                                                 <td>{{ $company->applications_count }}</td>
+                                                <td>{{ $company->owner->subscriptions->count() }}</td>
                                             </tr>
                                         @endforeach
                                     </tbody>
@@ -814,13 +816,12 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Most Applied Jobs</h5>
-
                         <!-- List group With badges -->
                         <ul class="list-group">
                             @foreach ($records['applied_jobs'] as $job)
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    {{ $job[0]->job->job_title }}
-                                    <span class="badge bg-primary rounded-pill">{{ $job->count() }}</span>
+                                    {{ $job->job_title }}
+                                    <span class="badge bg-primary rounded-pill">{{ $job->applications_count }}</span>
                                 </li>
                             @endforeach
 

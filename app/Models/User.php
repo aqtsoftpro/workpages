@@ -7,7 +7,7 @@ use App\Models\Language;
 use App\Models\Location;
 use App\Models\Suburb;
 use App\Models\Designation;
-use App\Models\{Qualification, UserReview, Document, UserDetail};
+use App\Models\{Qualification, UserReview, Document, UserDetail, Subscription};
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
@@ -159,5 +159,10 @@ class User extends Authenticatable implements MustVerifyEmail
     public function subAccesses(): HasMany
     {
         return $this->hasMany(SubAccess::class);
+    }
+
+    public function subscriptions(): HasMany
+    {
+        return $this->hasMany(Subscription::class);
     }
 }

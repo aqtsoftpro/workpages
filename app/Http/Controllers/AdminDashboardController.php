@@ -67,9 +67,16 @@ class AdminDashboardController extends Controller
         $records['applications'] = Application::count();
         $records['accepted_app'] = Application::where('shortlisted', 'yes')->count();
         $records['rejected_app'] = Application::where('rejected', 'yes')->count();
-        $records['top_employers'] = Company::withCount('jobs', 'applications')->where('status', 'active')->limit(10)->get();
+        $records['top_employers'] = Company::withCount(['jobs', 'applications'])
+                            ->with('owner', function ($query) {
+                                $query->withCount('subscriptions');
+                            })
+                            // ->orderByDesc('subscriptions_count')
+                            ->where('status', 'active')
+                            ->limit(10)
+                            ->get();
         $records['categories'] = Category::where('status', 'enable')->limit(10)->get();
-        $records['applied_jobs'] = Application::with('job')->get()->groupBy('job_id')->take(10);
+        $records['applied_jobs'] = Job::withCount('applications')->orderByDesc('applications_count')->get()->take(10);
         $records['top_skills'] = Skill::limit(10)->get();
         $records['most_viewed'] = Job::withCount('viewJobs')->orderByDesc('view_jobs_count')->get()->take(10);
         $records['top_candidates'] =  User::withCount(['applications' => function ($query) {
@@ -281,7 +288,7 @@ class AdminDashboardController extends Controller
         $result['labels'] = $labels;
         $result['prices'] = $prices;
 
-        
+
         return $result;
     }
 
