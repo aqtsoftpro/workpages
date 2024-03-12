@@ -89,10 +89,9 @@ class AdminDashboardController extends Controller
                                     ->take(10)
                                     ->get();
     
-
+        $records['packages'] = Package::withCount('subscriptions')->orderByDesc('subscriptions_count')->get()->take(10);
+        // dd($records['packages']);
         // return response()->json(CompanyResource::collection($company->limit(10)->get()));
-
-
         return view('dashboard', compact('records'));
 
         die();

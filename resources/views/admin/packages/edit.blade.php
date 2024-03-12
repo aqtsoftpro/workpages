@@ -210,9 +210,9 @@
                                     <label class="form-check-label" for="cv_access">CV access</label>
                                 </div>
                             </div>
-                            <div class="col-md-3" id="cvCredits" @style($record->cv_access !== 1 ? 'display: none;' : '')>
+                            <div class="col-md-3" id="cvCredits" @style($record->cv_access == 1 ? '': 'display: none;')>
                                 <label for="cv_credit" class="form-label">CV download credits</label>
-                                <input type="number" name="cv_credit" value="{{ $record->cv_credit }}"
+                                <input type="number" name="cv_credit" value="{{ $record->cv_credit ?? 0 }}"
                                     class="form-control" placeholder="must in integer" id="cv_credit" required>
                             </div>
 

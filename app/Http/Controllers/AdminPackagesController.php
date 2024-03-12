@@ -194,6 +194,9 @@ class AdminPackagesController extends Controller
         $this->authorize('update', $package);
 
         $inputs = $request->all();
+        if (!isset($$request->cv_access)) {
+            $inputs['cv_access'] = 0;
+        }
         $main_package = Package::with('keypoints')->findOrFail($package->id);
         if($main_package->update($inputs)){
             // foreach ($main_package->keypoints as $key => $point) {

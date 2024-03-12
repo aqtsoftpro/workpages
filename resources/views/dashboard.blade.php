@@ -400,13 +400,9 @@
 
                         </div>
                     </div><!-- End Sales Card -->
-
-
                     <!-- Sales Card -->
                     <div class="col-xxl-12 col-md-12">
                         <div class="card info-card sales-card">
-
-
                             <div class="card-body">
                                 <h5 class="card-title">Job Seekers Applications</h5>
                                 <div class="row">
@@ -418,7 +414,8 @@
                                             </div>
                                             <div class="ps-3">
                                                 <h6><?= $records['accepted_app'] ?></h6>
-                                                <span class="text-success small pt-1 fw-bold">Shortlisted Application</span>
+                                                <span class="text-success small pt-1 fw-bold">Shortlisted
+                                                    Application</span>
                                             </div>
                                         </div>
                                     </div>
@@ -599,35 +596,35 @@
                         <div class="card">
                             <div class="card-body">
                                 <h5 class="card-title">Subscription</h5>
-
                                 <!-- Bar Chart -->
                                 <canvas id="barChart2"
                                     style="max-height: 400px; display: block; box-sizing: border-box; height: 199px; width: 399px;"
                                     width="599" height="299"></canvas>
                                 <script>
                                     document.addEventListener("DOMContentLoaded", () => {
+                                        const packages = @json($records['packages']);
+                                        const labels = packages.map(package => package.name);
+                                        const data = packages.map(package => package.subscriptions_count);
                                         new Chart(document.querySelector('#barChart2'), {
                                             type: 'bar',
                                             data: {
-                                                labels: ['Subscription 1', 'Subscription 2', 'Third QuateSubscription 3',
-                                                    'Subscription 4'
-                                                ],
+                                                labels: labels,
                                                 datasets: [{
-                                                    label: 'Bar Chart',
-                                                    data: [65, 59, 80, 81],
+                                                    label: 'Top package with subscription',
+                                                    data: data,
                                                     backgroundColor: [
                                                         'rgba(255, 99, 132, 0.2)',
                                                         'rgba(255, 159, 64, 0.2)',
                                                         'rgba(255, 205, 86, 0.2)',
                                                         'rgba(75, 192, 192, 0.2)',
-
+                                                        // Add more colors if needed
                                                     ],
                                                     borderColor: [
                                                         'rgb(255, 99, 132)',
                                                         'rgb(255, 159, 64)',
                                                         'rgb(255, 205, 86)',
                                                         'rgb(75, 192, 192)',
-
+                                                        // Add more colors if needed
                                                     ],
                                                     borderWidth: 1
                                                 }]
@@ -689,14 +686,10 @@
                                     @endforeach
 
                                 </ul><!-- End List With badges -->
-
                             </div>
                         </div>
-
                     </div>
-
-
-                    <div class="col-md-6">
+                    {{-- <div class="col-md-6">
 
                         <div class="card">
                             <div class="card-body">
@@ -716,64 +709,15 @@
                             </div>
                         </div>
 
-                    </div>
-
-
-                    <div class="col-md-6">
-
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">Most Popular Tags</h5>
-
-                                <!-- List group With badges -->
-                                <ul class="list-group">
-                                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        Company 1
-                                        <span class="badge bg-primary rounded-pill">14</span>
-                                    </li>
-                                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        Company 1
-                                        <span class="badge bg-primary rounded-pill">2</span>
-                                    </li>
-                                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        Company 1
-                                        <span class="badge bg-primary rounded-pill">1</span>
-                                    </li>
-                                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        Company 1
-                                        <span class="badge bg-primary rounded-pill">1</span>
-                                    </li>
-                                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        Company 1
-                                        <span class="badge bg-primary rounded-pill">1</span>
-                                    </li>
-
-                                </ul><!-- End List With badges -->
-
-                            </div>
-                        </div>
-
-                    </div>
-
-
-
-
-
-
-
+                    </div> --}}
                 </div>
             </div><!-- End Left side columns -->
-
             <!-- Right side columns -->
             <div class="col-lg-4">
-
                 <!-- Recent Activity -->
                 <div class="card">
-
-
                     <div class="card-body">
                         <h5 class="card-title">Posted Jobs<span> | <span id="jobs_loader"> </span></span></h5>
-
                         <div class="filter">
                             <a class="icon" href="#" data-bs-toggle="dropdown"><i
                                     class="bi bi-three-dots"></i></a>
@@ -781,7 +725,6 @@
                                 <li class="dropdown-header text-start">
                                     <h6>Filter</h6>
                                 </li>
-
                                 <li><a class="dropdown-item" href="#">Today</a></li>
                                 <li><a class="dropdown-item" href="#">This Month</a></li>
                                 <li><a class="dropdown-item" href="#">This Year</a></li>
@@ -998,7 +941,7 @@
 
                 $('#sales_loader').html(
                     '<div class="spinner-border bb-spinner spinner-border-sm text-dark" role="status"><span class="visually-hidden">Loading...</span></div>'
-                    );
+                );
 
                 $.ajax({
                     url: site_url,
@@ -1028,7 +971,7 @@
 
                 $('#revenue_loader').html(
                     '<div class="spinner-border bb-spinner spinner-border-sm text-dark" role="status"><span class="visually-hidden">Loading...</span></div>'
-                    );
+                );
 
                 $.ajax({
                     url: site_url,
@@ -1058,7 +1001,7 @@
 
                 $('#revenue_loader').html(
                     '<div class="spinner-border bb-spinner spinner-border-sm text-dark" role="status"><span class="visually-hidden">Loading...</span></div>'
-                    );
+                );
 
                 $.ajax({
                     url: site_url,
@@ -1088,7 +1031,7 @@
 
                 $('#jobs_loader').html(
                     '<div class="spinner-border bb-spinner spinner-border-sm text-dark" role="status"><span class="visually-hidden">Loading...</span></div>'
-                    );
+                );
 
                 $.ajax({
                     url: site_url,

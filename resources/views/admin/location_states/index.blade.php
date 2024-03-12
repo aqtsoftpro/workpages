@@ -42,8 +42,8 @@
                 <th scope="col">#</th>
                 <th scope="col">Name</th>
                 <th scope="col">location</th>
-                <th scope="col">Available Job</th>
-                <th scope="col">Application</th>
+                {{-- <th scope="col">Available Job</th>
+                <th scope="col">Application</th> --}}
                 <th scope="col">Status</th>
                 <th scope="col">Action</th>
               </tr>
@@ -55,8 +55,8 @@
                   <td scope="row">{{ $loop->iteration }}</td>
                   <td>{{ $record->name }}</td>
                   <td>{{ $record->location->name }}</td>
-                  <td></td>
-                  <td></td>
+                  {{-- <td></td>
+                  <td></td> --}}
                   <td>
                     @if( $record->status == 'enable')
                       <i class="bi bi-check text-green" style="font-size: 20px; font-weight:bold;"></i>
