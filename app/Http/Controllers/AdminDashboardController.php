@@ -28,7 +28,6 @@ class AdminDashboardController extends Controller
         $records['sales'] = $this->sales($time, $where, $column, $val, $company_id, $user_id);
         $records['revenue'] =  $this->revenue($time, $where, $column, $val, $company_id, $user_id);
         $records['subscription_wise_earning'] =  $this->subscription_wise_earning();
-        // dd($records['subscription_wise_earning']);
         $records['jobs_posted'] = $this->jobs($time="", $where="", $column="",  $val="", $company_id="", $user_id="", $limit);
         $records['signups'] =  $this->signups();
 
@@ -281,55 +280,29 @@ class AdminDashboardController extends Controller
 
         $result['labels'] = $labels;
         $result['prices'] = $prices;
+
+        
         return $result;
     }
 
 
     function signups($time="", $where="", $column="",  $val="", $company_id="", $user_id="")
     { 
-        
         $now = now();
-
-        // $tenMonthsAgo = $now->copy()->subMonths(10);
-
-        // $totalSignupCount = User::where('created_at', '>=', $tenMonthsAgo)
-        //     ->count();
-
-        // $roleWiseSignupCount = User::select('role_id', DB::raw('COUNT(*) as count'))
-        //     ->where('created_at', '>=', $tenMonthsAgo)
-        //     ->whereIn('role_id', [2, 3])
-        //     ->groupBy('role_id')
-        //     ->get();
-
-        // $roleWiseSignupCount = User::select('id', DB::raw('COUNT(*) as count'))
-        //     ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
-        //     ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
-        //     // ->where('model_has_roles.role_id', '2')
-        //     // ->orWhere('model_has_roles.role_id', '3')
-        //     ->whereIn('model_has_roles.role_id', [2, 3])
-        //     ->get();
-
-        $lastTenMonths = collect(range(-1, 10))->map(function ($month) {
+    
+        $lastTenMonths = collect(range(0, 10))->map(function ($month) {
             return Carbon::now()->subMonths($month)->startOfMonth();
-        });
+        })->reverse(); // Reverse the order to get the months in descending order
         
-
         foreach($lastTenMonths as $month)
         {
-
-            // echo "<pre>";
-            //     print_r((array)$month);
-            // echo "</pre>";
             $getTime = (array)$month;
-            // echo "<pre>";
-            // echo $getTime['date'];
-            // echo "</pre>";
-
+    
             $split_date = explode('-', date('Y-m-d', strtotime($getTime['date'])));
-
+    
             $year = $split_date[0];
             $month = $split_date[1];
-
+    
             $query_result = DB::table('roles')
                 ->select('roles.name as role_name')
                 ->selectRaw('COUNT(users.id) as count')
@@ -340,12 +313,9 @@ class AdminDashboardController extends Controller
                 ->groupBy('roles.id', 'roles.name')
                 ->orderBy('roles.id')
                 ->get()->ToArray();  
-            // echo "<pre>";
-            // print_r($query_result);
-            // echo "</pre>";
+    
             foreach($query_result as $query_stat)
             {
-                // print_r($query_stat);
                 if($query_stat->role_name == 'Employer')
                 {
                     $companies_data[] = $query_stat->count;
@@ -360,7 +330,6 @@ class AdminDashboardController extends Controller
                 }
                 else
                 {
-                    
                     $companies_data[] = 0;
                     $company_add_to_total = 0;
                     $total_signups['companies'] = array(
@@ -385,7 +354,6 @@ class AdminDashboardController extends Controller
                 }
                 else
                 {
-                    
                     $job_seeker_data[] = 0;
                     $job_seeker_add_to_total = 0;
                     $total_signups['job_seeker'] = array(
@@ -399,62 +367,23 @@ class AdminDashboardController extends Controller
                 
                 $total_signup_data[] = $job_seeker_add_to_total + $company_add_to_total;
                 $total_signups['total_signups'] = array(
-                    'label' => 'Signups',
+                    'label' => 'Total Signups',
                     'backgroundColor' => 'rgba(75, 192, 192, 0.2)',
                     'borderColor' => 'rgba(75, 192, 192, 1)',
                     'borderWidth' => 2,
                     'data' => $total_signup_data,
                 );
             }
-
+    
             $months[] = date('M', strtotime($getTime['date']));
-
-
         }
-
+    
         $result['labels'] = $months;
         foreach($total_signups as $signup)
         {
             $result['signups'][] = $signup;
         }
         
-        
-        // echo "<pre>";
-        // print_r($result);
-        // echo "</pre>";
-        // echo json_encode($result['signups']);
-
-        // echo "[
-        //     {
-        //       label: 'SignUps',
-        //       backgroundColor: 'rgba(255, 99, 132, 0.2)',
-        //       borderColor: 'rgba(255, 99, 132, 1)',
-        //       borderWidth: 2,
-        //       data: [12, 19, 3, 5, 2]
-        //     },
-        //     {
-        //       label: 'Companies',
-        //       backgroundColor: 'rgba(54, 162, 235, 0.2)',
-        //       borderColor: 'rgba(54, 162, 235, 1)',
-        //       borderWidth: 2,
-        //       data: [7, 11, 5, 8, 3]
-        //     },
-        //     {
-        //       label: 'Job Seekers',
-        //       backgroundColor: 'rgba(75, 192, 192, 0.2)',
-        //       borderColor: 'rgba(75, 192, 192, 1)',
-        //       borderWidth: 2,
-        //       data: [9, 15, 8, 12, 6]
-        //     }
-        //   ]";
-        //   echo "</pre>";
-            // die();
-
-        // echo "<pre>";
-        //     print_r($result);
-        // echo "</pre>";
-        // $result['prices'] = $prices;
-        // die();
         return $result;
     }
 

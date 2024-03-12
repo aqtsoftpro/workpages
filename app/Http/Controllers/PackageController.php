@@ -241,7 +241,9 @@ class PackageController extends Controller
         $subscription = Subscription::find($request->subscription_id);
         if ($subscription) {
             $accesses = SubAccess::where('subscription_id', $subscription->id)->first();
-            $accesses->delete();
+            if ($accesses) {
+                $accesses->delete();
+            }
             $subscription->update(['status' => 'unsubscribed']);
         }
         return response()->json(['status' => 'successs', 'data' => [], 'message' => 'successfully unsubcribed',]);
