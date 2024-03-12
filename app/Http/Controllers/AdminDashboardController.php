@@ -28,6 +28,7 @@ class AdminDashboardController extends Controller
         $records['sales'] = $this->sales($time, $where, $column, $val, $company_id, $user_id);
         $records['revenue'] =  $this->revenue($time, $where, $column, $val, $company_id, $user_id);
         $records['subscription_wise_earning'] =  $this->subscription_wise_earning();
+        // dd($records['subscription_wise_earning']);
         $records['jobs_posted'] = $this->jobs($time="", $where="", $column="",  $val="", $company_id="", $user_id="", $limit);
         $records['signups'] =  $this->signups();
 
