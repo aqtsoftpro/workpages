@@ -35,7 +35,7 @@ class AdminPackagesController extends Controller
         $this->authorize('create', Package::class);
 
         $inputs = $request->all();
-        $inputs['post_for'] = 30;
+        $inputs['post_for'] = '30';
         Stripe::setApiKey(env('STRIPE_SECRET'));
         DB::beginTransaction();
         try {
@@ -77,7 +77,7 @@ class AdminPackagesController extends Controller
                         // 'detail.*' => 'required',
                     ]);
 
-                    if (in_array($request->title) && count($request->title) > 0) {
+                    if (is_array($request->title) && !empty($request->title)) {
                         foreach ($request->title as $key => $value) {
                             KeyPoint::create([
                                 'package_id' => $added_rec->id,
@@ -194,7 +194,7 @@ class AdminPackagesController extends Controller
         $this->authorize('update', $package);
         $inputs = $request->all();
         $inputs['post_for'] = 30;
-        if (!isset($$request->cv_access)) {
+        if (!isset($request->cv_access)) {
             $inputs['cv_access'] = 0;
         }
         $main_package = Package::with('keypoints')->findOrFail($package->id);
