@@ -2,7 +2,7 @@
 
 @section('content')
 
-{{ $record  }}
+{{-- {{ $record  }} --}}
 <div class="pagetitle">
   <h1>View Company</h1>
   <nav>

@@ -174,13 +174,13 @@ class ApplicationController extends Controller
 
     public function shortlisted(Request $request, Application $application)
     {
-        $application = $application->with('user')->where(['company_id' => $request->company_id, 'status_id' => 3])->get();
+        $application = $application->with('user.reviews')->where(['company_id' => $request->company_id, 'status_id' => 3])->get();
         return ApplicationResource::collection($application);
     }
 
     public function rejected(Request $request, Application $application)
     {
-        $application = $application->with('user')->where(['company_id' => $request->company_id, 'status_id' => 5])->get();
+        $application = $application->with('user.reviews')->where(['company_id' => $request->company_id, 'status_id' => 5])->get();
         return ApplicationResource::collection($application);
     }
 
