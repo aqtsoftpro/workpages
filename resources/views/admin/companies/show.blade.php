@@ -184,7 +184,8 @@
                 <b>Latest Subscription</b>
               </div>
               <div class="col-md-3">
-                {{ $record->owner->subscriptions }}
+                Basic
+                {{-- {{ $record->owner->subscriptions[0]->name }} --}}
               </div>
               <div class="col-md-12">
                 <hr>
