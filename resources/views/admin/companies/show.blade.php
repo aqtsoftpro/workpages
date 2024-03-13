@@ -2,7 +2,7 @@
 
 @section('content')
 
-{{-- {{ dd($record)  }} --}}
+{{ $record  }}
 <div class="pagetitle">
   <h1>View Company</h1>
   <nav>
@@ -54,10 +54,10 @@
             </div>
             <div class="row">
               <div class="col-md-3">
-                <b>Name</b>
+                <b>Owner Name</b>
               </div>
               <div class="col-md-3 border-end">
-                {{ $record->name }}
+                {{ $record->owner->name }}
               </div>
               <div class="col-md-3">
                 <b>Email</b>
@@ -153,11 +153,43 @@
               <div class="col-md-12">
                 <hr>
               </div>
-            </div>
-            
-            
+            </div>  
 
-                    
+            <div class="row">
+              <div class="col-md-3">
+                <b>Total Jobs</b>
+              </div>
+              <div class="col-md-3 border-end">
+                {{ $record->jobs_count }}
+              </div>
+              <div class="col-md-3">
+                <b>Total Applications</b>
+              </div>
+              <div class="col-md-3">
+                {{ $record->applications_count }}
+              </div>
+              <div class="col-md-12">
+                <hr>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-3">
+                <b>Total Subscriptions</b>
+              </div>
+              <div class="col-md-3 border-end">
+                {{ $record->owner->subscriptions->count() }}
+              </div>
+              <div class="col-md-3">
+                <b>Latest Subscription</b>
+              </div>
+              <div class="col-md-3">
+                {{ $record->owner->subscriptions }}
+              </div>
+              <div class="col-md-12">
+                <hr>
+              </div>
+            </div>
         
           </div>
         </div>

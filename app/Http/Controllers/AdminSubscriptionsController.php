@@ -12,7 +12,7 @@ class AdminSubscriptionsController extends Controller
     public function index(){
         $this->authorize('viewAny', Subscription::class);
 
-        $records = Subscription::with('company')->get();
+        $records = Subscription::with('company')->latest()->get();
         // dd($records);
         return  view('admin.subscriptions.index', compact('records'));
     }

@@ -84,12 +84,12 @@
                                         {{-- <td><img src="{{ $image }}" width="50" height="50"/></td> --}}
                                         <td>
                                             <small>
-                                                <b>Job Created :</b> 3<br>
-                                                <b>Applications :</b> 4<br>
+                                                <b>Job Created :</b> {{ $record->jobs_count }}<br>
+                                                <b>Applications :</b> {{ $record->applications_count }}<br>
                                             </small>
                                         </td>
-                                        <td>{{ $record->suburb_id }}</td>
-                                        <td>{{ $record->created_at }}</td>
+                                        <td>{{ $record->suburb->name ?? 'No Suburb' }}</td>
+                                        <td>{{ $record->created_at->diffForHumans() }}</td>
                                         {{-- <td>
                     @if ($record->status == 'enable')
                       <i class="bi bi-check text-green" style="font-size: 20px; font-weight:bold;"></i>

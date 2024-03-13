@@ -2,12 +2,12 @@
 
 @section('content')
     <div class="pagetitle">
-        <h1>Manage Job Seekers</h1>
+        <h1>Total Users</h1>
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="index.html">Home</a></li>
                 <li class="breadcrumb-item">Site Users</li>
-                <li class="breadcrumb-item active">Manage Job Seekers</li>
+                <li class="breadcrumb-item active">Manage Total Users</li>
             </ol>
         </nav>
     </div>
@@ -23,12 +23,13 @@
                     <div class="card-body">
                         <h5 class="card-title">Job Seekers</h5>
 
-                        <table class="table">
+                        <table class="table datatable">
                             <thead>
                                 <tr>
-                                    <th>Name</th>
-                                    <th>Email</th>
-                                    <th>Actions</th>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Email</th>
+                                    <th scope="col">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -44,7 +45,6 @@
                                                 <a type="#" class="mx-1 text-danger" data-bs-toggle="modal"
                                                     data-bs-target="#deleteModel-{{ $job_seeker->id }}"><i
                                                         class="bi bi-trash"></i></a>
-
 
                                                 <div class="modal fade" id="deleteModel-{{ $job_seeker->id }}"
                                                     tabindex="-1">
@@ -78,22 +78,11 @@
 
                                         </td>
                                     <tr>
-                                        {{-- <tr>
-                            <td>{{ $job_seeker->name }}</td>
-                            <td>{{ $job_seeker->email }}</td>
-                            <td>
-                                <a class="btn btn-primary" href="{{ route('users.edit', $job_seeker->id) }}">Edit</a>
-                                <a class="btn btn-info" href="#">View</a>
-                                <a class="btn btn-danger" href="#">Delete</a>
-                            </td>
-                        <tr> --}}
                                 @endforeach
                             </tbody>
                         </table>
-
                     </div>
                 </div>
-
             </div>
         </div>
     </section>

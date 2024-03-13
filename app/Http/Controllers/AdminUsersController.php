@@ -12,12 +12,14 @@ class AdminUsersController extends Controller
 {
     public function index(){
         $this->authorize('viewAny', User::class);
-        if (auth()->user()->roles('Super Admin')) {
-            $job_seekers =  User::all();
-        }
-        else {
-            $job_seekers =  Role::where('name', 'Super Admin')->first()->users;
-        }
+        $job_seekers =  User::all();
+
+        // if (auth()->user()->roles('Super Admin')) {
+        //     $job_seekers =  User::all();
+        // }
+        // else {
+        //     $job_seekers =  Role::where('name', 'Super Admin')->first()->users;
+        // }
         return view('admin.users.index', compact('job_seekers'));
     }
 

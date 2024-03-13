@@ -27,19 +27,20 @@
                 </div>
               </div>
             </h5>
-
-            <table class="table">
+            <table class="table datatable">
                 <thead>
                     <tr>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Actions</th>
+                        <th scope="col">#</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($records as $record)
                
                         <tr>
+                            <td scope="row">{{ $loop->iteration }}</td>
                             <td>{{ $record->name }}</td>
                             <td>{{ $record->email }}</td>
                             <td>

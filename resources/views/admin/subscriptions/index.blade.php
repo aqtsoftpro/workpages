@@ -29,9 +29,9 @@
                 View Subscriptions
               </div>
               <div class="col-lg-6">
-                <div class="btn-group float-end" role="group" aria-label="Basic example">
+                {{-- <div class="btn-group float-end" role="group" aria-label="Basic example">
                   <a href="{{ url('admin/subscriptions/create') }}" class="btn btn-success">Add new</a>
-                </div>
+                </div> --}}
               </div>
             </h5>
          

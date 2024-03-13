@@ -50,10 +50,10 @@
               <tr>
                 <th scope="col">#</th>
                 <th scope="col">Name</th>
-                <th scope="col">Image</th>
+                {{-- <th scope="col">Image</th> --}}
                 <th scope="col">Email</th>
                 <th scope="col">Suburb</th>
-                <th scope="col">Package</th>
+                {{-- <th scope="col">Package</th> --}}
                 {{--  <th scope="col">Jobs Applied</th>  --}}
                 <th scope="col">Joined</th>
                 <th scope="col">Status</th>
@@ -65,7 +65,7 @@
               <tr>
                   <td scope="row">{{ $loop->iteration }}</td>
                   <td>{{ $record->name }}</td>
-                  <td></td>
+                  {{-- <td></td> --}}
                   <td>{{ $record->email }}</td>
                   <td>
                     @php
@@ -73,8 +73,7 @@
                     @endphp
                     {{ ($suburb)?$suburb->name:'' }}</td>
                   {{--  <td></td>  --}}
-                  <th scope="col"></th>
-                  <td>{{ $record->created_at }}</td>
+                  <td>{{ $record->created_at->diffForHumans() }}</td>
                   <td> 
                     @if( $record->status == 'enable')
                       <i class="bi bi-check text-green" style="font-size: 20px; font-weight:bold;"></i>

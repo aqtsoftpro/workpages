@@ -13,16 +13,28 @@ class JobSeekerController extends Controller
 
     public function index(Request $request)
     {
-        
+        $roleName = 'Job Seeker';
+
         if(isset($request->suburb_id))
             {
-                $records =  Role::find(2)->users->where('suburb_id', $request->suburb_id);
+                // $records =  Role::find(2)->users->where('suburb_id', $request->suburb_id);
+
+                $records = User::whereHas('roles', function ($query) use ($roleName) {
+                    $query->where('name', $roleName);
+                })->latest()->get();
+
 
                 $get_suburb_id = $request->suburb_id;
             }
             else
             {
-                $records =  Role::find(2)->users;
+                // $records =  Role::find(2)->users;
+
+                $records = User::whereHas('roles', function ($query) use ($roleName) {
+                    $query->where('name', $roleName);
+                })->latest()->get();
+
+
                 $get_suburb_id = '';
             }
 

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Searchable;
+use App\Models\{Suburb, User};
 
 
 class Company extends Model
@@ -50,6 +51,11 @@ class Company extends Model
     public function owner(): BelongsTo
     {
         return $this->belongsTo(User::class, 'owner_id');
+    }
+
+    public function suburb(): BelongsTo
+    {
+        return $this->belongsTo(Suburb::class);
     }
 
     public function jobs(){

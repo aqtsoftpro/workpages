@@ -56,8 +56,8 @@
                         <div class="row">
                           @foreach ($roles as $role)
                             <div class="form-check col-md-4">
-                              <input class="form-check-input" type="radio" id="permission" name="role[]" value="{{ $role['id'] }}" >
-                              <label class="form-check-label" for="permission">
+                              <input class="form-check-input" type="radio" id="permission-{{ $role->id }}" name="role[]" value="{{ $role['id'] }}" >
+                              <label class="form-check-label" for="permission-{{ $role->id }}">
                                 {{ $role['name'] }}
                               </label>
                             </div>

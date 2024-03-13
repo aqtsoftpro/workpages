@@ -30,12 +30,12 @@ class CompanyController extends Controller
 
         if(isset($request->suburb_id))
         {
-            $records = Company::orderBy('name', 'ASC')->where('suburb_id', $request->suburb_id)->get();
+            $records = Company::withCount('applications', 'jobs')->with('suburb')->latest()->where('suburb_id', $request->suburb_id)->get();
             $get_suburb_id = $request->suburb_id;
         }
         else
         {
-            $records = Company::orderBy('name', 'ASC')->get();
+            $records = Company::withCount('applications', 'jobs')->with('suburb')->latest()->get();
             $get_suburb_id = '';
         }
 
@@ -65,8 +65,7 @@ class CompanyController extends Controller
     public function show(Company $company)
     {
         $this->authorize('view', $company);
-        // $record = Company::find($id);
-        $record = $company;
+        $record =Company::where('id', $company->id)->withCount('applications', 'jobs')->with('owner.subscriptions')->first();
         return view('admin.companies.show', compact('record'));
     }
 
