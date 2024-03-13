@@ -114,6 +114,9 @@ class JobController extends Controller
 
         $q = $job->newQuery();
         $q->where('status', 'active');
+        $q->whereHas('company.owner.subaccesses', function ($query) {
+            $query->where('expired_at', '>', now());
+        });
         if(isset($request->keyword)){
             $q->where('job_title', 'LIKE', '%'.$request->keyword.'%');
         }
@@ -170,6 +173,9 @@ class JobController extends Controller
     public function latestJobs(Request $request, Job $job)
     {
         $latest_jobs = Job::limit(6)->where('status', 'active')
+            ->whereHas('company.owner.subaccesses', function ($query) {
+                $query->where('expired_at', '>', now());
+            })
             ->orderBy('expiration', 'desc')
             ->get();
 
@@ -181,7 +187,9 @@ class JobController extends Controller
         $latest_jobs = Job::limit(4)
             ->where(['featured'=> 1, 'status'=> 'active'])
             ->orderBy('expiration', 'desc')
-            ->get();
+            ->whereHas('company.owner.subaccesses', function ($query) {
+                $query->where('expired_at', '>', now());
+            })->get();
 
         return response()->json(JobResource::collection($latest_jobs));
     }
@@ -196,6 +204,9 @@ class JobController extends Controller
         // die();
 
         $q = $job->newQuery();
+        $q->whereHas('company.owner.subaccesses', function ($query) {
+            $query->where('expired_at', '>', now());
+        });
         $q->where('status', 'active');
         
         if(!empty($request->jobCategories)){
@@ -226,6 +237,9 @@ class JobController extends Controller
     public function JobsListing(Request $request, Job $job)
     {
         $q = $job->newQuery();
+        $q->whereHas('company.owner.subaccesses', function ($query) {
+            $query->where('expired_at', '>', now());
+        });
         $q->where('status', 'active');
         $currentDate = Carbon::today();
         $originalDate = $currentDate->format('Y-m-d');

@@ -178,14 +178,13 @@
                 <b>Total Subscriptions</b>
               </div>
               <div class="col-md-3 border-end">
-                {{ $record->owner->subscriptions->count() }}
+                {{ $record->total_subscriptions }}
               </div>
               <div class="col-md-3">
                 <b>Latest Subscription</b>
               </div>
               <div class="col-md-3">
-                Basic
-                {{-- {{ $record->owner->subscriptions[0]->name }} --}}
+                {{ $record->owner->subscriptions[0]->package->name }}
               </div>
               <div class="col-md-12">
                 <hr>

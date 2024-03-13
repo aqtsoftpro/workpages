@@ -14,6 +14,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Mail;
+
 use App\Http\Controllers\EmailTemplateController;
 use App\Mail\MultiPurposeEmail;
 use App\Jobs\MultiPurposeEmailJob;
@@ -65,11 +66,15 @@ class CompanyController extends Controller
     public function show(Company $company)
     {
         $this->authorize('view', $company);
-        $record =Company::where('id', $company->id)->withCount('applications', 'jobs')->with('owner.subscriptions')->first();
+
+        $record = Company::where('id', $company->id)
+            ->withCount('applications', 'jobs')
+            ->with(['owner.subscriptions' => function ($query) {
+                $query->latest()->with('package')->take(1);
+            }])->first();
+        $record->total_subscriptions = Subscription::where('user_id', $record->owner->id)->count();
         return view('admin.companies.show', compact('record'));
     }
-
-
     public function destroy(string $id)
     {
         
