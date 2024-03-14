@@ -177,6 +177,8 @@ Route::middleware('auth')->prefix('admin')->group(function () {
 
    Route::get('new-notification', [NotificationController::class, 'index'])->name('notification.index');
 
+   Route::post('notify-status', [NotificationController::class, 'status'])->name('notify.status');
+
 
 
    Route::resource('blog', AdminBlogController::class);

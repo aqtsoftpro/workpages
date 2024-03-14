@@ -124,7 +124,6 @@
                     <li>
                         <hr class="dropdown-divider">
                     </li>
-
                     <li>
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
@@ -145,9 +144,37 @@
 
 <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
 <script>
+    function showNote(notify) {
+
+        var csrfToken = $('meta[name="csrf-token"]').attr('content');
+            // Define API endpoint
+            var apiEndpoint = '/admin/notify-status';
+
+            // Define data to be sent in the request
+            var requestData = {
+                id: notify,
+                // Add any additional data here
+                _token: csrfToken // Include CSRF token in the request data
+            };
+
+            // Make the API request
+            $.ajax({
+                url: apiEndpoint,
+                type: 'POST',
+                data: requestData,
+                success: function(response){
+                    // console.log('API response:', response);
+                    console.log(response);
+                    alert(JSON.stringify(response.name));
+                },
+                error: function(xhr, status, error){
+                    console.error('API request failed:', error);
+                    // Handle error response here
+                }
+            });
+    }
     // Enable pusher logging - don't include this in production
     Pusher.logToConsole = true;
-
     var pusher = new Pusher('{{ config('broadcasting.connections.pusher.key') }}', {
         cluster: '{{ config('broadcasting.connections.pusher.options.cluster') }}'
     });
@@ -194,14 +221,18 @@
                         }
 
                         $container.append(`
+                        <a href="javascript:void(0)" class="show-notify" onclick="showNote(${item.id})">
                         <li class="notification-item">
+
                         <i class="${icon}"></i>
                         <div>
                             <h4>${item.name}</h4>
                             <p>${item.desc}</p>
                             <p>${item.created_at}</p>
                         </div>
+                       
                     </li>
+                    </a>
                     <li>
                     <hr class="dropdown-divider">
                   </li>

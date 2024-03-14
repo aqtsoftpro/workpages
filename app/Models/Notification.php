@@ -39,7 +39,8 @@ class Notification extends Model
       'gender',
       'qualification_id',
       'working_mode',
-      'payment_mode'
+      'payment_mode',
+      'is_seen'
     ];
 
     public function company(){

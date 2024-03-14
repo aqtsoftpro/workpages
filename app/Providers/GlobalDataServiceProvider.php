@@ -49,7 +49,7 @@ class GlobalDataServiceProvider extends ServiceProvider
             $notification_result  = '';
             foreach($notifications as $noti)
                 {
-              
+                    $icon = 'bi-check-circle text-success' ;
                     if($noti['type'] == '_notification_job_activity')
                         {
                             $icon = 'bi-check-circle text-success';
@@ -58,14 +58,19 @@ class GlobalDataServiceProvider extends ServiceProvider
                         {
                             $icon = 'bi-check-circle text-success';
                         }
-                    $notification_result .= '<li class="notification-item">
+                    $notification_result .= '
+                    <a href="javascript:void(0)" class="show-notify" onclick="showNote('.$noti['id'].')">
+                    <li class="notification-item">
+                        
                         <i class="bi '.$icon.'"></i>
                         <div>
                             <h4>'.$noti['name'].'</h4>
                             <p>'.$noti['desc'].'</p>
                             <p>'.$noti['created_at'].'</p>
                         </div>
+                        
                     </li>
+                    </a>
                     <li>
                     <hr class="dropdown-divider">
                   </li>';
