@@ -63,7 +63,7 @@ class GlobalDataServiceProvider extends ServiceProvider
                         <div>
                             <h4>'.$noti['name'].'</h4>
                             <p>'.$noti['desc'].'</p>
-                            <p>'.\Carbon\Carbon::parse($noti['created_at'])->diffForHumans().'</p>
+                            <p>'.$noti['created_at'].'</p>
                         </div>
                     </li>
                     <li>
@@ -78,8 +78,6 @@ class GlobalDataServiceProvider extends ServiceProvider
                 'notification_count' => $notification_count,
                 // Add more key-value pairs as needed
             ];
-
-       
 
             $view->with('headerData', $headerData);
         });

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Laravel\Scout\Searchable;
+use Carbon\Carbon;
 
 
 class Notification extends Model
@@ -73,6 +74,18 @@ class Notification extends Model
     {
       return $this->belongsTo(Job::class);
     }
+
+    protected $casts = [
+      'created_at' => 'datetime', // Ensure created_at is cast to DateTime instance
+    ];
+
+    public function getCreatedAtAttribute($value)
+    {
+        $createdAt = Carbon::parse($value);
+        
+        return $createdAt->diffForHumans();
+    }
+
 }
 
 

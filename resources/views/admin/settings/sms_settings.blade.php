@@ -35,10 +35,10 @@
                   <label for="twilio_account_auth_token" class="form-label">Auth Token</label>
                   <input type="text" name="setting[_twilio_account_auth_token]" value="{{ (isset($settings['_twilio_account_auth_token']['meta_val']))? $settings['_twilio_account_auth_token']['meta_val']:'' }}" class="form-control" id="twilio_account_auth_token">
                 </div>
-                <div class="col-md-12">
+                {{-- <div class="col-md-12">
                   <label for="twilio_service_id" class="form-label">Service ID</label>
                   <input type="text" name="setting[_twilio_service_id]" value="{{ (isset($settings['_twilio_service_id']['meta_val']))? $settings['_twilio_service_id']['meta_val']:'' }}" class="form-control" id="twilio_service_id">
-                </div>
+                </div> --}}
                 <div class="col-md-12">
                   <label for="twilio_number" class="form-label">Twilio Number</label>
                   <input type="text" name="setting[_twilio_number]" value="{{ (isset($settings['_twilio_number']['meta_val']))? $settings['_twilio_number']['meta_val']:'' }}" class="form-control" id="twilio_number">

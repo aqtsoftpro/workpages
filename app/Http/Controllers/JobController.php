@@ -7,7 +7,7 @@ use App\Models\Job;
 use Illuminate\Http\Request;
 use App\Http\Resources\JobResource;
 use App\Models\{Category, Company, ViewJob};
-use App\Models\SiteSettings;
+use App\Models\{SiteSettings, Notification};
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -51,7 +51,21 @@ class JobController extends Controller
             $request->merge($dataToAdd);
 
             $job = Job::create($request->all());
+            $job->load('company');
             // event(new JobCreated($job));
+            $pusher = new \Pusher\Pusher(config('broadcasting.connections.pusher.key'), config('broadcasting.connections.pusher.secret'), config('broadcasting.connections.pusher.app_id'), array('cluster' => config('broadcasting.connections.pusher.options.cluster')));
+            $pusher->trigger('my-channel', 'my-event', array('message' => $job->company->name.' created new job'));
+            Notification::create([
+                'type' => '_notification_job_activity',
+                'name' => 'Job Alert',
+                'job_id' => $job->id,
+                'company_id' => $job->company_id,
+                'company' => $job->company->name,
+                'job_title' => $job->job_title,
+                'desc' => $job->description,
+                'is_seen' => false,
+                'package' => 'No package'
+            ]);
             return response()->json([
                 'status' => 'success',
                 'message' => 'Job created successfully',

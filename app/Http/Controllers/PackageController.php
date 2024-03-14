@@ -11,7 +11,7 @@ use Stripe\Stripe;
 use Stripe\Product;
 use Stripe\Price;
 use Laravel\Cashier\Cashier;
-use App\Models\{Subscription, Company, Cms, SubAccess};
+use App\Models\{Subscription, Company, Cms, SubAccess, Notification, User};
 use Carbon\Carbon;
 
 class PackageController extends Controller
@@ -55,9 +55,11 @@ class PackageController extends Controller
             'checkoutSessionId' => $session_id,
             'userId' => $user,
         ]);
+
+        $user = User::find($user);
         
         $package = Package::find(decrypt($id));
-        $company = Company::where('owner_id', $user)->first();
+        $company = Company::where('owner_id', $user->id)->first();
         //dd($package->extra_users);
         // $cart = Cart::where(['user_id' => Auth::user()->id, 'package_id' => $package->id])->first();
         // if ($cart){
@@ -98,7 +100,7 @@ class PackageController extends Controller
                     break;
             }
             $subscription = Subscription::create([
-                'user_id' => $user,
+                'user_id' => $user->id,
                 'package_id'=> $package->id,
                 'company_id' => $company->id ?? null,
                 'name' => $package->name,
@@ -115,7 +117,7 @@ class PackageController extends Controller
             ]);
             if ($subscription) {
                 $sub_access = SubAccess::create([
-                    'user_id' => $user,
+                    'user_id' => $user->id,
                     'subscription_id' => $subscription->id,
                     'post_for' => $package->post_for,
                     'allow_ads' => $package->allow_ads,
@@ -138,6 +140,19 @@ class PackageController extends Controller
                     'delete_ad' => $package->delete_ad
                 ]);
 
+                Notification::create([
+                    'type' => '_notification_package_subscription',
+                    'name' => 'Subscription Alert',
+                    'company_id' => $company->id ?? null,
+                    'company' => $company->name,
+                    'package_id' => $package->id,
+                    'package' => $package->name,
+                    // 'desc' => 'Package is subscribed by '.auth()->user()->name,
+                    'is_seen' => false
+                ]);
+
+                $pusher = new \Pusher\Pusher(config('broadcasting.connections.pusher.key'), config('broadcasting.connections.pusher.secret'), config('broadcasting.connections.pusher.app_id'), array('cluster' => config('broadcasting.connections.pusher.options.cluster')));
+                $pusher->trigger('my-channel', 'my-event', array('message' => 'Package is subscribed by '.$user->name));
             }
         }
         $externalUrl = env('FRONT_APP_URL').'company/plan';

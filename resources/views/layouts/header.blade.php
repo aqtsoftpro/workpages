@@ -38,7 +38,8 @@
                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications"
                     style="overflow: scroll !important; height: 500px !important" id="notification-list">
                     <li class="dropdown-header">
-                        You have {{ $headerData['notification_count'] }} new notifications
+                        You have <span id="notify-count">{{ $headerData['notification_count'] }}</span> new
+                        notifications
                         <a href="{{ route('notification_job_alert') }}"><span
                                 class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
                     </li>
@@ -105,21 +106,21 @@
                     </li>
 
                     {{--  <li>
-            <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
-              <i class="bi bi-gear"></i>
-              <span>Account Settings</span>
-            </a>
-          </li>
-          <li>
-            <hr class="dropdown-divider">
-          </li>
+                        <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
+                        <i class="bi bi-gear"></i>
+                        <span>Account Settings</span>
+                        </a>
+                    </li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
 
-          <li>
-            <a class="dropdown-item d-flex align-items-center" href="pages-faq.html">
-              <i class="bi bi-question-circle"></i>
-              <span>Need Help?</span>
-            </a>
-          </li>  --}}
+                    <li>
+                        <a class="dropdown-item d-flex align-items-center" href="pages-faq.html">
+                        <i class="bi bi-question-circle"></i>
+                        <span>Need Help?</span>
+                        </a>
+                    </li>  --}}
                     <li>
                         <hr class="dropdown-divider">
                     </li>
@@ -147,24 +148,31 @@
     // Enable pusher logging - don't include this in production
     Pusher.logToConsole = true;
 
-    var pusher = new Pusher('79b371cbbad4c15c378c', {
-        cluster: 'ap2'
+    var pusher = new Pusher('{{ config('broadcasting.connections.pusher.key') }}', {
+        cluster: '{{ config('broadcasting.connections.pusher.options.cluster') }}'
     });
 
     var channel = pusher.subscribe('my-channel');
     channel.bind('my-event', function(data) {
+        alert(JSON.stringify(data.message));
         $.get("new-notification")
             .done(function(res) {
-                alert(JSON.stringify(res));
+                // alert(JSON.stringify(res));
+                let totalCount = 0;
                 const $container = $('#notification-list');
+                const $count = $('#notify-count');
+                const $mainCount = $('#count-notify');
                 // Iterate over each type
                 $.each(res, function(type, items) {
                     // Add heading for the type
+                    const itemCount = items.length;
+                    totalCount += itemCount;
+                    $count.text(totalCount);
+                    $mainCount.text(totalCount);
                     var note_type = '';
                     if (type == '_notification_newsletter') {
                         note_type = 'News & Letters'
-                    }
-                    else if (type == '_notification_job_activity') {
+                    } else if (type == '_notification_job_activity') {
                         note_type = 'New Activities On Job'
                     }
                     $container.append(`
@@ -200,36 +208,6 @@
                   `);
                     });
                 });
-
-                // var notifications = res;
-
-                // var notificationResult = '';
-
-                // $.each(notifications, function(index, noti) {
-                //     var icon = '';
-                //     if (noti.type == '_notification_job_activity' || noti.type ==
-                //         '_notification_package_subscription') {
-                //         icon = 'bi-check-circle text-success';
-                //     }
-
-                //     notificationResult += '<li class="notification-item">' +
-                //         '<i class="bi ' + icon + '"></i>' +
-                //         '<div>' +
-                //         '<h4>' + noti.name + '</h4>' +
-                //         '<p>' + noti.desc + '</p>' +
-                //         '<p>' + moment(noti.created_at).fromNow() + '</p>' +
-                //         // Use moment.js for date formatting
-                //         '</div>' +
-                //         '</li>' +
-                //         '<li>' +
-                //         '<hr class="dropdown-divider">' +
-                //         '</li>';
-                // });
-
-                // $('#notification-list').html(notificationResult);
-
             });
-        // $('#count-notify').text(1)
-        // alert(JSON.stringify(data));
     });
 </script>

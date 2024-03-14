@@ -64,6 +64,10 @@ class ApplicationController extends Controller
                         'desc' => 'This is notification for job application for job seeker',
                         'package' => 'No Package'
                     ]);
+
+                    $pusher = new \Pusher\Pusher(config('broadcasting.connections.pusher.key'), config('broadcasting.connections.pusher.secret'), config('broadcasting.connections.pusher.app_id'), array('cluster' => config('broadcasting.connections.pusher.options.cluster')));
+                    $pusher->trigger('my-channel', 'my-event', array('message' => 'New candidate applied on '.$job->job_title));
+
                     $customBaseUrl = env('FRONT_APP_URL');
                     $verificationUrl = rtrim($customBaseUrl). 'company/dashboard';
                     $email_templates  = new EmailTemplateController();

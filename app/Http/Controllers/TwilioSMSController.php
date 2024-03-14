@@ -18,10 +18,15 @@ class TwilioSMSController extends Controller
      * Display a listing of the resource.
      */
     public function sendSms(Request $request)
-    {
-        
+    {  
         // $receiverNumber = $request->receiver_number;
-        $receiverNumber = +18777804236;
+        $twilionumber = SiteSettings::where('meta_key', '_twilio_number')->first();
+        $receiverNumber = $twilionumber->meta_val;
+
+        $authToken = SiteSettings::where('meta_key', '_twilio_account_auth_token')->first();
+        $authToken = $authToken->meta_val;
+        $account_sid = SiteSettings::where('meta_key', '_twilio_account_sid')->first();
+        $account_sid = $account_sid->meta_val;
         $message = $request->message;
         DB::beginTransaction();
         try {
@@ -31,13 +36,10 @@ class TwilioSMSController extends Controller
                 $sub_access->update([
                     'msg_credit' => $sub_access->msg_credit - 1
                 ]);
-                $account_sid = env("TWILIO_SID");
-                $auth_token = env("TWILIO_TOKEN");
-                $twilio_number = env("TWILIO_FROM");
       
-                $client = new Client($account_sid, $auth_token);
+                $client = new Client($account_sid, $authToken);
                 $client->messages->create($receiverNumber, [
-                    'from' => $twilio_number, 
+                    'from' => $receiverNumber, 
                     'body' => $message]);
     
                 DB::commit();
