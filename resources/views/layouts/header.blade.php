@@ -1,5 +1,52 @@
 <!-- ======= Header ======= -->
+<style>
+    .notification {
+  position: fixed;
+  top: 0;
+  right: 12em;
+  width: 300px;
+  background-color: #333;
+  color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  display: none;
+}
+
+.notification:after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 100%;
+  margin-top: -10px;
+  border-width: 10px;
+  border-style: solid;
+  border-color: transparent #333 transparent transparent;
+  transform: rotate(180deg);
+
+}
+
+.notification.show {
+  display: block;
+}
+
+.closebtn {
+  cursor: pointer;
+  float: right;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.closebtn:hover {
+  color: #ccc;
+}
+</style>
 <header id="header" class="header fixed-top d-flex align-items-center">
+
+    <div id="notification" class="notification">
+        <span id="message"></span>
+        <span class="closebtn" onclick="closeNotification()">&times;</span>
+      </div>
 
     <div class="d-flex align-items-center justify-content-between">
         <a href="index.html" class="logo d-flex align-items-center">
@@ -156,7 +203,12 @@
                 // Add any additional data here
                 _token: csrfToken // Include CSRF token in the request data
             };
+            let notifyCount = parseInt($('#notify-count').text()) - 1;
+            // Get text content of #count-notify element and subtract 1
+            let mainCount = parseInt($('#count-notify').text()) - 1;
 
+            $('#notify-count').text(notifyCount);
+            $('#count-notify').text(mainCount);
             // Make the API request
             $.ajax({
                 url: apiEndpoint,
@@ -165,7 +217,15 @@
                 success: function(response){
                     // console.log('API response:', response);
                     console.log(response);
-                    alert(JSON.stringify(response.name));
+                    // alert(JSON.stringify(response.name));
+
+                    $("#message").html(response.name);
+                    $("#notification").fadeIn(); // Fade in the notification
+
+                    setTimeout(function() {
+                        // $("#notification").removeClass("show");
+                        $("#notification").fadeOut(); // Fade out the notification after the duration
+                    }, 5000);
                 },
                 error: function(xhr, status, error){
                     console.error('API request failed:', error);
@@ -173,6 +233,11 @@
                 }
             });
     }
+
+    function closeNotification() {
+        $("#notification").fadeOut();
+    }
+
     // Enable pusher logging - don't include this in production
     Pusher.logToConsole = true;
     var pusher = new Pusher('{{ config('broadcasting.connections.pusher.key') }}', {
@@ -181,7 +246,18 @@
 
     var channel = pusher.subscribe('my-channel');
     channel.bind('my-event', function(data) {
-        alert(JSON.stringify(data.message));
+        // alert(JSON.stringify(data.message));
+        const notificationSound = new Audio('{{ asset("sounds/pusher.wav") }}');
+        notificationSound.play();
+        $("#message").text(data.message);
+        // $("#notification").addClass("show");
+        $("#notification").fadeIn(); // Fade in the notification
+
+        setTimeout(function() {
+            // $("#notification").removeClass("show");
+            $("#notification").fadeOut(); // Fade out the notification after the duration
+        }, 5000);
+
         $.get("new-notification")
             .done(function(res) {
                 // alert(JSON.stringify(res));
