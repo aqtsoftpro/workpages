@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\User;
+use App\Events\JobCreated;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\JobController;
@@ -32,6 +33,8 @@ use App\Http\Controllers\SuburbController;
 use App\Http\Controllers\EmailsController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\{AdminSearchController, AdminNewsletterController};
+use Pusher\Pusher;
+
 
 
 /*
@@ -172,6 +175,9 @@ Route::middleware('auth')->prefix('admin')->group(function () {
    Route::get('notification_job_alert', [NotificationController::class, 'notification_job_alert'])->name('notification_job_alert');
    Route::get('notification_package_subscription', [NotificationController::class, 'notification_package_subscription']);
 
+   Route::get('new-notification', [NotificationController::class, 'index'])->name('notification.index');
+
+
 
    Route::resource('blog', AdminBlogController::class);
    Route::resource('blog_categories', AdminBlogCategoryController::class);
@@ -239,4 +245,11 @@ Route::get('/pusher', 'App\Http\Controllers\PusherController@index');
 Route::post('/broadcast', 'App\Http\Controllers\PusherController@broadcast');
 Route::post('/receive', 'App\Http\Controllers\PusherController@receive');
 
+Route::get('pusher-test', function () {
+
+$pusher = new \Pusher\Pusher("79b371cbbad4c15c378c", "8724eb5b4e031b0272e9", "1770264", array('cluster' => 'ap2'));
+$pusher->trigger('my-channel', 'my-event', array('message' => 'hello world'));
+//    event(new JobCreated('This job is created'));
+//    return 'Event dispatched successfully';
+});
 require __DIR__.'/auth.php';

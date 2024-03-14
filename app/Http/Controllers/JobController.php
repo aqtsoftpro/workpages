@@ -11,6 +11,7 @@ use App\Models\SiteSettings;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use App\Events\JobCreated;
 
 class JobController extends Controller
 {
@@ -50,7 +51,7 @@ class JobController extends Controller
             $request->merge($dataToAdd);
 
             $job = Job::create($request->all());
-
+            // event(new JobCreated($job));
             return response()->json([
                 'status' => 'success',
                 'message' => 'Job created successfully',

@@ -42,11 +42,10 @@ class GlobalDataServiceProvider extends ServiceProvider
             }
             
     
-            $notifications = Notification::whereIn('type', $notifi_arry)->latest()->get()->toArray();
+            $notifications = Notification::whereIn('type', $notifi_arry)->where('is_seen', false)->latest()->get()->toArray();
 
-            $notification_count = Notification::whereIn('type', $notifi_arry)->count();
+            $notification_count = Notification::whereIn('type', $notifi_arry)->where('is_seen', false)->count();
 
-      
             $notification_result  = '';
             foreach($notifications as $noti)
                 {

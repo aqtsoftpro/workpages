@@ -53,4 +53,10 @@ class NotificationController extends Controller
         
     }
 
+    public function index()
+    {
+        $notifications = Notification::where('is_seen', false)->get()->groupBy('type');
+        return response()->json($notifications);
+    }
+
 }

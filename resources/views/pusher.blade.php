@@ -2,89 +2,29 @@
 <html lang="en">
 
 <head>
-    <title>Chat Laravel Pusher | Edlin App</title>
-    <link rel="icon" href="https://assets.edlin.app/favicon/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- JavaScript -->
-    <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-    <!-- End JavaScript -->
-    <!-- CSS -->
-    <link rel="stylesheet" href="https://chat.laravel.pusher.edlin.app/style.css">
-    <!-- End CSS -->
-</head>
-<body>
-    <div class="chat">
-
-        <!-- Header -->
-        <div class="top">
-            <img src="https://assets.edlin.app/images/rossedlin/03/rossedlin-03-100.jpg" alt="Avatar">
-            <div>
-                <p>Ross Edlin</p>
-                <small>Online</small>
-            </div>
-        </div>
-        <!-- End Header -->
-
-        <!-- Chat -->
-        <div class="messages">
-            @include('receive', ['message' => "Hey! What's up!  👋"])
-            @include('receive', [
-                'message' => 'Ask a friend to open this link and you can chat with them!',
-            ])
-        </div>
-        <!-- End Chat -->
-        <!-- Footer -->
-        <div class="bottom">
-            <form>
-                <input type="text" id="message" name="message" placeholder="Enter message..." autocomplete="off">
-                <button type="submit"></button>
-            </form>
-        </div>
-        <!-- End Footer -->
-    </div>
-</body>
-
-<script>
-    const pusher = new Pusher('{{ config('broadcasting.connections.pusher.key') }}', {
+    <title>Pusher Test</title>
+    {{-- <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
+    <script>
+  
+      // Enable pusher logging - don't include this in production
+      Pusher.logToConsole = true;
+  
+      var pusher = new Pusher('79b371cbbad4c15c378c', {
         cluster: 'ap2'
-    });
-    const channel = pusher.subscribe('public');
-    console.log(channel);
-    //Receive messages
-    channel.bind('chat', function(data) {
-        window.alert(data);
-        $.post("/receive", {
-                _token: '{{ csrf_token() }}',
-                message: data.message,
-            })
-            .done(function(res) {
-                $(".messages > .message").last().after(res);
-                $(document).scrollTop($(document).height());
-                alert(JSON.stringify(res));
-            });
-    });
-
-    //Broadcast messages
-    $("form").submit(function(event) {
-        event.preventDefault();
-
-        $.ajax({
-            url: "/broadcast",
-            method: 'POST',
-            headers: {
-                'X-Socket-Id': pusher.connection.socket_id
-            },
-            data: {
-                _token: '{{ csrf_token() }}',
-                message: $("form #message").val(),
-            }
-        }).done(function(res) {
-            $(".messages > .message").last().after(res);
-            $("form #message").val('');
-            $(document).scrollTop($(document).height());
-        });
-    });
-</script>
+      });
+  
+      var channel = pusher.subscribe('my-channel');
+      channel.bind('my-event', function(data) {
+        alert(JSON.stringify(data));
+      });
+    </script> --}}
+  </head>
+  <body>
+    <h1>Pusher Test</h1>
+    <p>
+      Try publishing an event to channel <code>my-channel</code>
+      with event name <code>my-event</code>.
+    </p>
+  </body>
 
 </html>

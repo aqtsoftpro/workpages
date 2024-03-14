@@ -20,11 +20,11 @@ class PusherBroadcast implements ShouldBroadcast
 
     public function broadcastOn(): array
     {
-        return ['public'];
+        return ['my-channel'];
     }
 
     public function broadcastAs(): string
     {
-        return 'chat';
+        return 'my-event';
     }
 }

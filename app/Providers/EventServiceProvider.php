@@ -8,6 +8,8 @@ use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvi
 use Illuminate\Support\Facades\Event;
 use App\Listeners\LogVerifiedUser;
 use Illuminate\Auth\Events\Verified;
+use App\Events\JobCreated;
+use App\Listeners\SendJobCreatedNotifcation;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -24,6 +26,10 @@ class EventServiceProvider extends ServiceProvider
         Verified::class => [
             LogVerifiedUser::class,
         ],
+
+        JobCreated::class => [
+            SendJobCreatedNotifcation::class,
+        ],
     ];
 
     /**
@@ -31,7 +37,7 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        parent::boot();
     }
 
     /**

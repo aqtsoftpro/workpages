@@ -31,11 +31,12 @@
             <li class="nav-item dropdown">
                 <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
                     <i class="bi bi-bell"></i>
-                    <span class="badge bg-primary badge-number">{{ $headerData['notification_count'] }}</span>
+                    <span class="badge bg-primary badge-number"
+                        id="count-notify">{{ $headerData['notification_count'] }}</span>
                 </a><!-- End Notification Icon -->
 
                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications"
-                    style="overflow: scroll !important; height: 500px !important">
+                    style="overflow: scroll !important; height: 500px !important" id="notification-list">
                     <li class="dropdown-header">
                         You have {{ $headerData['notification_count'] }} new notifications
                         <a href="{{ route('notification_job_alert') }}"><span
@@ -68,7 +69,8 @@
                     <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#"
                         data-bs-toggle="dropdown">
                         <div style="border-radius:50%!important ">
-                            <img src="{{ $user->photo }}" alt="Profile" class="rounded-circle" width="40" height="40">
+                            <img src="{{ $user->photo }}" alt="Profile" class="rounded-circle" width="40"
+                                height="40">
                         </div>
                         <span class="d-none d-md-block dropdown-toggle ps-2">{{ Auth::user()->name }}</span>
                     </a><!-- End Profile Iamge Icon -->
@@ -139,3 +141,95 @@
     </nav><!-- End Icons Navigation -->
 
 </header><!-- End Header -->
+
+<script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
+<script>
+    // Enable pusher logging - don't include this in production
+    Pusher.logToConsole = true;
+
+    var pusher = new Pusher('79b371cbbad4c15c378c', {
+        cluster: 'ap2'
+    });
+
+    var channel = pusher.subscribe('my-channel');
+    channel.bind('my-event', function(data) {
+        $.get("new-notification")
+            .done(function(res) {
+                alert(JSON.stringify(res));
+                const $container = $('#notification-list');
+                // Iterate over each type
+                $.each(res, function(type, items) {
+                    // Add heading for the type
+                    var note_type = '';
+                    if (type == '_notification_newsletter') {
+                        note_type = 'News & Letters'
+                    }
+                    else if (type == '_notification_job_activity') {
+                        note_type = 'New Activities On Job'
+                    }
+                    $container.append(`
+                    <li class="notification-item">
+                        <h4>${note_type}</h4>
+                    </li>
+                    <li>
+                    <hr class="dropdown-divider">
+                  </li>`);
+
+                    // Iterate over items of this type
+                    $.each(items, function(index, item) {
+                        // Add item details
+
+                        var icon = '';
+                        if (item.type == '_notification_job_activity' || item.type ==
+                            '_notification_package_subscription') {
+                            icon = 'bi-check-circle text-success';
+                        }
+
+                        $container.append(`
+                        <li class="notification-item">
+                        <i class="${icon}"></i>
+                        <div>
+                            <h4>${item.name}</h4>
+                            <p>${item.desc}</p>
+                            <p>${item.created_at}</p>
+                        </div>
+                    </li>
+                    <li>
+                    <hr class="dropdown-divider">
+                  </li>
+                  `);
+                    });
+                });
+
+                // var notifications = res;
+
+                // var notificationResult = '';
+
+                // $.each(notifications, function(index, noti) {
+                //     var icon = '';
+                //     if (noti.type == '_notification_job_activity' || noti.type ==
+                //         '_notification_package_subscription') {
+                //         icon = 'bi-check-circle text-success';
+                //     }
+
+                //     notificationResult += '<li class="notification-item">' +
+                //         '<i class="bi ' + icon + '"></i>' +
+                //         '<div>' +
+                //         '<h4>' + noti.name + '</h4>' +
+                //         '<p>' + noti.desc + '</p>' +
+                //         '<p>' + moment(noti.created_at).fromNow() + '</p>' +
+                //         // Use moment.js for date formatting
+                //         '</div>' +
+                //         '</li>' +
+                //         '<li>' +
+                //         '<hr class="dropdown-divider">' +
+                //         '</li>';
+                // });
+
+                // $('#notification-list').html(notificationResult);
+
+            });
+        // $('#count-notify').text(1)
+        // alert(JSON.stringify(data));
+    });
+</script>
