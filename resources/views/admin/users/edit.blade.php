@@ -34,10 +34,10 @@
                 </div>
               </div>
             </h5>
-              @php
+              {{-- @php
                 $roles = $record->roles;  
                 $roleIds = $roles->pluck('id')->toArray(); 
-              @endphp 
+              @endphp  --}}
             
                 <form method="POST"  action="{{ route('users.update',$record->id) }}" class="row g-3" >
                   
@@ -67,7 +67,7 @@
                         @foreach ($user_roles as $role)
                           <div class="form-check col-md-4">
                             <input class="form-check-input" type="radio" id="permission-{{ $role->id }} " name="role[]" value="{{ $role['id'] }}" 
-                            {{ $roleIds[0] == $role['id']?'checked':''; }} >
+                            @checked($record->hasRole($role->name))>
                             <label class="form-check-label" for="permission-{{ $role->id }} ">
                               {{ $role['name'] }}
                             </label>

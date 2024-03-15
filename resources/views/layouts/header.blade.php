@@ -3,7 +3,7 @@
     .notification {
   position: fixed;
   top: 0;
-  right: 12em;
+  right: 15em;
   width: 300px;
   background-color: #333;
   color: #fff;

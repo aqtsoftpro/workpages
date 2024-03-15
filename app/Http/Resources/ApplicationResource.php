@@ -30,7 +30,7 @@ class ApplicationResource extends JsonResource
             'applied_on' => Carbon::parse($this->created_at)->format('M d, Y'),
             'experience' => $this->experience,
             'salary' => $this->salary,
-            'status' => $this->status_id
+            'status' => $this->status_id,
         ];
     }
 }

@@ -4,11 +4,11 @@ namespace App\Http\Controllers;
 
 use Exception;
 use App\Models\User;
+use Spatie\Permission\Models\Role;
 use App\Models\Company;
 use App\Models\UserSocial;
 use App\Models\{SiteSettings, Job};
 use Illuminate\Http\Request;
-use Spatie\Permission\Models\Role;
 use Pusher\Pusher;
 use App\Events\SendDataToPusher;
 use App\Mail\MultiPurposeEmail;
@@ -84,8 +84,6 @@ class UserController extends Controller
 
         $hased_password = bcrypt($request->password);
         $userPassword = $hased_password;
-
-
         try{
             $id = auth()->id();
             User::where('id', $id)
@@ -256,8 +254,10 @@ class UserController extends Controller
 
     public function searchSeeker(Request $request ,User $user)
     {
+        $role = Role::where('name', 'Job Seeker')->first();
+
         $company = Company::where('owner_id', auth()->id())->first();
-        $user = User::where('location_id', $company->location_id)->orWhere('suburb_id', $company->suburb_id);
+        $user = $role->users()->where('location_id', $company->location_id)->orWhere('suburb_id', $company->suburb_id);
         $listing_rows_count  = SiteSettings::select('meta_val')->where('meta_key', '_listing_rows_limit')->first();
         if($request->pageId)
             {

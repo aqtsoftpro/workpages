@@ -85,7 +85,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function designtion(): BelongsTo
     {
-        return $this->belongsTo(Designation::class);
+        return $this->belongsTo(Designation::class, 'designation_id');
     }
 
     public function language(): BelongsTo

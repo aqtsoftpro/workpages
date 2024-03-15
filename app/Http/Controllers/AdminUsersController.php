@@ -114,11 +114,11 @@ class AdminUsersController extends Controller
     {
         $this->authorize('create', User::class);
 
-        $record = $user;
+        $record = $user->load('roles');
 
         $user_roles = Role::get();
 
-        $user = $user;
+        // dd($record);
 
         return view('admin.users.edit', compact('record', 'user_roles'));
     }
