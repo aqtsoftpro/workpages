@@ -32,7 +32,8 @@ class UserController extends Controller
     }
 
     public function show(User $user){
-        return response()->json($user->load('location', 'designtion', 'qualification', 'job_location', 'reviews.company'));
+        // $user->
+        return response()->json($user->load('user_detail', 'documents', 'user_meta', 'location', 'designtion', 'qualification', 'job_location', 'reviews.company'));
     }
 
     public function store(User $user, Request $request){
