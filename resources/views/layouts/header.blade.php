@@ -44,7 +44,7 @@
 <header id="header" class="header fixed-top d-flex align-items-center">
 
     <div id="notification" class="notification">
-        <span id="message"></span>
+        <div id="message"></div>
         <span class="closebtn" onclick="closeNotification()">&times;</span>
       </div>
 
@@ -186,52 +186,48 @@
 
         </ul>
     </nav><!-- End Icons Navigation -->
-
 </header><!-- End Header -->
-
 <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
 <script>
     function showNote(notify) {
-
         var csrfToken = $('meta[name="csrf-token"]').attr('content');
-            // Define API endpoint
-            var apiEndpoint = '/admin/notify-status';
+        // Define API endpoint
+        var apiEndpoint = '/admin/notify-status';
+        // Define data to be sent in the request
+        var requestData = {
+            id: notify,
+            // Add any additional data here
+            _token: csrfToken // Include CSRF token in the request data
+        };
+        let notifyCount = parseInt($('#notify-count').text()) - 1;
+        // Get text content of #count-notify element and subtract 1
+        let mainCount = parseInt($('#count-notify').text()) - 1;
 
-            // Define data to be sent in the request
-            var requestData = {
-                id: notify,
-                // Add any additional data here
-                _token: csrfToken // Include CSRF token in the request data
-            };
-            let notifyCount = parseInt($('#notify-count').text()) - 1;
-            // Get text content of #count-notify element and subtract 1
-            let mainCount = parseInt($('#count-notify').text()) - 1;
-
-            $('#notify-count').text(notifyCount);
-            $('#count-notify').text(mainCount);
-            // Make the API request
-            $.ajax({
-                url: apiEndpoint,
-                type: 'POST',
-                data: requestData,
-                success: function(response){
-                    // console.log('API response:', response);
-                    console.log(response);
-                    // alert(JSON.stringify(response.name));
-
-                    $("#message").html(response.name);
-                    $("#notification").fadeIn(); // Fade in the notification
-
-                    setTimeout(function() {
-                        // $("#notification").removeClass("show");
-                        $("#notification").fadeOut(); // Fade out the notification after the duration
-                    }, 5000);
-                },
-                error: function(xhr, status, error){
-                    console.error('API request failed:', error);
-                    // Handle error response here
-                }
-            });
+        $('#notify-count').text(notifyCount);
+        $('#count-notify').text(mainCount);
+        // Make the API request
+        $.ajax({
+            url: apiEndpoint,
+            type: 'POST',
+            data: requestData,
+            success: function(response){
+                // console.log('API response:', response);
+                console.log(response);
+                // alert(JSON.stringify(response.name));
+                $("#message").html(response.name);
+                $("#notification").fadeIn(); // Fade in the notification
+                var linkId = 'link-'+notify;
+                $('#'+linkId).remove();
+                setTimeout(function() {
+                    // $("#notification").removeClass("show");
+                    $("#notification").fadeOut(); // Fade out the notification after the duration
+                }, 5000);
+            },
+            error: function(xhr, status, error){
+                console.error('API request failed:', error);
+                // Handle error response here
+            }
+        });
     }
 
     function closeNotification() {
@@ -249,7 +245,7 @@
         // alert(JSON.stringify(data.message));
         const notificationSound = new Audio('{{ asset("sounds/pusher.wav") }}');
         notificationSound.play();
-        $("#message").text(data.message);
+        $("#message").html(data.message);
         // $("#notification").addClass("show");
         $("#notification").fadeIn(); // Fade in the notification
 
@@ -277,6 +273,8 @@
                         note_type = 'News & Letters'
                     } else if (type == '_notification_job_activity') {
                         note_type = 'New Activities On Job'
+                    } else if (type == '_notification_package_subscription') {
+                        note_type = 'New Package Subscriptions'
                     }
                     $container.append(`
                     <li class="notification-item">
@@ -297,7 +295,7 @@
                         }
 
                         $container.append(`
-                        <a href="javascript:void(0)" class="show-notify" onclick="showNote(${item.id})">
+                        <a href="javascript:void(0)" class="show-notify" onclick="showNote(${item.id})" id="link-${item.id}">
                         <li class="notification-item">
 
                         <i class="${icon}"></i>

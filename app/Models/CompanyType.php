@@ -9,4 +9,6 @@ use Laravel\Scout\Searchable;
 class CompanyType extends Model
 {
     use HasFactory, Searchable;
+
+    protected $fillable = [];
 }

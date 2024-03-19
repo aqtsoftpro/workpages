@@ -168,6 +168,13 @@ class UserController extends Controller
 
     public function jobSeekerRegister(User $user, Request $request)
     {
+        if($request['password'] != $request['confirm_password'])
+        {
+            return response()->json([
+                'status' => 'error',
+                'message' => "Password didn't match to confirm password",
+            ]);
+        }
         $hased_passwoed = bcrypt($request['password']);
         $request['password'] = $hased_passwoed;
 

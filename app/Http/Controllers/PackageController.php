@@ -152,7 +152,7 @@ class PackageController extends Controller
                 ]);
 
                 $pusher = new \Pusher\Pusher(config('broadcasting.connections.pusher.key'), config('broadcasting.connections.pusher.secret'), config('broadcasting.connections.pusher.app_id'), array('cluster' => config('broadcasting.connections.pusher.options.cluster')));
-                $pusher->trigger('my-channel', 'my-event', array('message' => 'Package is subscribed by '.$user->name));
+                $pusher->trigger('my-channel', 'my-event', array('message' => $package->name.' Package with pirce '.$package->price.' is subscribed by '.$user->name));
             }
         }
         $externalUrl = env('FRONT_APP_URL').'company/plan';

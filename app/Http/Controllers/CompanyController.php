@@ -21,6 +21,7 @@ use App\Jobs\MultiPurposeEmailJob;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use App\Http\Requests\CompanyRegisterRequest;
 
 
 class CompanyController extends Controller
@@ -250,8 +251,10 @@ class CompanyController extends Controller
         return response()->json(new CompanyResource($company));
     }
 
-    public function CompanyRegister(Request $request)
+    public function CompanyRegister(CompanyRegisterRequest $request)
     {
+        // for confirmation password 
+        // password_confirmation       
         DB::beginTransaction();
         try{
             $email_exist = User::where('email', $request['email'])->first();
@@ -279,8 +282,8 @@ class CompanyController extends Controller
                     Company::create([
                         'name' => $request->company_name,
                         'owner_id' => $newUser->id,
-                        'company_type_id' => $request->company_type_id,
-                        'suburb_id' => $request->suburb_id
+                        'company_type_id' => $request->company_type_id ?? null,
+                        'suburb_id' => $request->suburb_id ?? null
                     ]);
     
                     $customBaseUrl = env('FRONT_APP_URL');
