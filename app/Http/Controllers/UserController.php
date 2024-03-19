@@ -23,7 +23,7 @@ use Illuminate\Support\Str;
 use App\Events\UserRegisterEvent;
 use App\Http\Resources\JobSeekerResource;
 use App\Http\Controllers\EmailTemplateController;
-
+use App\Http\Requests\UserRegisterRequest;
 
 class UserController extends Controller
 {
@@ -166,15 +166,15 @@ class UserController extends Controller
         ]);
     }
 
-    public function jobSeekerRegister(User $user, Request $request)
+    public function jobSeekerRegister(User $user, UserRegisterRequest $request)
     {
-        if($request['password'] != $request['confirm_password'])
-        {
-            return response()->json([
-                'status' => 'error',
-                'message' => "Password didn't match to confirm password",
-            ]);
-        }
+        // if($request['password'] != $request['confirm_password'])
+        // {
+        //     return response()->json([
+        //         'status' => 'error',
+        //         'message' => "Password didn't match to confirm password",
+        //     ]);
+        // }
         $hased_passwoed = bcrypt($request['password']);
         $request['password'] = $hased_passwoed;
 
