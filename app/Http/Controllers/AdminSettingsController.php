@@ -94,6 +94,20 @@ class AdminSettingsController extends Controller
             }
         }
 
+        if($request->setting_form_type == 'banner_settings')
+        {
+            if($request->hasFile('_back_image')) {
+                $imagePath = $request->file('_back_image')->store('settings', 'public');
+                $main_url = url('/storage'.'/'.$imagePath);
+                if (isset($imagePath)) {
+                    $settingRow = SiteSettings::updateOrCreate(
+                        ['meta_key' => '_banner_image'],
+                        ['meta_val' => $main_url]
+                    );
+                }
+            }
+        }
+
 
         if($request->setting_form_type == 'design_settings')
         {
@@ -217,6 +231,10 @@ class AdminSettingsController extends Controller
         {
             $response_msg = 'Slider setting updated successfully';
         }
+        elseif($request->setting_form_type == 'banner_settings')
+        {
+            $response_msg = 'Banner setting updated successfully';
+        }
         elseif($request->setting_form_type == 'job_seeker_settings')
         {
             $response_msg = 'Job Seeker setting updated successfully';
@@ -316,6 +334,15 @@ class AdminSettingsController extends Controller
         $settings = SiteSettings::select('meta_key', 'meta_val')->get()->keyBy('meta_key')->toArray();
         // dd($settings);
         return view('admin.settings.slider_settings',  compact('settings'));
+    }
+
+    
+    public function banner_settings(){
+        $this->authorize('create', SiteSettings::class);
+        
+        $settings = SiteSettings::select('meta_key', 'meta_val')->get()->keyBy('meta_key')->toArray();
+        // dd($settings);
+        return view('admin.settings.banner_settings',  compact('settings'));
     }
 
 

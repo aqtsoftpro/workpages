@@ -100,6 +100,7 @@ Route::middleware('auth')->prefix('admin')->group(function () {
       Route::get('/newsletter_settings', [\App\Http\Controllers\AdminSettingsController::class, 'newsletter_settings']);
       Route::get('/sms_settings', [\App\Http\Controllers\AdminSettingsController::class, 'sms_settings']);
       Route::get('/slider_settings', [\App\Http\Controllers\AdminSettingsController::class, 'slider_settings']);
+      Route::get('/banner_settings', [\App\Http\Controllers\AdminSettingsController::class, 'banner_settings'])->name('banner.settings');
 
       Route::get('/job_seeker_settings', [\App\Http\Controllers\AdminSettingsController::class, 'job_seeker_settings']);
       Route::get('/notification_settings', [\App\Http\Controllers\AdminSettingsController::class, 'notification_settings']);
