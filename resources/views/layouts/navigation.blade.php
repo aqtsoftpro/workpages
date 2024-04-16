@@ -58,6 +58,11 @@
                         </a>
                     </li>
                     <li>
+                        <a href="{{ route('banner.settings') }}">
+                            <i class="bi bi-circle"></i><span>Banner Settings</span>
+                        </a>
+                    </li>
+                    <li>
                         <a href="{{ url('admin/settings/job_seeker_settings') }}">
                             <i class="bi bi-circle"></i><span>Job Seeker Settings</span>
                         </a>
