@@ -155,6 +155,7 @@ Route::middleware('auth')->prefix('admin')->group(function () {
    Route::resource('manage_pages', AdminCmsController::class);
    Route::resource('job_seekers', JobSeekerController::class);
    Route::resource('companies', CompanyController::class);
+   Route::put('companies-status/{company}', [CompanyController::class, 'featured'])->name('featured.company');
    Route::get('admin_users', [AdminUsersController::class, 'admin_users'])->name('admin_users');;
    Route::resource('users', AdminUsersController::class);
 

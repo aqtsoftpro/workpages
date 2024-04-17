@@ -167,6 +167,7 @@ Route::middleware('cors')->group(function(){
     Route::post('jobSeekerRegister', [UserController::class, 'jobSeekerRegister']);
     Route::post('company_register', [CompanyController::class, 'CompanyRegister']);
     Route::get('companies', [CompanyController::class, 'companies']);
+    Route::get('featured-companies', [CompanyController::class, 'featuredCompanies']);
     Route::get('CompaniesListing', [CompanyController::class, 'CompaniesListing']);
     Route::get('categories', [CategoryController::class, 'categories']);
     Route::get('trending_jobs_categories', [CategoryController::class, 'trending_jobs_categories']);

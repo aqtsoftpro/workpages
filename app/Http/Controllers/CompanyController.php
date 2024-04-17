@@ -14,7 +14,6 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Mail;
-
 use App\Http\Controllers\EmailTemplateController;
 use App\Mail\MultiPurposeEmail;
 use App\Jobs\MultiPurposeEmailJob;
@@ -94,6 +93,11 @@ class CompanyController extends Controller
     public function companies(Company $company){
 
         return response()->json(CompanyResource::collection($company->load('jobs')->limit(10)->get()));
+    }
+
+    public function featuredCompanies(Company $company){
+
+        return response()->json(CompanyResource::collection($company->with('jobs')->withCount('reviews')->where('featured', 1)->get()));
     }
 
 
@@ -375,6 +379,15 @@ class CompanyController extends Controller
         );
 
         return response()->json($all_companies);
+    }
+
+
+    public function featured(Request $request, Company $company)
+    {
+        $company->update([
+            'featured' => $request->featured
+        ]);
+        return redirect()->back()->with('success', 'status updated successfully');
     }
 
     public function companyData()

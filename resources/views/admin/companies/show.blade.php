@@ -183,9 +183,48 @@
               <div class="col-md-3">
                 <b>Latest Subscription</b>
               </div>
-              <div class="col-md-3">
-                {{ $record->owner->subscriptions[0]->package->name }}
+              @if ($record->owner->subscriptions->count() > 0)
+                <div class="col-md-3">
+                  {{ $record->owner->subscriptions[0]->package->name }}
+                </div>
+              @else
+                <div class="col-md-3">
+                  No Subscription Found...
+                </div>
+              @endif
+
+              <div class="col-md-12">
+                <hr>
               </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-3">
+                <b>Company Status</b>
+              </div>
+              <div class="col-md-3 border-end">
+                @if ($record->featured === 1)
+                  Featured
+                @else
+                  Not Featured
+                @endif
+              </div>
+              <div class="col-md-3">
+                <b>Update Feature Status</b>
+              </div>
+              <div class="col-md-3">
+                <form method="POST" id="feature-form" action="{{ route('featured.company', $record->id ) }}" class="row g-3" >
+                  @csrf
+                  @method('PUT')
+                  <div class="col-md-12">
+                    <select class="form-control" name="featured" required id="feature">
+                      <option value="1" @selected($record->featured == 1)>Enable</option>
+                      <option value="0" @selected($record->featured == 0)>Disable</option>
+                    </select>
+                  </div>              
+                </form>
+              </div>
+
               <div class="col-md-12">
                 <hr>
               </div>
@@ -193,8 +232,17 @@
         
           </div>
         </div>
-
       </div>
     </div>
   </section>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+  <script>
+    $(document).ready(function(){
+        $('#feature').change(function(){
+            $('#feature-form').submit(); // Trigger form submission
+        });
+    });
+</script>
+
 @endsection

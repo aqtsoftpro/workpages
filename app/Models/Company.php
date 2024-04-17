@@ -33,7 +33,8 @@ class Company extends Model
         'behance',
         'suburb_id',
         'comapny_verified_at',
-        'status'
+        'status',
+        'featured'
     ];
 
     public function location(){
@@ -65,7 +66,7 @@ class Company extends Model
 
     public function reviews(){
 
-        return  $this->hasMany(CompanyReview::class);
+        return $this->hasMany(CompanyReview::class);
     }
 
     public function company_type(){
@@ -74,6 +75,11 @@ class Company extends Model
     }
 
     public function applications(): HasMany
+    {
+        return $this->hasMany(Application::class);
+    }
+
+    public function ratings(): HasMany
     {
         return $this->hasMany(Application::class);
     }

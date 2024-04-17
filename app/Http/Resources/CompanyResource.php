@@ -46,6 +46,7 @@ class CompanyResource extends JsonResource
             'live_jobs'=>$this->jobs()->where('status', 'active')->count() ?? 0,
             'pending_jobs'=>$this->jobs()->where('status', 'inactive')->count() ?? 0,
             'closed_jobs'=>$this->jobs()->where('job_status', 'closed')->count() ?? 0,
+            'reviews_count' => $this->reviews_count,
         ];
     }
 }
