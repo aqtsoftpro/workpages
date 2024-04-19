@@ -210,7 +210,7 @@
                 @endif
               </div>
               <div class="col-md-3">
-                <b>Update Feature Status</b>
+                <b>Update Featured Status</b>
               </div>
               <div class="col-md-3">
                 <form method="POST" id="feature-form" action="{{ route('featured.company', $record->id ) }}" class="row g-3" >
