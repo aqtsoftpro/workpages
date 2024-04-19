@@ -34,13 +34,14 @@
                                     <input type="file" name="_back_image" class="form-control" id="_back_image">
                                 </div>
                                 <div class="col-md-6 mb-2 mt-2">
-                                    @if (isset($settings['_back_image']['meta_val']) && $settings['_back_image']['meta_val'])
+                                    {{-- {{ json_encode($settings) }} --}}
+                                    @if (isset($settings['_banner_image']['meta_val']) && $settings['_banner_image']['meta_val'])
                                         @php
-                                            $site_back_image = $settings['_back_image']['meta_val'];
+                                            $site_banner_image = $settings['_banner_image']['meta_val'];
                                         @endphp
                                         <div class="admin-manage-img-container">
                                             <i class="bi bi-x-octagon-fill delete-img-btn delete-site-logo-btn"></i>
-                                            <img src="{{ $site_back_image }}" width="100%" />
+                                            <img src="{{ $site_banner_image }}" width="100%" />
                                         </div>
                                     @endif
                                 </div>
