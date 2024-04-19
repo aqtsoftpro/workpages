@@ -131,6 +131,7 @@ class CompanyController extends Controller
             'location_id' => $request->location_id,
             'state_id' => $request->state_id,
             'address' => $request->address,
+            'about' => $request->about,
             'weblink' => $request->weblink,
             'facebook' => $request->facebook,
             'twitter' => $request->twitter,

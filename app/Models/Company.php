@@ -19,6 +19,7 @@ class Company extends Model
         'location_id',
         'logo',
         'address',
+        'about',
         'owner_id',
         'package_id',
         'company_type_id',
