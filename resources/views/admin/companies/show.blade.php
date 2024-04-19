@@ -203,7 +203,7 @@
                 <b>Company Status</b>
               </div>
               <div class="col-md-3 border-end">
-                @if ($record->featured === 1)
+                @if ($record->featured == 1)
                   Featured
                 @else
                   Not Featured
