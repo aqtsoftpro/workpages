@@ -76,7 +76,7 @@ class ApiVerifyEmailController extends Controller
                 $originalContent = str_replace($search, $replace, $originalContent);
             };
 
-            $subject = "Verify Email Address";
+            $subject = "Work Pages- Almost there! Verify your email address";
             $To = $user->email;
 
             $email = new MultiPurposeEmail($subject, $originalContent, $verificationUrl);

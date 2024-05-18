@@ -331,7 +331,7 @@
                             <td class="wrapper">
                                 <p>Hi there</p>
                                 {{ $content }}
-                                {{-- <p>Sometimes you just want to send a simple HTML email with a simple design and clear call to action. This is it.</p> --}}
+                                {{-- <p>Sometimes you just want to send a simple HTML email with a simple desiVerify NOW. This is it.</p> --}}
                                   <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="btn btn-primary">
                                     <tbody>
                                       <tr>
@@ -340,7 +340,7 @@
                                             <tbody>
                                               <tr>                                    
                                                 <td></td>
-                                                <td> <a href="{{ $url }}" target="_blank">Call To Action</a> </td>
+                                                <td> <a href="{{ $url }}" target="_blank">Verify NOW</a> </td>
                                                 <td></td>
                                               </tr>
                                             </tbody>
