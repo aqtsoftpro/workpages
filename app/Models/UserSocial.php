@@ -18,7 +18,8 @@ class UserSocial extends Model
         'linkedin',
         'pinterest',
         'dribbble',
-        'behance'
+        'behance',
+        'instagram'
     ];
 
     public function user(): BelongsTo
