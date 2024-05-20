@@ -8,8 +8,9 @@ use App\Models\Qualification;
 
 class QualificationController extends Controller
 {
-    public function index(Qualification $qualification){
-        return response()->json($qualification->all());
+    public function index(){
+        $qualification = Qualification::select('id', 'name', 'group_type')->whereNotNull('group_type')->get()->groupBy('group_type');
+        return response()->json($qualification);
     }
 
     public function show(Qualification $qualification){

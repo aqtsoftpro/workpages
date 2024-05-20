@@ -9,4 +9,6 @@ use Laravel\Scout\Searchable;
 class Qualification extends Model
 {
     use HasFactory, Searchable;
+
+    protected $fillable = ['name', 'group_type', 'status'];
 }

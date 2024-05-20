@@ -36,11 +36,12 @@ class ApplicationController extends Controller
         if (!$appData) {
             DB::beginTransaction();
             try{
-    
-                $fileExtension = $request->cv->getClientOriginalExtension();
-                $fileName = 'resume-' . $request->user_id . '.' . $fileExtension;
-                $request->cv->storeAs('public', $fileName);
-    
+                $fileName = 'no';
+                if ($request->hasFile('civ')) {
+                    $fileExtension = $request->cv->getClientOriginalExtension();
+                    $fileName = 'resume-' . $request->user_id . '.' . $fileExtension;
+                    $request->cv->storeAs('public', $fileName);
+                }
                 $application->create([
                     'user_id' => $request->user_id,
                     'company_id' => $request->company_id,
