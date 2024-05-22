@@ -36,17 +36,24 @@ class ApplicationController extends Controller
         if (!$appData) {
             DB::beginTransaction();
             try{
-                $fileName = 'no';
+                $cv_file = 'no';
+                $user = User::find($request->user_id);
                 if ($request->hasFile('civ')) {
                     $fileExtension = $request->cv->getClientOriginalExtension();
                     $fileName = 'resume-' . $request->user_id . '.' . $fileExtension;
                     $request->cv->storeAs('public', $fileName);
+
+                    $cv_file = env('APP_URL') . 'storage/' . $fileName;
                 }
+                elseif ($user && $user->cv !== null) {
+                    $cv_file = $user->cv;
+                }
+
                 $application->create([
                     'user_id' => $request->user_id,
                     'company_id' => $request->company_id,
                     'status_id' => $request->status_id,
-                    'cv' => env('APP_URL') . 'storage/' . $fileName,
+                    'cv' => $cv_file,
                     'job_id' => $request->job_id,
                     'experience' => $request->experience,
                     'salary' => $request->salary

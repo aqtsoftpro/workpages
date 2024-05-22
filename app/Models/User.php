@@ -50,7 +50,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'suburb_id',
         'status',
         'email_verified_at',
-        'gender'
+        'gender',
+        'cv'
     ];
 
 

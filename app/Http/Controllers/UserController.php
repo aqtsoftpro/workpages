@@ -108,12 +108,22 @@ class UserController extends Controller
             $uploadedPhoto =  $request->photo->storeAs('public/', $fileName);
         }
 
+        if ($request->hasFile('cv')) {
+            $fileExtension = $request->cv->getClientOriginalExtension();
+            $cvName = 'cv-' . $user->id . Str::random(2) . '.' . $fileExtension;
+            $uploadCv =  $request->cv->storeAs('public/profile/cvs', $cvName);
+        }
+
         $userRequest = $request->all();
-        // dd($userRequest);
 
         if(isset($uploadedPhoto)){
-            $userRequest['photo'] = env('APP_URL') . 'storage/' . $fileName;
+            $userRequest['photo'] = env('APP_URL') . 'storage/profile/cvs' . $fileName;
         }
+
+        if(isset($uploadCv)){
+            $userRequest['cv'] = env('APP_URL') . 'storage/' . $cvName;
+        }
+
 
         if(isset($request->password)){
             $hased_passwoed = bcrypt($request->password);

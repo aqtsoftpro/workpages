@@ -14,6 +14,14 @@ class UserMetaController extends Controller
     public function updateUserMeta($user_id, Request $request)
         {
             $user = User::find(auth()->id());
+            if (isset($request->disable_account) && $request->disable_account == true) {
+                $user->delete();
+                return response()->json([
+                    'status' => 'disabled',
+                    'message' => 'User successfully disabled!',
+                    'user' => array()
+                ]);
+            }
             $user->status = $request->disable_account == true ? 'disable' : 'enable';
             $user->save();
             // return response()->json($request->all());
