@@ -46,13 +46,13 @@ class ForgotPasswordController extends Controller
         
         $email_variables = [
             '[username]' => $user->first_name.' '.$user->last_name,
-            '[verify_email_link]' => '<a href="'.$verificationUrl.'" target="_blank">'.env('APP_URL').'</a>',
+            // '[verify_email_link]' => '<a href="'.$verificationUrl.'" target="_blank">'.env('APP_URL').'</a>',
         ];
         // echo $originalContent;
         foreach ($email_variables as $search => $replace) {
             $originalContent = str_replace($search, $replace, $originalContent);
         };
-        $subject = "Password Recovery Email";
+        $subject = "Work Pages- Almost there! Password Recovery Email";
         $To = $user->email;
         // MultiPurposeEmailJob::dispatch($To, $subject, $originalContent, $verificationUrl);
         $email = new MultiPurposeEmail($subject, $originalContent, $verificationUrl);

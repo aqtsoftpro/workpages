@@ -142,7 +142,7 @@ class UserController extends Controller
                         $originalContent = str_replace($search, $replace, $originalContent);
                     };
 
-                    $subject = "New Jobseeker Registered";
+                    $subject = "Work Pages- Almost there! New Jobseeker Registered";
                     $To = $job->company?->owner?->email;
                     $email = new MultiPurposeEmail($subject, $originalContent, $verificationUrl);
                     Mail::to($To)->send($email);
@@ -235,7 +235,7 @@ class UserController extends Controller
                     
                     $email_variables = [
                         '[username]' => $request->first_name.' '.$request->last_name,
-                        '[verify_email_link]' => '<a href="'.$verificationUrl.'" target="_blank">'.env('APP_URL').'</a>',
+                        // '[verify_email_link]' => '<a href="'.$verificationUrl.'" target="_blank">'.env('APP_URL').'</a>',
                     ];
 
                     foreach ($email_variables as $search => $replace) {

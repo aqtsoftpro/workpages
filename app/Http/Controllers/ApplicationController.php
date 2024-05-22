@@ -87,7 +87,7 @@ class ApplicationController extends Controller
                         $originalContent = str_replace($search, $replace, $originalContent);
                     };
 
-                    $subject = "New Candidate Applied";
+                    $subject = "Work Pages- Almost there! New Candidate Applied";
                     $To = $job->company?->owner?->email;
                     $email = new MultiPurposeEmail($subject, $originalContent, $verificationUrl);
                     Mail::to($To)->send($email);
@@ -214,7 +214,7 @@ class ApplicationController extends Controller
             $originalContent = str_replace($search, $replace, $originalContent);
         };
 
-        $subject = "Application Accepted";
+        $subject = "Work Pages- Almost there! Application Accepted";
         $To = $application->user?->email;
         $email = new MultiPurposeEmail($subject, $originalContent, $customBaseUrl);
         Mail::to($To)->send($email);

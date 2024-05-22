@@ -44,7 +44,7 @@ class EmailsController extends Controller
 
             $email_variables = [
                 '[username]' => 'John',
-                '[verify_email_link]' => '<a href="'.env('FRONT_APP_URL').'" target="_blank">'.env('FRONT_APP_URL').'</a>',
+                // '[verify_email_link]' => '<a href="'.env('FRONT_APP_URL').'" target="_blank">'.env('FRONT_APP_URL').'</a>',
             ];
 
             print_r($email_variables);
@@ -57,7 +57,7 @@ class EmailsController extends Controller
             echo $originalContent;
             echo "</pre>";
      
-            $subject = "Account verification Email";
+            $subject = "Work Pages- Almost there! Account verification Email";
 
             $To = $request->email;
             $email = new MultiPurposeEmail($subject, $originalContent, $verificationUrl);

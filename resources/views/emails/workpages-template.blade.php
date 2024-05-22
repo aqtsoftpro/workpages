@@ -349,7 +349,8 @@
                                       </tr>
                                     </tbody>
                                   </table>
-                                  <a href="{{ $url }}" target="_blank">{{ $url }}</a>
+                                  <img src="{{ asset('NiceAdmin/assets/img/work-pages-logo-cropped.png') }}" alt="work pages" width="360" >
+                                  {{-- <a href="{{ $url }}" target="_blank">{{ $url }}</a> --}}
                                   {{-- <p>This is a really simple email template. It's sole purpose is to get the recipient to click the button with no distractions.</p>
                                   <p>Good luck! Hope it works.</p>  --}}
                             </td>
