@@ -164,7 +164,8 @@ class PackageController extends Controller
     public function zeroPlan(Request $request)
     {
         $package = Package::findOrFail($request->package);
-        $subscription = Subscription::where('package_id', $request->package)->first();
+        $auth = auth()->user();
+        $subscription = Subscription::where('package_id', $request->package)->where('user_id', $auth->id)->first();
         if ($subscription) {
             return response()->json([
                 'status' => 'successs',
@@ -175,23 +176,8 @@ class PackageController extends Controller
             if ($package->price == 0 || $package->price == 0.00 ||  $package->price == null || $package->price == "") {
                 $inputs = $request->all();
                 $intervalCount = $package->interval_count;
-                $currentDateTime = Carbon::now();
-
-                switch ($package->interval) {
-                    case 'day':
-                        $newDateTime = $currentDateTime->addDays($intervalCount);
-                        break;
-                    case 'month':
-                        $newDateTime = $currentDateTime->addMonths($intervalCount);
-                        break;
-                    case 'year':
-                        $newDateTime = $currentDateTime->addYears($intervalCount);
-                        break;
-                    default:
-                        $newDateTime = $currentDateTime->addDays($intervalCount);
-                        break;
-                }
-                $auth = auth()->user();
+                // $currentDateTime = Carbon::now();
+                $newDateTime = now()->addDays(7);
                 $company = Company::where('owner_id', $auth->id)->first();
                 // $company?->id ?? null;
                 $inputs['user_id'] = $auth->id;
@@ -207,6 +193,29 @@ class PackageController extends Controller
                 $inputs['ends_at'] = $newDateTime;
                 $subscription = Subscription::create($inputs);
                 if ($subscription) {
+                    $sub_access = SubAccess::create([
+                        'user_id' => $auth->id,
+                        'subscription_id' => $subscription->id,
+                        'post_for' => $package->post_for,
+                        'allow_ads' => $package->allow_ads,
+                        'allow_edits' => $package->allow_edits,
+                        'allow_ref' => $package->allow_ref,
+                        'allow_right' => $package->allow_right,
+                        'allow_others' => $package->allow_others,
+                        'h_s_screen' => $package->h_s_screen,
+                        'allow_interview' => $package->allow_interview,
+                        'recruiter_dash' => $package->recruiter_dash,
+                        'casual_portal' => $package->casual_portal,
+                        'rec_support' => $package->rec_support,
+                        'cv_credit' => $package->cv_credit,
+                        'msg_credit' => $package->msg_credit,
+                        'cv_access' => $package->cv_access,
+                        'expired_at' => $newDateTime,
+                        'edit_title' => $package->edit_title,
+                        'edit_categ' => $package->edit_categ,
+                        'edit_body' => $package->edit_body,
+                        'delete_ad' => $package->delete_ad
+                    ]);
                     return response()->json([
                         'status' => 'successs',
                         'data' => $subscription,
