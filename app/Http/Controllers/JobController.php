@@ -178,11 +178,11 @@ class JobController extends Controller
     {
 
         $category = Category::where('slug', $cat_slug)->first()->toArray();
-        
         $q = $job->newQuery();
         $q->where(['category_id'=> $category['id'], 'status' => 'active']);
-      
-        return response()->json(JobResource::collection($q->orderBy('expiration', 'desc')->get()));
+        $jobs = $q->orderBy('expiration', 'desc')->get();
+        $data = JobResource::collection($jobs)->paginate(3);
+        return response()->json($data);
     }
 
     public function latestJobs(Request $request, Job $job)

@@ -275,7 +275,7 @@ class UserController extends Controller
         $role = Role::where('name', 'Job Seeker')->first();
 
         $company = Company::where('owner_id', auth()->id())->first();
-        $user = $role->users()->where('location_id', $company->location_id)->orWhere('suburb_id', $company->suburb_id);
+        $user = $role->users()->doesntHave('company')->where('location_id', $company->location_id)->orWhere('suburb_id', $company->suburb_id);
         $listing_rows_count  = SiteSettings::select('meta_val')->where('meta_key', '_listing_rows_limit')->first();
         if($request->pageId)
             {
