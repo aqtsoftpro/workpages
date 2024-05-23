@@ -181,7 +181,7 @@ class JobController extends Controller
         $q = $job->newQuery();
         $q->where(['category_id'=> $category['id'], 'status' => 'active']);
         $jobs = $q->orderBy('expiration', 'desc')->get();
-        $data = JobResource::collection($jobs)->paginate(3);
+        $data = JobResource::collection($jobs)->paginate(10);
         return response()->json($data);
     }
 

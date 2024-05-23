@@ -272,10 +272,12 @@ class UserController extends Controller
 
     public function searchSeeker(Request $request ,User $user)
     {
-        $role = Role::where('name', 'Job Seeker')->first();
-
+        $role = Role::where('name', 'Job Seeker')->first()->name;
         $company = Company::where('owner_id', auth()->id())->first();
-        $user = $role->users()->doesntHave('company')->where('location_id', $company->location_id)->orWhere('suburb_id', $company->suburb_id);
+
+        $user = User::whereHas('roles', function ($query) use ($role) {
+            $query->where('name', $role);
+        })->doesntHave('company')->where('location_id', $company->location_id)->orWhere('suburb_id', $company->suburb_id);
         $listing_rows_count  = SiteSettings::select('meta_val')->where('meta_key', '_listing_rows_limit')->first();
         if($request->pageId)
             {
