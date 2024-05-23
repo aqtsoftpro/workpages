@@ -117,11 +117,11 @@ class UserController extends Controller
         $userRequest = $request->all();
 
         if(isset($uploadedPhoto)){
-            $userRequest['photo'] = env('APP_URL') . 'storage/profile/cvs' . $fileName;
+            $userRequest['photo'] = env('APP_URL') . 'storage/' . $fileName;
         }
 
         if(isset($uploadCv)){
-            $userRequest['cv'] = env('APP_URL') . 'storage/' . $cvName;
+            $userRequest['cv'] = env('APP_URL') . 'storage/profile/cvs' . $cvName;
         }
 
 
