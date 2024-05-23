@@ -219,7 +219,9 @@ class UserController extends Controller
                 'email' => $request['email'],
                 'suburb_id' => $request['suburb_id'],
                 'photo' => $uploadedPhoto,
-                'password' => $request->password
+                'password' => $request->password,
+                'current_job_location_id' => $request->current_job_location_id ?? 2,
+                'location_id' => $request->location_id ?? 2,
             ]);
 
             // broadcast(new UserRegisterEvent($newUser))->toOthers();
