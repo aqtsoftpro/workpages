@@ -2,12 +2,12 @@
 
 @section('content')
 <div class="pagetitle">
-  <h1>Job States</h1>
+  <h1>Job Locations</h1>
   <nav>
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="{{ url('admin/dashboard') }}">Dashboard</a></li>
-        <li class="breadcrumb-item">Job States</li>
-      <li class="breadcrumb-item active">Job States</li>
+        <li class="breadcrumb-item">Job Locations</li>
+      <li class="breadcrumb-item active">Job Locations</li>
     </ol>
   </nav>
 </div>
@@ -26,7 +26,7 @@
           <div class="card-body">
             <h5 class="card-title row">
               <div class="col-lg-6">
-                View Job States
+                View Job Locations
               </div>
               <div class="col-lg-6">
                 <div class="btn-group float-end" role="group" aria-label="Basic example">
@@ -40,8 +40,8 @@
             <thead>
               <tr>
                 <th scope="col">#</th>
-                <th scope="col">Name</th>
-                <th scope="col">location</th>
+                <th scope="col">Location</th>
+                <th scope="col">Country</th>
                 {{-- <th scope="col">Available Job</th>
                 <th scope="col">Application</th> --}}
                 <th scope="col">Status</th>

@@ -28,12 +28,12 @@ class LocationController extends Controller
 
         if($added_rec)
         {
-            return redirect()->route('locations.index')
-                        ->with('success',''.$request->name.' state added successfully.');
+            return redirect()->route('countries.index')
+                        ->with('success',''.$request->name.' added successfully.');
         }
         else
         {
-            return redirect()->route('locations.index')
+            return redirect()->route('countries.index')
                         ->with('success','Something went wrong. Please try again.');
         }
     }
@@ -52,7 +52,7 @@ class LocationController extends Controller
 
         if($location->update($request->all()))
             {
-                return redirect()->back()->with('success', ''.$request->name.' state updated successfully');
+                return redirect()->back()->with('success', ''.$request->name.' updated successfully');
             }
             else
             {
@@ -67,10 +67,10 @@ class LocationController extends Controller
 
         if(Location::destroy($id)) {
 
-            return redirect()->route('location.index')
-                        ->with('success',''.$deleted_rec->name.' state deleted successfully');
+            return redirect()->route('countries.index')
+                        ->with('success',''.$deleted_rec->name.' deleted successfully');
           } else {
-            return redirect()->route('location.index')
+            return redirect()->route('countries.index')
                         ->with('error','Please try again!');
         }
     }

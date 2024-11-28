@@ -2,12 +2,12 @@
 
 @section('content')
 <div class="pagetitle">
-  <h1>Job State</h1>
+  <h1>Job Locations</h1>
   <nav>
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="{{ url('admin/dashboard') }}">Dashboard</a></li>
-        <li class="breadcrumb-item">Job State</li>
-      <li class="breadcrumb-item active">Add State</li>
+        <li class="breadcrumb-item">Job Locations</li>
+      <li class="breadcrumb-item active">Add Locations</li>
     </ol>
   </nav>
 </div>
@@ -42,7 +42,7 @@
                       <input type="text" name="name" value="" class="form-control" id="name" required>
                     </div>
                     <div class="col-md-12">
-                      <label for="icon" class="form-label">Location</label>
+                      <label for="icon" class="form-label">Country</label>
                       <select class="form-control" name="location_id">
                         <option value="">select Location</option>
                         @foreach($locations as $location)

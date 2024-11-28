@@ -45,7 +45,7 @@
                       <input type="text" name="name" value="{{ $record->name }}" class="form-control" id="social_media_facebook">
                     </div>
                     <div class="col-md-12">
-                      <label for="icon" class="form-label">Location</label>
+                      <label for="icon" class="form-label">Country</label>
                       <select class="form-control" name="location_id">
                         <option value="">select Location</option>
                         @foreach($locations as $location)

@@ -82,7 +82,6 @@ class PackageController extends Controller
         $receipt = $payment_intent->data[0]['charges']['data'][0]['receipt_url'];
         $subscription = Subscription::where('stripe_id', $payment_intent->data[0]['id'])->first();
         // dd($package);
-
         if (!$subscription) {
             $expire = now()->addDays(4);
             switch ($package->interval) {
@@ -239,9 +238,6 @@ class PackageController extends Controller
         $company = Company::where('owner_id', auth()->id())->first();
         if ($company) {
             $subscription = Subscription::with('package')->where('company_id', $company->id)->get();
-            return Response($subscription);
-        }
-        else {
             return Response($subscription);
         }
     }

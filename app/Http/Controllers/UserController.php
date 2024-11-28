@@ -27,19 +27,22 @@ use App\Http\Requests\UserRegisterRequest;
 
 class UserController extends Controller
 {
-    public function index(User $user){
+    public function index(User $user)
+    {
         return response()->json($user->with('roles')->get());
     }
 
-    public function show(User $user){
+    public function show(User $user)
+    {
         // $user->
         return response()->json($user->load('user_detail', 'documents', 'user_meta', 'location', 'designtion', 'qualification', 'job_location', 'reviews.company'));
     }
 
-    public function store(User $user, Request $request){
+    public function store(User $user, Request $request)
+    {
         $hased_passwoed = bcrypt($request->password);
         $request['password'] = $hased_passwoed;
-        try{
+        try {
             //Create user with hashed password
             $newUser = $user->create($request->all());
 
@@ -66,7 +69,7 @@ class UserController extends Controller
                 $options,
             );
 
-            $data = ['from'=> $newUser->id];
+            $data = ['from' => $newUser->id];
 
             $pusher->trigger('Rinzed', SendDataToPusher::class, $data);
 
@@ -75,7 +78,7 @@ class UserController extends Controller
                 'status' => 'success',
                 'user' => $newUser
             ]);
-        }   catch(Exception $e){
+        } catch (Exception $e) {
             return $e->getMessage();
         }
     }
@@ -85,26 +88,27 @@ class UserController extends Controller
 
         $hased_password = bcrypt($request->password);
         $userPassword = $hased_password;
-        try{
+        try {
             $id = auth()->id();
             User::where('id', $id)
-            ->update([
-                'password' => $userPassword
+                ->update([
+                    'password' => $userPassword
                 ]);
             return response()->json([
                 'status' => 'user updated',
                 'message' => 'Password updated successfully',
             ]);
-        }   catch(Exception $e){
+        } catch (Exception $e) {
             return $e->getMessage();
         }
     }
 
-    public function update(User $user, Request $request){
+    public function update(User $user, Request $request)
+    {
 
-        if(gettype($request->photo) != 'string' && $request->photo !== null){
+        if (gettype($request->photo) != 'string' && $request->photo !== null) {
             $fileExtension = $request->photo->getClientOriginalExtension();
-            $fileName = 'dp-' . $user->id . '.' . $fileExtension;
+            $fileName = 'dp-' . $user->id . Str::random(2) . '.' . $fileExtension;
             $uploadedPhoto =  $request->photo->storeAs('public/', $fileName);
         }
 
@@ -116,36 +120,36 @@ class UserController extends Controller
 
         $userRequest = $request->all();
 
-        if(isset($uploadedPhoto)){
+        if (isset($uploadedPhoto)) {
             $userRequest['photo'] = env('APP_URL') . 'storage/' . $fileName;
         }
 
-        if(isset($uploadCv)){
+        if (isset($uploadCv)) {
             $userRequest['cv'] = env('APP_URL') . 'storage/profile/cvs' . $cvName;
         }
 
 
-        if(isset($request->password)){
+        if (isset($request->password)) {
             $hased_passwoed = bcrypt($request->password);
             $userRequest['password'] = $hased_passwoed;
         }
 
-        try{
+        try {
             $user->update($userRequest);
-            $jobs = Job::with('company.owner')->where(['location_id'=> $user->current_job_location_id, 'qualification_id' => $user->qualification_id, 'status' => 'active', 'job_status'=> 'live'])->get();
+            $jobs = Job::with('company.owner')->where(['location_id' => $user->current_job_location_id, 'qualification_id' => $user->qualification_id, 'status' => 'active', 'job_status' => 'live'])->get();
             if ($jobs->count() > 0) {
-                    $customBaseUrl = env('FRONT_APP_URL');
-                    $verificationUrl = rtrim($customBaseUrl). 'job-seeker-list';
-                    $email_templates  = new EmailTemplateController();
-                    $get_template = $email_templates->get_template('new-jobseeker-register');
-                    $originalContent = $get_template['desc'];
+                $customBaseUrl = env('FRONT_APP_URL');
+                $verificationUrl = rtrim($customBaseUrl) . 'job-seeker-list';
+                $email_templates  = new EmailTemplateController();
+                $get_template = $email_templates->get_template('new-jobseeker-register');
+                $originalContent = $get_template['desc'];
 
                 foreach ($jobs->take(4) as $job) {
                     $email_variables = [
                         '[username]' => $job->company?->owner?->name,
                         '[job_title]' => $job->job_title,
-                        '[job_url]' => '<a href="'.rtrim($customBaseUrl).'job-details/'.$job->job_key.'/'.$job->job_slug.'" target="_blank">'.$job->job_title.'</a>',                        
-                        '[profile_link]' => '<a href="'.rtrim($customBaseUrl).'job-seeker/'.$user->id.'" target="_blank">'.$user->name.'</a>',                        
+                        '[job_url]' => '<a href="' . rtrim($customBaseUrl) . 'job-details/' . $job->job_key . '/' . $job->job_slug . '" target="_blank">' . $job->job_title . '</a>',
+                        '[profile_link]' => '<a href="' . rtrim($customBaseUrl) . 'job-seeker/' . $user->id . '" target="_blank">' . $user->name . '</a>',
                     ];
 
                     foreach ($email_variables as $search => $replace) {
@@ -164,12 +168,13 @@ class UserController extends Controller
                 'user' => User::where('id', $user->id)->with('roles')->get(),
                 'jobs' => $jobs,
             ]);
-        }   catch(Exception $e){
+        } catch (Exception $e) {
             return $e->getMessage();
         }
     }
 
-    public function destroy(User $user){
+    public function destroy(User $user)
+    {
         $user->delete();
         return response()->json([
             'status' => 'user deleted'
@@ -188,29 +193,26 @@ class UserController extends Controller
         $hased_passwoed = bcrypt($request['password']);
         $request['password'] = $hased_passwoed;
 
-        try{
+        try {
 
             $email_exist = User::where('email', $request['email'])->first();
 
-            if($email_exist)
-            {
+            if ($email_exist) {
                 return response()->json([
                     'status' => 'error',
                     'message' => 'Email already Exist!',
                 ]);
             }
 
-            if(gettype($request->photo) != 'string' && $request->photo !== null){
+            if (gettype($request->photo) != 'string' && $request->photo !== null) {
                 $fileExtension = $request->photo->getClientOriginalExtension();
-                $fileName = 'dp-' . time().'-'.rand(100000,1000000) . '.' . $fileExtension;
+                $fileName = 'dp-' . time() . '-' . rand(100000, 1000000) . '.' . $fileExtension;
                 $uploadedPhoto =  $request->photo->storeAs('public/', $fileName);
             }
 
-            if(isset($uploadedPhoto)){
+            if (isset($uploadedPhoto)) {
                 $uploadedPhoto = env('APP_URL') . 'storage/' . $fileName;
-            }
-            else
-            {
+            } else {
                 $uploadedPhoto = null;
             }
 
@@ -227,38 +229,37 @@ class UserController extends Controller
             // broadcast(new UserRegisterEvent($newUser))->toOthers();
 
             if ($newUser) {
-                    $jobSeekerRole = Role::where('name', 'Job Seeker')->first();
-                    $newUser->assignRole($jobSeekerRole);
-                    $customBaseUrl = env('FRONT_APP_URL');
-                    $randomString = Str::random(40);
-                    $expired = now()->addMinutes(60);
-                    VerifyEmail::create([
-                        'user_id'=> $newUser->id,
-                        'email' => $newUser->email,
-                        'token' => Hash::make($randomString),
-                        'expired_at' => $expired,
-                    ]);
+                $jobSeekerRole = Role::where('name', 'Job Seeker')->first();
+                $newUser->assignRole($jobSeekerRole);
+                $customBaseUrl = env('FRONT_APP_URL');
+                $randomString = Str::random(40);
+                $expired = now()->addMinutes(60);
+                VerifyEmail::create([
+                    'user_id' => $newUser->id,
+                    'email' => $newUser->email,
+                    'token' => Hash::make($randomString),
+                    'expired_at' => $expired,
+                ]);
 
-                    $verificationUrl = rtrim($customBaseUrl). 'verify-email/?userId='.$newUser->id. '&token=' .$randomString. '&expired='.hash('sha256', $expired);
+                $verificationUrl = rtrim($customBaseUrl) . 'verify-email/?userId=' . $newUser->id . '&token=' . $randomString . '&expired=' . hash('sha256', $expired);
 
-                    $email_templates  = new EmailTemplateController();
-                    $get_template = $email_templates->get_template('job-seeker-verify-email');
-                    $originalContent = $get_template['desc'];
-                    
-                    $email_variables = [
-                        '[username]' => $request->first_name.' '.$request->last_name,
-                        // '[verify_email_link]' => '<a href="'.$verificationUrl.'" target="_blank">'.env('APP_URL').'</a>',
-                    ];
+                $email_templates  = new EmailTemplateController();
+                $get_template = $email_templates->get_template('job-seeker-verify-email');
+                $originalContent = $get_template['desc'];
 
-                    foreach ($email_variables as $search => $replace) {
-                        $originalContent = str_replace($search, $replace, $originalContent);
-                    };
+                $email_variables = [
+                    '[username]' => $request->first_name . ' ' . $request->last_name,
+                    // '[verify_email_link]' => '<a href="'.$verificationUrl.'" target="_blank">'.env('APP_URL').'</a>',
+                ];
 
-                    $subject = "Work Pages- Almost there! Verify your email address";
-                    $To = $request->email;
-                    $email = new MultiPurposeEmail($subject, $originalContent, $verificationUrl);
-                    Mail::to($To)->send($email);
+                foreach ($email_variables as $search => $replace) {
+                    $originalContent = str_replace($search, $replace, $originalContent);
+                };
 
+                $subject = "Work Pages- Almost there! Verify your email address";
+                $To = $request->email;
+                $email = new MultiPurposeEmail($subject, $originalContent, $verificationUrl);
+                Mail::to($To)->send($email);
             }
 
             return response()->json([
@@ -267,12 +268,12 @@ class UserController extends Controller
                 'user' => $newUser,
                 'token' => $newUser->createToken($request->device_name)->plainTextToken
             ]);
-        }   catch(Exception $e){
+        } catch (Exception $e) {
             return $e->getMessage();
         }
     }
 
-    public function searchSeeker(Request $request ,User $user)
+    public function searchSeeker(Request $request, User $user)
     {
         $role = Role::where('name', 'Job Seeker')->first()->name;
         $company = Company::where('owner_id', auth()->id())->first();
@@ -280,22 +281,27 @@ class UserController extends Controller
         $user = User::whereHas('roles', function ($query) use ($role) {
             $query->where('name', $role);
         })->doesntHave('company')->where('location_id', $company->location_id)->orWhere('suburb_id', $company->suburb_id);
+
+        if ($request->has('filter')) {
+            $filter = $request->filter;
+            $user->where('name', 'LIKE', "%$filter%")
+                ->orWhereHas('designtion', function ($q) use ($filter) {
+                    $q->where('name', 'LIKE', "%$filter%");
+                });
+        }
         $listing_rows_count  = SiteSettings::select('meta_val')->where('meta_key', '_listing_rows_limit')->first();
-        if($request->pageId)
-            {
-                $offset = $request->pageId*$listing_rows_count['meta_val'];
-            }
-            else
-            {
-                $offset = 0;
-            }
+        if ($request->pageId) {
+            $offset = $request->pageId * $listing_rows_count['meta_val'];
+        } else {
+            $offset = 0;
+        }
 
         $total_counts = $user->count();
 
         $seeker_listing = JobSeekerResource::collection(
             $user->offset($offset)
-            ->limit($listing_rows_count['meta_val'])
-            ->latest()->get()
+                ->limit($listing_rows_count['meta_val'])
+                ->latest()->get()
         );
         $job_seekers  = array(
             'Listing' => $seeker_listing,
@@ -315,13 +321,14 @@ class UserController extends Controller
         UserSocial::updateOrCreate(['user_id' => $user_id], $request->all());
         $user = User::with('socials')->findOrFail($user_id);
         return Response([
-                'status' => 'success',
-                'message' => 'Socials updated successfully',
-                'data' => $user->socials,
+            'status' => 'success',
+            'message' => 'Socials updated successfully',
+            'data' => $user->socials,
         ]);
     }
 
-    public function getUserSocial($user_id){
+    public function getUserSocial($user_id)
+    {
         $userSocials = User::find($user_id)->socials;
         return response()->json($userSocials);
     }
@@ -342,11 +349,9 @@ class UserController extends Controller
                 $verifyMailData->delete();
                 return response()->json(['message' => 'Email verified successfully']);
             }
-        }
-        else {
+        } else {
             return response()->json(['message' => 'User not found']);
         }
-
     }
 
     public function companyUsers(Request $request, User $users)
@@ -358,21 +363,18 @@ class UserController extends Controller
 
         $listing_rows_count  = SiteSettings::select('meta_val')->where('meta_key', '_listing_rows_limit')->first();
 
-        if($request->pageId)
-            {
-                $offset = $request->pageId*$listing_rows_count['meta_val'];
-            }
-            else
-            {
-                $offset = 0;
-            }
+        if ($request->pageId) {
+            $offset = $request->pageId * $listing_rows_count['meta_val'];
+        } else {
+            $offset = 0;
+        }
 
         $total_counts = $users->count();
 
         $seeker_listing = JobSeekerResource::collection(
             $users->offset($offset)
-            ->limit($listing_rows_count['meta_val'])
-            ->get()
+                ->limit($listing_rows_count['meta_val'])
+                ->get()
         );
         $job_seekers  = array(
             'Listing' => $seeker_listing,
@@ -386,8 +388,20 @@ class UserController extends Controller
 
     public function getUser(User $user)
     {
-        $user = $user->load('location', 'job_location', 'designtion', 'language', 'qualification', 
-            'company', 'applications', 'UserMeta', 'socials', 'suburb', 'documents', 'user_detail');
+        $user = $user->load(
+            'location',
+            'job_location',
+            'designtion',
+            'language',
+            'qualification',
+            'company',
+            'applications',
+            'UserMeta',
+            'socials',
+            'suburb',
+            'documents',
+            'user_detail'
+        );
         return response()->json($user);
     }
 }

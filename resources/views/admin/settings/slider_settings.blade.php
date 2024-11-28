@@ -43,16 +43,14 @@
                                             <img src="{{ $site_slider_img }}" width="100%" />
                                         </div>
                                     @endif
-
                                 </div>
-
                                 <hr>
 
                             </div>
                             <div class="row">
                                 <div class="col-md-12 mb-2">
                                     <label for="_slider_content" class="form-label">Slider Content</label><br>
-                                    <textarea name="setting[_slider_content]" class="form-control" id="_slider_content" style="height: 100px">{{ isset($settings['_slider_content']['meta_val']) ? $settings['_slider_content']['meta_val'] : '' }}</textarea>
+                                    <textarea name="setting[_slider_content]" class="tinymce-editor" id="_slider_content" style="height: 100px">{{ isset($settings['_slider_content']['meta_val']) ? $settings['_slider_content']['meta_val'] : '' }}</textarea>
                                 </div>
                                 <div class="col-md-6 mb-2">
                                     <label for="_search_panel_margin_top" class="form-label">Search Panel Margin Top</label>

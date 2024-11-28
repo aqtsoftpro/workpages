@@ -209,6 +209,7 @@ class AdminPackagesController extends Controller
             ]);
 
             if (gettype($request->icon) == 'array') {
+                $main_package->keypoints()->delete();
                 foreach ($request->icon as $key => $value) {
                     KeyPoint::create([
                         'package_id' => $package->id,

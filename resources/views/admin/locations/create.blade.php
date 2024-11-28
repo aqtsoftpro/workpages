@@ -2,12 +2,12 @@
 
 @section('content')
 <div class="pagetitle">
-  <h1>Job Location</h1>
+  <h1>Job Country</h1>
   <nav>
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="{{ url('admin/dashboard') }}">Dashboard</a></li>
-        <li class="breadcrumb-item">Job Location</li>
-      <li class="breadcrumb-item active">Add Location</li>
+        <li class="breadcrumb-item">Job Country</li>
+      <li class="breadcrumb-item active">Add Country</li>
     </ol>
   </nav>
 </div>
@@ -25,7 +25,7 @@
           <div class="card-body">
             <h5 class="card-title row">
               <div class="col-lg-6">
-                Add Job Location
+                Add Job Country
               </div>
               <div class="col-lg-6">
                 <div class="btn-group float-end" role="group" aria-label="Basic example">
@@ -33,9 +33,9 @@
                 </div>
               </div>
             </h5>
+          
             
-            
-                <form method="POST"  action="{{ route('skills.store') }}" class="row g-3" >
+                <form method="POST"  action="{{ route('countries.store') }}" class="row g-3" >
                   @csrf
                     <div class="col-md-12">
                       <label for="name" class="form-label">Name</label>

@@ -147,7 +147,8 @@ Route::middleware('auth')->prefix('admin')->group(function () {
 
    Route::resource('technologies', TechnologyController::class);
    Route::resource('skills', SkillController::class);
-   Route::resource('locations', LocationController::class);
+//    Route::resource('locations', LocationController::class);
+   Route::resource('countries', LocationController::class);
    Route::resource('suburbs', SuburbController::class);
    Route::resource('location_states', LocationStatesController::class);
    Route::resource('sectors', SectorController::class);

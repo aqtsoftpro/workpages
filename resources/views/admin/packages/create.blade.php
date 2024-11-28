@@ -203,7 +203,7 @@
                                         <input type="text" name="icon[]" value="{{ old('icon') }}"
                                             class="form-control" placeholder="e.g. fa fa-tick..." id="icon" required>
                                     </div> --}}
-                                    <div class="col-md-3">
+                                    <div class="col-md-1 col-3">
                                         <x-common.icon-list name="icon[]" id="icon-1" :value="null" label="Icon" />
                                     </div>
                                     <div class="col-md-3">

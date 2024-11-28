@@ -243,14 +243,19 @@
                             <div id="dynamic-fields">
                                 @foreach ($record?->keypoints as $point)
                                     <div class="row mb-2">
-                                        <div class="col-md-3">
-                                            <span class="p-1 bg-light rounded-1 p-2 row mx-1">{{ $point->icon }}</span>
+                                        <div class="col-md-1 col-3">
+                                            {{-- <span class="p-1 bg-light rounded-1 p-2 row mx-1">{{ $point->icon }}</span> --}}
+                                            <x-common.icon-list name="icon[]" id="icon-1" :value="$point->icon" label="Icon" />
                                         </div>
                                         <div class="col-md-3">
-                                            <span class="p-1 bg-light rounded-1 p-2 row mx-1">{{ $point->title }}</span>
+                                            {{-- <span class="p-1 bg-light rounded-1 p-2 row mx-1">{{ $point->title }}</span> --}}
+
+                                                <label for="title" class="form-label">Title </label>
+                                                <input type="text" name="title[]" value="{{ $point->title ?? old('title') }}"
+                                                    class="form-control" placeholder="e.g. title..." id="title" required />
                                         </div>
-                                        <div class="col-md-1">
-                                            <a href="{{ route('keypoints.delete', $point->id) }}" class="btn btn-danger">remove</a>
+                                        <div class="col-md-1 pt-2">
+                                            <a href="{{ route('keypoints.delete', $point->id) }}" class="btn btn-danger mt-4">remove</a>
                                         </div>
                                     </div>
                                 @endforeach

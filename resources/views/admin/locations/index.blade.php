@@ -2,12 +2,12 @@
 
 @section('content')
 <div class="pagetitle">
-  <h1>Job Locations</h1>
+  <h1>Job Countries</h1>
   <nav>
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="{{ url('admin/dashboard') }}">Dashboard</a></li>
-        <li class="breadcrumb-item">Job Locations</li>
-      <li class="breadcrumb-item active">Job Locations</li>
+        <li class="breadcrumb-item">Job Countries</li>
+      <li class="breadcrumb-item active">Job Countries</li>
     </ol>
   </nav>
 </div>
@@ -26,11 +26,11 @@
           <div class="card-body">
             <h5 class="card-title row">
               <div class="col-lg-6">
-                View Job Locations
+                View Job Countries
               </div>
               <div class="col-lg-6">
                 <div class="btn-group float-end" role="group" aria-label="Basic example">
-                  <a href="{{ url('admin/locations/create') }}" class="btn btn-success">Add new</a>
+                  <a href="{{ url('admin/countries/create') }}" class="btn btn-success">Add new</a>
                 </div>
               </div>
             </h5>
@@ -64,7 +64,7 @@
                     @endif
                   </td>
                   <td>
-                      <a class="mx-1 text-success" href="{{ route('locations.edit', $record->id) }}"><i class="bi bi-pen"></i> </a>|
+                      <a class="mx-1 text-success" href="{{ route('countries.edit', $record->id) }}"><i class="bi bi-pen"></i> </a>|
                       <a type="#" class="mx-1 text-danger"  data-bs-toggle="modal" data-bs-target="#deleteModel-{{ $record->id }}" ><i class="bi bi-trash"></i></a>
 
 
@@ -80,7 +80,7 @@
                             </div>
                             <div class="modal-footer">
                               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                              <form id="delete-form" action="{{ route('locations.destroy', $record->id) }}" method="POST">
+                              <form id="delete-form" action="{{ route('countries.destroy', $record->id) }}" method="POST">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger">Delete</button>

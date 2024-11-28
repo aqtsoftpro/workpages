@@ -114,7 +114,12 @@
           </li> --}}
                 <li>
                     <a href="{{ url('admin/location_states') }}">
-                        <i class="bi bi-circle"></i><span>States</span>
+                        <i class="bi bi-circle"></i><span>Locations</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ url('admin/countries') }}">
+                        <i class="bi bi-circle"></i><span>Countries</span>
                     </a>
                 </li>
                 <li>
