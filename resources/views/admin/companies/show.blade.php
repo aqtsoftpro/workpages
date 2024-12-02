@@ -74,7 +74,7 @@
                 <b>Location</b>
               </div>
               <div class="col-md-3 border-end">
-                {{ (isset($record->location->name))?$record->location->name:'' }}
+                {{ (isset($record?->location?->name))?$record?->location?->name:'' }}
               </div>
               <div class="col-md-3">
                 <b>Website Link</b>

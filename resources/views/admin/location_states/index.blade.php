@@ -54,7 +54,7 @@
               <tr>
                   <td scope="row">{{ $loop->iteration }}</td>
                   <td>{{ $record->name }}</td>
-                  <td>{{ $record->location->name }}</td>
+                  <td>{{ $record?->location?->name }}</td>
                   {{-- <td></td>
                   <td></td> --}}
                   <td>
