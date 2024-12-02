@@ -117,11 +117,11 @@
                         <i class="bi bi-circle"></i><span>Locations</span>
                     </a>
                 </li>
-                {{-- <li>
+                <li>
                     <a href="{{ url('admin/countries') }}">
                         <i class="bi bi-circle"></i><span>Countries</span>
                     </a>
-                </li> --}}
+                </li>
                 <li>
                     <a href="{{ url('admin/skills') }}">
                         <i class="bi bi-circle"></i><span>Skills</span>
