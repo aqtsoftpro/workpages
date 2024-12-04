@@ -47,7 +47,7 @@
                     <div class="col-md-12">
                       <label for="icon" class="form-label">Country</label>
                       <select class="form-control" name="location_id">
-                        <option value="">select Location</option>
+                        <option value="">Select Country</option>
                         @foreach($locations as $location)
                           <option value="{{ $location->id }}" {{ ($record->location_id == $location->id)?'selected':'' }}>{{ $location->name }}</option>
                         @endforeach
