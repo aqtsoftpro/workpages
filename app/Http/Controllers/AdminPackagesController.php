@@ -193,7 +193,7 @@ class AdminPackagesController extends Controller
     {
         $this->authorize('update', $package);
         $inputs = $request->all();
-        $inputs['post_for'] = 30;
+        // $inputs['post_for'] = 30;
         if (!isset($request->cv_access)) {
             $inputs['cv_access'] = 0;
         }

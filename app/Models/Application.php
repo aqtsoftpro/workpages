@@ -22,7 +22,9 @@ class Application extends Model
         'job_id',
         'cv',
         'experience',
-        'salary'
+        'exp_range',
+        'salary',
+        'salary_period'
     ];
 
     public function user(): BelongsTo

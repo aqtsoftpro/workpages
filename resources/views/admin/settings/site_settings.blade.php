@@ -41,12 +41,12 @@
                       <input type="email" name="setting[_site_email]" value="{{ (isset($settings['_site_email']['meta_val']))? $settings['_site_email']['meta_val']:'' }}" class="form-control" id="_site_email">
                     </div>
                     <div class="col-md-12">
-                      <label for="_site_contact_no" class="form-label">Contact No</label>
-                      <input type="text" name="setting[_site_contact_no]" value="{{ (isset($settings['_site_contact_no']['meta_val']))? $settings['_site_contact_no']['meta_val']:'' }}" class="form-control" maxlength="15" id="_site_contact_no">
+                      <label for="_site_contact_no1" class="form-label">Contact No</label>
+                      <input type="text" name="setting[_site_contact_no]" value="{{ (isset($settings['_site_contact_no']['meta_val']))? $settings['_site_contact_no']['meta_val']:'' }}" class="form-control" maxlength="15" id="_site_contact_no1">
                     </div>
                     <div class="col-md-12">
-                      <label for="_site_support_no" class="form-label">Support No</label>
-                      <input type="text" name="setting[_site_support_no]" value="{{ (isset($settings['_site_support_no']['meta_val']))? $settings['_site_support_no']['meta_val']:'' }}" class="form-control" maxlength="15" id="_site_support_no">
+                      <label for="_site_support_no1" class="form-label">Support No</label>
+                      <input type="text" name="setting[_site_support_no]" value="{{ (isset($settings['_site_support_no']['meta_val']))? $settings['_site_support_no']['meta_val']:'' }}" class="form-control" maxlength="15" id="_site_support_no1">
                     </div>
                     <div class="col-md-12">
                       <label for="_site_city" class="form-label">City</label>

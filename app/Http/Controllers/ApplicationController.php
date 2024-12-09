@@ -56,7 +56,8 @@ class ApplicationController extends Controller
                     'cv' => $cv_file,
                     'job_id' => $request->job_id,
                     'experience' => $request->experience,
-                    'salary' => $request->salary
+                    'salary' => $request->salary,
+                    'salary_period' => $request->salary_period,
                 ]);
                 $job = Job::with('company.owner')->find($request->job_id);
                 DB::commit();
