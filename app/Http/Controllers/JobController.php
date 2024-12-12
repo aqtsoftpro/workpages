@@ -174,12 +174,16 @@ class JobController extends Controller
         return response()->json(JobResource::collection($q->get()));
     }
 
+
     public function categoryJobs($cat_slug, Job $job)
     {
 
         $category = Category::where('slug', $cat_slug)->first()->toArray();
         $q = $job->newQuery();
-        $q->where(['category_id'=> $category['id'], 'status' => 'active']);
+        $q->whereHas('company.owner.subaccesses', function ($query) {
+            $query->where('expired_at', '>', now());
+        });
+        $q->where(['category_id'=> $category['id'], 'status' => 'active'])->whereDate('expiration', '>', now());
         $jobs = $q->orderBy('expiration', 'desc')->get();
         $data = JobResource::collection($jobs)->paginate(10);
         return response()->json($data);

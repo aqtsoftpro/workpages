@@ -46,6 +46,11 @@
                       <textarea name="desc" class="tinymce-editor"></textarea>
                       <!-- End TinyMCE Editor -->
                     </div>
+
+                    <div class="col-md-12">
+                      <label for="name" class="form-label">Upload html file here</label>
+                      <input type="file" name="html_file" value="" class="form-control" id="html_file" required>
+                    </div>
   
                     <div>
                       <button type="submit" class="btn btn-primary">Create</button>

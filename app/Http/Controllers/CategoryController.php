@@ -14,7 +14,7 @@ use Stringable;
 class CategoryController extends Controller
 {
 
-    public function index() : View
+    public function index(): View
     {
         $records = Category::orderBy('name', 'ASC')->get();
         return view('admin.job_categories.index', compact('records'));
@@ -39,29 +39,24 @@ class CategoryController extends Controller
         ]);
 
 
-        if($request->file('image'))
-        {
-            $FileName = 'cat-'.time().'-'.rand(100000,1000000).'.'.$request->file('image')->extension();
+        if ($request->file('image')) {
+            $FileName = 'cat-' . time() . '-' . rand(100000, 1000000) . '.' . $request->file('image')->extension();
             $request->file('image')->storeAs('public', $FileName);
-            
-            if(isset($FileName)){
+
+            if (isset($FileName)) {
                 $image = env('APP_URL') . '/storage/' . $FileName;
             }
-            
+
             Category::where("id", $added_rec->id)->update(["image" => $image]);
         }
 
-        if($added_rec)
-        {
+        if ($added_rec) {
             return redirect()->route('job_categories.index')
-                        ->with('success',''.$request->name.' Job category added successfully.');
-        }
-        else
-        {
+                ->with('success', '' . $request->name . ' Job category added successfully.');
+        } else {
             return redirect()->route('job_categories.index')
-                        ->with('success','Something went wrong. Please try again.');
+                ->with('success', 'Something went wrong. Please try again.');
         }
-
     }
 
     /**
@@ -78,7 +73,7 @@ class CategoryController extends Controller
     public function edit($id)
     {
         $record = Category::find($id);
-        
+
 
         return view('admin.job_categories.edit', compact('record'));
     }
@@ -106,32 +101,27 @@ class CategoryController extends Controller
 
         $updated_rec = $category->update($request->all());
 
-        if($request->file('image'))
-        {
-            $FileName = 'cat-'.time().'-'.rand(100000,1000000).'.'.$request->file('image')->extension();
+        if ($request->file('image')) {
+            $FileName = 'cat-' . time() . '-' . rand(100000, 1000000) . '.' . $request->file('image')->extension();
             $request->file('image')->storeAs('public', $FileName);
 
-            $imagePath = $request->file('image')->store('categories','public');
+            $imagePath = $request->file('image')->store('categories', 'public');
             // Add the image path to the form data before saving to the database 
-            
+
             // dd($imagePath);
-            
-            if(isset($imagePath)){
-                $image = env('APP_URL') .'storage/'.$imagePath;
+
+            if (isset($imagePath)) {
+                $image = env('APP_URL') . 'storage/' . $imagePath;
                 // dd($image);
             }
             Category::where("id", $id)->update(["image" => $image]);
         }
-  
-        if($updated_rec)
-            {
-                return redirect()->back()->with('success', ''.$request->name.' category updated successfully');
-            }
-            else
-            {
-                return redirect()->back()->with('success', 'Something went wrong. Please try again!');
-            }
 
+        if ($updated_rec) {
+            return redirect()->back()->with('success', '' . $request->name . ' category updated successfully');
+        } else {
+            return redirect()->back()->with('success', 'Something went wrong. Please try again!');
+        }
     }
 
     /**
@@ -141,28 +131,30 @@ class CategoryController extends Controller
     {
         $deleted_rec = Category::find($id);
 
-        if(Category::destroy($id)) {
+        if (Category::destroy($id)) {
 
             return redirect()->route('job_categories.index')
-                        ->with('success',''.$deleted_rec->name.' category deleted successfully');
-          } else {
+                ->with('success', '' . $deleted_rec->name . ' category deleted successfully');
+        } else {
             return redirect()->route('job_categories.index')
-                        ->with('error','Please try again!');
+                ->with('error', 'Please try again!');
         }
     }
 
-    public function categories(Category $category){
+    public function categories(Category $category)
+    {
 
         // $categories = Category::select('job_categories.*', 'stats.counts as cat_counts')
         // ->where('stats.counts', '!=', '')
         // ->leftJoin('stats', 'job_categories.id', '=', 'stats.ref_id')
         // ->orderBy('job_categories.name', 'ASC')
         // ->get();
-        $categories = Category::with('stats')->get();
+        $categories = Category::with('stats')->orderBy('job_categories.name', 'ASC')->get();
         return response()->json($categories);
     }
 
-    public function trending_jobs_categories(Category $category){
+    public function trending_jobs_categories(Category $category)
+    {
 
         // $trending_jobs_categories = Category::select('job_categories.*', 'stats.counts as cat_counts')
         // ->leftJoin('stats', 'job_categories.id', '=', 'stats.ref_id')
@@ -197,8 +189,7 @@ class CategoryController extends Controller
 
         $trending_jobs_categories = array();
         $i = 0;
-        foreach($jobs_categories as $cat)
-        {
+        foreach ($jobs_categories as $cat) {
             // print_r($cat);
             $getCat = Category::where('id', $cat->category_id)->first()->toArray();
             // print_r($getCat);
@@ -210,18 +201,18 @@ class CategoryController extends Controller
             $i++;
         }
 
-        
 
 
-//         SELECT
-// 	job_categories.*, COUNT(jobs.id) AS job_counts
-// FROM
-// 		job_categories
-// 	INNER JOIN
-// 		jobs
-// 	ON 
-// 		job_categories.id = jobs.category_id
-// 	GROUP BY job_categories.id;
+
+        //         SELECT
+        // 	job_categories.*, COUNT(jobs.id) AS job_counts
+        // FROM
+        // 		job_categories
+        // 	INNER JOIN
+        // 		jobs
+        // 	ON 
+        // 		job_categories.id = jobs.category_id
+        // 	GROUP BY job_categories.id;
 
         return response()->json($trending_jobs_categories);
     }

@@ -197,11 +197,41 @@ class AdminPackagesController extends Controller
         if (!isset($request->cv_access)) {
             $inputs['cv_access'] = 0;
         }
+
+        $product = Cashier::stripe()->products->update(
+            $package->stripe_product_id,
+            [
+                'name' => $request->name,
+                // 'type' => 'service', // optional field
+                'description' => $request->description ?? 'No Description added', // optional field
+            ]
+        );
+
+
+        $new_price = Cashier::stripe()->prices->create([
+            'product' => $product->id,
+            'unit_amount' => $request->price * 100, // price per unit in USD
+            // 'currency' => Str::slug($currency->code),
+            'currency' => config('cashier.currency') ?? 'usd',
+
+            'recurring' => [
+                'interval' => 'month',
+                'interval_count' => $request->interval_count,
+                'usage_type' => 'licensed', // normally 'licensed'
+            ],
+        ]);
+
+
+        Cashier::stripe()->products->update(
+            $product->id,
+            [
+                'default_price' => $new_price->id,
+            ]
+        );
+
         $main_package = Package::with('keypoints')->findOrFail($package->id);
         if($main_package->update($inputs)){
-            // foreach ($main_package->keypoints as $key => $point) {
-            //     $point->delete();
-            // }
+
             $request->validate([
                 'icon.*' => 'required',
                 'title.*' => 'required',

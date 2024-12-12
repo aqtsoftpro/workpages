@@ -32,7 +32,7 @@ class AdminCmsController extends Controller
         $post        = new Cms();
         $post->name  = $request->name;
         $post->slug  = Str::slug($request->name);
-        $post->desc  = addslashes($request->desc);
+        $post->desc  = $request->desc;
         $post->save();
 
         if($post)
@@ -62,10 +62,13 @@ class AdminCmsController extends Controller
     {
         $affectedRows = Cms::findOrFail($id);
 
+
+
+
         $this->authorize('update', $affectedRows);
         $data =  array(
             'name' => $request->name,
-            'desc' => addslashes($request->desc),
+            'desc' => $request->desc,
         );
         $affectedRows = Cms::findOrFail($id);
         if($affectedRows->update($data)){

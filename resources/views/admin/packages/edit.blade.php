@@ -38,63 +38,6 @@
                                 </div>
                             </div>
                         </div>
-                        {{-- <div class="row">
-                            <div class="card-title">
-                                Previous keypoints
-                            </div>
-                            <table class="table datatable">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">Icon</th>
-                                        <th scope="col">Title</th>
-                                        <th scope="col">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($record?->keypoints as $point)
-                                        <tr>
-                                            <td scope="row">{{ $loop->iteration }}</td>
-                                            <td>{{ $point->icon }}</td>
-                                            <td>{{ $point->title }}</td>
-                                            <td>
-                                                <a type="#" class="mx-1 text-danger" data-bs-toggle="modal"
-                                                    data-bs-target="#deleteModel-{{ $point->id }}"><i
-                                                        class="bi bi-trash"></i></a>
-                                                <div class="modal fade" id="deleteModel-{{ $point->id }}" tabindex="-1">
-                                                    <div class="modal-dialog modal-dialog-centered">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h5 class="modal-title">Delete Point</h5>
-                                                                <button type="button" class="btn-close"
-                                                                    data-bs-dismiss="modal" aria-label="Close"></button>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                Are you sure You want to Delete <b>{{ $point->title }}</b>?
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-secondary"
-                                                                    data-bs-dismiss="modal">Close</button>
-                                                                <form id="delete-form"
-                                                                    action="{{ route('keypoints.destroy', $point->id) }}"
-                                                                    method="POST">
-                                                                    @csrf
-                                                                    @method('DELETE')
-                                                                    <button type="submit"
-                                                                        class="btn btn-danger">Delete</button>
-                                                                </form>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                        <br>
-                        <br> --}}
                         <div class="card-title">
                             <div class="col-lg-6">
                                 Edit Package
@@ -106,17 +49,17 @@
                             <div class="col-md-12">
                                 <label for="name" class="form-label">Name</label>
                                 <input type="text" name="name" value="{{ $record->name }}" class="form-control"
-                                    id="name" required disabled>
+                                    id="name" required >
                             </div>
                             <div class="col-md-2">
                                 <label for="price" class="form-label">Price</label>
                                 <input type="text" name="price" value="{{ $record->price }}" class="form-control"
-                                    id="price" required disabled>
+                                    id="price" required >
                             </div>
 
                             <div class="col-md-3">
                                 <label for="interval" class="form-label">Interval</label>
-                                <select name="interval" id="interval" class="form-select" disabled>
+                                <select name="interval" id="interval" class="form-select" >
                                     <option value="day" @selected($record->interval == 'day')>Days</option>
                                     <option value="month" @selected($record->interval == 'month')>Months</option>
                                     <option value="year" @selected($record->interval == 'year')>Years</option>
@@ -126,7 +69,7 @@
                             <div class="col-md-3">
                                 <label for="interval_count" class="form-label">Interval Count</label>
                                 <input type="number" name="interval_count" value="{{ $record->interval_count }}"
-                                    min="2" class="form-control" id="interval_count" required disabled>
+                                    min="2" class="form-control" id="interval_count" required >
                             </div>
 
                             <div class="card-title mt-5">
