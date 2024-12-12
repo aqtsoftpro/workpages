@@ -56,11 +56,6 @@
                                 <!-- End TinyMCE Editor -->
                             </div>
 
-                            <div class="col-md-12">
-                                <label for="name" class="form-label">Upload html file here</label>
-                                <input type="file" name="html_file" class="form-control" id="html_file">
-                            </div>
-
                             <div>
                                 <button type="submit" class="btn btn-primary">Update</button>
                             </div>
