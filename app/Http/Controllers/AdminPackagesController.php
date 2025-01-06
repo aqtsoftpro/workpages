@@ -14,10 +14,11 @@ use Laravel\Cashier\Cashier;
 
 class AdminPackagesController extends Controller
 {
-    public function index(){
+    public function index()
+    {
 
         $this->authorize('viewAny', Package::class);
-        
+
         $records = Package::with('subscriptions')->get();
 
         return  view('admin.packages.index', compact('records'));
@@ -65,67 +66,63 @@ class AdminPackagesController extends Controller
                         $inputs['stripe_product_id'] = $product->id;
                         $inputs['count'] = 9999999;
                     }
-                }               
+                }
             }
             $inputs['description'] = $request->description ?? 'No Description';
             $added_rec = Package::create($inputs);
-            if($added_rec){
-                    // Validate the request data
-                    $request->validate([
-                        'icon.*' => 'required',
-                        'title.*' => 'required',
-                        // 'detail.*' => 'required',
-                    ]);
+            if ($added_rec) {
+                // Validate the request data
+                $request->validate([
+                    'icon.*' => 'required',
+                    'title.*' => 'required',
+                    // 'detail.*' => 'required',
+                ]);
 
-                    if (is_array($request->title) && !empty($request->title)) {
-                        foreach ($request->title as $key => $value) {
-                            KeyPoint::create([
-                                'package_id' => $added_rec->id,
-                                'icon' => $request->icon[$key],
-                                'title' => $value,
-                                'detail' => $request->detail[$key] ?? "No Detail",
-                            ]);
-                        }
+                if (is_array($request->title) && !empty($request->title)) {
+                    foreach ($request->title as $key => $value) {
+                        KeyPoint::create([
+                            'package_id' => $added_rec->id,
+                            'icon' => $request->icon[$key],
+                            'title' => $value,
+                            'detail' => $request->detail[$key] ?? "No Detail",
+                        ]);
                     }
+                }
 
-                    DB::commit();
+                DB::commit();
                 return redirect()->route('packages.index')
-                            ->with('success',''.$request->name.' Package added successfully.');
-            }
-            else
-            {
+                    ->with('success', '' . $request->name . ' Package added successfully.');
+            } else {
                 return redirect()->route('packages.index')
-                            ->with('success','Something went wrong. Please try again.');
+                    ->with('success', 'Something went wrong. Please try again.');
             }
-
-        }
-        catch(Exception $ex){
+        } catch (Exception $ex) {
             DB::rollBack();
             //dd($ex->getMessage());
             return redirect()->route('admin.plans.index')->with('failed', $ex->getMessage());
         }
-        
     }
 
     public function destroyKey(KeyPoint $keypoint)
-    {   
+    {
         // dd($keypoint);  
         // $this->authorize('delete', $package);
         $keypoint = KeyPoint::findOrFail($keypoint->id);
         $deleted_rec = $keypoint;
-        if($keypoint->delete()) {
+        if ($keypoint->delete()) {
 
             return redirect()->back()
-                        ->with('success',''.$deleted_rec->title.' keypoint deleted successfully');
-          } else {
+                ->with('success', '' . $deleted_rec->title . ' keypoint deleted successfully');
+        } else {
             return redirect()->back()
-                        ->with('error','Please try again!');
+                ->with('error', 'Please try again!');
         }
     }
 
 
     //just check if it works or not
-    public function session(Request $request){
+    public function session(Request $request)
+    {
 
         $package = Package::find($request->package);
 
@@ -140,7 +137,7 @@ class AdminPackagesController extends Controller
                 ],
             ],
             'mode'        => 'subscription',
-            'success_url' => url('checkout/success/'.encrypt($package->id).'/{CHECKOUT_SESSION_ID}'),
+            'success_url' => url('checkout/success/' . encrypt($package->id) . '/{CHECKOUT_SESSION_ID}'),
             'cancel_url'  => url('/dashboard'),
         ]);
 
@@ -148,7 +145,8 @@ class AdminPackagesController extends Controller
     }
 
 
-    public function success($id, $session_id){
+    public function success($id, $session_id)
+    {
 
         $package = Package::find(decrypt($id));
         //dd($package->extra_users);
@@ -170,7 +168,7 @@ class AdminPackagesController extends Controller
 
         Subscription::create([
             'user_id' => auth()->id(),
-            'package_id'=> $package->id,
+            'package_id' => $package->id,
             'company_id' => auth()->user()->company->id,
             'name' => $package->name,
             'stripe_id' => $payment_intent->data[0]['id'],
@@ -198,39 +196,45 @@ class AdminPackagesController extends Controller
             $inputs['cv_access'] = 0;
         }
 
-        $product = Cashier::stripe()->products->update(
-            $package->stripe_product_id,
-            [
-                'name' => $request->name,
-                // 'type' => 'service', // optional field
-                'description' => $request->description ?? 'No Description added', // optional field
-            ]
-        );
+        try {
+            $product = Cashier::stripe()->products->update(
+                $package->stripe_product_id,
+                [
+                    'name' => $request->name,
+                    // 'type' => 'service', // optional field
+                    'description' => $request->description ?? 'No Description added', // optional field
+                ]
+            );
 
 
-        $new_price = Cashier::stripe()->prices->create([
-            'product' => $product->id,
-            'unit_amount' => $request->price * 100, // price per unit in USD
-            // 'currency' => Str::slug($currency->code),
-            'currency' => config('cashier.currency') ?? 'usd',
+            $new_price = Cashier::stripe()->prices->create([
+                'product' => $product->id,
+                'unit_amount' => $request->price * 100, // price per unit in USD
+                // 'currency' => Str::slug($currency->code),
+                'currency' => config('cashier.currency') ?? 'usd',
 
-            'recurring' => [
-                'interval' => 'month',
-                'interval_count' => $request->interval_count,
-                'usage_type' => 'licensed', // normally 'licensed'
-            ],
-        ]);
+                'recurring' => [
+                    'interval' => 'month',
+                    'interval_count' => $request->interval_count,
+                    'usage_type' => 'licensed', // normally 'licensed'
+                ],
+            ]);
 
 
-        Cashier::stripe()->products->update(
-            $product->id,
-            [
-                'default_price' => $new_price->id,
-            ]
-        );
+            Cashier::stripe()->products->update(
+                $product->id,
+                [
+                    'default_price' => $new_price->id,
+                ]
+            );
+        } catch (\Throwable $th) {
+            
+        }
+
+
 
         $main_package = Package::with('keypoints')->findOrFail($package->id);
-        if($main_package->update($inputs)){
+        if ($main_package->update($inputs)) {
 
             $request->validate([
                 'icon.*' => 'required',
@@ -249,10 +253,8 @@ class AdminPackagesController extends Controller
                     ]);
                 }
             }
-            return redirect()->route('packages.index')->with('success', ''.$request->name.' package updated successfully');
-        }
-        else
-        {
+            return redirect()->route('packages.index')->with('success', '' . $request->name . ' package updated successfully');
+        } else {
             return redirect()->back()->with('error', 'Something went wrong. Please try again!');
             // return response()->json(['data' => $package, 'status'=> 'error', 'message'=> 'Something went wrong. Please try again!']);
         }
@@ -264,17 +266,18 @@ class AdminPackagesController extends Controller
 
         $deleted_rec = $package;
 
-        if($package->delete()) {
+        if ($package->delete()) {
 
             return redirect()->route('packages.index')
-                        ->with('success',''.$deleted_rec->name.' package deleted successfully');
-          } else {
+                ->with('success', '' . $deleted_rec->name . ' package deleted successfully');
+        } else {
             return redirect()->route('packages.index')
-                        ->with('error','Please try again!');
+                ->with('error', 'Please try again!');
         }
     }
 
-    public function history(){
+    public function history()
+    {
         return  view('admin.packages.history');
     }
 }
