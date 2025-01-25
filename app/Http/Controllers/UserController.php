@@ -7,7 +7,7 @@ use App\Models\User;
 use Spatie\Permission\Models\Role;
 use App\Models\Company;
 use App\Models\UserSocial;
-use App\Models\{SiteSettings, Job};
+use App\Models\{SiteSettings, Job, UserMeta};
 use Illuminate\Http\Request;
 use Pusher\Pusher;
 use App\Events\SendDataToPusher;
@@ -134,8 +134,36 @@ class UserController extends Controller
             $userRequest['password'] = $hased_passwoed;
         }
 
+        // if (isset($request->casual_show)) {
+        //     $userRequest['casual_show'] = 1;
+        // } else {
+        //     $userRequest['casual_show'] = 0;
+        // }
+
+        // if (isset($request->public_show)) {
+        //     $userRequest['public_show'] = 1;
+        // } else {
+        //     $userRequest['public_show'] = 0;
+        // }
+
         try {
             $user->update($userRequest);
+
+
+            UserMeta::updateOrCreate([
+                'user_id' => $user->id,
+                'meta_key' => 'casual_show'
+            ], [
+                'meta_val' => $request->casual_show ? 1 : 0,
+            ]);
+
+            UserMeta::updateOrCreate([
+                'user_id' => $user->id,
+                'meta_key' => 'public_show'
+            ], [
+                'meta_val' => $request->public_show ? 1 : 0,
+            ]);
+
             $jobs = Job::with('company.owner')->where(['location_id' => $user->current_job_location_id, 'qualification_id' => $user->qualification_id, 'status' => 'active', 'job_status' => 'live'])->get();
             if ($jobs->count() > 0) {
                 $customBaseUrl = env('FRONT_APP_URL');
@@ -282,7 +310,6 @@ class UserController extends Controller
         //     $query->where('name', $role);
         // })->doesntHave('company')->where('location_id', $company->location_id)->orWhere('suburb_id', $company->suburb_id);
 
-
         $user = User::whereHas('roles', function ($query) use ($role) {
             $query->where('name', $role);
         })->doesntHave('company')
@@ -290,6 +317,11 @@ class UserController extends Controller
                 $query->where('location_id', $company->location_id)
                     ->orWhere('suburb_id', $company->suburb_id);
             });
+
+        $user->whereHas('user_meta', function ($query) {
+            $query->where('meta_key', 'casual_show')->where('meta_val', 1);
+        });
+
 
         if ($request->has('filter')) {
             $filter = $request->filter;
@@ -321,6 +353,57 @@ class UserController extends Controller
         );
         return response()->json($job_seekers);
     }
+
+    public function getDirectory(Request $request, User $user)
+    {
+        $role = Role::where('name', 'Job Seeker')->first()->name;
+        $company = Company::where('owner_id', auth()->id())->first();
+
+        $user = User::whereHas('roles', function ($query) use ($role) {
+            $query->where('name', $role);
+        })->doesntHave('company')
+            ->where(function ($query) use ($company) {
+                $query->where('location_id', $company->location_id)
+                    ->orWhere('suburb_id', $company->suburb_id);
+            });
+
+        // $user->whereHas('user_meta', function ($query) {
+        //     $query->where('meta_key', 'public_show')->where('meta_val', 1);
+        // });
+
+        if ($request->has('filter')) {
+            $filter = $request->filter;
+            $user->where('name', 'LIKE', "%$filter%")
+                ->orWhereHas('designtion', function ($q) use ($filter) {
+                    $q->where('name', 'LIKE', "%$filter%");
+                });
+        }
+        $listing_rows_count  = SiteSettings::select('meta_val')->where('meta_key', '_listing_rows_limit')->first();
+        if ($request->pageId) {
+            $offset = $request->pageId * $listing_rows_count['meta_val'];
+        } else {
+            $offset = 0;
+        }
+
+        $total_counts = $user->count();
+
+        $seeker_listing = JobSeekerResource::collection(
+            $user->offset($offset)
+                ->limit($listing_rows_count['meta_val'])
+                ->latest()->get()
+        );
+        $job_seekers  = array(
+            'Listing' => $seeker_listing,
+            'page_no' => $request->pageId,
+            'count' => $total_counts,
+            'showing_count' => $total_counts,
+            'rows_count' =>  $listing_rows_count['meta_val'],
+        );
+        return response()->json($job_seekers);
+    }
+
+
+    
 
 
     public function updateUserSocial($user_id, Request $request): Response

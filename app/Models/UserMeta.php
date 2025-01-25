@@ -12,7 +12,12 @@ class UserMeta extends Model
 
     protected $table = 'user_meta';
 
+    public $timestamps = false;
+
     protected $fillable = [
-        'jobs_applications_email_alert'
+        'user_id',
+        'meta_key', 'meta_val'
     ];
+
+
 }
