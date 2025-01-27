@@ -191,12 +191,31 @@ class UserController extends Controller
                     Mail::to($To)->send($email);
                 }
             }
+
+            $getUserMeta = UserMeta::where('user_id', $user->id)->get()->toArray();
+
+            $userMeta = array();
+
+            foreach($getUserMeta as $meta)
+            {
+                $userMeta[$meta['meta_key']] = $meta['meta_val'];
+            }
+
+            $user = User::where('id', $user->id)->with(['roles', 'user_detail', 'documents', 'company', 'subAccesses' => function ($query) {
+                $query->whereDate('expired_at','>', now());
+            }])->get();
+
+            $user[0]['userMeta'] = $userMeta;
+
+
             return response()->json([
                 'status' => 'user updated',
                 'message' => 'Profile updated successfully',
-                'user' => User::where('id', $user->id)->with('roles')->get(),
+                'user' => $user,
                 'jobs' => $jobs,
             ]);
+
+
         } catch (Exception $e) {
             return $e->getMessage();
         }

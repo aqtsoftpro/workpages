@@ -322,8 +322,10 @@
                 <div class="content">
 
                     <!-- START CENTERED WHITE CONTAINER -->
-                    <span class="preheader">This is preheader text. Some clients will show this text as a
-                        preview.</span>
+                    <span class="preheader" style="display:none; max-height:0; overflow:hidden; opacity:0; color:transparent;" >
+                        This is preheader text. Some clients will show this text as a
+                        preview.
+                    </span>
                     <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="main">
 
                         <!-- START MAIN CONTENT AREA -->
@@ -361,7 +363,7 @@
                     <!-- START FOOTER -->
                     <div class="footer">
                         <table role="presentation" border="0" cellpadding="0" cellspacing="0">
-                            <tr>
+                            {{-- <tr>
                                 <td class="content-block">
                                     <span class="apple-link">Company Inc, 7-11 Commercial Ct, Belfast BT1 2NB</span>
                                     <br> Don't like these emails? <a href="http://htmlemail.io/blog">Unsubscribe</a>.
@@ -371,7 +373,7 @@
                                 <td class="content-block powered-by">
                                     Powered by <a href="http://htmlemail.io">HTMLemail.io</a>
                                 </td>
-                            </tr>
+                            </tr> --}}
                         </table>
                     </div>
 
