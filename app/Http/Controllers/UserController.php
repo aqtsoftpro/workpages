@@ -196,13 +196,12 @@ class UserController extends Controller
 
             $userMeta = array();
 
-            foreach($getUserMeta as $meta)
-            {
+            foreach ($getUserMeta as $meta) {
                 $userMeta[$meta['meta_key']] = $meta['meta_val'];
             }
 
             $user = User::where('id', $user->id)->with(['roles', 'user_detail', 'documents', 'company', 'subAccesses' => function ($query) {
-                $query->whereDate('expired_at','>', now());
+                $query->whereDate('expired_at', '>', now());
             }])->get();
 
             $user[0]['userMeta'] = $userMeta;
@@ -214,8 +213,6 @@ class UserController extends Controller
                 'user' => $user,
                 'jobs' => $jobs,
             ]);
-
-
         } catch (Exception $e) {
             return $e->getMessage();
         }
@@ -327,10 +324,6 @@ class UserController extends Controller
         $company = Company::where('owner_id', auth()->id())->first();
         $user = User::query();
 
-        // $user->whereHas('user_meta', function ($query) {
-        //     $query->where('meta_key', 'casual_show')->where('meta_val', 1);
-        // });
-
         if ($request->has('filter')) {
             $filter = $request->filter;
             $user->where('name', 'LIKE', "%$filter%")
@@ -347,7 +340,9 @@ class UserController extends Controller
                     ->orWhere('suburb_id', $company->suburb_id);
             });
 
-
+        $user->whereHas('user_meta', function ($query) {
+            $query->where('meta_key', 'casual_show')->where('meta_val', '1');
+        });
 
         $listing_rows_count  = SiteSettings::select('meta_val')->where('meta_key', '_listing_rows_limit')->first();
         if ($request->pageId) {
