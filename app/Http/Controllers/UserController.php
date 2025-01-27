@@ -329,7 +329,7 @@ class UserController extends Controller
 
 
         $user->whereHas('user_meta', function ($query) {
-            $query->where('meta_key', 'public_show')->where('meta_val', 1);
+            $query->where('meta_key', 'casual_show')->where('meta_val', 1);
         });
 
         if ($request->has('filter')) {
