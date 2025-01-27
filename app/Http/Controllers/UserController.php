@@ -302,27 +302,16 @@ class UserController extends Controller
         }
     }
 
-    public function searchSeeker(Request $request, User $user)
+    public function searchSeeker(Request $request)
     {
         $role = Role::where('name', 'Job Seeker')->first()->name;
         $company = Company::where('owner_id', auth()->id())->first();
+        $user = User::query();
 
-        // $user = User::whereHas('roles', function ($query) use ($role) {
-        //     $query->where('name', $role);
-        // })->doesntHave('company')->where('location_id', $company->location_id)->orWhere('suburb_id', $company->suburb_id);
-
-        $user = User::whereHas('roles', function ($query) use ($role) {
-            $query->where('name', $role);
-        })->doesntHave('company')
-            ->where(function ($query) use ($company) {
-                $query->where('location_id', $company->location_id)
-                    ->orWhere('suburb_id', $company->suburb_id);
-            });
 
         $user->whereHas('user_meta', function ($query) {
-            $query->where('meta_key', 'casual_show')->where('meta_val', 1);
+            $query->where('meta_key', 'public_show')->where('meta_val', 1);
         });
-
 
         if ($request->has('filter')) {
             $filter = $request->filter;
@@ -331,6 +320,17 @@ class UserController extends Controller
                     $q->where('name', 'LIKE', "%$filter%");
                 });
         }
+
+        $user->whereHas('roles', function ($query) use ($role) {
+            $query->where('name', $role);
+        })->doesntHave('company')
+            ->where(function ($query) use ($company) {
+                $query->where('location_id', $company->location_id)
+                    ->orWhere('suburb_id', $company->suburb_id);
+            });
+
+
+
         $listing_rows_count  = SiteSettings::select('meta_val')->where('meta_key', '_listing_rows_limit')->first();
         if ($request->pageId) {
             $offset = $request->pageId * $listing_rows_count['meta_val'];
@@ -355,19 +355,18 @@ class UserController extends Controller
         return response()->json($job_seekers);
     }
 
-    public function getDirectory(Request $request, User $user)
+
+
+    public function getDirectory(Request $request)
     {
         $role = Role::where('name', 'Job Seeker')->first()->name;
         $company = Company::where('owner_id', auth()->id())->first();
+        $user = User::query();
 
-        $user = User::whereHas('roles', function ($query) use ($role) {
-            $query->where('name', $role);
-        })->doesntHave('company')
-            ->where(function ($query) use ($company) {
-                $query->where('location_id', $company->location_id)
-                    ->orWhere('suburb_id', $company->suburb_id);
-            });
 
+        $user->whereHas('user_meta', function ($query) {
+            $query->where('meta_key', 'public_show')->where('meta_val', 1);
+        });
 
         if ($request->has('filter')) {
             $filter = $request->filter;
@@ -377,11 +376,13 @@ class UserController extends Controller
                 });
         }
 
-        $user->whereHas('user_meta', function ($query) {
-            $query->where('meta_key', 'public_show')->where('meta_val', 1);
-        });
-
-
+        $user->whereHas('roles', function ($query) use ($role) {
+            $query->where('name', $role);
+        })->doesntHave('company')
+            ->where(function ($query) use ($company) {
+                $query->where('location_id', $company->location_id)
+                    ->orWhere('suburb_id', $company->suburb_id);
+            });
 
 
 
