@@ -327,10 +327,9 @@ class UserController extends Controller
         $company = Company::where('owner_id', auth()->id())->first();
         $user = User::query();
 
-
-        $user->whereHas('user_meta', function ($query) {
-            $query->where('meta_key', 'casual_show')->where('meta_val', 1);
-        });
+        // $user->whereHas('user_meta', function ($query) {
+        //     $query->where('meta_key', 'casual_show')->where('meta_val', 1);
+        // });
 
         if ($request->has('filter')) {
             $filter = $request->filter;
