@@ -150,7 +150,7 @@ class UserController extends Controller
             $user->update($userRequest);
 
 
-            
+
             UserMeta::updateOrCreate([
                 'user_id' => $user->id,
                 'meta_key' => 'casual_show'
@@ -368,9 +368,6 @@ class UserController extends Controller
                     ->orWhere('suburb_id', $company->suburb_id);
             });
 
-        $user = $user->whereHas('user_meta', function ($query) {
-            $query->where('meta_key', 'public_show')->where('meta_val', 1);
-        });
 
         if ($request->has('filter')) {
             $filter = $request->filter;
@@ -379,6 +376,15 @@ class UserController extends Controller
                     $q->where('name', 'LIKE', "%$filter%");
                 });
         }
+
+        $user->whereHas('user_meta', function ($query) {
+            $query->where('meta_key', 'public_show')->where('meta_val', 1);
+        });
+
+
+
+
+
         $listing_rows_count  = SiteSettings::select('meta_val')->where('meta_key', '_listing_rows_limit')->first();
         if ($request->pageId) {
             $offset = $request->pageId * $listing_rows_count['meta_val'];
@@ -404,7 +410,7 @@ class UserController extends Controller
     }
 
 
-    
+
 
 
     public function updateUserSocial($user_id, Request $request): Response
