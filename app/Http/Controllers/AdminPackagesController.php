@@ -149,11 +149,6 @@ class AdminPackagesController extends Controller
     {
 
         $package = Package::find(decrypt($id));
-        //dd($package->extra_users);
-        // $cart = Cart::where(['user_id' => Auth::user()->id, 'package_id' => $package->id])->first();
-        // if ($cart){
-        //     $cart->delete();
-        // }
 
         Stripe::setApiKey(env('STRIPE_SECRET'));
 
@@ -163,8 +158,6 @@ class AdminPackagesController extends Controller
             'customer' => $session->customer,
             'limit' => 1,
         ]);
-
-        // dd(auth()->user());
 
         Subscription::create([
             'user_id' => auth()->id(),

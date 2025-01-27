@@ -35,6 +35,7 @@ class Package extends Model
         'allow_interview',
         'recruiter_dash',
         'casual_portal',
+        'emp_directory',
         'rec_support',
         'cv_credit',
         'msg_credit',

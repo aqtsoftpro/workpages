@@ -103,7 +103,7 @@ Route::group(['middleware' => ['auth:sanctum', 'cors']], function () {
     Route::post('company-users', [UserController::class, 'companyUsers']);
     Route::resource('user_reviews', UserReviewController::class);
     Route::post('search-seeker', [UserController::class, 'searchSeeker']);
-    Route::post('get-directoy', [UserController::class, 'getDirectory']);
+    Route::post('get-directory', [UserController::class, 'getDirectory']);
 
     Route::put('updateUserMeta/{user_id}', [UserMetaController::class, 'updateUserMeta']);
     Route::get('getUserMeta/{user_id}', [UserMetaController::class, 'updateUserMeta']);

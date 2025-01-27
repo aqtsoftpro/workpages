@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\{UserDetail, Document};
+use App\Models\{UserDetail, Document, UserMeta};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -61,7 +61,15 @@ class UserDetailController extends Controller
     {
         $user_detail = UserDetail::where('user_id', auth()->id())->first();
         $documents = Document::where('user_id', auth()->id())->get();
-        return Response(['user_detail'=>$user_detail, 'documents'=>$documents]);
+        $getUserMeta = UserMeta::where('user_id', auth()->id())->pluck('meta_val', 'meta_key')->toArray();
+
+        // $userMeta = array();
+        // foreach($getUserMeta as $meta)
+        // {
+        //     $userMeta[$meta['meta_key']] = $meta['meta_val'];
+        // }
+
+        return Response(['user_detail'=>$user_detail, 'documents'=>$documents, 'userMeta' => $getUserMeta]);
     }
 
     public function storeDocs(Request $request)

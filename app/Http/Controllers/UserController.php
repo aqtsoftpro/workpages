@@ -150,18 +150,19 @@ class UserController extends Controller
             $user->update($userRequest);
 
 
+            
             UserMeta::updateOrCreate([
                 'user_id' => $user->id,
                 'meta_key' => 'casual_show'
             ], [
-                'meta_val' => $request->casual_show ? 1 : 0,
+                'meta_val' => $request?->casual_show == 'true' ? 1 : 0,
             ]);
 
             UserMeta::updateOrCreate([
                 'user_id' => $user->id,
                 'meta_key' => 'public_show'
             ], [
-                'meta_val' => $request->public_show ? 1 : 0,
+                'meta_val' => $request?->public_show == 'true' ? 1 : 0,
             ]);
 
             $jobs = Job::with('company.owner')->where(['location_id' => $user->current_job_location_id, 'qualification_id' => $user->qualification_id, 'status' => 'active', 'job_status' => 'live'])->get();
@@ -367,9 +368,9 @@ class UserController extends Controller
                     ->orWhere('suburb_id', $company->suburb_id);
             });
 
-        // $user->whereHas('user_meta', function ($query) {
-        //     $query->where('meta_key', 'public_show')->where('meta_val', 1);
-        // });
+        $user = $user->whereHas('user_meta', function ($query) {
+            $query->where('meta_key', 'public_show')->where('meta_val', 1);
+        });
 
         if ($request->has('filter')) {
             $filter = $request->filter;

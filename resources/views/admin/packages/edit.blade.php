@@ -142,6 +142,13 @@
                                 <x-package.dropdown :boolean="true" name="casual_portal" id="casual_portal"
                                     value="{{ $record->casual_portal ?? null }}" label="Access to our casual PORTAL" />
                             </div>
+
+                            <div class="col-md-3">
+                                <x-package.dropdown :boolean="true" name="emp_directory" id="emp_directory"
+                                    value="{{ $record->emp_directory ?? null }}" label="Access to our Employee Directory" />
+                            </div>
+
+
                             <div class="col-md-3">
                                 <x-package.dropdown :boolean="true" name="rec_support" id="rec_support"
                                     value="{{ $record->rec_support ?? null }}" label="Dedicated recruitment support" />
