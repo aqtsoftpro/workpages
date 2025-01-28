@@ -320,11 +320,48 @@ class UserController extends Controller
 
     public function searchSeeker(Request $request)
     {
-        $role = Role::where('name', 'Job Seeker')->first()->name;
+        // $role = Role::where('name', 'Job Seeker')->first()->name;
+        // $company = Company::where('owner_id', auth()->id())->first();
+        // $user = User::query();
+
+        // $user->whereHas('user_meta', function ($query) {
+        //     $query->where('meta_key', 'casual_show')->whereIn('meta_val', [1, '1', true]);
+        // });
+
+        // if ($request->has('filter')) {
+        //     $filter = $request->filter;
+        //     $user->where('name', 'LIKE', "%$filter%")
+        //         ->orWhereHas('designtion', function ($q) use ($filter) {
+        //             $q->where('name', 'LIKE', "%$filter%");
+        //         });
+        // }
+
+        // $user->whereHas('roles', function ($query) use ($role) {
+        //     $query->where('name', $role);
+        // })->doesntHave('company')
+        //     ->where(function ($query) use ($company) {
+        //         $query->where('location_id', $company->location_id)
+        //             ->orWhere('suburb_id', $company->suburb_id);
+        //     });
+
+
+        $role = Role::where('name', 'Job Seeker')->first();
+        if (!$role) {
+            return response()->json(['error' => 'Role not found'], 404);
+        }
+
         $company = Company::where('owner_id', auth()->id())->first();
+        if (!$company) {
+            return response()->json(['error' => 'Company not found'], 404);
+        }
+
         $user = User::query();
 
-        if ($request->has('filter')) {
+        $user->whereHas('user_meta', function ($query) {
+            $query->where('meta_key', 'casual_show')->whereIn('meta_val', [1, '1', true]);
+        });
+
+        if ($request->filled('filter')) {
             $filter = $request->filter;
             $user->where('name', 'LIKE', "%$filter%")
                 ->orWhereHas('designtion', function ($q) use ($filter) {
@@ -333,16 +370,12 @@ class UserController extends Controller
         }
 
         $user->whereHas('roles', function ($query) use ($role) {
-            $query->where('name', $role);
+            $query->where('name', $role->name);
         })->doesntHave('company')
             ->where(function ($query) use ($company) {
                 $query->where('location_id', $company->location_id)
                     ->orWhere('suburb_id', $company->suburb_id);
             });
-
-        $user->whereHas('user_meta', function ($query) {
-            $query->where('meta_key', 'casual_show')->where('meta_val', '1');
-        });
 
         $listing_rows_count  = SiteSettings::select('meta_val')->where('meta_key', '_listing_rows_limit')->first();
         if ($request->pageId) {

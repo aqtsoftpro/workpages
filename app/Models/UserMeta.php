@@ -14,10 +14,7 @@ class UserMeta extends Model
 
     public $timestamps = false;
 
-    protected $fillable = [
-        'user_id',
-        'meta_key', 'meta_val'
-    ];
+    protected $fillable = ['user_id', 'meta_key', 'meta_val'];
 
 
 }
