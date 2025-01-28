@@ -326,9 +326,9 @@ class UserController extends Controller
         $user = User::query();
 
 
-        $user->whereHas('user_meta', function ($query) {
-            $query->where('meta_key', '_new_casual_show')->where('meta_val', 1);
-        });
+        // $user->whereHas('user_meta', function ($query) {
+        //     $query->where('meta_key', '_new_casual_show')->where('meta_val', 1);
+        // });
 
         if ($request->has('filter')) {
             $filter = $request->filter;
