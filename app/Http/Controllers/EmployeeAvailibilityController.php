@@ -7,13 +7,13 @@ use App\Models\EmployeeAvailibility;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class EmployeeAvailabilityController extends Controller
+class EmployeeAvailibilityController extends Controller
 {
 
     public function index()
     {
         $records = EmployeeAvailibility::orderBy('name', 'ASC')->get();
-        return view('admin.employee_availability.index', compact('records'));
+        return view('admin.employee_availibility.index', compact('records'));
     }
 
     public function subrubs_list()
@@ -24,7 +24,7 @@ class EmployeeAvailabilityController extends Controller
 
     public function create()
     {
-        return view('admin.employee_availability.create');
+        return view('admin.employee_availibility.create');
     }
 
 
@@ -34,12 +34,12 @@ class EmployeeAvailabilityController extends Controller
 
         if($added_rec)
         {
-            return redirect()->route('employee_availability.index')
+            return redirect()->route('employee_availibility.index')
                         ->with('success',''.$request->name.' added successfully.');
         }
         else
         {
-            return redirect()->route('employee_availability.index')
+            return redirect()->route('employee_availibility.index')
                         ->with('success','Something went wrong. Please try again.');
         }
     }
@@ -49,7 +49,7 @@ class EmployeeAvailabilityController extends Controller
     {
         $record = EmployeeAvailibility::find($id);
 
-        return view('admin.employee_availability.edit', compact('record'));
+        return view('admin.employee_availibility.edit', compact('record'));
     }
 
     public function update(Request $request, string $id)
@@ -73,10 +73,10 @@ class EmployeeAvailabilityController extends Controller
 
         if(EmployeeAvailibility::destroy($id)) {
 
-            return redirect()->route('employee_availability.index')
+            return redirect()->route('employee_availibility.index')
                         ->with('success',''.$deleted_rec->name.' state deleted successfully');
           } else {
-            return redirect()->route('employee_availability.index')
+            return redirect()->route('employee_availibility.index')
                         ->with('error','Please try again!');
         }
     }

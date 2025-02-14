@@ -2,12 +2,12 @@
 
 @section('content')
 <div class="pagetitle">
-  <h1>Suburb</h1>
+  <h1>Employee Availibility</h1>
   <nav>
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="{{ url('admin/dashboard') }}">Dashboard</a></li>
-        <li class="breadcrumb-item">Suburb</li>
-      <li class="breadcrumb-item active">{{ $record->name }}</li>
+        <li class="breadcrumb-item">Employee Availibility</li>
+      <li class="breadcrumb-item active">Add Employee Availibility</li>
     </ol>
   </nav>
 </div>
@@ -25,39 +25,36 @@
           <div class="card-body">
             <h5 class="card-title row">
               <div class="col-lg-6">
-                Edit {{ $record->name }}
+                Add Employee Availibility
               </div>
               <div class="col-lg-6">
                 <div class="btn-group float-end" role="group" aria-label="Basic example">
-                  <a href="{{ url('admin/employee_availability') }}" class="btn btn-success">View all</a>
-                  <a href="{{ url('admin/employee_availability/create') }}" class="btn btn-success">Add new</a>
+                  <a href="{{ url('admin/employee_availibility') }}" class="btn btn-success">View all</a>
                 </div>
               </div>
             </h5>
 
 
-                <form method="POST"  action="{{ route('employee_availability.update',$record->id) }}" class="row g-3" >
-
+                <form method="POST"  action="{{ route('employee_availibility.store') }}" class="row g-3" >
                   @csrf
-                  @method('PUT')
                     <div class="col-md-12">
                       <label for="name" class="form-label">Name</label>
-                      <input type="text" name="name" value="{{ $record->name }}" class="form-control" id="social_media_facebook">
+                      <input type="text" name="name" value="" class="form-control" id="name" required>
                     </div>
                     {{-- <div class="col-md-12">
                       <label for="icon" class="form-label">Icon</label>
-                      <input type="text" name="icon" value="{{ $record->icon }}" class="form-control" id="icon">
+                      <input type="text" name="icon" value="" class="form-control" id="icon" required>
                     </div> --}}
                     <div class="col-md-12">
-                      <label for="social_media_linkedin" class="form-label">Status</label>
-                      <select class="form-control" name="status">
-                        <option value="enable" {{ ( $record->status == 'enable') ? 'selected' : '' }}>Enable</option>
-                        <option value="disable" {{ ( $record->status == 'disable') ? 'selected' : '' }}>Disable</option>
+                      <label  class="form-label">Status</label>
+                      <select class="form-control" name="status" required>
+                        <option value="enable">Enable</option>
+                        <option value="disable">Disable</option>
                       </select>
                     </div>
 
                     <div>
-                      <button type="submit" class="btn btn-primary">Update</button>
+                      <button type="submit" class="btn btn-primary">Create</button>
                     </div>
 
                 </form>

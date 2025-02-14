@@ -30,7 +30,7 @@
               </div>
               <div class="col-lg-6">
                 <div class="btn-group float-end" role="group" aria-label="Basic example">
-                  <a href="{{ url('admin/employee_availability/create') }}" class="btn btn-success">Add new</a>
+                  <a href="{{ url('admin/employee_availibility/create') }}" class="btn btn-success">Add new</a>
                 </div>
               </div>
             </h5>
@@ -59,7 +59,7 @@
                     @endif
                   </td>
                   <td>
-                      <a class="mx-1 text-success" href="{{ route('employee_availability.edit', $record->id) }}"><i class="bi bi-pen"></i> </a>|
+                      <a class="mx-1 text-success" href="{{ route('employee_availibility.edit', $record->id) }}"><i class="bi bi-pen"></i> </a>|
                       <a type="#" class="mx-1 text-danger"  data-bs-toggle="modal" data-bs-target="#deleteModel-{{ $record->id }}" ><i class="bi bi-trash"></i></a>
 
 
@@ -75,7 +75,7 @@
                             </div>
                             <div class="modal-footer">
                               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                              <form id="delete-form" action="{{ route('employee_availability.destroy', $record->id) }}" method="POST">
+                              <form id="delete-form" action="{{ route('employee_availibility.destroy', $record->id) }}" method="POST">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger">Delete</button>
