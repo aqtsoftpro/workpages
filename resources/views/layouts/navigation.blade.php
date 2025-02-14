@@ -137,6 +137,11 @@
                         <i class="bi bi-circle"></i><span>Suburbs</span>
                     </a>
                 </li>
+                <li>
+                    <a href="{{ url('admin/employee_availibility') }}">
+                        <i class="bi bi-circle"></i><span>Employee Availibility</span>
+                    </a>
+                </li>
             </ul>
         </li><!-- End Components Nav -->
 

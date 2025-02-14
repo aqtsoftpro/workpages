@@ -24,6 +24,7 @@ class JobSeekerResource extends JsonResource
             'dob'=> $this->dob,
             'photo'=> $this->photo,
             'location_id'=> $this->location_id,
+            'availibility_id'=> $this->availibility_id,
             'phone'=> $this->phone,
             'current_job_location_id'=> $this->current_job_location_id,
             'designation_id'=> $this->designation_id,

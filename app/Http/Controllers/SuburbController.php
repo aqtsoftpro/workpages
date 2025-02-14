@@ -26,7 +26,7 @@ class SuburbController extends Controller
     {
         return view('admin.suburbs.create');
     }
-    
+
 
     public function store(Request $request)
     {
@@ -80,8 +80,8 @@ class SuburbController extends Controller
                         ->with('error','Please try again!');
         }
     }
-    
-    
+
+
     public function suburbs(Location $location){
         return response()->json($location->all());
     }
@@ -126,8 +126,8 @@ class SuburbController extends Controller
 
 
     public function filter_companies_location()
-    { 
-        
+    {
+
             $company_suburbs = DB::table('suburbs')
             ->Join('companies', 'suburbs.id', '=', 'companies.location_id')
             ->select( 'companies.location_id', DB::raw('COUNT(companies.id) as counts'))
@@ -145,7 +145,7 @@ class SuburbController extends Controller
                 $company_location_filter_with_count[$i]['counts'] = $suburbs->counts;
                 $i++;
             }
-    
+
             return response()->json($company_location_filter_with_count);
     }
 

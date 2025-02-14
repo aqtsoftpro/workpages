@@ -51,6 +51,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'status',
         'email_verified_at',
         'gender',
+        'availibility_id',
         'cv'
     ];
 
@@ -136,9 +137,9 @@ class User extends Authenticatable implements MustVerifyEmail
     public function toSearchableArray(): array
     {
         $array = $this->toArray();
- 
+
         // Customize the data array...
- 
+
         return $array;
     }
 

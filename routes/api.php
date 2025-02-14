@@ -20,11 +20,12 @@ use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\{CompanyTypeController, DesignationController,
     AdminCmsController ,CategoryController ,LanguageController ,LocationController,
     UserMetaController ,PortfolioController ,UserSocialController,
-    JobPostedOnController, SalaryRangeController, TestimonialController, 
-    CompanyReviewController, QualificationController, ForgotPasswordController, 
-    GlobalVariableController, LocationStatesController, SuburbController, 
-    NewsletterController, PackageController, ApiVerifyEmailController, UserReviewController, 
-    JobAddController, UserDetailController, AccessManagementController, TwilioSMSController};
+    JobPostedOnController, SalaryRangeController, TestimonialController,
+    CompanyReviewController, QualificationController, ForgotPasswordController,
+    GlobalVariableController, LocationStatesController, SuburbController,
+    NewsletterController, PackageController, ApiVerifyEmailController, UserReviewController,
+    JobAddController, UserDetailController, AccessManagementController, TwilioSMSController, EmployeeAvailabilityController};
+
 use Carbon\Carbon;
 
 // use App\Http\Controllers\Auth\VerifyEmailController;
@@ -105,6 +106,7 @@ Route::group(['middleware' => ['auth:sanctum', 'cors']], function () {
     Route::post('search-seeker', [UserController::class, 'searchSeeker']);
     Route::post('get-directory', [UserController::class, 'getDirectory']);
 
+
     Route::put('updateUserMeta/{user_id}', [UserMetaController::class, 'updateUserMeta']);
     Route::get('getUserMeta/{user_id}', [UserMetaController::class, 'updateUserMeta']);
     Route::put('updateUserSocial/{user_id}', [UserController::class, 'updateUserSocial']);
@@ -166,6 +168,7 @@ Route::middleware('cors')->group(function(){
     Route::post('getCandidateAppiedOnJob/{user_id}/{job_id}', [ApplicationController::class, 'CandidateAppiedOnJob']);
 
     Route::get('subrubs', [SuburbController::class, 'subrubs_list']);
+    Route::get('employeeAvailibility', [EmployeeAvailabilityController::class, 'employee_availibility_list']);
 
     Route::post('jobSeekerRegister', [UserController::class, 'jobSeekerRegister']);
     Route::post('company_register', [CompanyController::class, 'CompanyRegister']);

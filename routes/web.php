@@ -30,6 +30,7 @@ use App\Http\Controllers\AdminPermissionsController;
 use App\Http\Controllers\AdminUsersController;
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\SuburbController;
+use App\Http\Controllers\EmployeeAvailabilityController;
 use App\Http\Controllers\EmailsController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\{AdminSearchController, AdminNewsletterController};
@@ -81,11 +82,11 @@ Route::middleware('auth')->prefix('admin')->group(function () {
 
    Route::group(['prefix' => 'settings'], function () {
       Route::post('/update_setting', [GlobalVariableController::class, 'updateSetting']);
-      
+
 
       Route::get('/', [\App\Http\Controllers\AdminSettingsController::class, 'index']);
       Route::put('/{site_settings_id}', [\App\Http\Controllers\AdminSettingsController::class, 'update']);
-    
+
       Route::post('/update_main_settings', [\App\Http\Controllers\AdminSettingsController::class, 'update_main_settings'])->name('update_main_settings');
 
       Route::get('/design_settings', [\App\Http\Controllers\AdminSettingsController::class, 'design_settings']);
@@ -111,7 +112,7 @@ Route::middleware('auth')->prefix('admin')->group(function () {
     //   Route::post('/edit_job_category/{job_category_id}', [\App\Http\Controllers\AdminSettingsController::class, 'update_job_category']);
     //   Route::post('/delete_job_category/{job_category_id}', [\App\Http\Controllers\AdminSettingsController::class, 'delete_job_category']);
 
-      
+
 
     //   Route::get('/sectors', [\App\Http\Controllers\AdminSettingsController::class, 'sectors']);
     //   Route::post('/create_sector', [\App\Http\Controllers\AdminSettingsController::class, 'create_sector']);
@@ -150,6 +151,7 @@ Route::middleware('auth')->prefix('admin')->group(function () {
 //    Route::resource('locations', LocationController::class);
    Route::resource('countries', LocationController::class);
    Route::resource('suburbs', SuburbController::class);
+   Route::resource('employee_availability', EmployeeAvailabilityController::class);
    Route::resource('location_states', LocationStatesController::class);
    Route::resource('sectors', SectorController::class);
    Route::resource('job_categories', CategoryController::class);
@@ -191,7 +193,7 @@ Route::middleware('auth')->prefix('admin')->group(function () {
 //         // Route::get('/categories', AdminBlogController::class, 'categories');
 //         Route::get('/categories', [\App\Http\Controllers\AdminBlogController::class, 'categories']);
 //         Route::resource('/', AdminBlogController::class);
-        
+
 //     });
 
     // Route::group(['prefix' => 'subscriptions'], function() {
@@ -239,8 +241,8 @@ Route::get('admin/dashboard/stats', [AdminDashboardController::class, 'stats_aja
 Route::get('/linkstorage', function () {
     Artisan::call('storage:link');
     Artisan::call('config:clear');
-    
-  
+
+
 });
 
 Route::get('/checkout/success/{package}/{session_id}', [AdminPackagesController::class, 'success'])->name('checkout.success');

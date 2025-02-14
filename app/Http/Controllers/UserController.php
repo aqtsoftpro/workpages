@@ -24,11 +24,13 @@ use App\Events\UserRegisterEvent;
 use App\Http\Resources\JobSeekerResource;
 use App\Http\Controllers\EmailTemplateController;
 use App\Http\Requests\UserRegisterRequest;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
     public function index(User $user)
     {
+
         return response()->json($user->with('roles')->get());
     }
 
@@ -149,20 +151,18 @@ class UserController extends Controller
         try {
             $user->update($userRequest);
 
-
-
             UserMeta::updateOrCreate([
                 'user_id' => $user->id,
-                'meta_key' => '_new_casual_show'
+                'meta_key' => 'casual_portal_visibility'
             ], [
-                'meta_val' => $request?->_new_casual_show == 'true' ? 1 : 0,
+                'meta_val' => $request?->casual_portal_visibility == 'true' ? 1 : 0,
             ]);
 
             UserMeta::updateOrCreate([
                 'user_id' => $user->id,
-                'meta_key' => 'public_show'
+                'meta_key' => 'employee_directory_visibility'
             ], [
-                'meta_val' => $request?->public_show == 'true' ? 1 : 0,
+                'meta_val' => $request?->employee_directory_visibility == 'true' ? 1 : 0,
             ]);
 
             $jobs = Job::with('company.owner')->where(['location_id' => $user->current_job_location_id, 'qualification_id' => $user->qualification_id, 'status' => 'active', 'job_status' => 'live'])->get();
@@ -271,6 +271,18 @@ class UserController extends Controller
                 'location_id' => $request->location_id ?? 2,
             ]);
 
+            UserMeta::create([
+                'user_id' => $newUser->id,
+                'meta_key' => 'casual_portal_visibility',
+                'meta_val' => 0,
+            ]);
+
+            UserMeta::create([
+                'user_id' => $newUser->id,
+                'meta_key' => 'employee_directory_visibility',
+                'meta_val' => 0,
+            ]);
+
             // broadcast(new UserRegisterEvent($newUser))->toOthers();
 
             if ($newUser) {
@@ -321,89 +333,37 @@ class UserController extends Controller
     public function searchSeeker(Request $request)
     {
 
-        $role = Role::where('name', 'Job Seeker')->first()->name;
-        $company = Company::where('owner_id', auth()->id())->first();
-        $user = User::query();
 
-
-        // $user->whereHas('user_meta', function ($query) {
-        //     $query->where('meta_key', '_new_casual_show')->where('meta_val', 1);
-        // });
-
-        if ($request->has('filter')) {
-            $filter = $request->filter;
-            $user->where('name', 'LIKE', "%$filter%")
-                ->orWhereHas('designtion', function ($q) use ($filter) {
-                    $q->where('name', 'LIKE', "%$filter%");
-                });
-        }
-
-        $user->whereHas('roles', function ($query) use ($role) {
-            $query->where('name', $role);
-        })->doesntHave('company')
-            ->where(function ($query) use ($company) {
-                $query->where('location_id', $company->location_id)
-                    ->orWhere('suburb_id', $company->suburb_id);
-            });
-
-
-
-        $listing_rows_count  = SiteSettings::select('meta_val')->where('meta_key', '_listing_rows_limit')->first();
-        if ($request->pageId) {
-            $offset = $request->pageId * $listing_rows_count['meta_val'];
-        } else {
-            $offset = 0;
-        }
-
-        $total_counts = $user->count();
-
-        $seeker_listing = JobSeekerResource::collection(
-            $user->offset($offset)
-                ->limit($listing_rows_count['meta_val'])
-                ->latest()->get()
-        );
-        $job_seekers  = array(
-            'Listing' => $seeker_listing,
-            'page_no' => $request->pageId,
-            'count' => $total_counts,
-            'showing_count' => $total_counts,
-            'rows_count' =>  $listing_rows_count['meta_val'],
-        );
-        return response()->json($job_seekers);
-
-
-    }
-
-
-
-    public function getDirectory(Request $request)
-    {
         $role = Role::where('name', 'Job Seeker')->first()->name;
         $company = Company::where('owner_id', auth()->id())->first();
         $user = User::query();
 
 
         $user->whereHas('user_meta', function ($query) {
-            $query->where('meta_key', 'public_show')->where('meta_val', 1);
+            $query->where('meta_key', 'casual_portal_visibility')->where('meta_val', 1);
         });
 
-        if ($request->has('filter')) {
-            $filter = $request->filter;
-            $user->where('name', 'LIKE', "%$filter%")
-                ->orWhereHas('designtion', function ($q) use ($filter) {
-                    $q->where('name', 'LIKE', "%$filter%");
+        if ($request->has('keyword') && !empty($request->keyword)) {
+            $keyword = $request->keyword;
+            $user->where('name', 'LIKE', "%$keyword%")
+                ->orWhereHas('designtion', function ($q) use ($keyword) {
+                    $q->where('name', 'LIKE', "%$keyword%");
                 });
+        }
+
+        if ($request->has('availibility_id') && !empty($request->availibility_id)) {
+            $availibility_id = $request->availibility_id;
+            $user->where('availibility_id', $availibility_id);
+        }
+
+        if ($request->has('location_id') && !empty($request->location_id)) {
+            $location_id = $request->location_id;
+            $user->where('location_id', $location_id);
         }
 
         $user->whereHas('roles', function ($query) use ($role) {
             $query->where('name', $role);
-        })->doesntHave('company')
-            ->where(function ($query) use ($company) {
-                $query->where('location_id', $company->location_id)
-                    ->orWhere('suburb_id', $company->suburb_id);
-            });
-
-
+        });
 
         $listing_rows_count  = SiteSettings::select('meta_val')->where('meta_key', '_listing_rows_limit')->first();
         if ($request->pageId) {
@@ -419,16 +379,83 @@ class UserController extends Controller
                 ->limit($listing_rows_count['meta_val'])
                 ->latest()->get()
         );
+
+        // $sql = Str::replaceArray('?', $user->getBindings(), $user->toSql());
+        // echo $sql;
+
         $job_seekers  = array(
             'Listing' => $seeker_listing,
-            'page_no' => $request->pageId,
+            'page_no' => $offset,
             'count' => $total_counts,
             'showing_count' => $total_counts,
             'rows_count' =>  $listing_rows_count['meta_val'],
         );
+
         return response()->json($job_seekers);
     }
 
+
+
+    public function getDirectory(Request $request)
+    {
+
+        $role = Role::where('name', 'Job Seeker')->first()->name;
+        $user = User::query();
+
+        $user->whereHas('user_meta', function ($query) {
+            $query->where('meta_key', 'employee_directory_visibility')->where('meta_val', 1);
+        });
+
+        if ($request->has('keyword') && !empty($request->keyword)) {
+            $keyword = $request->keyword;
+            $user->where('name', 'LIKE', "%$keyword%")
+                ->orWhereHas('designtion', function ($q) use ($keyword) {
+                    $q->where('name', 'LIKE', "%$keyword%");
+                });
+        }
+
+        if ($request->has('availibility_id') && !empty($request->availibility_id)) {
+            $availibility_id = $request->availibility_id;
+            $user->where('availibility_id', $availibility_id);
+        }
+
+        if ($request->has('location_id') && !empty($request->location_id)) {
+            $location_id = $request->location_id;
+            $user->where('location_id', $location_id);
+        }
+
+        $user->whereHas('roles', function ($query) use ($role) {
+            $query->where('name', $role);
+        });
+
+        $listing_rows_count  = SiteSettings::select('meta_val')->where('meta_key', '_listing_rows_limit')->first();
+        if ($request->pageId) {
+            $offset = $request->pageId * $listing_rows_count['meta_val'];
+        } else {
+            $offset = 0;
+        }
+
+        $total_counts = $user->count();
+
+        $seeker_listing = JobSeekerResource::collection(
+            $user->offset($offset)
+                ->limit($listing_rows_count['meta_val'])
+                ->latest()->get()
+        );
+
+        // $sql = Str::replaceArray('?', $user->getBindings(), $user->toSql());
+        // echo $sql;
+
+        $job_seekers  = array(
+            'Listing' => $seeker_listing,
+            'page_no' => $offset,
+            'count' => $total_counts,
+            'showing_count' => $total_counts,
+            'rows_count' =>  $listing_rows_count['meta_val'],
+        );
+
+        return response()->json($job_seekers);
+    }
 
 
 
@@ -502,6 +529,7 @@ class UserController extends Controller
             'showing_count' => $total_counts,
             'rows_count' =>  $listing_rows_count['meta_val'],
         );
+        print_r($job_seekers);
         return response()->json($job_seekers);
     }
 
