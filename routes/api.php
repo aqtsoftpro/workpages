@@ -24,7 +24,7 @@ use App\Http\Controllers\{CompanyTypeController, DesignationController,
     CompanyReviewController, QualificationController, ForgotPasswordController,
     GlobalVariableController, LocationStatesController, SuburbController,
     NewsletterController, PackageController, ApiVerifyEmailController, UserReviewController,
-    JobAddController, UserDetailController, AccessManagementController, TwilioSMSController, EmployeeAvailabilityController};
+    JobAddController, UserDetailController, AccessManagementController, TwilioSMSController, EmployeeAvailibilityController};
 
 use Carbon\Carbon;
 
@@ -168,7 +168,7 @@ Route::middleware('cors')->group(function(){
     Route::post('getCandidateAppiedOnJob/{user_id}/{job_id}', [ApplicationController::class, 'CandidateAppiedOnJob']);
 
     Route::get('subrubs', [SuburbController::class, 'subrubs_list']);
-    Route::get('employeeAvailibility', [EmployeeAvailabilityController::class, 'employee_availibility_list']);
+    Route::get('employeeAvailibility', [EmployeeAvailibilityController::class, 'employee_availibility_list']);
 
     Route::post('jobSeekerRegister', [UserController::class, 'jobSeekerRegister']);
     Route::post('company_register', [CompanyController::class, 'CompanyRegister']);

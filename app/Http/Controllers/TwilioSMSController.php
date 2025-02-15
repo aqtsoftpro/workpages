@@ -74,7 +74,8 @@ class TwilioSMSController extends Controller
         }
 
         return response()->json([
-            'status' => 'completed',
+            'status' => 'success',
+            'message' => 'SMS successfully sent!',
             'success_count' => $successCount,
             'failed_users' => $failedUsers
         ]);
@@ -120,7 +121,7 @@ class TwilioSMSController extends Controller
             return response()->json(['status' => 'success', 'message' => 'Email successfully sent!']);
         }
         else{
-            return response()->json(['status' => 'error', 'message' => 'Job seeker not found!'], 404);
+            return response()->json(['status' => 'error', 'message' => 'Email not found!'], 404);
         }
 
 

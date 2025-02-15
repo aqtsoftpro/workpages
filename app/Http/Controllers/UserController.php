@@ -332,12 +332,9 @@ class UserController extends Controller
 
     public function searchSeeker(Request $request)
     {
-
-
+        // print_r($request->all());
         $role = Role::where('name', 'Job Seeker')->first()->name;
-        $company = Company::where('owner_id', auth()->id())->first();
         $user = User::query();
-
 
         $user->whereHas('user_meta', function ($query) {
             $query->where('meta_key', 'casual_portal_visibility')->where('meta_val', 1);
@@ -358,7 +355,7 @@ class UserController extends Controller
 
         if ($request->has('location_id') && !empty($request->location_id)) {
             $location_id = $request->location_id;
-            $user->where('location_id', $location_id);
+            $user->where('current_job_location_id', $location_id);
         }
 
         $user->whereHas('roles', function ($query) use ($role) {
@@ -421,7 +418,7 @@ class UserController extends Controller
 
         if ($request->has('location_id') && !empty($request->location_id)) {
             $location_id = $request->location_id;
-            $user->where('location_id', $location_id);
+            $user->where('current_job_location_id', $location_id);
         }
 
         $user->whereHas('roles', function ($query) use ($role) {
