@@ -2,11 +2,11 @@
 
 @section('content')
 <div class="pagetitle">
-  <h1>Suburb</h1>
+  <h1>Employee Availibility</h1>
   <nav>
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="{{ url('admin/dashboard') }}">Dashboard</a></li>
-        <li class="breadcrumb-item">Suburb</li>
+        <li class="breadcrumb-item">Employee Availibility</li>
       <li class="breadcrumb-item active">{{ $record->name }}</li>
     </ol>
   </nav>

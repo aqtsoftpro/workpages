@@ -58,7 +58,7 @@ class EmployeeAvailibilityController extends Controller
 
         if($location->update($request->all()))
             {
-                return redirect()->back()->with('success', ''.$request->name.' state updated successfully');
+                return redirect()->back()->with('success', ''.$request->name.' updated successfully');
             }
             else
             {
@@ -74,7 +74,7 @@ class EmployeeAvailibilityController extends Controller
         if(EmployeeAvailibility::destroy($id)) {
 
             return redirect()->route('employee_availibility.index')
-                        ->with('success',''.$deleted_rec->name.' state deleted successfully');
+                        ->with('success',''.$deleted_rec->name.' deleted successfully');
           } else {
             return redirect()->route('employee_availibility.index')
                         ->with('error','Please try again!');
