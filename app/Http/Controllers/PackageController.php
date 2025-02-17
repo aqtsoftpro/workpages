@@ -41,7 +41,7 @@ class PackageController extends Controller
             ],
             'mode'        => 'subscription',
             'success_url' => url('api/stripe/success/'.encrypt($package->id).'/{CHECKOUT_SESSION_ID}'.'/'.auth()->id()),
-            'cancel_url'  => $externalUrl,            
+            'cancel_url'  => $externalUrl,
         ]);
 
         return response()->json($session);
@@ -57,7 +57,7 @@ class PackageController extends Controller
         ]);
 
         $user = User::find($user);
-        
+
         $package = Package::find(decrypt($id));
         $company = Company::where('owner_id', $user->id)->first();
         //dd($package->extra_users);
@@ -128,6 +128,7 @@ class PackageController extends Controller
                     'allow_interview' => $package->allow_interview,
                     'recruiter_dash' => $package->recruiter_dash,
                     'casual_portal' => $package->casual_portal,
+                    'emp_directory' => $package->emp_directory,
                     'rec_support' => $package->rec_support,
                     'cv_credit' => $package->cv_credit,
                     'msg_credit' => $package->msg_credit,
@@ -205,6 +206,7 @@ class PackageController extends Controller
                         'allow_interview' => $package->allow_interview,
                         'recruiter_dash' => $package->recruiter_dash,
                         'casual_portal' => $package->casual_portal,
+                        'emp_directory' => $package->emp_directory,
                         'rec_support' => $package->rec_support,
                         'cv_credit' => $package->cv_credit,
                         'msg_credit' => $package->msg_credit,
@@ -226,8 +228,8 @@ class PackageController extends Controller
                         'message' => 'Some thing went wrong...',
                     ]);
                 }
-            }  
-        }    
+            }
+        }
     }
 
     /**
@@ -275,5 +277,5 @@ class PackageController extends Controller
         return response()->json(['status' => 'successs', 'data' => $subscription, 'message' => 'success',]);
     }
 
-    
+
 }
