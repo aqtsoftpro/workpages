@@ -45,13 +45,13 @@
                       <label for="icon" class="form-label">Icon</label>
                       <input type="text" name="icon" value="" class="form-control" id="icon" required>
                     </div> --}}
-                    <div class="col-md-12">
+                    {{-- <div class="col-md-12">
                       <label  class="form-label">Status</label>
                       <select class="form-control" name="status" required>
                         <option value="enable">Enable</option>
                         <option value="disable">Disable</option>
                       </select>
-                    </div>
+                    </div> --}}
 
                     <div>
                       <button type="submit" class="btn btn-primary">Create</button>

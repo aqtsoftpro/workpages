@@ -48,13 +48,13 @@
                       <label for="icon" class="form-label">Icon</label>
                       <input type="text" name="icon" value="{{ $record->icon }}" class="form-control" id="icon">
                     </div> --}}
-                    <div class="col-md-12">
+                    {{-- <div class="col-md-12">
                       <label for="social_media_linkedin" class="form-label">Status</label>
                       <select class="form-control" name="status">
                         <option value="enable" {{ ( $record->status == 'enable') ? 'selected' : '' }}>Enable</option>
                         <option value="disable" {{ ( $record->status == 'disable') ? 'selected' : '' }}>Disable</option>
                       </select>
-                    </div>
+                    </div> --}}
 
                     <div>
                       <button type="submit" class="btn btn-primary">Update</button>

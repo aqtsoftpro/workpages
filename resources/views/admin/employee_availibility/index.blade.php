@@ -41,7 +41,6 @@
               <tr>
                 <th scope="col">#</th>
                 <th scope="col">Name</th>
-                <th scope="col">Status</th>
                 <th scope="col">Action</th>
               </tr>
             </thead>
@@ -51,13 +50,7 @@
                   <td scope="row">{{ $loop->iteration }}</td>
                   <td>{{ $record->name }}</td>
 
-                  <td>
-                    @if( $record->status == 'enable')
-                      <i class="bi bi-check text-green" style="font-size: 20px; font-weight:bold;"></i>
-                    @else
-                      <i class="bi bi-x  text-danger" style="font-size: 20px; font-weight:bold;"></i>
-                    @endif
-                  </td>
+
                   <td>
                       <a class="mx-1 text-success" href="{{ route('employee_availibility.edit', $record->id) }}"><i class="bi bi-pen"></i> </a>|
                       <a type="#" class="mx-1 text-danger"  data-bs-toggle="modal" data-bs-target="#deleteModel-{{ $record->id }}" ><i class="bi bi-trash"></i></a>
