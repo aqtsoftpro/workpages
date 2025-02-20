@@ -2,12 +2,12 @@
 
 @section('content')
 <div class="pagetitle">
-  <h1>Employee Availibility</h1>
+  <h1>Employee Availability</h1>
   <nav>
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="{{ url('admin/dashboard') }}">Dashboard</a></li>
-        <li class="breadcrumb-item">Employee Availibility</li>
-      <li class="breadcrumb-item active">Employee Availibility</li>
+        <li class="breadcrumb-item">Employee Availability</li>
+      <li class="breadcrumb-item active">Employee Availability</li>
     </ol>
   </nav>
 </div>
@@ -26,11 +26,11 @@
           <div class="card-body">
             <h5 class="card-title row">
               <div class="col-lg-6">
-                View Employee Availibility
+                View Employee Availability
               </div>
               <div class="col-lg-6">
                 <div class="btn-group float-end" role="group" aria-label="Basic example">
-                  <a href="{{ url('admin/employee_availibility/create') }}" class="btn btn-success">Add new</a>
+                  <a href="{{ url('admin/employee_availability/create') }}" class="btn btn-success">Add new</a>
                 </div>
               </div>
             </h5>
@@ -52,7 +52,7 @@
 
 
                   <td>
-                      <a class="mx-1 text-success" href="{{ route('employee_availibility.edit', $record->id) }}"><i class="bi bi-pen"></i> </a>|
+                      <a class="mx-1 text-success" href="{{ route('employee_availability.edit', $record->id) }}"><i class="bi bi-pen"></i> </a>|
                       <a type="#" class="mx-1 text-danger"  data-bs-toggle="modal" data-bs-target="#deleteModel-{{ $record->id }}" ><i class="bi bi-trash"></i></a>
 
 
@@ -60,7 +60,7 @@
                         <div class="modal-dialog modal-dialog-centered">
                           <div class="modal-content">
                             <div class="modal-header">
-                              <h5 class="modal-title">Delete Availibility</h5>
+                              <h5 class="modal-title">Delete Availability</h5>
                               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
@@ -68,7 +68,7 @@
                             </div>
                             <div class="modal-footer">
                               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                              <form id="delete-form" action="{{ route('employee_availibility.destroy', $record->id) }}" method="POST">
+                              <form id="delete-form" action="{{ route('employee_availability.destroy', $record->id) }}" method="POST">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger">Delete</button>

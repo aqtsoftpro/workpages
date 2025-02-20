@@ -348,9 +348,9 @@ class UserController extends Controller
                 });
         }
 
-        if ($request->has('availibility_id') && !empty($request->availibility_id)) {
-            $availibility_id = $request->availibility_id;
-            $user->where('availibility_id', $availibility_id);
+        if ($request->has('availability_id') && !empty($request->availability_id)) {
+            $availability_id = $request->availability_id;
+            $user->where('availability_id', $availability_id);
         }
 
         if ($request->has('location_id') && !empty($request->location_id)) {
@@ -411,9 +411,9 @@ class UserController extends Controller
                 });
         }
 
-        if ($request->has('availibility_id') && !empty($request->availibility_id)) {
-            $availibility_id = $request->availibility_id;
-            $user->where('availibility_id', $availibility_id);
+        if ($request->has('availability_id') && !empty($request->availability_id)) {
+            $availability_id = $request->availability_id;
+            $user->where('availability_id', $availability_id);
         }
 
         if ($request->has('location_id') && !empty($request->location_id)) {

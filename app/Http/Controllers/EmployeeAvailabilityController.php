@@ -3,17 +3,17 @@
 namespace App\Http\Controllers;
 
 use Exception;
-use App\Models\EmployeeAvailibility;
+use App\Models\EmployeeAvailability;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class EmployeeAvailibilityController extends Controller
+class EmployeeAvailabilityController extends Controller
 {
 
     public function index()
     {
-        $records = EmployeeAvailibility::orderBy('name', 'ASC')->get();
-        return view('admin.employee_availibility.index', compact('records'));
+        $records = EmployeeAvailability::orderBy('name', 'ASC')->get();
+        return view('admin.employee_availability.index', compact('records'));
     }
 
     public function subrubs_list()
@@ -24,22 +24,22 @@ class EmployeeAvailibilityController extends Controller
 
     public function create()
     {
-        return view('admin.employee_availibility.create');
+        return view('admin.employee_availability.create');
     }
 
 
     public function store(Request $request)
     {
-        $added_rec = EmployeeAvailibility::create($request->all());
+        $added_rec = EmployeeAvailability::create($request->all());
 
         if($added_rec)
         {
-            return redirect()->route('employee_availibility.index')
+            return redirect()->route('employee_availability.index')
                         ->with('success',''.$request->name.' added successfully.');
         }
         else
         {
-            return redirect()->route('employee_availibility.index')
+            return redirect()->route('employee_availability.index')
                         ->with('success','Something went wrong. Please try again.');
         }
     }
@@ -47,14 +47,14 @@ class EmployeeAvailibilityController extends Controller
 
     public function edit(string $id)
     {
-        $record = EmployeeAvailibility::find($id);
+        $record = EmployeeAvailability::find($id);
 
-        return view('admin.employee_availibility.edit', compact('record'));
+        return view('admin.employee_availability.edit', compact('record'));
     }
 
     public function update(Request $request, string $id)
     {
-        $location = EmployeeAvailibility::find($id);
+        $location = EmployeeAvailability::find($id);
 
         if($location->update($request->all()))
             {
@@ -69,23 +69,23 @@ class EmployeeAvailibilityController extends Controller
 
     public function destroy(string $id)
     {
-        $deleted_rec = EmployeeAvailibility::find($id);
+        $deleted_rec = EmployeeAvailability::find($id);
 
-        if(EmployeeAvailibility::destroy($id)) {
+        if(EmployeeAvailability::destroy($id)) {
 
-            return redirect()->route('employee_availibility.index')
+            return redirect()->route('employee_availability.index')
                         ->with('success',''.$deleted_rec->name.' deleted successfully');
           } else {
-            return redirect()->route('employee_availibility.index')
+            return redirect()->route('employee_availability.index')
                         ->with('error','Please try again!');
         }
     }
 
 
-    public function employee_availibility_list()
+    public function employee_availability_list()
     {
-        $employee_availibility = EmployeeAvailibility::orderBy('name', 'ASC')->get();
-        return response()->json($employee_availibility);
+        $employee_availability = EmployeeAvailability::orderBy('name', 'ASC')->get();
+        return response()->json($employee_availability);
     }
 
 

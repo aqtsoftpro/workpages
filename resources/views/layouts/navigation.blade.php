@@ -138,8 +138,8 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ url('admin/employee_availibility') }}">
-                        <i class="bi bi-circle"></i><span>Employee Availibility</span>
+                    <a href="{{ url('admin/employee_availability') }}">
+                        <i class="bi bi-circle"></i><span>Employee Availability</span>
                     </a>
                 </li>
             </ul>

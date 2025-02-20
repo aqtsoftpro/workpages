@@ -30,7 +30,7 @@ use App\Http\Controllers\AdminPermissionsController;
 use App\Http\Controllers\AdminUsersController;
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\SuburbController;
-use App\Http\Controllers\EmployeeAvailibilityController;
+use App\Http\Controllers\EmployeeAvailabilityController;
 use App\Http\Controllers\EmailsController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\{AdminSearchController, AdminNewsletterController};
@@ -151,7 +151,7 @@ Route::middleware('auth')->prefix('admin')->group(function () {
 //    Route::resource('locations', LocationController::class);
    Route::resource('countries', LocationController::class);
    Route::resource('suburbs', SuburbController::class);
-   Route::resource('employee_availibility', EmployeeAvailibilityController::class);
+   Route::resource('employee_availability', EmployeeAvailabilityController::class);
    Route::resource('location_states', LocationStatesController::class);
    Route::resource('sectors', SectorController::class);
    Route::resource('job_categories', CategoryController::class);
