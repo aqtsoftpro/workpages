@@ -114,8 +114,14 @@ class TwilioSMSController extends Controller
                 $verificationUrl = rtrim($customBaseUrl). 'user/dashboard';
                 $subject = $request->subject;
                 $To = $user->email;
-                $email = new MultiPurposeEmail($subject, $originalContent, $verificationUrl);
-                Mail::to($To)->send($email);
+
+                Mail::html($originalContent, function ($message) use ($To, $subject) {
+                    $message->to($To)
+                            ->subject($subject);
+                });
+
+                // $email = new MultiPurposeEmail($subject, $originalContent, $verificationUrl);
+                // Mail::to($To)->send($email);
 
             }
             return response()->json(['status' => 'success', 'message' => 'Email successfully sent!']);
