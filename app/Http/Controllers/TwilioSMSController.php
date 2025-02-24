@@ -96,13 +96,17 @@ class TwilioSMSController extends Controller
         $user_id = $request->user_id;
         $userIds = explode(',', $user_id);
 
+        print_r($userIds);
+
         if($userIds && $company){
             foreach ($userIds as $id) {
                 $user = User::find($id);
 
                 $email_templates  = new EmailTemplateController();
                 $get_template = $email_templates->get_template('job-seeker-email');
-                $originalContent = $get_template['desc'];
+                echo $originalContent = $get_template['desc'];
+
+
 
                 $email_variables = [
                     '[username]' => $user->name,
@@ -115,6 +119,8 @@ class TwilioSMSController extends Controller
                 };
 
                 // $verificationUrl = rtrim($customBaseUrl). 'user/dashboard';
+
+                echo $originalContent;
 
                 $subject = $request->subject;
 
