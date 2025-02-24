@@ -38,7 +38,7 @@ class BulkEmail extends Mailable
     {
         return $this
             ->subject($this->subject)
-            ->view('emails.workpages-template')
+            ->view('emails.workpages-bulk-template')
             ->with([
                 'content' => $this->content,
             ]);
