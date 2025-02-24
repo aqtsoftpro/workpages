@@ -80,6 +80,7 @@ class TwilioSMSController extends Controller
             'success_count' => $successCount,
             'failed_users' => $failedUsers
         ]);
+
     }
 
 
@@ -88,7 +89,6 @@ class TwilioSMSController extends Controller
      */
     public function sendEmail(Request $request)
     {
-
 
         $company = Company::where('owner_id', auth()->id())->first();
         $customBaseUrl = env('FRONT_APP_URL');
@@ -99,20 +99,21 @@ class TwilioSMSController extends Controller
         if($userIds && $company){
             foreach ($userIds as $id) {
                 $user = User::find($id);
-                $email_templates  = new EmailTemplateController();
-                $get_template = $email_templates->get_template('job-seeker-email');
-                $originalContent = $get_template['desc'];
 
-                $email_variables = [
-                    '[username]' => $user->name,
-                    '[company_name]' => $company->name.' address: '.$company->address,
-                    '[employer_message]' => $request->body,
-                ];
+                // $email_templates  = new EmailTemplateController();
+                // $get_template = $email_templates->get_template('job-seeker-email');
+                // $originalContent = $get_template['desc'];
 
-                foreach ($email_variables as $search => $replace) {
-                    $originalContent = str_replace($search, $replace, $originalContent);
-                };
-                $verificationUrl = rtrim($customBaseUrl). 'user/dashboard';
+                // $email_variables = [
+                //     '[username]' => $user->name,
+                //     '[company_name]' => $company->name.' address: '.$company->address,
+                //     '[employer_message]' => $request->body,
+                // ];
+
+                // foreach ($email_variables as $search => $replace) {
+                //     $originalContent = str_replace($search, $replace, $originalContent);
+                // };
+                // $verificationUrl = rtrim($customBaseUrl). 'user/dashboard';
 
                 $subject = $request->subject;
                 $body = $request->body;
