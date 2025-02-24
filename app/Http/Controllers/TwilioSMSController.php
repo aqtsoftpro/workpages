@@ -100,38 +100,39 @@ class TwilioSMSController extends Controller
 
         if($userIds && $company){
             foreach ($userIds as $id) {
-                $user = User::find($id);
+                if($id != '')
+                {
+                    $user = User::find($id);
 
-                $email_templates  = new EmailTemplateController();
-                $get_template = $email_templates->get_template('job-seeker-email');
-                echo $originalContent = $get_template['desc'];
+                    $email_templates  = new EmailTemplateController();
+                    $get_template = $email_templates->get_template('job-seeker-email');
+                    echo $originalContent = $get_template['desc'];
 
+                    $email_variables = [
+                        '[username]' => $user->name,
+                        '[company_name]' => $company->name.' address: '.$company->address,
+                        '[employer_message]' => $request->body,
+                    ];
 
+                    foreach ($email_variables as $search => $replace) {
+                        $originalContent = str_replace($search, $replace, $originalContent);
+                    };
 
-                $email_variables = [
-                    '[username]' => $user->name,
-                    '[company_name]' => $company->name.' address: '.$company->address,
-                    '[employer_message]' => $request->body,
-                ];
+                    // $verificationUrl = rtrim($customBaseUrl). 'user/dashboard';
 
-                foreach ($email_variables as $search => $replace) {
-                    $originalContent = str_replace($search, $replace, $originalContent);
-                };
+                    echo $originalContent;
 
-                // $verificationUrl = rtrim($customBaseUrl). 'user/dashboard';
+                    $subject = $request->subject;
 
-                echo $originalContent;
+                    $To = $user->email;
 
-                $subject = $request->subject;
+                    $email = new BulkEmail($subject, $originalContent);
+                    Mail::to($To)->send($email);
 
-                $To = $user->email;
+                    // $email = new BulkEmail($subject, $body);
 
-                $email = new BulkEmail($subject, $originalContent);
-                Mail::to($To)->send($email);
-
-                // $email = new BulkEmail($subject, $body);
-
-                // Mail::to($To)->send($email);
+                    // Mail::to($To)->send($email);
+                }
 
             }
             return response()->json(['status' => 'success', 'message' => 'Email successfully sent!']);
