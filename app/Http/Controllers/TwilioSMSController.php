@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\EmailTemplateController;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\MultiPurposeEmail;
+use App\Mail\BulkEmail;
 use Twilio\Rest\Client;
 use App\Models\{SubAccess, User, Company, SiteSettings};
 
@@ -115,7 +116,10 @@ class TwilioSMSController extends Controller
                 $subject = $request->subject;
                 $To = $user->email;
 
-                $email = new MultiPurposeEmail($subject, $originalContent, $verificationUrl);
+                // $email = new MultiPurposeEmail($subject, $originalContent, $verificationUrl);
+                // Mail::to($To)->send($email);
+
+                $email = new BulkEmail($subject, $originalContent, $verificationUrl);
                 Mail::to($To)->send($email);
 
             }
