@@ -88,13 +88,13 @@ class TwilioSMSController extends Controller
      */
     public function sendEmail(Request $request)
     {
+
+
         $company = Company::where('owner_id', auth()->id())->first();
         $customBaseUrl = env('FRONT_APP_URL');
 
         $user_id = $request->user_id;
         $userIds = explode(',', $user_id);
-
-
 
         if($userIds && $company){
             foreach ($userIds as $id) {
@@ -113,13 +113,17 @@ class TwilioSMSController extends Controller
                     $originalContent = str_replace($search, $replace, $originalContent);
                 };
                 $verificationUrl = rtrim($customBaseUrl). 'user/dashboard';
+
                 $subject = $request->subject;
+                $body = $request->body;
+
                 $To = $user->email;
 
                 // $email = new MultiPurposeEmail($subject, $originalContent, $verificationUrl);
                 // Mail::to($To)->send($email);
 
-                $email = new BulkEmail($subject, $originalContent, $verificationUrl);
+                $email = new BulkEmail($subject, $body);
+
                 Mail::to($To)->send($email);
 
             }

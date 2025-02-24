@@ -23,11 +23,10 @@ class BulkEmail extends Mailable
      * @param string $subject
      * @param string $content
      */
-    public function __construct($subject, $content, $url)
+    public function __construct($subject, $content)
     {
         $this->subject = $subject;
         $this->content = $content;
-        $this->url = $url;
     }
 
     /**

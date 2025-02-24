@@ -239,7 +239,7 @@ class PackageController extends Controller
     {
         $company = Company::where('owner_id', auth()->id())->first();
         if ($company) {
-            $subscription = Subscription::with('package')->where('company_id', $company->id)->get();
+            $subscription = Subscription::with('package')->where('company_id', $company->id)->orderBy('created_at', 'desc')->get();
             return Response($subscription);
         }
     }
