@@ -182,6 +182,7 @@ class AdminPackagesController extends Controller
 
     public function update(Request $request, Package $package)
     {
+
         $this->authorize('update', $package);
         $inputs = $request->all();
         // $inputs['post_for'] = 30;
@@ -190,6 +191,7 @@ class AdminPackagesController extends Controller
         }
 
         try {
+
             $product = Cashier::stripe()->products->update(
                 $package->stripe_product_id,
                 [
@@ -198,7 +200,6 @@ class AdminPackagesController extends Controller
                     'description' => $request->description ?? 'No Description added', // optional field
                 ]
             );
-
 
             $new_price = Cashier::stripe()->prices->create([
                 'product' => $product->id,
@@ -220,11 +221,14 @@ class AdminPackagesController extends Controller
                     'default_price' => $new_price->id,
                 ]
             );
+
         } catch (\Throwable $th) {
 
         }
 
+        $inputs['stripe_price_id'] = $new_price->id;
 
+        // price_1QwJaZGcqlJBpQmN0PsvE0dm
 
         $main_package = Package::with('keypoints')->findOrFail($package->id);
         if ($main_package->update($inputs)) {
