@@ -46,7 +46,7 @@ class JobController extends Controller
                 'job_slug' =>  $job_slug,
                 'expiration' =>  $expiration_date->format('Y-m-d'),
             ];
-            
+
 
             $request->merge($dataToAdd);
 
@@ -83,7 +83,7 @@ class JobController extends Controller
 
             $expiration_date = Carbon::parse($request->expiration);
 
-            
+
 
             // return response()->json($dataToAdd);
 
@@ -94,7 +94,7 @@ class JobController extends Controller
                     'job_slug' =>  $job_slug,
                     'expiration' =>  $expiration_date->format('Y-m-d'),
                 ];
-                
+
             }
             else
             {
@@ -102,11 +102,11 @@ class JobController extends Controller
                     'expiration' =>  $expiration_date->format('Y-m-d'),
                 ];
             }
-            
+
             $request->merge($dataToAdd);
-      
+
             $job->update($request->all());
-          
+
             return response()->json([
                 'status' => 'success',
                 'message' => 'Job updated!',
@@ -213,12 +213,12 @@ class JobController extends Controller
         return response()->json(JobResource::collection($latest_jobs));
     }
 
-    
+
 
     public function FilteredJobs(Request $request, Job $job)
     {
         // print_r($request->jobTypes);
-        // echo $request->jobSalaryRange;    
+        // echo $request->jobSalaryRange;
         // DB::enableQueryLog();
         // die();
 
@@ -227,7 +227,7 @@ class JobController extends Controller
             $query->where('expired_at', '>', now());
         });
         $q->where('status', 'active');
-        
+
         if(!empty($request->jobCategories)){
             $q->whereIn('category_id', explode(",", $request->jobCategories));
         }
@@ -251,7 +251,7 @@ class JobController extends Controller
         return response()->json(JobResource::collection($q->get()));
     }
 
-  
+
 
     public function JobsListing(Request $request, Job $job)
     {
@@ -262,7 +262,7 @@ class JobController extends Controller
         $q->where('status', 'active');
         $currentDate = Carbon::today();
         $originalDate = $currentDate->format('Y-m-d');
-        
+
         $carbonDate = Carbon::parse($originalDate);
 
         $listing_rows_count  = SiteSettings::select('meta_val')->where('meta_key', '_listing_rows_limit')->first();
@@ -283,7 +283,7 @@ class JobController extends Controller
         if(!empty($request->jobTypes)){
             $q->whereIn('job_type_id', explode(",", $request->jobTypes));
         }
-        
+
         if(!empty($request->jobSalaryRange)){
             $price_range = explode('-', $request->jobSalaryRange);
             $q->where('salary_from', '>=', $price_range[0]);
@@ -300,7 +300,7 @@ class JobController extends Controller
 
         $total_counts = $q->count();
 
-        $jobs_listing = 
+        $jobs_listing =
         JobResource::collection(
             $q->offset($offset)
             ->limit($listing_rows_count['meta_val'])
@@ -343,15 +343,15 @@ class JobController extends Controller
         if(isset($request->date) &&  $request->date !== 'null'){
             $q->whereDate('created_at', $request->date);
         }
-            
+
 
         if(isset($request->keyword) && $request->keyword !== 'null'){
             $q->where('job_title', 'LIKE', '%'.$request->keyword.'%');
         }
 
-        $total_counts = $q->count();    
+        $total_counts = $q->count();
 
-        $jobs_listing = 
+        $jobs_listing =
         JobResource::collection(
             $q->offset($offset)
             ->limit($listing_rows_count['meta_val'])
@@ -365,11 +365,11 @@ class JobController extends Controller
             'count' => $total_counts,
             'showing_count' => $total_counts,
             'rows_count' =>  $listing_rows_count['meta_val'],
-        );    
-        
+        );
+
         return response()->json($all_jobs);
     }
-    
+
     public function updateJobStatus(Request $request, Job $job)
     {
         Job::where('id', $request->jobId)->update(['status'=> $request->jobStatus]);

@@ -51,9 +51,9 @@ class Application extends Model
     public function toSearchableArray(): array
     {
         $array = $this->toArray();
- 
+
         // Customize the data array...
- 
+
         return $array;
     }
 

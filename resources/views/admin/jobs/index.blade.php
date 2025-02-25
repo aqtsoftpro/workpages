@@ -29,10 +29,10 @@
                 View Jobs
               </div>
               <div class="col-lg-6">
-                
+
               </div>
             </h5>
-         
+
           <!-- Table with stripped rows -->
           <ul class="nav nav-tabs nav-tabs-bordered d-flex" id="borderedTabJustified" role="tablist">
             <li class="nav-item flex-fill" role="presentation">
@@ -130,7 +130,7 @@
 
 
 
-      
+
 
           </div>
         </div>

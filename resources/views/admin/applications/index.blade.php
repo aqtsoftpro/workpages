@@ -38,7 +38,7 @@
                           // echo "</pre>";
                           // echo $record->user->name;
                         @endphp
-                        
+
                         <tr>
                             <td>{{ optional($record->user)->name }}</td>
                             <td>{{ $record->company->name }}</td>

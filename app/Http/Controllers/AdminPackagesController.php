@@ -226,9 +226,11 @@ class AdminPackagesController extends Controller
 
         }
 
-        $inputs['stripe_price_id'] = $new_price->id;
+        if(isset($new_price->id))
+        {
+            $inputs['stripe_price_id'] = $new_price->id;
+        }
 
-        // price_1QwJaZGcqlJBpQmN0PsvE0dm
 
         $main_package = Package::with('keypoints')->findOrFail($package->id);
         if ($main_package->update($inputs)) {

@@ -25,7 +25,7 @@ class AdminJobsController extends Controller
                             ->latest()
                             ->get();
 
-              
+
 
         $records_opened = Job::where('status', 'active')->whereDate('expiration', '>=' , Carbon::now()
                             ->format('Y-m-d'))
@@ -78,7 +78,7 @@ class AdminJobsController extends Controller
         $job = Job::find($request->job_id);
 
         $this->authorize('update', $job);
-        
+
         $job->status = $request->status;
         $job->save();
         return redirect()->back();

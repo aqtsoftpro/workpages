@@ -87,8 +87,8 @@ class ApplicationController extends Controller
                         '[username]' => $job->company?->owner?->name,
                         '[company_name]' => $job->company?->name,
                         '[job_title]' => $job->job_title,
-                        '[site_url]' => '<a href="'.$verificationUrl.'" target="_blank">Company dashboard</a>',                        
-                        '[profile_link]' => '<a href="'.$verificationUrl.'" target="_blank">Company dashboard</a>',                        
+                        '[site_url]' => '<a href="'.$verificationUrl.'" target="_blank">Company dashboard</a>',
+                        '[profile_link]' => '<a href="'.$verificationUrl.'" target="_blank">Company dashboard</a>',
                     ];
 
                     foreach ($email_variables as $search => $replace) {
@@ -133,9 +133,9 @@ class ApplicationController extends Controller
     }
 
     public function destroy(Request $request){
-        
+
         $application = Application::find($request->application_id);
- 
+
         $application->delete();
         return response()->json([
             'status' => 'success',
@@ -173,7 +173,7 @@ class ApplicationController extends Controller
             'showing_count' => $total_counts,
             'rows_count' =>  $listing_rows_count['meta_val'],
         );
-        
+
             return response()->json($all_jobs);
 
         // return ApplicationResource::collection($applications);
@@ -210,7 +210,7 @@ class ApplicationController extends Controller
         $email_templates  = new EmailTemplateController();
         $get_template = $email_templates->get_template('short-listed-email');
         $originalContent = $get_template['desc'];
-                    
+
         $email_variables = [
             '[username]' => $application->user?->name,
             '[job_title]' => $application->job?->job_title,
