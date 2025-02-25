@@ -16,7 +16,6 @@ class AdminPackagesController extends Controller
 {
     public function index()
     {
-
         $this->authorize('viewAny', Package::class);
 
         $records = Package::with('subscriptions')->get();
@@ -48,12 +47,13 @@ class AdminPackagesController extends Controller
                     'type' => 'service', // optional field
                     'description' => $request->description ?? 'No Description', // optional field
                 ]);
+
                 if ($product) {
                     // Create the price for the product
                     $price = \Stripe\Price::create([
                         'product' => $product->id,
                         'unit_amount' => $request->price * 100, // price per unit in USD
-                        'currency' => 'usd',
+                        'currency' => config('cashier.currency') ?? 'usd',
                         'recurring' => [
                             'interval' => 'month',
                             'interval_count' => $request->interval_count,
@@ -105,7 +105,7 @@ class AdminPackagesController extends Controller
 
     public function destroyKey(KeyPoint $keypoint)
     {
-        // dd($keypoint);  
+        // dd($keypoint);
         // $this->authorize('delete', $package);
         $keypoint = KeyPoint::findOrFail($keypoint->id);
         $deleted_rec = $keypoint;
@@ -221,7 +221,7 @@ class AdminPackagesController extends Controller
                 ]
             );
         } catch (\Throwable $th) {
-            
+
         }
 
 
