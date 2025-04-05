@@ -28,22 +28,27 @@ class ApplicationController extends Controller
 
     public function store(Application $application, Request $request){
 
+        // print_r($request->all());
+        // return response()->json($request->all());
         $appData =  Application::where([
                 'user_id' => $request->user_id,
                 'job_id' => $request->job_id
                 ])->first();
         // fileUplaod script
-        if (!$appData) {
+        if (!$appData)
+        {
             DB::beginTransaction();
             try{
+
                 $cv_file = 'no';
                 $user = User::find($request->user_id);
-                if ($request->hasFile('civ')) {
+                if ($request->hasFile('cv')) {
                     $fileExtension = $request->cv->getClientOriginalExtension();
-                    $fileName = 'resume-' . $request->user_id . '.' . $fileExtension;
+                    $randomNumber = mt_rand(1000, 9999); // 4-digit random number
+                    $fileName = 'resume-' . $request->user_id . '-' . $randomNumber . '.' . $fileExtension;
                     $request->cv->storeAs('public', $fileName);
 
-                    $cv_file = env('APP_URL') . 'storage/' . $fileName;
+                    $cv_file = env('APP_URL') . '/public/storage/' . $fileName;
                 }
                 elseif ($user && $user->cv !== null) {
                     $cv_file = $user->cv;
@@ -106,6 +111,7 @@ class ApplicationController extends Controller
                     'message' => 'Job Application Sent!',
                     'data' => $job
                 ]);
+
             } catch(Exception $e){
                 DB::rollBack();
                 return $e->getMessage();
