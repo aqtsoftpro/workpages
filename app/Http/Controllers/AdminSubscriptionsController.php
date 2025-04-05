@@ -12,7 +12,7 @@ class AdminSubscriptionsController extends Controller
     public function index(){
         $this->authorize('viewAny', Subscription::class);
 
-        $records = Subscription::with('company')->latest()->get();
+        $records = Subscription::with('company')->where('subscription_status', 0)->latest()->get();
         // dd($records);
         return  view('admin.subscriptions.index', compact('records'));
     }
@@ -94,4 +94,39 @@ class AdminSubscriptionsController extends Controller
     public function history(){
         return  view('admin.subscriptions.history');
     }
+
+    public function subscribers(){
+        $this->authorize('viewAny', Subscription::class);
+
+        $records = Subscription::with('company')->where('subscription_status', 1)->latest()->get();
+        // dd($records);
+        return  view('admin.subscriptions.subscribers', compact('records'));
+    }
+
+
+    public function subscriberEdit($id)
+    {
+
+        $record = Subscription::findOrFail($id);
+
+        $packages = Package::all();
+
+        $this->authorize('update', $record);
+
+        return view('admin.subscriptions.subscriber_edit', compact('record', 'packages'));
+    }
+
+    public function updateSubscriber(Request $request, Subscription $subscription)
+    {
+
+        $this->authorize('update', $subscription);
+        $inputs['status'] = 'subscribed'; // Update relevant subscriber fields
+
+        if ($subscription->update($inputs)) {
+            return redirect()->back()->with('success', 'Subscriber details updated successfully');
+        } else {
+            return redirect()->back()->with('error', 'Something went wrong. Please try again!');
+        }
+    }
+
 }

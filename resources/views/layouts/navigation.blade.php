@@ -203,6 +203,11 @@
                         <i class="bi bi-circle"></i><span>Subscription History</span>
                     </a>
                 </li>
+                <li>
+                    <a href="{{ url('/admin/subscribers/') }}">
+                        <i class="bi bi-circle"></i><span>Subscribers</span>
+                    </a>
+                </li>
             </ul>
         </li><!-- End Components Nav -->
 

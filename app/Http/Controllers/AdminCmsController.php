@@ -52,7 +52,7 @@ class AdminCmsController extends Controller
     {
 
         $record = Cms::findOrFail($id);
-        
+
         $this->authorize('update', $record);
 
         return view('admin.cms.edit', compact('record'));

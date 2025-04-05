@@ -158,6 +158,103 @@ class PackageController extends Controller
         $externalUrl = env('FRONT_APP_URL').'company/plan';
         return redirect()->away($externalUrl);
     }
+
+    /**
+     * Show the subscribe package.
+     */
+    public function subscribePackage(Request $request)
+    {
+        $user_id = auth()->id();
+        $user = auth()->user();
+        $package = Package::findOrFail($request->package);
+
+        $company = Company::where('owner_id', $user_id)->first();
+    if($user_id){
+        $expire = now()->addDays(4);
+        switch ($package->interval) {
+            case 'day':
+                $expire = now()->addDays($package->interval_count);
+                break;
+            case 'month':
+                $expire = now()->addMonths($package->interval_count);
+                break;
+            case 'year':
+                $expire = now()->addYears($package->interval_count);
+                break;
+            default:
+                $expire = now()->addDays(7);
+                break;
+        }
+        $subscription = Subscription::create([
+            'user_id' => $user_id,
+            'package_id'=> $package->id,
+            'company_id' => $company->id ?? null,
+            'name' => $package->name,
+            'stripe_price' => $package->price,
+            'quantity' => 1,
+            'ends_at' => $expire,
+            'status' => 'pending',
+            'subscription_status' => 1,
+        ]);
+        if ($subscription) {
+            $sub_access = SubAccess::create([
+                'user_id' => $user_id,
+                'subscription_id' => $subscription->id,
+                'post_for' => $package->post_for,
+                'allow_ads' => $package->allow_ads,
+                'allow_edits' => $package->allow_edits,
+                'allow_ref' => $package->allow_ref,
+                'allow_right' => $package->allow_right,
+                'allow_others' => $package->allow_others,
+                'h_s_screen' => $package->h_s_screen,
+                'allow_interview' => $package->allow_interview,
+                'recruiter_dash' => $package->recruiter_dash,
+                'casual_portal' => $package->casual_portal,
+                'emp_directory' => $package->emp_directory,
+                'rec_support' => $package->rec_support,
+                'cv_credit' => $package->cv_credit,
+                'msg_credit' => $package->msg_credit,
+                'cv_access' => $package->cv_access,
+                'expired_at' => $expire,
+                'edit_title' => $package->edit_title,
+                'edit_categ' => $package->edit_categ,
+                'edit_body' => $package->edit_body,
+                'delete_ad' => $package->delete_ad
+            ]);
+
+            Notification::create([
+                'type' => '_notification_package_subscription',
+                'name' => 'Subscription Alert',
+                'company_id' => $company->id ?? null,
+                'company' => $company->name,
+                'package_id' => $package->id,
+                'package' => $package->name,
+                // 'desc' => 'Package is subscribed by '.auth()->user()->name,
+                'is_seen' => false
+            ]);
+
+            $pusher = new \Pusher\Pusher(config('broadcasting.connections.pusher.key'), config('broadcasting.connections.pusher.secret'), config('broadcasting.connections.pusher.app_id'), array('cluster' => config('broadcasting.connections.pusher.options.cluster')));
+            $pusher->trigger('my-channel', 'my-event', array('message' => $package->name.' Package with pirce '.$package->price.' is subscribed by '.$user->name));
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'data' => $subscription,
+            'message' => 'You have successfully subcribed',
+        ]);
+
+    }
+    else
+    {
+        return response()->json([
+            'status' => 'error',
+            'message' => 'Some thing went wrong...',
+        ]);
+    }
+
+
+    }
+
     /**
      * Display the specified resource.
      */

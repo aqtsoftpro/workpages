@@ -2,12 +2,12 @@
 
 @section('content')
 <div class="pagetitle">
-  <h1>Subscriptions</h1>
+  <h1>Subscribers</h1>
   <nav>
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="{{ url('admin/dashboard') }}">Dashboard</a></li>
-        <li class="breadcrumb-item">Subscriptions</li>
-      <li class="breadcrumb-item active">Subscriptions</li>
+        <li class="breadcrumb-item">Subscribers</li>
+      <li class="breadcrumb-item active">All Subscribers</li>
     </ol>
   </nav>
 </div>
@@ -26,7 +26,7 @@
           <div class="card-body">
             <h5 class="card-title row">
               <div class="col-lg-6">
-                View Subscriptions
+                View Subscribers
               </div>
               <div class="col-lg-6">
                 {{-- <div class="btn-group float-end" role="group" aria-label="Basic example">
@@ -58,15 +58,15 @@
                   <td scope="row">{{ $loop->iteration }}</td>
                   <td>{{ $record->user->name }}<br>
                     @if(!empty($record->company))
-                   <b>Company</b> <a class="mx-1 text-success" target="_blank" href="{{ route('companies.show', $record->company->id) }}">{{ $record->company->name ?? null }}</a>
-                    @endif
+                    <b>Company</b> <a class="mx-1 text-success" target="_blank" href="{{ route('companies.show', $record->company->id) }}">{{ $record->company->name ?? null }}</a>
+                     @endif
                   </td>
                   <td>{{ $record->package?->name }}
 
                   </td>
                   <td>{{ $record->created_at }}</td>
                   <td>
-                      <a class="mx-1 text-success" href="{{ route('subscriptions.edit', $record->id) }}"><i class="bi bi-pen"></i> </a>|
+                      <a class="mx-1 text-success" href="{{ route('subscriber.edit', $record->id) }}"><i class="bi bi-pen"></i></a> |
                       <a type="#" class="mx-1 text-danger"  data-bs-toggle="modal" data-bs-target="#deleteModel-{{ $record->id }}" ><i class="bi bi-trash"></i></a>
 
 

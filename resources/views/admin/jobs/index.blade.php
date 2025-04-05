@@ -64,7 +64,7 @@
                       <td>{{ $record->job_title }}</td>
                       <td>{{ $record?->location?->name }}</td>
                       <td>{{ $record->company->name }}</td>
-                      <td>{{ $record->currency->symbol . ' ' . $record->salary_from . ' - ' . $record->currency->symbol . ' ' . $record->salary_to }}</td>
+                      <td>{{ $record->currency->symbol . ' ' . $record->salary_from . ' - ' . $record->currency->symbol . ' ' . $record->salary_to }} check</td>
                       <td>{{  date('F j, Y', strtotime($record->expiration)) }}</td>
                       <td>
                         @if( $record->status == 'active')

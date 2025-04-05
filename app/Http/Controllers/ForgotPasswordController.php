@@ -18,7 +18,7 @@ use App\Models\User;
 
 class ForgotPasswordController extends Controller
 {
-    public function forgot() 
+    public function forgot()
     {
 
         $credentials = request()->validate(['email' => 'required|email']);
@@ -41,9 +41,9 @@ class ForgotPasswordController extends Controller
         $verificationUrl = rtrim($customBaseUrl). 'reset-password/' .$randomString. '?email='.$user->email;
 
         $email_templates  = new EmailTemplateController();
-        $get_template = $email_templates->get_template('job-seeker-verify-email');
+        $get_template = $email_templates->get_template('company-password-recovery');
         $originalContent = $get_template['desc'];
-        
+
         $email_variables = [
             '[username]' => $user->first_name.' '.$user->last_name,
             // '[verify_email_link]' => '<a href="'.$verificationUrl.'" target="_blank">'.env('APP_URL').'</a>',

@@ -33,8 +33,8 @@
                 </div>
               </div>
             </h5>
-            
-            
+
+
                 <form method="POST"  action="{{ route('manage_pages.store') }}" class="row g-3" >
                   @csrf
                     <div class="col-md-12 mb-2">

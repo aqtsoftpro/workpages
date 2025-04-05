@@ -30,7 +30,8 @@ class Subscription extends Model
         'ends_at',
         'receipt_url',
         'delete_ad',
-        'status'
+        'status',
+        'subscription_status',
     ];
 
     public function package(): BelongsTo
@@ -53,6 +54,6 @@ class Subscription extends Model
         return $this->hasOne(SubAccess::class);
     }
 
-    
+
 
 }

@@ -169,6 +169,9 @@ Route::middleware('auth')->prefix('admin')->group(function () {
 
    Route::post('/session', [AdminPackagesController::class, 'session'])->name("session");
 
+   Route::put('/subscribers/{subscription}', [AdminSubscriptionsController::class, 'updateSubscriber'])->name('subscriber.update');
+   Route::get('subscriber/edit/{id}', [AdminSubscriptionsController::class, 'subscriberEdit'])->name('subscriber.edit');
+   Route::get('subscribers', [AdminSubscriptionsController::class, 'subscribers'])->name('subscribers');
    Route::resource('subscriptions', AdminSubscriptionsController::class);
    Route::get('jobs_list', [AdminJobsController::class, 'jobs_list']);
    Route::resource('jobs', AdminJobsController::class);

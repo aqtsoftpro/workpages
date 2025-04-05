@@ -129,6 +129,10 @@ Route::group(['middleware' => ['auth:sanctum', 'cors']], function () {
     Route::resource('userSocial', UserSocialController::class);
 
     Route::post('stripe/checkout', [PackageController::class, 'session']);
+    Route::post('subscribepackage', [PackageController::class, 'subscribePackage']);
+
+    Route::post('packageSubscriptions', [PackageController::class, 'session']);
+
     Route::post('zeroSubscribe', [PackageController::class, 'zeroPlan']);
     Route::post('unsubscribe', [PackageController::class, 'unSub']);
     Route::get('companySubscriptions', [PackageController::class, 'subPlans']);

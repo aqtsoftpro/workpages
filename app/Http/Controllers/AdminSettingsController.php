@@ -33,7 +33,7 @@ class AdminSettingsController extends Controller
             ['id' => 1, 'name' => 'Enable'],
             ['id' => 0, 'name' => 'Disable']
         ];
-    
+
         return view('admin.settings.site_settings', compact('languages', 'timezones', 'notification', 'settings'));
 
         die();
@@ -42,6 +42,11 @@ class AdminSettingsController extends Controller
     public function update_main_settings(Request $request){
 
         $this->authorize('create', SiteSettings::class);
+
+        echo "<pre>";
+        echo $request->setting['_strip_status'];
+        print_r($request->setting);
+        echo "</pre>";
 
         $settings = $request->input('setting', []);
 
@@ -68,7 +73,7 @@ class AdminSettingsController extends Controller
             //             'meta_key'=> '_search_panel_margin_top',
             //             'meta_val' => $request->setting['_search_panel_margin_top']
             //         ]);
-            //     }                
+            //     }
             // }
 
             if($request->file('_slider_img'))
@@ -111,12 +116,12 @@ class AdminSettingsController extends Controller
 
         if($request->setting_form_type == 'design_settings')
         {
-            
+
             if($request->hasFile('_site_logo'))
             {
 
                 $imagePath = $request->file('_site_logo')->store('/','public');
-                
+
                 if(isset($imagePath)){
                     $settingRow = SiteSettings::where('meta_key', '_site_logo')->first();
                     if ($settingRow) {
@@ -136,12 +141,12 @@ class AdminSettingsController extends Controller
                 }
             }
 
-  
+
             if($request->file('_site_favicon'))
             {
                 $FileName = 'site_favicon-'.time().'-'.rand(100000,1000000).'.'.$request->file('_site_favicon')->extension();
                 $request->file('_site_favicon')->storeAs('public', $FileName);
-                
+
                 if(isset($FileName)){
                     $img_array['_site_favicon'] = env('APP_URL') . 'storage/' . $FileName;
                     SiteSettings::update_setting($img_array);
@@ -152,14 +157,9 @@ class AdminSettingsController extends Controller
 
         if($request->setting_form_type == 'payment_gateway_settings')
         {
-            if(isset($request->_strip_status))
-                {
-                    $settings['_strip_status'] = 1;
-                }
-                else
-                {
-                    $settings['_strip_status'] = 0;
-                }
+            $settings['_strip_status'] = isset($request->setting['_strip_status']) ? 1 : 0;
+            $settings['_payment_method_direct_deposite'] = isset($request->setting['_payment_method_direct_deposite']) ? 1 : 0;
+            $settings['_payment_method_credit_card'] = isset($request->setting['_payment_method_credit_card']) ? 1 : 0;
 
         }
 
@@ -192,16 +192,17 @@ class AdminSettingsController extends Controller
                 }
 
         }
-        // echo "<pre>";
-        // print_r($request->setting);
-        // echo "</pre>";
+        echo "<pre>";
+        print_r($request->setting);
+        print_r($settings);
+        echo "</pre>";
 
         $request->merge(['setting' => $settings]);
 
         SiteSettings::update_setting($request->setting);
 
         // die();
-        
+
 
         if($request->setting_form_type == 'payment_gateway_settings')
         {
@@ -274,7 +275,7 @@ class AdminSettingsController extends Controller
         return view('admin.settings.payment_settings',  compact( 'settings'));
     }
 
-    
+
     public function notification_settings(){
         $this->authorize('create', SiteSettings::class);
 
@@ -330,23 +331,23 @@ class AdminSettingsController extends Controller
 
     public function slider_settings(){
         $this->authorize('create', SiteSettings::class);
-        
+
         $settings = SiteSettings::select('meta_key', 'meta_val')->get()->keyBy('meta_key')->toArray();
         // dd($settings);
         return view('admin.settings.slider_settings',  compact('settings'));
     }
 
-    
+
     public function banner_settings(){
         $this->authorize('create', SiteSettings::class);
-        
+
         $settings = SiteSettings::select('meta_key', 'meta_val')->get()->keyBy('meta_key')->toArray();
         // dd($settings);
         return view('admin.settings.banner_settings',  compact('settings'));
     }
 
 
-    
+
     public function job_seeker_settings(){
         $this->authorize('create', SiteSettings::class);
         $settings = SiteSettings::select('meta_key', 'meta_val')->get()->keyBy('meta_key')->toArray();
