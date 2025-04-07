@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rules;
 use Illuminate\Support\Str;
 use App\Mail\MultiPurposeEmail;
+use App\Mail\ForgetPassword;
 use App\Jobs\MultiPurposeEmailJob;
 use Illuminate\Support\Facades\Mail;
 use App\Models\User;
@@ -41,12 +42,12 @@ class ForgotPasswordController extends Controller
         $verificationUrl = rtrim($customBaseUrl). 'reset-password/' .$randomString. '?email='.$user->email;
 
         $email_templates  = new EmailTemplateController();
-        $get_template = $email_templates->get_template('company-password-recovery');
+        $get_template = $email_templates->get_template('password-reset');
         $originalContent = $get_template['desc'];
 
         $email_variables = [
             '[username]' => $user->first_name.' '.$user->last_name,
-            // '[verify_email_link]' => '<a href="'.$verificationUrl.'" target="_blank">'.env('APP_URL').'</a>',
+            '[reset_password_link]' => '<a href="'.$verificationUrl.'" target="_blank">'.env('APP_URL').'</a>',
         ];
         // echo $originalContent;
         foreach ($email_variables as $search => $replace) {
@@ -55,7 +56,7 @@ class ForgotPasswordController extends Controller
         $subject = "Work Pages- Almost there! Password Recovery Email";
         $To = $user->email;
         // MultiPurposeEmailJob::dispatch($To, $subject, $originalContent, $verificationUrl);
-        $email = new MultiPurposeEmail($subject, $originalContent, $verificationUrl);
+        $email = new ForgetPassword($subject, $originalContent);
         Mail::to($To)->send($email);
         return response()->json([
             'status' => 'success',

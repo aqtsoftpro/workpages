@@ -333,7 +333,7 @@
                             <td class="wrapper">
                                 {{ $content }}
                                 {{-- <p>Sometimes you just want to send a simple HTML email with a simple desiVerify NOW. This is it.</p> --}}
-                                  <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="btn btn-primary">
+                                  {{-- <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="btn btn-primary">
                                     <tbody>
                                       <tr>
                                         <td align="left">
@@ -349,7 +349,7 @@
                                         </td>
                                       </tr>
                                     </tbody>
-                                  </table>
+                                  </table> --}}
                                   <img src="{{ asset('NiceAdmin/assets/img/work-pages-logo-cropped.png') }}" alt="work pages" width="360" >
                                   {{-- <a href="{{ $url }}" target="_blank">{{ $url }}</a> --}}
                                   {{-- <p>This is a really simple email template. It's sole purpose is to get the recipient to click the button with no distractions.</p>

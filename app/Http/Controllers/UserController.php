@@ -116,8 +116,8 @@ class UserController extends Controller
 
         if ($request->hasFile('cv')) {
             $fileExtension = $request->cv->getClientOriginalExtension();
-            $cvName = 'cv-' . $user->id . Str::random(2) . '.' . $fileExtension;
-            $uploadCv =  $request->cv->storeAs('public/profile/cvs', $cvName);
+            $cvName = 'resume-' . $user->id . '-' . Str::random(6) . '.' . $fileExtension;
+            $uploadCv =  $request->cv->storeAs('public/profile/cvs/', $cvName);
         }
 
         $userRequest = $request->all();
@@ -127,7 +127,7 @@ class UserController extends Controller
         }
 
         if (isset($uploadCv)) {
-            $userRequest['cv'] = env('APP_URL') . 'storage/profile/cvs' . $cvName;
+            $userRequest['cv'] = env('APP_URL') . 'public/storage/profile/cvs/' . $cvName;
         }
 
 

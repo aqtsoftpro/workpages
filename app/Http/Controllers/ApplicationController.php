@@ -14,6 +14,7 @@ use App\Http\Controllers\EmailTemplateController;
 use App\Mail\MultiPurposeEmail;
 use App\Jobs\MultiPurposeEmailJob;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 
 class ApplicationController extends Controller
@@ -44,11 +45,10 @@ class ApplicationController extends Controller
                 $user = User::find($request->user_id);
                 if ($request->hasFile('cv')) {
                     $fileExtension = $request->cv->getClientOriginalExtension();
-                    $randomNumber = mt_rand(1000, 9999); // 4-digit random number
-                    $fileName = 'resume-' . $request->user_id . '-' . $randomNumber . '.' . $fileExtension;
-                    $request->cv->storeAs('public', $fileName);
+                    $cvName = 'resume-' . $user->id . '-' . Str::random(6) . '.' . $fileExtension;
+                    $request->cv->storeAs('public/profile/cvs/', $cvName);
 
-                    $cv_file = env('APP_URL') . '/public/storage/' . $fileName;
+                    $cv_file = env('APP_URL') . '/public/storage/profile/cvs/' . $cvName;
                 }
                 elseif ($user && $user->cv !== null) {
                     $cv_file = $user->cv;
