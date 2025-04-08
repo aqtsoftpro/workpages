@@ -42,6 +42,7 @@
                 <th scope="col">#</th>
                 <th scope="col">Subcriber Information</th>
                 <th scope="col">Package</th>
+                <th scope="col">Status</th>
                 <th scope="col">Created At</th>
                 <th scope="col">Action</th>
               </tr>
@@ -64,6 +65,13 @@
                   <td>{{ $record->package?->name }}
 
                   </td>
+                  <td>
+                    @if ($record->status == 'pending')
+                      <span class="badge bg-warning">Pending</span>
+                    @else
+                      <span class="badge bg-success">Active</span>
+
+                    @endif</td>
                   <td>{{ $record->created_at }}</td>
                   <td>
                       <a class="mx-1 text-success" href="{{ route('subscriber.edit', $record->id) }}"><i class="bi bi-pen"></i></a> |

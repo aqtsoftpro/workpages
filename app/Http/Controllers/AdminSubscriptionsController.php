@@ -130,6 +130,8 @@ class AdminSubscriptionsController extends Controller
 
         $this->authorize('update', $subscription);
         $inputs['status'] = 'subscribed'; // Update relevant subscriber fields
+        $inputs['package_id'] = $request->package_id;
+        $inputs['name'] = $package->name;
 
         if ($subscription->update($inputs)) {
 
@@ -178,7 +180,7 @@ class AdminSubscriptionsController extends Controller
             ]);
 
 
-            return redirect()->back()->with('success', 'Subscriber details updated successfully');
+            return redirect()->back()->with('success', 'Package Active Successfully');
         } else {
             return redirect()->back()->with('error', 'Something went wrong. Please try again!');
         }
