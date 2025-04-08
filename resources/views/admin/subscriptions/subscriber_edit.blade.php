@@ -45,7 +45,7 @@
                       {{-- <input type="text" name="name" value="{{ $record->name }}" class="form-control" id="social_media_facebook"> --}}
                       <select name="package_id" id="" class="form-select">
                         @foreach ($packages as $package)
-                          <option value="{{ $package->id }}" @selected($record->name == $package->name )>{{ $package->name }}</option>
+                          <option value="{{ $package->id }}" @selected($record->package_id == $package->id )>{{ $package->name }}</option>
                         @endforeach
                       </select>
                     </div>

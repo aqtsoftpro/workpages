@@ -66,12 +66,18 @@
 
                   </td>
                   <td>
-                    @if ($record->status == 'pending')
-                      <span class="badge bg-warning">Pending</span>
-                    @else
-                      <span class="badge bg-success">Active</span>
-
-                    @endif</td>
+                    @if ($status == 'pending')
+                    <span class="badge bg-warning">Pending</span>
+                @elseif ($status == 'subscribed')
+                    <span class="badge bg-success">Subscribed</span>
+                @elseif ($status == 'unsubscribed')
+                    <span class="badge bg-secondary">Unsubscribed</span>
+                @elseif ($status == 'expired')
+                    <span class="badge bg-danger">Expired</span>
+                @else
+                    <span class="badge bg-light text-dark">Unknown</span>
+                @endif
+                </td>
                   <td>{{ $record->created_at }}</td>
                   <td>
                       <a class="mx-1 text-success" href="{{ route('subscriber.edit', $record->id) }}"><i class="bi bi-pen"></i></a> |
