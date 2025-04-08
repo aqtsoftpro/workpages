@@ -25,6 +25,8 @@ class ForgotPasswordController extends Controller
         $credentials = request()->validate(['email' => 'required|email']);
         $user = User::where('email', request()->email)->first();
 
+        // print_r($user);
+
         $customBaseUrl = env('FRONT_APP_URL');
         $randomString = Str::random(40);
 
@@ -46,8 +48,8 @@ class ForgotPasswordController extends Controller
         $originalContent = $get_template['desc'];
 
         $email_variables = [
-            '[username]' => $user->first_name.' '.$user->last_name,
-            '[reset_password_link]' => '<a href="'.$verificationUrl.'" target="_blank">'.env('APP_URL').'</a>',
+            '[username]' => $user->name,
+            '[reset_password_link]' => '<a href="'.$verificationUrl.'" target="_blank" style="display: inline-block; padding: 10px 20px; background-color: #000; color: white; text-decoration: none; border-radius: 5px; font-weight: bold;">'.env('APP_URL').'</a>',
         ];
         // echo $originalContent;
         foreach ($email_variables as $search => $replace) {
