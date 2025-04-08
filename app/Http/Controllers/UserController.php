@@ -127,7 +127,7 @@ class UserController extends Controller
         }
 
         if (isset($uploadCv)) {
-            $userRequest['cv'] = env('APP_URL') . 'public/storage/profile/cvs/' . $cvName;
+            $userRequest['cv'] = env('APP_URL') . 'storage/profile/cvs/' . $cvName;
         }
 
 
