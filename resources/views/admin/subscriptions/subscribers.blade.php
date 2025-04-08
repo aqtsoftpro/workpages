@@ -66,17 +66,20 @@
 
                   </td>
                   <td>
+                    @php
+                        $status = $record->status;
+                    @endphp
                     @if ($status == 'pending')
-                    <span class="badge bg-warning">Pending</span>
-                @elseif ($status == 'subscribed')
-                    <span class="badge bg-success">Subscribed</span>
-                @elseif ($status == 'unsubscribed')
-                    <span class="badge bg-secondary">Unsubscribed</span>
-                @elseif ($status == 'expired')
-                    <span class="badge bg-danger">Expired</span>
-                @else
-                    <span class="badge bg-light text-dark">Unknown</span>
-                @endif
+                        <span class="badge bg-warning">Pending</span>
+                    @elseif ($status == 'subscribed')
+                        <span class="badge bg-success">Subscribed</span>
+                    @elseif ($status == 'unsubscribed')
+                        <span class="badge bg-secondary">Unsubscribed</span>
+                    @elseif ($status == 'expired')
+                        <span class="badge bg-danger">Expired</span>
+                    @else
+                        <span class="badge bg-light text-dark">Unknown</span>
+                    @endif
                 </td>
                   <td>{{ $record->created_at }}</td>
                   <td>
