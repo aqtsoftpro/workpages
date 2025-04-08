@@ -48,7 +48,7 @@ class ApplicationController extends Controller
                     $cvName = 'resume-' . $user->id . '-' . Str::random(6) . '.' . $fileExtension;
                     $request->cv->storeAs('public/profile/cvs/', $cvName);
 
-                    $cv_file = env('APP_URL') . '/public/storage/profile/cvs/' . $cvName;
+                    $cv_file = env('APP_URL') . 'public/storage/profile/cvs/' . $cvName;
                 }
                 elseif ($user && $user->cv !== null) {
                     $cv_file = $user->cv;
