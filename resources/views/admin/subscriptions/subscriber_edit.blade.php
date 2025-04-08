@@ -25,7 +25,7 @@
           <div class="card-body">
             <h5 class="card-title row">
               <div class="col-lg-6">
-                Edit {{ $record->name }}
+                Edit Plan
               </div>
               <div class="col-lg-6">
                 <div class="btn-group float-end" role="group" aria-label="Basic example">
