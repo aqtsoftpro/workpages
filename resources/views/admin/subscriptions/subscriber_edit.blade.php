@@ -39,6 +39,7 @@
                   @csrf
                   @method('PUT')
                     <input type="hidden" name="subscription_id" value="{{ $record->id }}">
+                    <input type="hidden" name="user_id" value="{{ $record->user_id }}">
                     <div class="col-md-6">
                       <label for="name" class="form-label">Name</label>
                       {{-- <input type="text" name="name" value="{{ $record->name }}" class="form-control" id="social_media_facebook"> --}}
