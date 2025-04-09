@@ -49,7 +49,7 @@ class ForgotPasswordController extends Controller
 
         $email_variables = [
             '[username]' => $user->name,
-            '[reset_password_link]' => '<a href="'.$verificationUrl.'" target="_blank" style="display: inline-block; padding: 10px 20px; background-color: #000; color: white; text-decoration: none; border-radius: 5px; font-weight: bold;">'.env('APP_URL').'</a>',
+            '[reset_password_link]' => '<a href="'.$verificationUrl.'" target="_blank" style="display: inline-block; padding: 10px 20px; background-color: #000; color: white; text-decoration: none; border-radius: 5px; font-weight: bold;">Reset Password</a>',
         ];
         // echo $originalContent;
         foreach ($email_variables as $search => $replace) {

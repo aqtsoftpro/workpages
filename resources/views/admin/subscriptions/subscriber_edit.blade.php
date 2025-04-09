@@ -49,7 +49,6 @@
                         @endforeach
                       </select>
                     </div>
-
                     <div>
                         <button type="submit" class="btn btn-primary">
                             {{ $record->status == 'pending' ? 'Activate' : 'Update' }}

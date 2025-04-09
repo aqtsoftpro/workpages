@@ -68,6 +68,8 @@ class AdminSubscriptionsController extends Controller
         // dd($inputs);
         $package = Package::findOrFail($request->package_id);
 
+        $inputs['package_id'] = $package->id;
+        $inputs['stripe_price'] = $package->price;
         $inputs['name'] = $package->name;
 
         $location = $subscription;
@@ -131,7 +133,9 @@ class AdminSubscriptionsController extends Controller
         $this->authorize('update', $subscription);
         $inputs['status'] = 'subscribed'; // Update relevant subscriber fields
         $inputs['package_id'] = $request->package_id;
+        $inputs['stripe_price'] = $package->price;
         $inputs['name'] = $package->name;
+
 
         if ($subscription->update($inputs)) {
 
