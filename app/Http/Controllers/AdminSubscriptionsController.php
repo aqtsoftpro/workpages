@@ -72,6 +72,50 @@ class AdminSubscriptionsController extends Controller
         $inputs['stripe_price'] = $package->price;
         $inputs['name'] = $package->name;
 
+        $package = Package::findOrFail($request->package_id);
+
+
+        $expire = now()->addDays(4);
+        switch ($package->interval) {
+            case 'day':
+                $expire = now()->addDays($package->interval_count);
+                break;
+            case 'month':
+                $expire = now()->addMonths($package->interval_count);
+                break;
+            case 'year':
+                $expire = now()->addYears($package->interval_count);
+                break;
+            default:
+                $expire = now()->addDays(7);
+                break;
+        }
+
+        $sub_access = SubAccess::create([
+            'user_id' => $request->user_id,
+            'subscription_id' => $subscription->id,
+            'post_for' => $package->post_for,
+            'allow_ads' => $package->allow_ads,
+            'allow_edits' => $package->allow_edits,
+            'allow_ref' => $package->allow_ref,
+            'allow_right' => $package->allow_right,
+            'allow_others' => $package->allow_others,
+            'h_s_screen' => $package->h_s_screen,
+            'allow_interview' => $package->allow_interview,
+            'recruiter_dash' => $package->recruiter_dash,
+            'casual_portal' => $package->casual_portal,
+            'emp_directory' => $package->emp_directory,
+            'rec_support' => $package->rec_support,
+            'cv_credit' => $package->cv_credit,
+            'msg_credit' => $package->msg_credit,
+            'cv_access' => $package->cv_access,
+            'expired_at' => $expire,
+            'edit_title' => $package->edit_title,
+            'edit_categ' => $package->edit_categ,
+            'edit_body' => $package->edit_body,
+            'delete_ad' => $package->delete_ad
+    ]);
+
         $location = $subscription;
 
         if($location->update($inputs))
