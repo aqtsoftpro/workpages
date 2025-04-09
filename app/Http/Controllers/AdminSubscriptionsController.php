@@ -141,7 +141,7 @@ class AdminSubscriptionsController extends Controller
 
         if ($subscription->delete()) {
             return redirect()->back()
-                ->with('success', $deleted_rec->name . ' subscription deleted successfully');
+                ->with('success', $deleted_rec->name . ' deleted successfully');
         } else {
             return redirect()->back()
                 ->with('error', 'Please try again!');
