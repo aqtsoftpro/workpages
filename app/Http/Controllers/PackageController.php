@@ -355,22 +355,96 @@ class PackageController extends Controller
     /**
      * Remove the specified resource from storage.
      */
+    // public function unSub(Request $request)
+    // {
+    //     $subscription = Subscription::find($request->subscription_id);
+    //     if ($subscription) {
+    //         $accesses = SubAccess::where('subscription_id', $subscription->id)->first();
+    //         if ($accesses) {
+    //             $accesses->delete();
+    //         }
+    //         $subscription->update(['status' => 'unsubscribed']);
+    //     }
+    //     return response()->json(['status' => 'successs', 'data' => [], 'message' => 'successfully unsubcribed',]);
+    // }
+
     public function unSub(Request $request)
     {
-        $subscription = Subscription::find($request->subscription_id);
-        if ($subscription) {
-            $accesses = SubAccess::where('subscription_id', $subscription->id)->first();
-            if ($accesses) {
-                $accesses->delete();
+
+        if (isset($request->unsubscribe) && $request->unsubscribe == true) {
+            $user = auth()->user();
+
+            if (!$user) {
+                return response()->json([
+                    'status' => 'error',
+                    'data' => [],
+                    'message' => 'User not authenticated',
+                ]);
             }
-            $subscription->update(['status' => 'unsubscribed']);
+
+            $subscription = Subscription::where('user_id', $user->id)
+                                        ->latest()
+                                        ->first();
+
+            if ($subscription) {
+                $accesses = SubAccess::where('subscription_id', $subscription->id)->first();
+                if ($accesses) {
+                    $accesses->delete();
+                }
+
+                $subscription->update(['status' => 'unsubscribed','end_at' => now()]);
+
+                return response()->json([
+                    'status' => 'success',
+                    'data' => [],
+                    'message' => 'Successfully unsubscribed',
+                ]);
+            }
+
+            return response()->json([
+                'status' => 'error',
+                'data' => [],
+                'message' => 'No subscription found for user',
+            ]);
+
+        } elseif (isset($request->subscription_id)) {
+            $subscription = Subscription::find($request->subscription_id);
+
+            if ($subscription) {
+                $accesses = SubAccess::where('subscription_id', $subscription->id)->first();
+                if ($accesses) {
+                    $accesses->delete();
+                }
+
+                $subscription->update(['status' => 'unsubscribed','end_at' => now()]);
+
+                return response()->json([
+                    'status' => 'success',
+                    'data' => [],
+                    'message' => 'Successfully unsubscribed',
+                ]);
+            }
+
+            return response()->json([
+                'status' => 'error',
+                'data' => [],
+                'message' => 'Subscription not found',
+            ]);
         }
-        return response()->json(['status' => 'successs', 'data' => [], 'message' => 'successfully unsubcribed',]);
+
+        return response()->json([
+            'status' => 'error',
+            'data' => [],
+            'message' => 'Invalid request',
+        ]);
     }
 
     public function activeSub()
     {
-        $subscription = Subscription::where(['user_id' => auth()->id(), 'status' => 'subscribed'])->whereDate('ends_at','>', now())->first();
+        $subscription = Subscription::where('user_id', auth()->id())
+        ->whereIn('status', ['subscribed', 'pending'])
+        ->whereDate('ends_at', '>', now())
+        ->first();;
         return response()->json(['status' => 'successs', 'data' => $subscription, 'message' => 'success',]);
     }
 
