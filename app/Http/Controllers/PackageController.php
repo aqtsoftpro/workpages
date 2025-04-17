@@ -98,6 +98,10 @@ class PackageController extends Controller
                     $expire = now()->addDays(7);
                     break;
             }
+
+            Subscription::where('user_id', $user->id)
+                ->update(['status' => 'unsubscribed']);
+
             $subscription = Subscription::create([
                 'user_id' => $user->id,
                 'package_id'=> $package->id,
@@ -185,6 +189,10 @@ class PackageController extends Controller
                 $expire = now()->addDays(7);
                 break;
         }
+
+        Subscription::where('user_id', $user_id)
+            ->update(['status' => 'unsubscribed']);
+
         $subscription = Subscription::create([
             'user_id' => $user_id,
             'package_id'=> $package->id,
