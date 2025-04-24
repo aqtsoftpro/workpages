@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Pusher\Pusher;
 use App\Events\SendDataToPusher;
 use App\Mail\MultiPurposeEmail;
+use App\Mail\RegistrationEmail;
 use App\Jobs\MultiPurposeEmailJob;
 use App\Jobs\NotificationEmailJob;
 use App\Models\VerifyEmail;
@@ -169,11 +170,13 @@ class UserController extends Controller
             if ($jobs->count() > 0) {
                 $customBaseUrl = env('FRONT_APP_URL');
                 $verificationUrl = rtrim($customBaseUrl) . 'job-seeker-list';
+
                 $email_templates  = new EmailTemplateController();
                 $get_template = $email_templates->get_template('new-jobseeker-register');
                 $originalContent = $get_template['desc'];
 
                 foreach ($jobs->take(4) as $job) {
+
                     $email_variables = [
                         '[username]' => $job->company?->owner?->name,
                         '[job_title]' => $job->job_title,
@@ -315,7 +318,7 @@ class UserController extends Controller
 
                 $subject = "Work Pages- Almost there! Verify your email address";
                 $To = $request->email;
-                $email = new MultiPurposeEmail($subject, $originalContent, $verificationUrl);
+                $email = new RegistrationEmail($subject, $originalContent, $verificationUrl);
                 Mail::to($To)->send($email);
             }
 
@@ -499,6 +502,8 @@ class UserController extends Controller
 
     public function companyUsers(Request $request, User $users)
     {
+        echo auth()->id();
+        print_r($request->all());
         $company = Company::where('owner_id', auth()->id())->first()->id;
         $users = User::whereHas('applications', function ($query) use ($company) {
             $query->where('company_id', $company);

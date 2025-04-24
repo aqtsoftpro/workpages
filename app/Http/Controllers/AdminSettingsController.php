@@ -43,10 +43,10 @@ class AdminSettingsController extends Controller
 
         $this->authorize('create', SiteSettings::class);
 
-        echo "<pre>";
-        echo $request->setting['_strip_status'];
-        print_r($request->setting);
-        echo "</pre>";
+        // echo "<pre>";
+        // echo $request->setting['_strip_status'];
+        // print_r($request->setting);
+        // echo "</pre>";
 
         $settings = $request->input('setting', []);
 

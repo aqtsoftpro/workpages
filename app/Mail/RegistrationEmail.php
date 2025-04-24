@@ -9,7 +9,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class MultiPurposeEmail extends Mailable
+class RegistrationEmail extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -39,7 +39,7 @@ class MultiPurposeEmail extends Mailable
     {
         return $this
             ->subject($this->subject)
-            ->view('emails.workpages-multipurpose-template')
+            ->view('emails.workpages-registration-template')
             ->with([
                 'content' => $this->content,
                 'url' => $this->url,

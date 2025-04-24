@@ -25,7 +25,7 @@
             <h5 class="card-title"></h5>
 
                 <form method="POST"  action="{{ url('admin/settings/update_main_settings/')  }}" class="row g-3">
-                    
+
                     @csrf
                     <input type="hidden" name="setting_form_type" value="general_settings" >
                     <div class="col-md-12">
@@ -60,6 +60,10 @@
                       <label for="_site_address" class="form-label">Address</label>
                       <input type="text" name="setting[_site_address]" value="{{ (isset($settings['_site_address']['meta_val']))? $settings['_site_address']['meta_val']:'' }}" class="form-control" id="_site_address">
                     </div>
+                    <div class="col-md-12">
+                        <label for="_google_map_api_key" class="form-label">Google Map API Key</label>
+                        <input type="text" name="setting[_google_map_api_key]" value="{{ (isset($settings['_google_map_api_key']['meta_val']))? $settings['_google_map_api_key']['meta_val']:'' }}" class="form-control" id="_google_map_api_key">
+                      </div>
                     {{-- <div class="col-md-12">
                       <label for="site_language_id" class="form-label">Language</label>
                       <select class="form-select" name="setting[_site_language_id]"  id="site_language_id">
@@ -103,7 +107,7 @@
     </div>
   </section>
 
-  
+
 <script>
     $(document).ready(function() {
       // Function to format Australian phone number

@@ -42,6 +42,7 @@ class JobResource extends JsonResource
             'salary_from' => $this->salary_from,
             'salary_to' => $this->salary_to,
             'salary_range' => $this->currency->symbol .' '. $this->salary_from . ' - ' . $this->currency->symbol . ' ' . $this->salary_to . ' / ' . $this->payment_mode,
+            'state' => $this->state->name ?? null,
             'currency' => $this->currency->symbol ?? null,
             'posted_on' => Carbon::parse($this->created_at)->format('M d, Y'),
             'expiration' => Carbon::parse($this->expiration)->format('M d, Y'),

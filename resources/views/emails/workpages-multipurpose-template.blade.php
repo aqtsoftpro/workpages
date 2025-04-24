@@ -331,35 +331,15 @@
                         <!-- START MAIN CONTENT AREA -->
                         <tr>
                             <td class="wrapper">
-                                {!! $content !!}
-                                {{-- <p>Sometimes you just want to send a simple HTML email with a simple desiVerify NOW. This is it.</p> --}}
-                                  <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="btn btn-primary">
-                                    <tbody>
-                                      <tr>
-                                        <td align="left">
-                                          <table role="presentation" border="0" cellpadding="0" cellspacing="0">
-                                            <tbody>
-                                              <tr>
-                                                <td></td>
-                                                <td> <a href="{{ $url }}" target="_blank">Verify NOW</a> </td>
-                                                <td></td>
-                                              </tr>
-                                            </tbody>
-                                          </table>
-                                        </td>
-                                      </tr>
-                                    </tbody>
-                                  </table>
-                                  <img src="{{ asset('NiceAdmin/assets/img/work-pages-logo-cropped.png') }}" alt="work pages" width="360" >
-                                  {{-- <a href="{{ $url }}" target="_blank">{{ $url }}</a> --}}
-                                  {{-- <p>This is a really simple email template. It's sole purpose is to get the recipient to click the button with no distractions.</p>
-                                  <p>Good luck! Hope it works.</p>  --}}
+
+                                {!! nl2br($content) !!}
+
+                                <br>
+                                <img src="{{ asset('NiceAdmin/assets/img/work-pages-logo-cropped.png') }}" alt="work pages" width="360" >
                             </td>
                         </tr>
-
                         <!-- END MAIN CONTENT AREA -->
                     </table>
-
                     <!-- START FOOTER -->
                     <div class="footer">
                         <table role="presentation" border="0" cellpadding="0" cellspacing="0">
@@ -376,9 +356,7 @@
                             </tr> --}}
                         </table>
                     </div>
-
                     <!-- END FOOTER -->
-
                     <!-- END CENTERED WHITE CONTAINER -->
                 </div>
             </td>
@@ -386,5 +364,4 @@
         </tr>
     </table>
 </body>
-
 </html>

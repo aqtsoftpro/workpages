@@ -18,7 +18,7 @@ class LocationStatesController extends Controller
         // echo "<pre>";
         //     print_r($records);
         // echo "</pre>";
-        
+
         // die();
 
         return view('admin.location_states.index', compact('records'));
@@ -29,7 +29,7 @@ class LocationStatesController extends Controller
         $locations = Location::orderBy('name', 'ASC')->get();
         return view('admin.location_states.create', compact('locations'));
     }
-    
+
 
     public function store(Request $request)
     {
@@ -85,8 +85,8 @@ class LocationStatesController extends Controller
                         ->with('error','Please try again!');
         }
     }
-    
-    
+
+
     public function States(LocationStates $locationstates){
         return response()->json($locationstates->all());
     }
@@ -131,8 +131,8 @@ class LocationStatesController extends Controller
 
 
     public function filter_companies_location()
-    { 
-        
+    {
+
             $company_locations = DB::table('locations')
             ->Join('companies', 'locations.id', '=', 'companies.location_id')
             ->select( 'companies.location_id', DB::raw('COUNT(companies.id) as counts'))
@@ -150,7 +150,7 @@ class LocationStatesController extends Controller
                 $company_location_filter_with_count[$i]['counts'] = $locations->counts;
                 $i++;
             }
-    
+
             return response()->json($company_location_filter_with_count);
     }
 

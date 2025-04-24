@@ -12,7 +12,7 @@
 
         <li class="nav-item">
             <a class="nav-link" href="{{ url('admin/dashboard') }}">
-                <i class="bi bi-grid"></i><span>Dashboard</span><i class="bi bi-chevron-down ms-auto"></i>
+                <i class="bi bi-grid"></i><span>Dashboard</span>
             </a>
         </li><!-- End Components Nav -->
         @if (auth()->user()->hasRole('Super Admin'))

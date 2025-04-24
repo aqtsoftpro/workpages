@@ -175,6 +175,7 @@ class AdminSubscriptionsController extends Controller
 
     public function updateSubscriber(Request $request, Subscription $subscription)
     {
+        $user_id = $request->user_id;
 
         $package = Package::findOrFail($request->package_id);
 
@@ -187,8 +188,9 @@ class AdminSubscriptionsController extends Controller
 
         if ($subscription->update($inputs)) {
 
-            $package = Package::findOrFail($request->package_id);
 
+
+            $package = Package::findOrFail($request->package_id);
 
             $expire = now()->addDays(4);
             switch ($package->interval) {
@@ -206,34 +208,30 @@ class AdminSubscriptionsController extends Controller
                     break;
             }
 
-            $sub_access = SubAccess::where('user_id', $request->user_id)
-            ->where('subscription_id', $subscription->id)
-            ->first();
-
-            if ($sub_access) {
-            $sub_access->update([
-            'post_for' => $package->post_for,
-            'allow_ads' => $package->allow_ads,
-            'allow_edits' => $package->allow_edits,
-            'allow_ref' => $package->allow_ref,
-            'allow_right' => $package->allow_right,
-            'allow_others' => $package->allow_others,
-            'h_s_screen' => $package->h_s_screen,
-            'allow_interview' => $package->allow_interview,
-            'recruiter_dash' => $package->recruiter_dash,
-            'casual_portal' => $package->casual_portal,
-            'emp_directory' => $package->emp_directory,
-            'rec_support' => $package->rec_support,
-            'cv_credit' => $package->cv_credit,
-            'msg_credit' => $package->msg_credit,
-            'cv_access' => $package->cv_access,
-            'expired_at' => $expire,
-            'edit_title' => $package->edit_title,
-            'edit_categ' => $package->edit_categ,
-            'edit_body' => $package->edit_body,
-            'delete_ad' => $package->delete_ad,
+            $sub_access = SubAccess::create([
+                'user_id' => $user_id,
+                'subscription_id' => $subscription->id,
+                'post_for' => $package->post_for,
+                'allow_ads' => $package->allow_ads,
+                'allow_edits' => $package->allow_edits,
+                'allow_ref' => $package->allow_ref,
+                'allow_right' => $package->allow_right,
+                'allow_others' => $package->allow_others,
+                'h_s_screen' => $package->h_s_screen,
+                'allow_interview' => $package->allow_interview,
+                'recruiter_dash' => $package->recruiter_dash,
+                'casual_portal' => $package->casual_portal,
+                'emp_directory' => $package->emp_directory,
+                'rec_support' => $package->rec_support,
+                'cv_credit' => $package->cv_credit,
+                'msg_credit' => $package->msg_credit,
+                'cv_access' => $package->cv_access,
+                'expired_at' => $expire,
+                'edit_title' => $package->edit_title,
+                'edit_categ' => $package->edit_categ,
+                'edit_body' => $package->edit_body,
+                'delete_ad' => $package->delete_ad
             ]);
-            }
 
 
             return redirect()->back()->with('success', 'Package Active Successfully');

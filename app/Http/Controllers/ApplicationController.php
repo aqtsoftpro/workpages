@@ -88,12 +88,13 @@ class ApplicationController extends Controller
                     $get_template = $email_templates->get_template('company-receive-application');
                     $originalContent = $get_template['desc'];
                     // $application->load('company.owner');
+
                     $email_variables = [
                         '[username]' => $job->company?->owner?->name,
                         '[company_name]' => $job->company?->name,
                         '[job_title]' => $job->job_title,
-                        '[site_url]' => '<a href="'.$verificationUrl.'" target="_blank">Company dashboard</a>',
-                        '[profile_link]' => '<a href="'.$verificationUrl.'" target="_blank">Company dashboard</a>',
+                        '[site_url]' => '<a href="'.$verificationUrl.'" target="_blank">Site URL</a>',
+                        '[profile_link]' => '<a href="'.$verificationUrl.'" target="_blank">Company Dashboard</a>',
                     ];
 
                     foreach ($email_variables as $search => $replace) {

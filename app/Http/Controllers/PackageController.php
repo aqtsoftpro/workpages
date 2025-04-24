@@ -187,6 +187,7 @@ class PackageController extends Controller
                 break;
             default:
                 $expire = now()->addDays(7);
+                $repo = '';
                 break;
         }
 

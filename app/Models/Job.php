@@ -96,6 +96,12 @@ class Job extends Model
     {
       return $this->hasMany(ViewJob::class);
     }
+
+    public function state()
+    {
+        return $this->belongsTo(LocationStates::class, 'state_id');
+    }
+
 }
 
 

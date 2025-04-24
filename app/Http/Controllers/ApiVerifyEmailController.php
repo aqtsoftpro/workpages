@@ -61,12 +61,12 @@ class ApiVerifyEmailController extends Controller
                     'expired_at' => $expired,
                 ]);
             }
-            
+
             $verificationUrl = rtrim($customBaseUrl). 'verify-email/?userId='.$user->id. '&token=' .$randomString. '&expired='.hash('sha256', $expired);
             $email_templates  = new EmailTemplateController();
             $get_template = $email_templates->get_template('job-seeker-verify-email');
             $originalContent = $get_template['desc'];
-            
+
             $email_variables = [
                 '[username]' => $user->first_name.' '.$user->last_name,
                 // '[verify_email_link]' => '<a href="'.$verificationUrl.'" target="_blank">'.env('APP_URL').'</a>',
@@ -94,7 +94,7 @@ class ApiVerifyEmailController extends Controller
     // public function verifyEmail(Request $request)
     // {
     //     $user = User::findOrFail($request->userId);
-        
+
     //     if (! hash_equals((string) $request->token, $user->getEmailVerificationToken())) {
     //         // Token mismatch, handle error
     //     }
