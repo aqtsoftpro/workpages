@@ -33,8 +33,8 @@
                 </div>
               </div>
             </h5>
-            
-            
+
+
                 <form method="POST"  action="{{ route('location_states.store') }}" class="row g-3" >
                   @csrf
                     <div class="col-md-12">
@@ -57,11 +57,11 @@
                         <option value="disable">Disable</option>
                       </select>
                     </div>
-  
+
                     <div>
                       <button type="submit" class="btn btn-primary">Create</button>
                     </div>
-                    
+
                 </form>
           </div>
         </div>

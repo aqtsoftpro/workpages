@@ -132,11 +132,11 @@
                         <i class="bi bi-circle"></i><span>Technologies</span>
                     </a>
                 </li>
-                <li>
+                {{-- <li>
                     <a href="{{ url('admin/suburbs') }}">
                         <i class="bi bi-circle"></i><span>Suburbs</span>
                     </a>
-                </li>
+                </li> --}}
                 <li>
                     <a href="{{ url('admin/employee_availability') }}">
                         <i class="bi bi-circle"></i><span>Employee Availability</span>

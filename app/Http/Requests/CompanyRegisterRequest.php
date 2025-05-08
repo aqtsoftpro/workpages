@@ -31,7 +31,7 @@ class CompanyRegisterRequest extends FormRequest
             'last_name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'suburb_id' => ['required', 'exists:' . Suburb::class . ',id'],
+            // 'suburb_id' => ['required', 'exists:' . Suburb::class . ',id'],
             'company_type_id' => ['required', 'exists:' . CompanyType::class . ',id'],
         ];
     }

@@ -38,7 +38,7 @@ class JobSeekerController extends Controller
                 $get_suburb_id = '';
             }
 
-    
+
         $suburbs = Suburb::get();
 
         return view('admin.job_seekers.index', compact('records', 'suburbs', 'get_suburb_id'));
@@ -88,7 +88,7 @@ class JobSeekerController extends Controller
     {
 
         $job_seeker = JobSeeker::find($id);
-      
+
         if($job_seeker->update($request->all()))
             {
                 return redirect()->back()->with('success', ''.$request->name.' job seeker updated successfully');

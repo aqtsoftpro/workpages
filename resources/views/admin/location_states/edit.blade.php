@@ -34,10 +34,10 @@
                 </div>
               </div>
             </h5>
-            
-            
+
+
                 <form method="POST"  action="{{ route('location_states.update',$record->id) }}" class="row g-3" >
-                  
+
                   @csrf
                   @method('PUT')
                     <div class="col-md-12">
@@ -60,11 +60,11 @@
                         <option value="disable" {{ ( $record->status == 'disable') ? 'selected' : '' }}>Disable</option>
                       </select>
                     </div>
-  
+
                     <div>
                       <button type="submit" class="btn btn-primary">Update</button>
                     </div>
-                    
+
                 </form>
           </div>
         </div>

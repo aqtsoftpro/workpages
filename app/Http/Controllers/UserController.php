@@ -231,6 +231,7 @@ class UserController extends Controller
 
     public function jobSeekerRegister(User $user, UserRegisterRequest $request)
     {
+
         // if($request['password'] != $request['confirm_password'])
         // {
         //     return response()->json([
@@ -267,7 +268,7 @@ class UserController extends Controller
             $newUser = User::create([
                 'name' => $request['first_name'] . ' ' . $request['last_name'],
                 'email' => $request['email'],
-                'suburb_id' => $request['suburb_id'],
+                // 'suburb_id' => $request['suburb_id'],
                 'photo' => $uploadedPhoto,
                 'password' => $request->password,
                 'current_job_location_id' => $request->current_job_location_id ?? 2,

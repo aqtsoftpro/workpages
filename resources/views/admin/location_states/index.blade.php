@@ -34,7 +34,7 @@
                 </div>
               </div>
             </h5>
-         
+
           <!-- Table with stripped rows -->
           <table class="table datatable">
             <thead>
@@ -50,7 +50,7 @@
             </thead>
             <tbody>
               @foreach ($records as $record)
-     
+
               <tr>
                   <td scope="row">{{ $loop->iteration }}</td>
                   <td>{{ $record->name }}</td>
@@ -98,7 +98,7 @@
           </table>
           <!-- End Table with stripped rows -->
 
-      
+
 
           </div>
         </div>

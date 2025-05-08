@@ -59,7 +59,7 @@ class CompanyController extends Controller
         ->first();
 
         // dd($record);
-   
+
         return view('admin.companies.edit', compact('record'));
     }
 
@@ -77,7 +77,7 @@ class CompanyController extends Controller
     }
     public function destroy(string $id)
     {
-        
+
         $deleted_rec = User::find($id);
 
         if(User::destroy($id)) {
@@ -149,7 +149,7 @@ class CompanyController extends Controller
         if(isset($coverPhotoFileName)){
             $requestData['cover_photo'] = env('APP_URL') . 'storage/' . $coverPhotoFileName;
         }
-        
+
 
         try{
 
@@ -238,7 +238,7 @@ class CompanyController extends Controller
     // }
 
     public function getCompanyByUserId($user_id){
-      
+
         $user = User::with('company')->find($user_id);
 
         $company_resource = new CompanyResource($user->company);
@@ -258,8 +258,8 @@ class CompanyController extends Controller
 
     public function CompanyRegister(CompanyRegisterRequest $request)
     {
-        // for confirmation password 
-        // password_confirmation       
+        // for confirmation password
+        // password_confirmation
         DB::beginTransaction();
         try{
             $email_exist = User::where('email', $request['email'])->first();
@@ -269,14 +269,14 @@ class CompanyController extends Controller
                     'status' => 'error',
                     'message' => 'Email Already Exist!',
                 ]);
-            } 
+            }
             else {
                 $hased_password = bcrypt($request->password);
                 $newUser = User::create([
                     'name' => $request->first_name.' '.$request->last_name,
                     'email' => $request->email,
                     'password' => $hased_password,
-                    'suburb_id' => $request->suburb_id,
+                    'location_id' => $request->location_id,
                 ]);
                 if($newUser)
                 {
@@ -288,35 +288,36 @@ class CompanyController extends Controller
                         'name' => $request->company_name,
                         'owner_id' => $newUser->id,
                         'company_type_id' => $request->company_type_id ?? null,
-                        'suburb_id' => $request->suburb_id ?? null
+                        'address' => $request->address ?? null,
+                        'location_id' => $request->location_id ?? null
                     ]);
-    
+
                     $customBaseUrl = env('FRONT_APP_URL');
                     $randomString = Str::random(40);
                     $expired = now()->addMinutes(60);
-    
+
                     VerifyEmail::create([
                         'user_id'=> $newUser->id,
                         'email' => $newUser->email,
                         'token' => Hash::make($randomString),
                         'expired_at' => $expired,
                     ]);
-    
+
                     $verificationUrl = rtrim($customBaseUrl). 'verify-email/?userId='.$newUser->id. '&token=' .$randomString. '&expired='.hash('sha256', $expired);
-    
+
                     $email_templates  = new EmailTemplateController();
                     $get_template = $email_templates->get_template('company-account-verify');
                     $originalContent = $get_template['desc'];
-                    
+
                     $email_variables = [
                         '[username]' => $request->first_name.' '.$request->last_name,
                         // '[verify_email_link]' => '<a href="'.$verificationUrl.'" target="_blank">'.env('APP_URL').'</a>',
                     ];
-        
+
                     foreach ($email_variables as $search => $replace) {
                         $originalContent = str_replace($search, $replace, $originalContent);
                     };
-    
+
                     $subject = "Work Pages- Almost there! Verify your email address";
                     $To = $request->email;
                     $email = new MultiPurposeEmail($subject, $originalContent, $verificationUrl);
@@ -330,7 +331,7 @@ class CompanyController extends Controller
                 'user' => $newUser,
                 'token' => $newUser->createToken('web')->plainTextToken
             ]);
-        }   
+        }
         catch(Exception $e)
         {
             DB::rollBack();
@@ -364,7 +365,7 @@ class CompanyController extends Controller
 
         $total_counts = $q->count();
 
-        $companies_listing = 
+        $companies_listing =
         CompanyResource::collection(
             $q->offset($offset)
             ->limit($listing_rows_count['meta_val'])
