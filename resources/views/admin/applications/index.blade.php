@@ -41,7 +41,7 @@
 
                         <tr>
                             <td>{{ optional($record->user)->name }}</td>
-                            <td>{{ $record->company ? $record->company->name : 'No Company' }}</td>
+                            <td>{{ $record->company->name ?? null }}</td>
                             <td>{{ $record->job?->job_title }}</td>
                             <td>{{ $record->job?->currency->symbol . ' ' . $record->job?->salary_from . ' - ' . $record->job?->currency->symbol . ' ' . $record->job?->salary_to }}</td>
                             <td>{{ date('F j, Y', strtotime($record->job?->created_at)) }}</td>
