@@ -29,7 +29,7 @@ class ForgotPasswordController extends Controller
         if (!$user) {
             return response()->json([
                 'status' => 'error',
-                'msg' => 'Email address does not exist.',
+                'message' => 'Email address does not exist.',
             ], 404);
         }
 
@@ -68,7 +68,7 @@ class ForgotPasswordController extends Controller
         Mail::to($To)->send($email);
         return response()->json([
             'status' => 'success',
-            "msg" => 'Reset password link sent on your email id.',
+            "message" => 'Reset password link sent on your email id.',
         ]);
 
     }
