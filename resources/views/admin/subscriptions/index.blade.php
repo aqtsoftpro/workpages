@@ -56,7 +56,7 @@
               @endphp
               <tr>
                   <td scope="row">{{ $loop->iteration }}</td>
-                  <td>{{ $record->user->name }}<br>
+                  <td>{{ $record->user ? $record->user->name : 'No User' }}<br>
                     @if(!empty($record->company))
                    <b>Company</b> <a class="mx-1 text-success" target="_blank" href="{{ route('companies.show', $record->company->id) }}">{{ $record->company->name ?? null }}</a>
                     @endif

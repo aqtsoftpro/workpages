@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Exception;
 use App\Models\JobSeeker;
-use App\Models\{Suburb, User};
+use App\Models\{LocationStates, Suburb, User};
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 
@@ -15,34 +15,28 @@ class JobSeekerController extends Controller
     {
         $roleName = 'Job Seeker';
 
-        if(isset($request->suburb_id))
-            {
-                // $records =  Role::find(2)->users->where('suburb_id', $request->suburb_id);
+        $get_location_id = $request->location_id ?? '';
 
-                $records = User::whereHas('roles', function ($query) use ($roleName) {
-                    $query->where('name', $roleName);
-                })->latest()->get();
+        $records = User::whereHas('roles', function ($query) use ($roleName) {
+            $query->where('name', $roleName);
+        })
+        ->when($get_location_id, function ($query) use ($get_location_id) {
+            // If users have `location_id` directly on the users table
+            // $query->where('location_id', $get_location_id);
 
+            // If users are linked via a `location()` relationship
+            $query->whereHas('location', function ($q) use ($get_location_id) {
+                $q->where('id', $get_location_id);
+            });
+        })
+        ->latest()
+        ->get();
 
-                $get_suburb_id = $request->suburb_id;
-            }
-            else
-            {
-                // $records =  Role::find(2)->users;
+        $location = LocationStates::all();
 
-                $records = User::whereHas('roles', function ($query) use ($roleName) {
-                    $query->where('name', $roleName);
-                })->latest()->get();
-
-
-                $get_suburb_id = '';
-            }
-
-
-        $suburbs = Suburb::get();
-
-        return view('admin.job_seekers.index', compact('records', 'suburbs', 'get_suburb_id'));
+        return view('admin.job_seekers.index', compact('records', 'location', 'get_location_id'));
     }
+
 
     // public function create()
     // {

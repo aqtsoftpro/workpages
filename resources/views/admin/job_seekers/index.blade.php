@@ -32,14 +32,13 @@
 
                 <div class="btn-group  pr-1 float-end">
 
-                    <select class="form-control" id="subrub_id">
-
+                    <select class="form-control" id="location_id">
                         <option value="">Show All</option>
-                      @foreach ($suburbs as $suburb)
-                        <option value="{{ $suburb->id }}" {{ ($suburb->id == $get_suburb_id)?'selected':'' }}>{{ $suburb->name }}</option>
-                      @endforeach
-
+                            @foreach ($location as $location)
+                                <option value="{{ $location->id }}" {{ ($location->id == $get_location_id)?'selected':'' }}>{{ $location->name }}</option>
+                            @endforeach
                     </select>
+
                 </div>
               </div>
             </h5>
@@ -52,7 +51,7 @@
                 <th scope="col">Name</th>
                 {{-- <th scope="col">Image</th> --}}
                 <th scope="col">Email</th>
-                <th scope="col">Suburb</th>
+                <th scope="col">Location</th>
                 {{-- <th scope="col">Package</th> --}}
                 {{--  <th scope="col">Jobs Applied</th>  --}}
                 <th scope="col">Joined</th>
@@ -69,9 +68,9 @@
                   <td>{{ $record->email }}</td>
                   <td>
                     @php
-                        $suburb = DB::table('suburbs')->where('id', $record->suburb_id)->first();
+                        $location = DB::table('location_states')->where('id', $record->location_id)->first();
                     @endphp
-                    {{ ($suburb)?$suburb->name:'' }}</td>
+                    {{ ($location)?$location->name:'' }}</td>
                   {{--  <td></td>  --}}
                   <td>{{ $record->created_at->diffForHumans() }}</td>
                   <td>

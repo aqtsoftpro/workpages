@@ -46,6 +46,7 @@
                   @php
                     $site_logo_img  = $settings['_site_logo']['meta_val'];
                   @endphp
+
                   <div class="admin-manage-img-container">
                   <i class="bi bi-x-octagon-fill delete-img-btn delete-site-logo-btn"></i>
                   <img src="{{ $site_logo_img }}" width="150" height="150" />
@@ -60,16 +61,17 @@
                 <input type="file" name="_site_favicon" value="" class="form-control" id="site_favicon">
               </div>
               <div class="col-md-6 mb-2">
-                
+
                 @if (isset($settings['_site_favicon']['meta_val']) && $settings['_site_favicon']['meta_val'])
                   @php
                     $site_favicon_img  = $settings['_site_favicon']['meta_val'];
                   @endphp
+
                   <div class="admin-manage-img-container">
                   <i class="bi bi-x-octagon-fill delete-img-btn delete-site-logo-btn"></i>
                   <img src="{{ $site_favicon_img }}" width="150" height="150" />
                   {{-- <input type="hidden" name="setting[_site_favicon]" value="{{ (isset($settings['_site_favicon']['meta_val']))? $settings['_site_favicon']['meta_val']:'' }}" class="form-control" id="exist_admin_img"> --}}
-                  </div> 
+                  </div>
                 @endif
 
               </div>
@@ -124,7 +126,7 @@
   </section>
 
   <script type="">
-    $(document).ready(function() 
+    $(document).ready(function()
     {
 
       $(".delete-site-logo-btn").click(function(){
@@ -134,5 +136,5 @@
 
     });
   </script>
-  
+
 @endsection
