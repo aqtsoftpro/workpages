@@ -29,15 +29,15 @@
               </div>
               <div class="col-lg-6">
                 <div class="btn-group float-end" role="group" aria-label="Basic example">
-                  <a href="{{ url('admin/locations') }}" class="btn btn-success">View all</a>
+                  <a href="{{ url('admin/skills') }}" class="btn btn-success">View all</a>
                   <a href="{{ url('admin/skills/create') }}" class="btn btn-success">Add new</a>
                 </div>
               </div>
             </h5>
-            
-            
+
+
                 <form method="POST"  action="{{ route('skills.update',$record->id) }}" class="row g-3" >
-                  
+
                   @csrf
                   @method('PUT')
                     <div class="col-md-12">
@@ -55,11 +55,11 @@
                         <option value="disable" {{ ( $record->status == 'disable') ? 'selected' : '' }}>Disable</option>
                       </select>
                     </div>
-  
+
                     <div>
                       <button type="submit" class="btn btn-primary">Update</button>
                     </div>
-                    
+
                 </form>
           </div>
         </div>
