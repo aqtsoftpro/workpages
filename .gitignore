@@ -5,9 +5,9 @@
 /storage/*.key
 /vendor
 /node_modules
-.env
-.env.backup
-.env.production
+# .env
+# .env.backup
+# .env.production
 .phpunit.result.cache
 Homestead.json
 Homestead.yaml
@@ -18,4 +18,4 @@ yarn-error.log
 /.idea
 /.vscode
 composer.lock
-.env
+# .env
