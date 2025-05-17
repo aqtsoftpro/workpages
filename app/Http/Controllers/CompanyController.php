@@ -291,7 +291,7 @@ class CompanyController extends Controller
                         'location_id' => $request->location_id ?? null
                     ]);
 
-                    $customBaseUrl = env('FRONT_APP_URL');
+                    $customBaseUrl = config('app.front_app_url');
                     $randomString = Str::random(40);
                     $expired = now()->addMinutes(60);
 

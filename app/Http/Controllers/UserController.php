@@ -168,7 +168,7 @@ class UserController extends Controller
 
             $jobs = Job::with('company.owner')->where(['location_id' => $user->current_job_location_id, 'qualification_id' => $user->qualification_id, 'status' => 'active', 'job_status' => 'live'])->get();
             if ($jobs->count() > 0) {
-                $customBaseUrl = env('FRONT_APP_URL');
+                $customBaseUrl = config('app.front_app_url');
                 $verificationUrl = rtrim($customBaseUrl) . 'job-seeker-list';
 
                 $email_templates  = new EmailTemplateController();
@@ -292,7 +292,7 @@ class UserController extends Controller
             if ($newUser) {
                 $jobSeekerRole = Role::where('name', 'Job Seeker')->first();
                 $newUser->assignRole($jobSeekerRole);
-                $customBaseUrl = env('FRONT_APP_URL');
+                $customBaseUrl = config('app.front_app_url');
                 $randomString = Str::random(40);
                 $expired = now()->addMinutes(60);
                 VerifyEmail::create([

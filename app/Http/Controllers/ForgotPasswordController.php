@@ -33,7 +33,7 @@ class ForgotPasswordController extends Controller
             ], 404);
         }
 
-        $customBaseUrl = env('FRONT_APP_URL');
+        $customBaseUrl = config('app.front_app_url');
         $randomString = Str::random(40);
 
         DB::table('password_reset_tokens')->updateOrInsert(

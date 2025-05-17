@@ -45,10 +45,10 @@ class AuthServiceProvider extends ServiceProvider
             if ($user->hasRole('Super Admin')) {
                 return env('APP_URL').'reset-password/'.$token.'?email='.$user->email;
             } else {
-                return env('FRONT_APP_URL').'reset-password/'.$token.'?email='.$user->email;
+                return config('app.front_app_url').'reset-password/'.$token.'?email='.$user->email;
             }
         });
-        
+
         VerifyEmail::toMailUsing(function (object $notifiable, string $url) {
             return (new MailMessage)
                 ->subject('Work Pages- Almost there! Verify your email address')

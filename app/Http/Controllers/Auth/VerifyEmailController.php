@@ -19,11 +19,11 @@ class VerifyEmailController extends Controller
     {
         if ($request->user()->hasVerifiedEmail()) {
             if ($request->user()->hasRole('Job Seeker') || $request->user()->hasRole('Employer')) {
-                return redirect()->away(env('FRONT_APP_URL'));
+                return redirect()->away(config('app.front_app_url'));
             } else {
                 return redirect()->intended(RouteServiceProvider::HOME.'?verified=1');
             }
-            
+
         }
 
         if ($request->user()->markEmailAsVerified()) {
@@ -31,7 +31,7 @@ class VerifyEmailController extends Controller
         }
 
         if ($request->user()->hasRole('Job Seeker') || $request->user()->hasRole('Employer')) {
-            return redirect()->away(env('FRONT_APP_URL'));
+            return redirect()->away(config('app.front_app_url'));
         } else {
             return redirect()->intended(RouteServiceProvider::HOME.'?verified=1');
         }
