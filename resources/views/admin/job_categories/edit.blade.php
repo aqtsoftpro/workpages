@@ -34,10 +34,10 @@
                 </div>
               </div>
             </h5>
-            
-            
+
+
                 <form method="POST"  action="{{ route('job_categories.update',$record->id) }}" class="row g-3" enctype="multipart/form-data">
-                  
+
                   @csrf
                   @method('PUT')
                     <div class="col-md-12">
@@ -63,7 +63,7 @@
                         <input type="hidden" name="image" value="{{ ($image)? $image:'' }}" class="form-control" id="exist_site_logo">
                         </div>
                       @endif
-           
+
                     </div>
                     <div class="col-md-12">
                       <label for="social_media_linkedin" class="form-label">Status</label>
@@ -72,11 +72,11 @@
                         <option value="disable" {{ ( $record->status == 'disable') ? 'selected' : '' }}>Disable</option>
                       </select>
                     </div>
-  
+
                     <div>
                       <button type="submit" class="btn btn-primary">Update</button>
                     </div>
-                    
+
                 </form>
           </div>
         </div>
@@ -86,7 +86,7 @@
   </section>
 
   <script type="">
-    $(document).ready(function() 
+    $(document).ready(function()
     {
 
       $(".delete-img-btn").click(function(){

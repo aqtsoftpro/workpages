@@ -310,7 +310,7 @@ class UserController extends Controller
 
                 $email_variables = [
                     '[username]' => $request->first_name . ' ' . $request->last_name,
-                    // '[verify_email_link]' => '<a href="'.$verificationUrl.'" target="_blank">'.env('APP_URL').'</a>',
+                    '[verify_email_link]' => '<a href="'.$verificationUrl.'" target="_blank">Verify Now</a>',
                 ];
 
                 foreach ($email_variables as $search => $replace) {
