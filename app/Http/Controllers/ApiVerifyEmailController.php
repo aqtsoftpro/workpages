@@ -42,7 +42,7 @@ class ApiVerifyEmailController extends Controller
 
         if ($user) {
 
-            $customBaseUrl = env('FRONT_APP_URL');
+            $customBaseUrl = env('FRONT_APP_URL', 'https://workpages.ws/');
             $randomString = Str::random(40);
             $expired = now()->addMinutes(60);
             $verifyMail = VerifyEmail::where('user_id', $user->id)->first();
