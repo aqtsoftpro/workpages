@@ -69,7 +69,7 @@ class ApiVerifyEmailController extends Controller
 
             $email_variables = [
                 '[username]' => $user->first_name.' '.$user->last_name,
-                '[verify_email_link]' => '<a href="'.$verificationUrl.'" target="_blank">Verify Now</a>'.$verificationUrl."<br>".env('FRONT_APP_URL'),
+                '[verify_email_link]' => '<a href="'.$verificationUrl.'" target="_blank">Verify Now</a>'.$verificationUrl."<br>env call".env('FRONT_APP_URL'),
             ];
 
             foreach ($email_variables as $search => $replace) {
