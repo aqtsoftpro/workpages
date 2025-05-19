@@ -57,8 +57,8 @@
       channel.bind('my-event', function(data) {
         if (data && data.post && data.post.author && data.post.title) {
           toastr.success('New Post Created', 'Author: ' + data.post.author + '<br>Title: ' + data.post.title, {
-            timeOut: 0,  
-            extendedTimeOut: 0,  
+            timeOut: 0,
+            extendedTimeOut: 0,
           });
         } else {
           console.error('Invalid data structure received:', data);
@@ -103,6 +103,7 @@
 
     <!-- Custom -->
     <script src="{{ asset('NiceAdmin/assets/js/custom.js') }}"></script>
+    @stack('scripts')
 </body>
 
 </html>

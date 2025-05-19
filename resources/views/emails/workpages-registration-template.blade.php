@@ -331,13 +331,13 @@
                         <!-- START MAIN CONTENT AREA -->
                         <tr>
                             <td class="wrapper">
-                                {!! $content !!}
+                                {!! nl2br($content) !!}
                                 {{-- <p>Sometimes you just want to send a simple HTML email with a simple desiVerify NOW. This is it.</p> --}}
                                   <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="btn btn-primary">
                                     <tbody>
                                       <tr>
                                         <td align="left">
-                                          <table role="presentation" border="0" cellpadding="0" cellspacing="0">
+                                          {{-- <table role="presentation" border="0" cellpadding="0" cellspacing="0">
                                             <tbody>
                                               <tr>
                                                 <td></td>
@@ -345,7 +345,7 @@
                                                 <td></td>
                                               </tr>
                                             </tbody>
-                                          </table>
+                                          </table> --}}
                                         </td>
                                       </tr>
                                     </tbody>

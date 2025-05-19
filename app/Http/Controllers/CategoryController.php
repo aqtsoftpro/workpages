@@ -106,7 +106,7 @@ class CategoryController extends Controller
             $request->file('image')->storeAs('public', $FileName);
 
             $imagePath = $request->file('image')->store('categories', 'public');
-            // Add the image path to the form data before saving to the database 
+            // Add the image path to the form data before saving to the database
 
             // dd($imagePath);
 
@@ -210,7 +210,7 @@ class CategoryController extends Controller
         // 		job_categories
         // 	INNER JOIN
         // 		jobs
-        // 	ON 
+        // 	ON
         // 		job_categories.id = jobs.category_id
         // 	GROUP BY job_categories.id;
 

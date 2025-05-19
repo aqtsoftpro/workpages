@@ -12,7 +12,7 @@ use Laravel\Scout\Searchable;
 class JobSeeker extends Model
 {
     use HasFactory, Searchable;
-    
+
     protected $table = 'users';
 
     protected  $fillable = [
@@ -25,9 +25,7 @@ class JobSeeker extends Model
 
     public function location(): BelongsTo
     {
-        return $this->belongsTo(Location::class);  
+        return $this->belongsTo(Location::class);
     }
 
 }
-
-

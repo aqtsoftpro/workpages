@@ -34,7 +34,7 @@ class VerifyEmailNotification extends Notification
      */
     public function toMail(object $notifiable): MailMessage
     {
-        $verificationUrl = env('FRONT_APP_URL').'verify-email/'.$notifiable->getKey();
+        $verificationUrl = config('app.front_app_url').'verify-email/'.$notifiable->getKey();
 
         return (new MailMessage)
                     ->line('The introduction to the notification.')

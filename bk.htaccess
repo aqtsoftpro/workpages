@@ -1,8 +1,0 @@
-Options +FollowSymLinks -Indexes
-RewriteEngine On
-RewriteBase /
-RewriteCond %{ENV:HTTPS} !on [NC]
-RewriteRule ^(.*)$ https://wpageapp.aqtdemos.com/$1 [R,L]
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule . index.html [L]

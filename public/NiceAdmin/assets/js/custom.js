@@ -11,7 +11,7 @@
 
 $(document).ready(function(){
 
-  
+
 
     // $('.delete-rec-btn').on('click',function(event){
     //     event.preventDefault();
@@ -19,33 +19,34 @@ $(document).ready(function(){
     //     var name = $(this).attr('data-name');
     //     var msg = $(this).attr('data-msg');
     //     var url = $(this).attr('data-url');
-        
+
     //     console.log(name);
     //     $('.modal-title').html(name);
     //     $('.modal-body').html(msg);
     //     $('#delete-form').attr('action', url);
-        
+
 
     //     let modal = bootstrap.Modal.getOrCreateInstance(document.getElementById('deleteModel')) // Returns a Bootstrap modal instance
     //     // Show or hide:
     //     modal.show();
-    
+
     // });
 
-    $('#subrub_id').change(function () {
+    $('#location_id').change(function () {
         // Get the selected value
-        var suburb_id = $(this).val();
-        if(suburb_id != '')
+        var location_id = $(this).val();
+
+        if(location_id != '')
             {
-                window.location.href = window.location.pathname + '?suburb_id=' + suburb_id;
+                window.location.href = window.location.pathname + '?location_id=' + location_id;
             }
             else
             {
                 window.location.href = window.location.pathname;
             }
-        
+
 
     });
 
 
-});    
+});

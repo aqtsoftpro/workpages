@@ -33,18 +33,19 @@
                 </div>
               </div>
             </h5>
-             
-            
-                <form method="POST"  action="{{ route('roles.store') }}" class="row g-3" >
+
+
+                {{-- <form method="POST"  action="{{ route('roles.store') }}" class="row g-3" > --}}
+                <form id="roleForm" method="POST" action="{{ route('roles.store') }}" class="row g-3">
                   @csrf
-                    
+
                     <div class="col-md-12">
                       <label for="name" class="form-label">Name</label>
                       <input type="text" name="name" value="" class="form-control" id="name" required>
                     </div>
                     <div class="col-md-12">
                       <label for="name" class="form-label">Permission</label><br>
-               
+
                       @foreach ($perm_cat['per_cat'] as $key => $record)
                         @if ($record == 'Admin Panel')
                         {{-- <b>{{ $record }}</b><br><br> --}}
@@ -65,7 +66,7 @@
                     <div>
                       <button type="submit" class="btn btn-primary">Create</button>
                     </div>
-                    
+
                 </form>
           </div>
         </div>
@@ -74,3 +75,23 @@
     </div>
   </section>
 @endsection
+
+@push('scripts')
+<script>
+document.getElementById('roleForm').addEventListener('submit', function (e) {
+    const checkboxes = document.querySelectorAll('input[name^="role["]');
+    let checked = false;
+
+    checkboxes.forEach(function (checkbox) {
+        if (checkbox.checked) {
+            checked = true;
+        }
+    });
+
+    if (!checked) {
+        e.preventDefault();
+        alert('Please select at least one permission.');
+    }
+});
+</script>
+@endpush

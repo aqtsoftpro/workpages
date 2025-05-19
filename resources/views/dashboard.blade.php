@@ -142,7 +142,7 @@
 
                 // echo implode(''', $records['subscription_wise_earning']['labels']);
                 echo json_encode($records['subscription_wise_earning']['labels']);
-                
+
               @endphp --}}
 
                                 <!-- Bar Chart -->
@@ -204,7 +204,7 @@
 
                 // echo implode(''', $records['subscription_wise_earning']['labels']);
                 echo json_encode($records['subscription_wise_earning']['labels']);
-                
+
               @endphp --}}
 
                                 <!-- Bar Chart -->
@@ -284,14 +284,14 @@
                           'rgba(255, 159, 64, 0.2)',
                           'rgba(255, 205, 86, 0.2)',
                           'rgba(75, 192, 192, 0.2)',
-   
+
                         ],
                         borderColor: [
                           'rgb(255, 99, 132)',
                           'rgb(255, 159, 64)',
                           'rgb(255, 205, 86)',
                           'rgb(75, 192, 192)',
-        
+
                         ],
                         borderWidth: 1
                       }]
@@ -548,7 +548,7 @@
                                                         class="text-primary fw-bold">{{ $company->name }}</a></td>
                                                 <td>{{ $company->jobs_count }}</td>
                                                 <td>{{ $company->applications_count }}</td>
-                                                <td>{{ $company->owner->subscriptions->count() }}</td>
+                                                <td>{{ $company->owner && $company->owner->subscriptions ? $company->owner->subscriptions->count() : 0 }}</td>
                                             </tr>
                                         @endforeach
                                     </tbody>
@@ -679,7 +679,13 @@
                                     @foreach ($records['top_employers'] as $company)
                                         <li class="list-group-item d-flex justify-content-between align-items-center">
                                             {{ $company->name }}
-                                            <span class="badge bg-primary rounded-pill">{{ $company->owner->subscriptions_count }}</span>
+                                            <span class="badge bg-primary rounded-pill">
+                                                @if(isset($company->owner->subscriptions_count))
+                                                    {{ $company->owner->subscriptions_count }}
+                                                @else
+                                                    0
+                                                @endif
+                                            </span>
                                         </li>
                                     @endforeach
 
@@ -774,13 +780,13 @@
 
                 {{-- <!-- Recent Activity -->
             <div class="card">
-   
+
 
               <div class="card-body">
                 <h5 class="card-title">New Messages</h5>
-      
+
                 <div class="activity">
-      
+
                   <div class="activity-item d-flex">
                     <div class="activite-label">32 min</div>
                     <i class='bi bi-circle-fill activity-badge text-success align-self-start'></i>
@@ -788,7 +794,7 @@
                       Quia quae rerum <a href="#" class="fw-bold text-dark">explicabo officiis</a> beatae
                     </div>
                   </div><!-- End activity item-->
-      
+
                   <div class="activity-item d-flex">
                     <div class="activite-label">56 min</div>
                     <i class='bi bi-circle-fill activity-badge text-danger align-self-start'></i>
@@ -796,7 +802,7 @@
                       Voluptatem blanditiis blanditiis eveniet
                     </div>
                   </div><!-- End activity item-->
-      
+
                   <div class="activity-item d-flex">
                     <div class="activite-label">2 hrs</div>
                     <i class='bi bi-circle-fill activity-badge text-primary align-self-start'></i>
@@ -804,7 +810,7 @@
                       Voluptates corrupti molestias voluptatem
                     </div>
                   </div><!-- End activity item-->
-      
+
                   <div class="activity-item d-flex">
                     <div class="activite-label">1 day</div>
                     <i class='bi bi-circle-fill activity-badge text-info align-self-start'></i>
@@ -812,7 +818,7 @@
                       Tempore autem saepe <a href="#" class="fw-bold text-dark">occaecati voluptatem</a> tempore
                     </div>
                   </div><!-- End activity item-->
-      
+
                   <div class="activity-item d-flex">
                     <div class="activite-label">2 days</div>
                     <i class='bi bi-circle-fill activity-badge text-warning align-self-start'></i>
@@ -820,7 +826,7 @@
                       Est sit eum reiciendis exercitationem
                     </div>
                   </div><!-- End activity item-->
-      
+
                   <div class="activity-item d-flex">
                     <div class="activite-label">4 weeks</div>
                     <i class='bi bi-circle-fill activity-badge text-muted align-self-start'></i>
@@ -828,16 +834,16 @@
                       Dicta dolorem harum nulla eius. Ut quidem quidem sit quas
                     </div>
                   </div><!-- End activity item-->
-      
+
                 </div>
-      
+
               </div>
             </div><!-- End Recent Activity --> --}}
 
 
                 {{-- <!-- Recent Activity -->
       <div class="card">
-   
+
 
         <div class="card-body">
           <h5 class="card-title">Notification</h5>

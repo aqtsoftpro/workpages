@@ -16,15 +16,15 @@ return [
     */
 
     'paths' => ['api/*', 'sanctum/csrf-cookie'],
-    // 'paths' => ['api/*', 'sanctum/csrf-cookie', '*', 'register', '*', 'cmsPages', '*', 'verify-email'],
 
     'allowed_methods' => ['*'],
 
-    // 'allowed_origins' => ['*'],
+    'allowed_origins' => [
+        'https://console.workpages.ws',
+        'http://localhost:8080',
+    ],
 
-    'allowed_origins' => ['https://wpageapp.aqtdemos.com', 'http://localhost:8080'],
-
-    'allowed_origins_patterns' => ['*'],
+    'allowed_origins_patterns' => [], // FIXED
 
     'allowed_headers' => ['*'],
 
@@ -33,5 +33,5 @@ return [
     'max_age' => 0,
 
     'supports_credentials' => true,
-
 ];
+

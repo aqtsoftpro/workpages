@@ -30,7 +30,7 @@ class PackageController extends Controller
 
         Stripe::setApiKey(env('STRIPE_SECRET'));
 
-        $externalUrl = env('FRONT_APP_URL').'company/plan';
+        $externalUrl = config('app.front_app_url').'company/plan';
 
         $session = \Stripe\Checkout\Session::create([
             'line_items'  => [
@@ -159,7 +159,7 @@ class PackageController extends Controller
                 $pusher->trigger('my-channel', 'my-event', array('message' => $package->name.' Package with pirce '.$package->price.' is subscribed by '.$user->name));
             }
         }
-        $externalUrl = env('FRONT_APP_URL').'company/plan';
+        $externalUrl = config('app.front_app_url').'company/plan';
         return redirect()->away($externalUrl);
     }
 

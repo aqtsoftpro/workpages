@@ -158,14 +158,14 @@
                   <b>Company Name</b>
                 </div>
                 <div class="col-md-6 border-end"">
-                  {{ $record->company->name }}
+                  {{ $record->company->name ?? null }}
                 </div>
               </div>
                 <form method="POST"  action="{{ route('jobs.update',$record->id) }}" class="row g-3" enctype="multipart/form-data">
-                  
+
                   @csrf
                   @method('PUT')
-                    
+
                     <div class="col-md-12">
                       <label for="social_media_linkedin" class="form-label">Status</label>
                       <select class="form-control" name="status">
@@ -173,11 +173,11 @@
                         <option value="inactive" {{ ( $record->status == 'inactive') ? 'selected' : '' }}>Disable</option>
                       </select>
                     </div>
-  
+
                     <div>
                       <button type="submit" class="btn btn-primary">Update</button>
                     </div>
-                    
+
                 </form>
           </div>
         </div>
@@ -187,7 +187,7 @@
   </section>
 
   <script type="">
-    $(document).ready(function() 
+    $(document).ready(function()
     {
 
       $(".delete-img-btn").click(function(){

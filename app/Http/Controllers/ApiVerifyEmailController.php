@@ -42,7 +42,7 @@ class ApiVerifyEmailController extends Controller
 
         if ($user) {
 
-            $customBaseUrl = env('FRONT_APP_URL');
+            $customBaseUrl = config('app.front_app_url');
             $randomString = Str::random(40);
             $expired = now()->addMinutes(60);
             $verifyMail = VerifyEmail::where('user_id', $user->id)->first();
@@ -69,14 +69,14 @@ class ApiVerifyEmailController extends Controller
 
             $email_variables = [
                 '[username]' => $user->first_name.' '.$user->last_name,
-                // '[verify_email_link]' => '<a href="'.$verificationUrl.'" target="_blank">'.env('APP_URL').'</a>',
+                '[verify_email_link]' => '<a href="'.$verificationUrl.'" target="_blank">Verify Now</a>',
             ];
 
             foreach ($email_variables as $search => $replace) {
                 $originalContent = str_replace($search, $replace, $originalContent);
             };
 
-            $subject = "Work Pages- Almost there! Verify your email address";
+            $subject = "Work Pages - Almost there! Verify your email address";
             $To = $user->email;
 
             $email = new MultiPurposeEmail($subject, $originalContent, $verificationUrl);

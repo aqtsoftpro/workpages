@@ -82,7 +82,7 @@ class ApplicationController extends Controller
                     $pusher = new \Pusher\Pusher(config('broadcasting.connections.pusher.key'), config('broadcasting.connections.pusher.secret'), config('broadcasting.connections.pusher.app_id'), array('cluster' => config('broadcasting.connections.pusher.options.cluster')));
                     $pusher->trigger('my-channel', 'my-event', array('message' => 'New candidate applied on '.$job->job_title));
 
-                    $customBaseUrl = env('FRONT_APP_URL');
+                    $customBaseUrl = config('app.front_app_url');
                     $verificationUrl = rtrim($customBaseUrl). 'company/dashboard';
                     $email_templates  = new EmailTemplateController();
                     $get_template = $email_templates->get_template('company-receive-application');
@@ -213,7 +213,7 @@ class ApplicationController extends Controller
             ], 404);
         }
 
-        $customBaseUrl = env('FRONT_APP_URL').'user/dashboard';
+        $customBaseUrl = config('app.front_app_url').'user/dashboard';
         $email_templates  = new EmailTemplateController();
         $get_template = $email_templates->get_template('short-listed-email');
         $originalContent = $get_template['desc'];
@@ -222,7 +222,7 @@ class ApplicationController extends Controller
             '[username]' => $application->user?->name,
             '[job_title]' => $application->job?->job_title,
             '[company_name]' => $application->job?->company?->name,
-            '[profile_link]' => '<a href="'.$customBaseUrl.'" target="_blank">'.env('FRONT_APP_URL').'</a>',
+            '[profile_link]' => '<a href="'.$customBaseUrl.'" target="_blank">'.config('app.front_app_url').'</a>',
         ];
 
         foreach ($email_variables as $search => $replace) {

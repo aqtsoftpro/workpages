@@ -91,7 +91,7 @@ class TwilioSMSController extends Controller
     {
 
         $company = Company::where('owner_id', auth()->id())->first();
-        $customBaseUrl = env('FRONT_APP_URL');
+        $customBaseUrl = config('app.front_app_url');
 
         $user_id = $request->user_id;
         $userIds = explode(',', $user_id);

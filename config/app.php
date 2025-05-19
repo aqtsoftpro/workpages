@@ -55,7 +55,7 @@ return [
     */
 
     'url' => env('APP_URL', 'http://localhost'),
-
+    'front_app_url' => env('FRONT_APP_URL', 'https://workpages.ws/'),
     'asset_url' => env('ASSET_URL'),
 
     /*
@@ -198,7 +198,7 @@ return [
 
         App\Providers\GlobalDataServiceProvider::class,
 
-        
+
 
     ],
 

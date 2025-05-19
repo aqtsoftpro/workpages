@@ -25,9 +25,15 @@ class ForgotPasswordController extends Controller
         $credentials = request()->validate(['email' => 'required|email']);
         $user = User::where('email', request()->email)->first();
 
-        // print_r($user);
+            // If user not found, return error response
+        if (!$user) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Email address does not exist.',
+            ], 404);
+        }
 
-        $customBaseUrl = env('FRONT_APP_URL');
+        $customBaseUrl = config('app.front_app_url');
         $randomString = Str::random(40);
 
         DB::table('password_reset_tokens')->updateOrInsert(
@@ -62,7 +68,7 @@ class ForgotPasswordController extends Controller
         Mail::to($To)->send($email);
         return response()->json([
             'status' => 'success',
-            "msg" => 'Reset password link sent on your email id.',
+            "message" => 'Reset password link sent on your email id.',
         ]);
 
     }

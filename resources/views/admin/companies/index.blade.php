@@ -32,16 +32,13 @@
 
                                 <div class="btn-group  pr-1 float-end">
 
-                                    <select class="form-control" id="subrub_id">
-
-                                        <option value="">Show All</option>
-                                        @foreach ($suburbs as $suburb)
-                                            <option value="{{ $suburb->id }}"
-                                                {{ $suburb->id == $get_suburb_id ? 'selected' : '' }}>{{ $suburb->name }}
-                                            </option>
+                                <select class="form-control" id="location_id">
+                                    <option value="">Show All</option>
+                                        @foreach ($location as $location)
+                                            <option value="{{ $location->id }}" {{ ($location->id == $get_location_id)?'selected':'' }}>{{ $location->name }}</option>
                                         @endforeach
+                                </select>
 
-                                    </select>
                                 </div>
                             </div>
                         </h5>
@@ -54,7 +51,7 @@
                                     <th scope="col">Name</th>
                                     {{-- <th scope="col">Image</th> --}}
                                     <th scope="col">Jobs</th>
-                                    <th scope="col">Suburb</th>
+                                    <th scope="col">Location</th>
                                     <th scope="col">Joined</th>
                                     {{-- <th scope="col">Status</th> --}}
                                     <th scope="col">Action</th>
@@ -76,7 +73,7 @@
                       {
                         $image = $record->logo;
                       }
-                      else 
+                      else
                       {
                         $image = env('APP_URL').'/NiceAdmin/assets/img/no-image.jpg';
                       }
@@ -88,7 +85,12 @@
                                                 <b>Applications :</b> {{ $record->applications_count }}<br>
                                             </small>
                                         </td>
-                                        <td>{{ $record->suburb->name ?? 'No Suburb' }}</td>
+                                        <td>
+                                            @php
+                        $location = DB::table('location_states')->where('id', $record->location_id)->first();
+                    @endphp
+                    {{ ($location)?$location->name:'' }}
+                                        </td>
                                         <td>{{ $record->created_at->diffForHumans() }}</td>
                                         {{-- <td>
                     @if ($record->status == 'enable')

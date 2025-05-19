@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Exception;
 use App\Models\User;
 use App\Models\Suburb;
-use App\Models\{Company, Subscription, Application, Job};
+use App\Models\{Company, Subscription, Application, Job, LocationStates};
 use Illuminate\Http\Request;
 use App\Http\Resources\CompanyResource;
 use App\Models\SiteSettings;
@@ -29,22 +29,21 @@ class CompanyController extends Controller
     {
         $this->authorize('viewAny', Company::class);
 
-        if(isset($request->suburb_id))
-        {
-            $records = Company::withCount('applications', 'jobs')->with('suburb')->latest()->where('suburb_id', $request->suburb_id)->get();
-            $get_suburb_id = $request->suburb_id;
-        }
-        else
-        {
-            $records = Company::withCount('applications', 'jobs')->with('suburb')->latest()->get();
-            $get_suburb_id = '';
-        }
+        $get_location_id = $request->location_id ?? '';
 
-        $suburbs = Suburb::get();
+        $records = Company::withCount('applications', 'jobs')
+            ->when($get_location_id, function ($query) use ($get_location_id) {
+                $query->where('location_id', $get_location_id);
+            })
+            ->latest()
+            ->get();
 
-        return view('admin.companies.index', compact('records', 'suburbs', 'get_suburb_id'));
+        $location = LocationStates::all();
 
+        return view('admin.companies.index', compact('records', 'location', 'get_location_id'));
     }
+
+
 
     public function edit(Company $company)
     {
@@ -292,7 +291,7 @@ class CompanyController extends Controller
                         'location_id' => $request->location_id ?? null
                     ]);
 
-                    $customBaseUrl = env('FRONT_APP_URL');
+                    $customBaseUrl = config('app.front_app_url');
                     $randomString = Str::random(40);
                     $expired = now()->addMinutes(60);
 
@@ -311,7 +310,7 @@ class CompanyController extends Controller
 
                     $email_variables = [
                         '[username]' => $request->first_name.' '.$request->last_name,
-                        // '[verify_email_link]' => '<a href="'.$verificationUrl.'" target="_blank">'.env('APP_URL').'</a>',
+                        '[verify_email_link]' => '<a href="'.$verificationUrl.'" target="_blank">Verify Now</a>',
                     ];
 
                     foreach ($email_variables as $search => $replace) {
