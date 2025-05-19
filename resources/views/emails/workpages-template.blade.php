@@ -337,7 +337,7 @@
                                     <tbody>
                                       <tr>
                                         <td align="left">
-                                          <table role="presentation" border="0" cellpadding="0" cellspacing="0">
+                                          {{-- <table role="presentation" border="0" cellpadding="0" cellspacing="0">
                                             <tbody>
                                               <tr>
                                                 <td></td>
@@ -345,7 +345,7 @@
                                                 <td></td>
                                               </tr>
                                             </tbody>
-                                          </table>
+                                          </table> --}}
                                         </td>
                                       </tr>
                                     </tbody>
