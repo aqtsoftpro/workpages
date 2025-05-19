@@ -679,7 +679,13 @@
                                     @foreach ($records['top_employers'] as $company)
                                         <li class="list-group-item d-flex justify-content-between align-items-center">
                                             {{ $company->name }}
-                                            <span class="badge bg-primary rounded-pill">{{ $company->owner->subscriptions_count }}</span>
+                                            <span class="badge bg-primary rounded-pill">
+                                                @if(isset($company->owner->subscriptions_count))
+                                                    {{ $company->owner->subscriptions_count }}
+                                                @else
+                                                    0
+                                                @endif
+                                            </span>
                                         </li>
                                     @endforeach
 
